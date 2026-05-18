@@ -46,6 +46,8 @@ vi.mock('../StageTreeNode.vue', () => ({
 vi.mock(
   '@/modules/EducationClassification/subComponent/EducationTree/AddEducationTypeDialog.vue',
   () => ({
+    __isTeleport: false,
+    __isKeepAlive: false,
     default: {
       name: 'AddEducationTypeDialog',
       template: '<div class="add-type-dialog"></div>',
@@ -54,6 +56,8 @@ vi.mock(
 );
 
 vi.mock('@/modules/EducationClassification/subComponent/EducationTree/AddBranchDialog.vue', () => ({
+  __isTeleport: false,
+  __isKeepAlive: false,
   default: {
     name: 'AddBranchDialog',
     template: '<div class="add-branch-dialog"></div>',
@@ -61,6 +65,8 @@ vi.mock('@/modules/EducationClassification/subComponent/EducationTree/AddBranchD
 }));
 
 vi.mock('../EducationSubjects/SubjectsPanel.vue', () => ({
+  __isTeleport: false,
+  __isKeepAlive: false,
   default: {
     name: 'SubjectsPanel',
     template: '<div class="subjects-panel-stub"></div>',
@@ -121,6 +127,7 @@ describe('EducationStagesTree', () => {
     const wrapper = mountComponent();
     await flushPromises();
     await wrapper.find('.btn-primary').trigger('click');
+    await flushPromises();
     expect(wrapper.find('.add-type-dialog').exists()).toBe(true);
   });
 
@@ -159,6 +166,7 @@ describe('EducationStagesTree', () => {
     const wrapper = mountComponent();
     await flushPromises();
     await wrapper.find('.btn.btn-primary').trigger('click');
+    await flushPromises();
     expect(wrapper.find('.add-type-dialog').exists()).toBe(true);
   });
 
@@ -166,6 +174,7 @@ describe('EducationStagesTree', () => {
     const wrapper = mountComponent();
     await flushPromises();
     await wrapper.find('.btn-primary').trigger('click');
+    await flushPromises();
     expect(wrapper.find('.add-type-dialog').exists()).toBe(true);
 
     const dialog = wrapper.getComponent({ name: 'AddEducationTypeDialog' });

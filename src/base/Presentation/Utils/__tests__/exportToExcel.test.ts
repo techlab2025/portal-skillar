@@ -29,28 +29,28 @@ describe('exportToExcel', () => {
   it('calls saveAs when data is provided', async () => {
     const { saveAs } = await import('file-saver');
     vi.clearAllMocks();
-    exportToExcel(data, columns, 'TestExport');
+    await exportToExcel(data, columns, 'TestExport');
     expect(saveAs).toHaveBeenCalled();
   });
 
   it('does nothing when data is empty', async () => {
     const { saveAs } = await import('file-saver');
     vi.clearAllMocks();
-    exportToExcel([], columns, 'Empty');
+    await exportToExcel([], columns, 'Empty');
     expect(saveAs).not.toHaveBeenCalled();
   });
 
   it('does nothing when data is null', async () => {
     const { saveAs } = await import('file-saver');
     vi.clearAllMocks();
-    exportToExcel(null as any, columns, 'Null');
+    await exportToExcel(null as any, columns, 'Null');
     expect(saveAs).not.toHaveBeenCalled();
   });
 
   it('maps data columns according to ExportColumn config', async () => {
     const XLSX = await import('xlsx');
     vi.clearAllMocks();
-    exportToExcel(data, columns, 'Mapped');
+    await exportToExcel(data, columns, 'Mapped');
     const callArgs = vi.mocked(XLSX.utils.json_to_sheet).mock.calls[0][0];
     expect(callArgs[0]).toHaveProperty('Name');
     expect(callArgs[0]).toHaveProperty('Email');

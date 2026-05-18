@@ -1,20 +1,19 @@
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
-
 export interface ExportColumn {
   key: string;
   label: string;
 }
 
-export function exportToExcel(
+export async function exportToExcel(
   data: Record<string, unknown>[] | unknown[],
   columns: ExportColumn[],
   filename: string,
   sheetName: string = 'Sheet1',
-): void {
+): Promise<void> {
   if (!data || data.length === 0) {
     return;
   }
+
+  const [XLSX, { saveAs }] = await Promise.all([import('xlsx'), import('file-saver')]);
 
   const worksheetData = data.map((item) => {
     const record = item && typeof item === 'object' ? (item as Record<string, unknown>) : {};

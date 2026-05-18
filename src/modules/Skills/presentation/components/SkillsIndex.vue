@@ -89,9 +89,9 @@
 
   const skillsExportColumns: ExportColumn[] = [{ key: 'title', label: t('title') }];
 
-  const exportExcel = () => {
+  const exportExcel = async () => {
     if (!state.value.data || state.value.data.length === 0) return;
-    exportToExcel(state.value.data, skillsExportColumns, 'Skills', 'Skills');
+    await exportToExcel(state.value.data, skillsExportColumns, 'Skills', 'Skills');
   };
 
   const FilterDialogShow = ref<boolean>(false);
