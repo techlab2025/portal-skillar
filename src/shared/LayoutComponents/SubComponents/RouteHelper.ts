@@ -1,42 +1,49 @@
-import type { RouteLocationMatched } from 'vue-router';
+import type { RouteLocationNormalizedLoaded, Router, RouteRecordRaw } from 'vue-router';
 
-type BreadCrumbItem = {
-  label: string;
+export type BreadCrumbItem = {
+  labelKey: string;
   url?: string;
 };
 
-export const buildBreadcrumb = (route: any, router: any): BreadCrumbItem[] => {
+export const buildBreadcrumb = (
+  route: RouteLocationNormalizedLoaded,
+  router: Router,
+): BreadCrumbItem[] => {
   const result: BreadCrumbItem[] = [];
-
-  const getUrlWithParams = (_r: RouteLocationMatched, route: any) => {
-    const Params = Object.values(route.params)[0];
-    return Params;
-  };
 
   const countryCode = route.params?.country_code as string | undefined;
 
   result.push({
-    label: 'Home',
+    labelKey: 'home',
     url: countryCode ? `/${countryCode}/` : '/',
   });
 
   const added = new Set<string>();
   const allRoutes = router.getRoutes();
 
-  const addRoute = (r: RouteLocationMatched) => {
-    if (!r.meta?.breadcrumb || added.has(r.name as string)) return;
+  const addRoute = (r: RouteRecordRaw | RouteLocationNormalizedLoaded['matched'][number]) => {
+    const routeName = String(r.name);
+    const breadcrumbKey = r.meta?.breadcrumbKey;
+    const parent = r.meta?.parent;
 
-    if (r.meta.parent) {
-      const parentRoute = allRoutes.find((pr: any) => pr.name === r.meta.parent);
-      if (parentRoute) addRoute(parentRoute as any);
+    if (!breadcrumbKey || added.has(routeName)) return;
+
+    if (parent) {
+      const parentRoute = allRoutes.find((pr) => pr.name === parent);
+      if (parentRoute) addRoute(parentRoute);
     }
 
     result.push({
-      label: (r.meta.breadcrumb || r.name) as string,
-      url: r.path.replace(/\/:[^/]+(\?)?/g, `/${String(getUrlWithParams(r, route))}`),
+      labelKey: breadcrumbKey,
+      url: r.path.replace(/\/:([^/?]+)(\?)?/g, (match, paramName: string, optional) => {
+        if (optional) return '';
+        const paramValue = route.params[paramName];
+        const normalizedValue = Array.isArray(paramValue) ? paramValue[0] : paramValue;
+        return normalizedValue ? `/${String(normalizedValue)}` : match;
+      }),
     });
 
-    added.add(r.name as string);
+    added.add(routeName);
   };
 
   route.matched.forEach(addRoute);

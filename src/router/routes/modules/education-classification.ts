@@ -7,31 +7,10 @@ export const educationClassificationRoutes: RouteRecordRaw[] = [
     name: 'EducationClassifications',
     component: () => import('@/views/EducationClassification/IndexEducationClassification.vue'),
     meta: {
-      breadcrumb: 'Education tree configuration',
+      breadcrumbKey: 'education_tree_configuration',
       icon: CountryIcon,
     },
   },
-  // {
-  //   path: 'education-classifications/add',
-  //   name: 'Add Education Classification',
-  //   component: () => import('@/views/EducationClassification/AddEducationClassification.vue'),
-  //   meta: {
-  //     breadcrumb: 'Add Education Classification',
-  //     icon: CountryIcon,
-  //     parent: 'Education Classifications',
-  //   },
-  // },
-  // {
-  //   path: 'education-classifications/edit/:id',
-  //   name: 'Edit Education Classification',
-  //   component: () => import('@/views/EducationClassification/EditEducationClassification.vue'),
-  //   props: true,
-  //   meta: {
-  //     breadcrumb: 'Edit Education Classification',
-  //     icon: CountryIcon,
-  //     parent: 'Education Classifications',
-  //   },
-  // },
   {
     path: 'education-classifications-configuration/:id',
     name: 'Education Classifications Configuration',
@@ -39,9 +18,9 @@ export const educationClassificationRoutes: RouteRecordRaw[] = [
       import('@/views/EducationClassification/IndexEducationClassificationConfiguration.vue'),
     props: true,
     meta: {
-      breadcrumb: 'Education Classifications Configuration',
+      breadcrumbKey: 'education_classifications_configuration',
       icon: CountryIcon,
-      parent: 'Education Classifications',
+      parent: 'EducationClassifications',
     },
   },
   {
@@ -50,9 +29,9 @@ export const educationClassificationRoutes: RouteRecordRaw[] = [
     component: () => import('@/views/EducationClassification/IndexEducationClassificationTree.vue'),
     props: true,
     meta: {
-      breadcrumb: 'Education Classifications Tree',
+      breadcrumbKey: 'education_classifications_tree',
       icon: CountryIcon,
-      parent: 'Education Classifications',
+      parent: 'EducationClassifications',
     },
   },
 ];

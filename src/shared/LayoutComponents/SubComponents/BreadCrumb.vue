@@ -1,24 +1,13 @@
 <script setup lang="ts">
   import Breadcrumb from 'primevue/breadcrumb';
-  import { computed, watch } from 'vue';
+  import { computed } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { buildBreadcrumb } from './RouteHelper';
 
   const route = useRoute();
   const router = useRouter();
 
-  const items = computed(() => {
-    const breadcrumb = buildBreadcrumb(route, router);
-    return breadcrumb;
-  });
-
-  watch(
-    () => route,
-    () => {
-      buildBreadcrumb(route, router);
-    },
-    { immediate: true, deep: true },
-  );
+  const items = computed(() => buildBreadcrumb(route, router));
 </script>
 
 <template>
@@ -26,7 +15,9 @@
     <div class="breadcrump">
       <Breadcrumb :model="items">
         <template #item="{ item }">
-          <span @click="$router.push(item.url!)">{{ item.label }}</span>
+          <router-link :to="item.url!" class="breadcrumb-link">
+            {{ $t(item.labelKey) }}
+          </router-link>
         </template>
       </Breadcrumb>
     </div>

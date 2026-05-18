@@ -7,7 +7,7 @@ export const countryRoutes: RouteRecordRaw[] = [
     name: 'Countries',
     component: () => import('@/views/Country/IndexCountry.vue'),
     meta: {
-      breadcrumb: 'Countries',
+      breadcrumbKey: 'countries',
       icon: CountryIcon,
     },
   },
@@ -16,7 +16,7 @@ export const countryRoutes: RouteRecordRaw[] = [
     name: 'Add Country',
     component: () => import('@/views/Country/AddCountry.vue'),
     meta: {
-      breadcrumb: 'Add Country',
+      breadcrumbKey: 'add_country',
       icon: CountryIcon,
       parent: 'Countries',
     },
@@ -27,7 +27,7 @@ export const countryRoutes: RouteRecordRaw[] = [
     component: () => import('@/views/Country/EditCountry.vue'),
     props: true,
     meta: {
-      breadcrumb: 'Edit Country',
+      breadcrumbKey: 'edit_country',
       icon: CountryIcon,
       parent: 'Countries',
     },

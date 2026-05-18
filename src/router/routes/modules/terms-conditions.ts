@@ -6,7 +6,7 @@ export const termsConditionsRoutes: RouteRecordRaw[] = [
     name: 'TermsConditions',
     component: () => import('@/views/TermsConditions/TermsConditionsIndex.vue'),
     meta: {
-      breadcrumb: 'TermsConditions',
+      breadcrumbKey: 'terms_conditions',
     },
   },
   {
@@ -14,7 +14,8 @@ export const termsConditionsRoutes: RouteRecordRaw[] = [
     name: 'Add TermsConditions',
     component: () => import('@/views/TermsConditions/TermsConditionsAdd.vue'),
     meta: {
-      breadcrumb: 'Add TermsConditions',
+      breadcrumbKey: 'add_terms_conditions',
+      parent: 'TermsConditions',
     },
   },
 ];

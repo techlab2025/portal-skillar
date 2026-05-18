@@ -6,7 +6,7 @@ export const SupportContactsRoutes: RouteRecordRaw[] = [
     name: 'Support',
     component: () => import('@/views/SupportContacts/IndexSupport.vue'),
     meta: {
-      breadcrumb: 'Support',
+      breadcrumbKey: 'support',
     },
   },
   {
@@ -14,7 +14,7 @@ export const SupportContactsRoutes: RouteRecordRaw[] = [
     name: 'Add Support',
     component: () => import('@/views/SupportContacts/AddSupport.vue'),
     meta: {
-      breadcrumb: 'Add Support',
+      breadcrumbKey: 'add_support',
       parent: 'Support',
     },
   },
@@ -23,7 +23,7 @@ export const SupportContactsRoutes: RouteRecordRaw[] = [
     name: 'Edit Support',
     component: () => import('@/views/SupportContacts/EditSupport.vue'),
     meta: {
-      breadcrumb: 'Edit Support',
+      breadcrumbKey: 'edit_support',
       parent: 'Support',
     },
   },

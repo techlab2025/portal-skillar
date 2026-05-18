@@ -6,7 +6,7 @@ export const privacyRoutes: RouteRecordRaw[] = [
     name: 'Add Privacy',
     component: () => import('@/views/Privacy/PrivacyAdd.vue'),
     meta: {
-      breadcrumb: 'Add Privacy',
+      breadcrumbKey: 'add_privacy',
       parent: 'Privacy',
     },
   },
@@ -15,7 +15,7 @@ export const privacyRoutes: RouteRecordRaw[] = [
     name: 'Privacy',
     component: () => import('@/views/Privacy/PrivacyIndex.vue'),
     meta: {
-      breadcrumb: 'Privacy',
+      breadcrumbKey: 'privacy',
     },
   },
 ];

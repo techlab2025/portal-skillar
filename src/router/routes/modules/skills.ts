@@ -6,7 +6,7 @@ export const SkillsRoutes: RouteRecordRaw[] = [
     name: 'Skills',
     component: () => import('@/views/skills/IndexSkills.vue'),
     meta: {
-      breadcrumb: 'Skills',
+      breadcrumbKey: 'skills',
     },
   },
   {
@@ -14,7 +14,7 @@ export const SkillsRoutes: RouteRecordRaw[] = [
     name: 'Add Skill',
     component: () => import('@/views/skills/AddSkills.vue'),
     meta: {
-      breadcrumb: 'Add Skill',
+      breadcrumbKey: 'add_skill',
       parent: 'Skills',
     },
   },
@@ -24,7 +24,7 @@ export const SkillsRoutes: RouteRecordRaw[] = [
     component: () => import('@/views/skills/EditSkills.vue'),
     props: true,
     meta: {
-      breadcrumb: 'Edit Skill',
+      breadcrumbKey: 'edit_skill',
       parent: 'Skills',
     },
   },

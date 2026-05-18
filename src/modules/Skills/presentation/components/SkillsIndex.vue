@@ -8,8 +8,7 @@
 
   import { useFormsStore } from '@/stores/formsStore';
   import IndexPluseIcon from '@/shared/icons/IndexPluseIcon.vue';
-  import * as XLSX from 'xlsx';
-  import { saveAs } from 'file-saver';
+  import { exportToExcel, type ExportColumn } from '@/base/Presentation/Utils/exportToExcel';
   import ExportExcelIcon from '@/shared/icons/ExportExcelIcon.vue';
   import IndexSearchIcon from '@/shared/icons/IndexSearchIcon.vue';
   import FilterDialog from '@/shared/HelpersComponents/FilterDialog/FilterDialog.vue';
@@ -19,6 +18,7 @@
   import type SkillModel from '../../core/models/skills.model';
   import DeleteSkillsDialog from '../subComponents/DeleteSkillsDialog.vue';
   import TableSkelaton from '@/shared/HelpersComponents/TableSkelaton.vue';
+  import { useI18n } from 'vue-i18n';
 
   // Controller instance
   const controller = SkillsController.getInstance();
@@ -84,26 +84,13 @@
     return Object.keys(data).length === 0 || Object.values(data).every((v) => v == null);
   });
 
+  const { t } = useI18n();
+
+  const skillsExportColumns: ExportColumn[] = [{ key: 'title', label: t('title') }];
+
   const exportExcel = () => {
-    if (!state.value.data || state.value.data.length === 0) {
-      alert('No data available to export');
-      return;
-    }
-    const worksheetData = (state.value.data as any[]).map((item: any) => {
-      const it = item as any;
-      return {
-        name: it.name || 'N/A',
-        email: it.email || null,
-        phone: it.phone || null,
-        password: '',
-      };
-    });
-    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Invoices');
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(data, 'Employees.xlsx');
+    if (!state.value.data || state.value.data.length === 0) return;
+    exportToExcel(state.value.data, skillsExportColumns, 'Skills', 'Skills');
   };
 
   const FilterDialogShow = ref<boolean>(false);

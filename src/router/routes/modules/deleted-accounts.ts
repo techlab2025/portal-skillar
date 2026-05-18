@@ -6,8 +6,7 @@ export const DeletedAccountsRoutes: RouteRecordRaw[] = [
     name: 'Deleted Accounts',
     component: () => import('@/views/deletedAccounts/indexDeletedAccounts.vue'),
     meta: {
-      breadcrumb: 'Deleted Accounts',
+      breadcrumbKey: 'deleted_accounts',
     },
   },
-
 ];

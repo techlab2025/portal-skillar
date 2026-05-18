@@ -19,118 +19,91 @@
   import AccordionPanel from 'primevue/accordionpanel';
   import AccordionHeader from 'primevue/accordionheader';
   import AccordionContent from 'primevue/accordioncontent';
-import Question from '@/shared/icons/question.vue';
+  import Question from '@/shared/icons/question.vue';
 
   const route = useRoute();
   const emit = defineEmits(['clickItem']);
   interface MenuItem {
     link: string;
-    name: string;
+    labelKey: string;
     icon?: Component;
     badge?: string;
     hasArrow?: boolean;
   }
   interface MenuSection {
-    group: string;
+    groupKey: string;
     items: MenuItem[];
   }
 
   const baseMenu: MenuSection[] = [
     {
-      group: 'Overview',
+      groupKey: 'sidebar_overview',
       items: [
         {
           link: '/education-classifications',
-          name: 'Education configuration',
+          labelKey: 'education_configuration',
           icon: EducationClassificationIcon,
         },
         {
           link: '/employees',
-          name: 'Employees',
+          labelKey: 'employees',
           icon: Sidebaremploye,
         },
         {
           link: '/documents',
-          name: 'Documents',
+          labelKey: 'documents',
           icon: DocumentIcon,
         },
         {
           link: '/skills',
-          name: 'Skills',
+          labelKey: 'skills',
           icon: SettingIcon,
         },
-
-        // {
-        //   link: '/stages',
-        //   name: 'Stages',
-        //   icon: SettingIcon,
-        // },
-        // {
-        //   link: '/subjects',
-        //   name: 'Subjects',
-        //   icon: SettingIcon,
-        // },
-        // {
-        //   link: '/units',
-        //   name: 'Units',
-        //   icon: SettingIcon,
-        // },
       ],
     },
-    // {
-    //   group: 'location',
-    //   items: [
-    //     {
-    //       link: '/countries',
-    //       name: 'Countries',
-    //       icon: SettingIcon,
-    //     },
-    //   ],
-    // },
     {
-      group: 'Apps Kits',
+      groupKey: 'sidebar_apps_kits',
       items: [
         {
           link: '/questions',
-          name: 'Questions',
+          labelKey: 'questions',
           icon: Question,
         },
       ],
     },
     {
-      group: 'statics',
+      groupKey: 'sidebar_statics',
       items: [
         {
           link: '/about',
-          name: 'About',
+          labelKey: 'about',
           icon: AboutIcon,
         },
         {
           link: '/support',
-          name: 'Support',
+          labelKey: 'support',
           icon: SupportIcon,
         },
         {
           link: '/faqs',
-          name: 'Faqs',
+          labelKey: 'faqs',
           icon: FaqsIcon,
         },
         {
           link: '/privacy',
-          name: 'Privacy and policy',
+          labelKey: 'privacy_policy',
           icon: SidebarPrivecy,
         },
         {
           link: '/terms-conditions',
-          name: 'terms & conditions',
+          labelKey: 'terms_conditions',
           icon: SidebarTerms,
         },
         {
           link: '/deleted-accounts',
-          name: 'add logout reasons',
+          labelKey: 'deleted_accounts',
           icon: SidebarTerms,
         },
-
       ],
     },
   ];
@@ -174,8 +147,8 @@ import Question from '@/shared/icons/question.vue';
       <!-- Menu -->
       <div class="menu">
         <div v-for="(group, gIndex) in menu" :key="gIndex" class="menu-group">
-          <p v-if="group.group" class="group-title">
-            {{ group.group }}
+          <p v-if="group.groupKey" class="group-title">
+            {{ $t(group.groupKey) }}
           </p>
 
           <router-link
@@ -188,7 +161,7 @@ import Question from '@/shared/icons/question.vue';
           >
             <component :is="item.icon" class="icon" />
 
-            <span class="label">{{ item.name }}</span>
+            <span class="label">{{ $t(item.labelKey) }}</span>
 
             <span v-if="item?.badge" class="badge">
               {{ item?.badge }}

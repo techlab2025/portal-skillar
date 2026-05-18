@@ -1,31 +1,31 @@
-import type { RouteRecordRaw } from "@/router/types";
+import type { RouteRecordRaw } from '@/router/types';
 
 export const stagesRoutes: RouteRecordRaw[] = [
   {
-    path: "stages",
-    name: "Stages",
-    component: () => import("@/views/Stages/IndexStage.vue"),
+    path: 'stages',
+    name: 'Stages',
+    component: () => import('@/views/Stages/IndexStage.vue'),
     meta: {
-      breadcrumb: "Stages",
+      breadcrumbKey: 'stages',
     },
   },
   {
-    path: "stages/add",
-    name: "Add Stage",
-    component: () => import("@/views/Stages/AddStage.vue"),
+    path: 'stages/add',
+    name: 'Add Stage',
+    component: () => import('@/views/Stages/AddStage.vue'),
     meta: {
-      breadcrumb: "Add Stage",
-      parent: "Stages",
+      breadcrumbKey: 'add_stage',
+      parent: 'Stages',
     },
   },
   {
-    path: "stages/edit/:id",
-    name: "Edit Stage",
-    component: () => import("@/views/Stages/EditStage.vue"),
+    path: 'stages/edit/:id',
+    name: 'Edit Stage',
+    component: () => import('@/views/Stages/EditStage.vue'),
     props: true,
     meta: {
-      breadcrumb: "Edit Stage",
-      parent: "Stages",
+      breadcrumbKey: 'edit_stage',
+      parent: 'Stages',
     },
   },
 ];

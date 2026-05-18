@@ -72,23 +72,23 @@ describe('SidebarNavigation.vue', () => {
     expect(logo.exists()).toBe(true);
   });
 
-  it('renders menu groups and items', () => {
+  it('renders menu groups and items via i18n keys', () => {
     const wrapper = mount(SidebarNavigation, mountOptions);
 
-    expect(wrapper.text()).toContain('Overview');
-    expect(wrapper.text()).toContain('Employees');
-    expect(wrapper.text()).toContain('Documents');
-    expect(wrapper.text()).toContain('Skills');
+    expect(wrapper.text()).toContain('sidebar_overview');
+    expect(wrapper.text()).toContain('employees');
+    expect(wrapper.text()).toContain('documents');
+    expect(wrapper.text()).toContain('skills');
   });
 
   it('renders the Apps Kits group', () => {
     const wrapper = mount(SidebarNavigation, mountOptions);
-    expect(wrapper.text()).toContain('Questions');
+    expect(wrapper.text()).toContain('questions');
   });
 
   it('renders the statics group', () => {
     const wrapper = mount(SidebarNavigation, mountOptions);
-    expect(wrapper.text()).toContain('About');
-    expect(wrapper.text()).toContain('Support');
+    expect(wrapper.text()).toContain('about');
+    expect(wrapper.text()).toContain('support');
   });
 });

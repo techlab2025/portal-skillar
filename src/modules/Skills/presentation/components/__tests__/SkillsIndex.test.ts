@@ -29,6 +29,12 @@ vi.mock('vue-router', () => ({
   }),
 }));
 
+vi.mock('vue-i18n', () => ({
+  useI18n: () => ({
+    t: (key: string) => key,
+  }),
+}));
+
 describe('SkillsIndex', () => {
   const createWrapper = () =>
     mount(SkillsIndex, {
