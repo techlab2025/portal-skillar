@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
   import { useRoute } from 'vue-router';
-  import AppButton from '@/shared/HelpersComponents/AppButton.vue';
   import IconAccept from '@/shared/icons/IconAccept.vue';
   import type EditSkillsParams from '../../core/params/edit.skills.params';
   import ShowSkillsParams from '../../core/params/show.skills.params';

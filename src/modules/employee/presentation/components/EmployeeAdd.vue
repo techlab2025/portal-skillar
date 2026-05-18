@@ -1,7 +1,5 @@
 <script setup lang="ts">
   import { ref } from 'vue';
-  import AppButton from '@/shared/HelpersComponents/AppButton.vue';
-  import IconAccept from '@/shared/icons/IconAccept.vue';
   import { useRoute } from 'vue-router';
   import EmployeeController from '../controllers/employee.controller';
   import EmployeeForm from './EmployeeForm.vue';
