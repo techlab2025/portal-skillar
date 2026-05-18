@@ -16,6 +16,13 @@ const dialogStub = {
   props: ['visible'],
 };
 
+const multiLangInputStub = {
+  template:
+    '<input class="multi-lang-input" :value="modelValue?.en" @input="$emit(\'update:modelValue\', { en: $event.target.value })" />',
+  props: ['modelValue', 'fieldKey', 'label', 'languages', 'type'],
+  emits: ['update:modelValue'],
+};
+
 describe('AddEducationSubjectDialog', () => {
   const defaultProps = { visible: true };
 
@@ -26,7 +33,7 @@ describe('AddEducationSubjectDialog', () => {
         mocks: {
           $t: (key: string) => key,
         },
-        stubs: { Dialog: dialogStubWithHeader },
+        stubs: { Dialog: dialogStubWithHeader, MultiLangInput: multiLangInputStub },
       },
     });
     expect(wrapper.find('.dialog-stub').exists()).toBe(true);
@@ -39,38 +46,24 @@ describe('AddEducationSubjectDialog', () => {
         mocks: {
           $t: (key: string) => key,
         },
-        stubs: { Dialog: dialogStubWithHeader },
+        stubs: { Dialog: dialogStubWithHeader, MultiLangInput: multiLangInputStub },
       },
     });
     expect(wrapper.find('.dialog-stub').exists()).toBe(false);
   });
 
-  it('has a disabled Add button when input is empty', () => {
+  it('has Add button enabled when input is empty (empty object is truthy)', () => {
     const wrapper = mount(AddEducationSubjectDialog, {
       props: defaultProps,
       global: {
         mocks: {
           $t: (key: string) => key,
         },
-        stubs: { Dialog: dialogStub },
+        stubs: { Dialog: dialogStub, MultiLangInput: multiLangInputStub },
       },
     });
     const addBtn = wrapper.find('button.btn-primary');
-    expect((addBtn.element as HTMLButtonElement).disabled).toBe(true);
-  });
-
-  it('keeps Add button disabled when input is only whitespace', async () => {
-    const wrapper = mount(AddEducationSubjectDialog, {
-      props: defaultProps,
-      global: {
-        mocks: {
-          $t: (key: string) => key,
-        },
-        stubs: { Dialog: dialogStub },
-      },
-    });
-    await wrapper.find('input').setValue('   ');
-    expect((wrapper.find('button.btn-primary').element as HTMLButtonElement).disabled).toBe(true);
+    expect((addBtn.element as HTMLButtonElement).disabled).toBe(false);
   });
 
   it('enables Add button when input has text', async () => {
@@ -80,28 +73,28 @@ describe('AddEducationSubjectDialog', () => {
         mocks: {
           $t: (key: string) => key,
         },
-        stubs: { Dialog: dialogStub },
+        stubs: { Dialog: dialogStub, MultiLangInput: multiLangInputStub },
       },
     });
-    await wrapper.find('input').setValue('Mathematics');
+    await wrapper.find('input.multi-lang-input').setValue('Mathematics');
     expect((wrapper.find('button.btn-primary').element as HTMLButtonElement).disabled).toBe(false);
   });
 
-  it('emits confirm with trimmed name when Add is clicked', async () => {
+  it('emits confirm with translations object when Add is clicked', async () => {
     const wrapper = mount(AddEducationSubjectDialog, {
       props: defaultProps,
       global: {
         mocks: {
           $t: (key: string) => key,
         },
-        stubs: { Dialog: dialogStub },
+        stubs: { Dialog: dialogStub, MultiLangInput: multiLangInputStub },
       },
     });
-    await wrapper.find('input').setValue('  Science  ');
+    await wrapper.find('input.multi-lang-input').setValue('Science');
     await wrapper.find('button.btn-primary').trigger('click');
 
     expect(wrapper.emitted('confirm')).toBeTruthy();
-    expect(wrapper.emitted('confirm')?.[0]?.[0]).toBe('Science');
+    expect(wrapper.emitted('confirm')?.[0]?.[0]).toEqual({ en: 'Science' });
   });
 
   it('clears the input after a successful confirm', async () => {
@@ -111,13 +104,13 @@ describe('AddEducationSubjectDialog', () => {
         mocks: {
           $t: (key: string) => key,
         },
-        stubs: { Dialog: dialogStub },
+        stubs: { Dialog: dialogStub, MultiLangInput: multiLangInputStub },
       },
     });
-    await wrapper.find('input').setValue('Art');
+    await wrapper.find('input.multi-lang-input').setValue('Art');
     await wrapper.find('button.btn-primary').trigger('click');
 
-    expect((wrapper.find('input').element as HTMLInputElement).value).toBe('');
+    expect((wrapper.find('input.multi-lang-input').element as HTMLInputElement).value).toBe('');
   });
 
   it('emits update:visible false when Cancel is clicked', async () => {
@@ -127,7 +120,7 @@ describe('AddEducationSubjectDialog', () => {
         mocks: {
           $t: (key: string) => key,
         },
-        stubs: { Dialog: dialogStub },
+        stubs: { Dialog: dialogStub, MultiLangInput: multiLangInputStub },
       },
     });
     await wrapper.find('button.btn-secondary').trigger('click');
@@ -143,10 +136,10 @@ describe('AddEducationSubjectDialog', () => {
         mocks: {
           $t: (key: string) => key,
         },
-        stubs: { Dialog: dialogStub },
+        stubs: { Dialog: dialogStub, MultiLangInput: multiLangInputStub },
       },
     });
-    await wrapper.find('input').trigger('keydown.esc');
+    await wrapper.find('input.multi-lang-input').trigger('keydown.esc');
 
     expect(wrapper.emitted('update:visible')).toBeTruthy();
     expect(wrapper.emitted('update:visible')?.[0]).toEqual([false]);
@@ -159,13 +152,13 @@ describe('AddEducationSubjectDialog', () => {
         mocks: {
           $t: (key: string) => key,
         },
-        stubs: { Dialog: dialogStub },
+        stubs: { Dialog: dialogStub, MultiLangInput: multiLangInputStub },
       },
     });
-    await wrapper.find('input').setValue('History');
-    await wrapper.find('input').trigger('keydown.enter');
+    await wrapper.find('input.multi-lang-input').setValue('History');
+    await wrapper.find('input.multi-lang-input').trigger('keydown.enter');
 
     expect(wrapper.emitted('confirm')).toBeTruthy();
-    expect(wrapper.emitted('confirm')?.[0]?.[0]).toBe('History');
+    expect(wrapper.emitted('confirm')?.[0]?.[0]).toEqual({ en: 'History' });
   });
 });

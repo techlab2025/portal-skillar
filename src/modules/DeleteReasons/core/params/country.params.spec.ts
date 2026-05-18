@@ -2,24 +2,29 @@ import { describe, it, expect } from 'vitest';
 import AddDeleteResonsParams from './add.delete.reasons.params';
 import EditDeleteResonsParams from './edit.delete.reasons.params';
 import DeleteDeleteResonsParams from './delete.delete.reasons.params';
+import TranslationParams from '@/modules/about/core/params/translation.params';
 
 describe('DeleteReasons Params', () => {
   describe('AddDeleteResonsParams', () => {
     it('creates params and stores translations', () => {
       const params = new AddDeleteResonsParams({
-        translations: { title: { en: 'Bored', ar: 'ممل' } } as any,
+        translations: new TranslationParams({ title: { en: 'Bored', ar: 'ممل' } }),
       });
 
       expect(params.translations).toBeDefined();
     });
 
     it('toMap returns an object', () => {
-      const params = new AddDeleteResonsParams({ translations: {} as any });
+      const params = new AddDeleteResonsParams({
+        translations: new TranslationParams({ title: { en: 'Test' } }),
+      });
       expect(params.toMap()).toBeTypeOf('object');
     });
 
     it('passes validation (no rules defined)', () => {
-      const params = new AddDeleteResonsParams({ translations: {} as any });
+      const params = new AddDeleteResonsParams({
+        translations: new TranslationParams({ title: { en: 'Test' } }),
+      });
       expect(params.validate().isValid).toBe(true);
     });
   });
@@ -28,7 +33,7 @@ describe('DeleteReasons Params', () => {
     it('creates params with id and translations', () => {
       const params = new EditDeleteResonsParams({
         id: 3,
-        translations: { title: { en: 'Updated' } } as any,
+        translations: new TranslationParams({ title: { en: 'Updated' } }),
       });
 
       expect(params.id).toBe(3);
@@ -36,12 +41,18 @@ describe('DeleteReasons Params', () => {
     });
 
     it('toMap returns an object', () => {
-      const params = new EditDeleteResonsParams({ id: 1, translations: {} as any });
+      const params = new EditDeleteResonsParams({
+        id: 1,
+        translations: new TranslationParams({ title: { en: 'T' } }),
+      });
       expect(params.toMap()).toBeTypeOf('object');
     });
 
     it('passes validation (no rules defined)', () => {
-      const params = new EditDeleteResonsParams({ id: 1, translations: {} as any });
+      const params = new EditDeleteResonsParams({
+        id: 1,
+        translations: new TranslationParams({ title: { en: 'T' } }),
+      });
       expect(params.validate().isValid).toBe(true);
     });
   });

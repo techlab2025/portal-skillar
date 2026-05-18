@@ -5,7 +5,11 @@ import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/da
 import type EducationSubjectModel from '@/modules/EducationClassification/core/models/EducationSubject/education.subject.model';
 
 vi.mock('vue-i18n', () => ({
-  useI18n: () => ({ locale: { value: 'en' } }),
+  useI18n: () => ({ locale: { value: 'en' }, t: (key: string) => key }),
+}));
+
+vi.mock('vue-router', () => ({
+  useRoute: () => ({ params: { id: '1' } }),
 }));
 
 const mockConfigController = {
@@ -57,7 +61,11 @@ describe('SubjectsPanel', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockConfigController.fetchList.mockResolvedValue(new DataSuccess({ data: null }));
+    mockConfigController.fetchList.mockResolvedValue(
+      new DataSuccess({
+        data: [{ numberOfBranches: 2, SingluarTitle: { en: 'Subject' }, branches: [] }],
+      }),
+    );
     mockItemController.fetchList.mockResolvedValue(
       new DataSuccess<EducationSubjectModel[]>({ data: [] }),
     );
@@ -67,7 +75,10 @@ describe('SubjectsPanel', () => {
   const mountComponent = (props = defaultProps) =>
     mount(SubjectsPanel, {
       props,
-      global: { stubs: { 'router-link': true } },
+      global: {
+        stubs: { 'router-link': true },
+        mocks: { $t: (key: string) => key },
+      },
     });
 
   it('renders the subjects panel', async () => {
@@ -97,14 +108,14 @@ describe('SubjectsPanel', () => {
   it('opens AddEducationSubjectDialog when the add icon in header is clicked', async () => {
     const wrapper = mountComponent();
     await flushPromises();
-    await wrapper.find('.stage-container span:last-child').trigger('click');
+    await wrapper.find('button.icon-btn[title="Add Subject"]').trigger('click');
     expect(wrapper.find('.add-subject-dialog').exists()).toBe(true);
   });
 
   it('closes AddEducationSubjectDialog on update:visible false emit', async () => {
     const wrapper = mountComponent();
     await flushPromises();
-    await wrapper.find('.stage-container span:last-child').trigger('click');
+    await wrapper.find('button.icon-btn[title="Add Subject"]').trigger('click');
     expect(wrapper.find('.add-subject-dialog').exists()).toBe(true);
 
     const dialog = wrapper.getComponent({ name: 'AddEducationSubjectDialog' });

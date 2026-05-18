@@ -1,12 +1,11 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
 import { createI18n } from 'vue-i18n';
-import EmployeeForm from '../EmployeeForm.vue';
+import SkillsForm from '../SkillsForm.vue';
 
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en: {} } });
 
-// Mock vue-router
 vi.mock('vue-router', () => ({
   onBeforeRouteLeave: vi.fn(),
   onBeforeRouteUpdate: vi.fn(),
@@ -29,74 +28,66 @@ vi.mock('vue-router', () => ({
   createWebHistory: vi.fn(),
 }));
 
-// Mock PrimeVue
-vi.mock('primevue/config', () => ({
-  usePrimeVue: () => ({
-    config: { ripple: true },
+vi.mock('@/stores/formsStore', () => ({
+  useFormsStore: () => ({
+    getFormData: vi.fn(() => null),
+    setFormData: vi.fn(),
+    showReturnWarning: vi.fn(),
+    clearFormData: vi.fn(),
+    formData: {},
   }),
 }));
 
-// Mock Controller if it exists in the same directory (simplified)
-// This is to avoid issues with controllers that might have side effects
-// vi.mock('../controllers/employee.controller', () => ({
-//   default: {
-//     getInstance: () => ({
-//       listState: { value: {} },
-//       fetchList: vi.fn(),
-//       pagination: { value: {} }
-//     })
-//   }
-// }))
+vi.mock('@/shared/MultiLangInput.vue', () => ({
+  default: {
+    name: 'MultiLangInput',
+    template: '<div class="multi-lang-input" />',
+    props: ['fieldKey', 'label', 'languages', 'modelValue', 'type'],
+    emits: ['update:modelValue'],
+  },
+}));
 
-describe('EmployeeForm', () => {
+describe('SkillsForm', () => {
   beforeEach(() => {
     setActivePinia(createPinia());
     vi.clearAllMocks();
   });
 
   it('renders without crashing', () => {
-    const wrapper = mount(EmployeeForm, {
+    const wrapper = mount(SkillsForm, {
       global: {
         plugins: [i18n],
         stubs: {
           Teleport: true,
           Transition: true,
-          TransitionGroup: true,
-          'router-link': true,
-          'router-view': true,
-          // PrimeVue
-          DataTable: true,
-          Column: true,
-          Button: true,
-          InputText: true,
-          InputSwitch: true,
-          RadioButton: true,
-          Dialog: true,
-          Toast: true,
-          Select: true,
-          MultiSelect: true,
-          Dropdown: true,
-          FileUpload: true,
-          Card: true,
-          Accordion: true,
-          AccordionTab: true,
-          Tree: true,
-          Breadcrumb: true,
-          HandleFilesUpload: true,
-          UplaodImageInput: true,
         },
         mocks: {
           $t: (msg: string) => msg,
-          $d: (d: unknown) => d,
-          $n: (n: unknown) => n,
-          $tc: (msg: string) => msg,
-        },
-        directives: {
-          ripple: {},
-          tooltip: {},
         },
       },
     });
     expect(wrapper.exists()).toBe(true);
+  });
+
+  it('renders the form card container', () => {
+    const wrapper = mount(SkillsForm, {
+      global: {
+        plugins: [i18n],
+        stubs: { Teleport: true, Transition: true },
+        mocks: { $t: (msg: string) => msg },
+      },
+    });
+    expect(wrapper.find('.employee-details-form-card').exists()).toBe(true);
+  });
+
+  it('renders the MultiLangInput for title', () => {
+    const wrapper = mount(SkillsForm, {
+      global: {
+        plugins: [i18n],
+        stubs: { Teleport: true, Transition: true },
+        mocks: { $t: (msg: string) => msg },
+      },
+    });
+    expect(wrapper.find('.multi-lang-input').exists()).toBe(true);
   });
 });

@@ -3,6 +3,15 @@ import { mount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
 import RenameClassificationDialog from '../RenameClassificationDialog.vue';
 
+vi.mock('vue-router', () => ({
+  useRoute: () => ({ params: { id: '1' }, fullPath: '/test' }),
+  useRouter: () => ({ push: vi.fn() }),
+  onBeforeRouteLeave: vi.fn(),
+  onBeforeRouteUpdate: vi.fn(),
+  createRouter: vi.fn(() => ({ install: vi.fn(), push: vi.fn() })),
+  createWebHistory: vi.fn(),
+}));
+
 vi.mock('primevue/dialog', () => ({
   default: {
     name: 'Dialog',

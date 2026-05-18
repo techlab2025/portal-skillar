@@ -5,7 +5,7 @@ describe('EducationConfigurationModel', () => {
   describe('constructor', () => {
     it('should create a valid model', () => {
       const model = new EducationConfigurationModel({
-        educationClassificatioId: 1,
+        educationClassificatioId: { id: 1, title: 'Test' },
         numberOfBranches: 2,
         branches: [
           new EducationConfigurationModel.example.branches[0].constructor({
@@ -23,7 +23,7 @@ describe('EducationConfigurationModel', () => {
         ],
       });
 
-      expect(model.educationClassificatioId).toBe(1);
+      expect(model.educationClassificatioId).toEqual({ id: 1, title: 'Test' });
       expect(model.numberOfBranches).toBe(2);
       expect(model.branches).toHaveLength(2);
     });
@@ -36,18 +36,16 @@ describe('EducationConfigurationModel', () => {
         number_of_branches: 2,
         branches: [
           {
+            id: 10,
             level_number: 1,
-            translation: {
-              SingularTitle: { en: 'Stage', ar: 'مرحلة' },
-              PluralTitle: { en: 'Stages', ar: 'مراحل' },
-            },
+            singular_title: { en: 'Stage', ar: 'مرحلة' },
+            plural_title: { en: 'Stages', ar: 'مراحل' },
           },
           {
+            id: 20,
             level_number: 2,
-            translation: {
-              SingularTitle: { en: 'Grade', ar: 'صف' },
-              PluralTitle: { en: 'Grades', ar: 'صفوف' },
-            },
+            singular_title: { en: 'Grade', ar: 'صف' },
+            plural_title: { en: 'Grades', ar: 'صفوف' },
           },
         ],
       };
@@ -69,17 +67,22 @@ describe('EducationConfigurationModel', () => {
       expect(model.branches).toEqual([]);
     });
 
-    it('should support translations key instead of translation', () => {
+    it('should parse branches with array-style locale fields', () => {
       const json = {
         education_classification_id: 1,
         number_of_branches: 1,
         branches: [
           {
+            id: 5,
             level_number: 1,
-            translations: {
-              SingularTitle: { en: 'Stage', ar: 'مرحلة' },
-              PluralTitle: { en: 'Stages', ar: 'مراحل' },
-            },
+            singular_title: [
+              { locale: 'en', singular_title: 'Stage' },
+              { locale: 'ar', singular_title: 'مرحلة' },
+            ],
+            plural_title: [
+              { locale: 'en', plural_title: 'Stages' },
+              { locale: 'ar', plural_title: 'مراحل' },
+            ],
           },
         ],
       };

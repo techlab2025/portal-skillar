@@ -1,4 +1,3 @@
-
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
@@ -14,6 +13,15 @@ vi.mock('vue-router', () => ({
     beforeEach: vi.fn(),
   })),
   createWebHistory: vi.fn(),
+}));
+
+vi.mock('@/modules/about/presentation/controllers/about.controller', () => ({
+  default: {
+    getInstance: vi.fn(() => ({
+      deleteSocialLink: vi.fn().mockResolvedValue(undefined),
+      fetchOne: vi.fn().mockResolvedValue({ isSuccess: true }),
+    })),
+  },
 }));
 
 vi.mock('@/shared/MultiLangInput.vue', () => ({
@@ -37,11 +45,15 @@ vi.mock('@/shared/icons/SocialIcons/LinksIcon.vue', () => ({
   default: { name: 'LinksIcon', template: '<span />' },
 }));
 
+vi.mock('@/shared/icons/generalinformaion.vue', () => ({
+  default: { name: 'Generalinformaion', template: '<span />' },
+}));
+
 const mockAbout = {
   id: 1,
   translations: { title: { en: 'About', ar: 'عن' }, description: { en: 'Desc', ar: 'وصف' } },
   images: '',
-  socailMedia: [],
+  socialMedia: [],
 };
 
 describe('AboutForm', () => {
@@ -59,5 +71,16 @@ describe('AboutForm', () => {
       },
     });
     expect(wrapper.exists()).toBe(true);
+  });
+
+  it('renders the about-form-card container', () => {
+    const wrapper = mount(AboutForm, {
+      props: { formKey: 'test-key', about: mockAbout as any },
+      global: {
+        mocks: { $t: (k: string) => k },
+        stubs: { Teleport: true, Transition: true },
+      },
+    });
+    expect(wrapper.find('.about-form-card').exists()).toBe(true);
   });
 });
