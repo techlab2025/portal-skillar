@@ -199,7 +199,7 @@
           class="reload-icon cursor-pointer flex items-center gap-sm me-2 w-full"
           @click="reloadData"
         >
-          <span class="optional-text" v-if="optional">({{ $t('optional') }})</span>
+          <span v-if="optional" class="optional-text">({{ $t('optional') }})</span>
           <IconBackStage />
         </span>
       </div>
@@ -229,16 +229,16 @@
       :loading="loading"
       :empty-message="message"
     />
-    <input type="text" class="hidden w-full" :value="normalizedValue" :id="id" />
+    <input :id="id" type="text" class="hidden w-full" :value="normalizedValue" />
   </slot>
   <slot v-else name="content"> </slot>
   <div v-if="isDialog">
     <Dialog
-      @hide="closeDailog"
       v-model:visible="DialogVisable"
       modal
       :dismissable-mask="true"
       :style="{ width: '50rem' }"
+      @hide="closeDailog"
     >
       <slot name="Dialog"></slot>
     </Dialog>

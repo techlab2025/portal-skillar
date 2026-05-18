@@ -2,7 +2,7 @@
   import { ref } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
   import FaqsController from '../controllers/faqs.controller';
-  import AddFaqsParams from '../../core/params/add.faqs.params';
+  import type AddFaqsParams from '../../core/params/add.faqs.params';
   import FaqsForm from './faqsForm.vue';
 
   const controller = FaqsController.getInstance();
@@ -42,7 +42,10 @@
     <FaqsForm :loading="loading" @update-data="updateData" />
 
     <div class="form-actions" :class="{ disabled: loading }">
-      <button class="btn btn-primary" type="button" @click="save">{{ $t('save') }}</button>
+      <button class="btn btn-primary" type="button" @click="save">
+        <span v-if="loading" class="loader"></span>
+        <span v-else>{{ $t('save') }}</span>
+      </button>
       <button class="btn btn-cancel" type="button" @click="cancel">{{ $t('cancel') }}</button>
     </div>
 
@@ -53,6 +56,16 @@
 </template>
 
 <style scoped lang="scss">
+  .loader {
+    width: 35px;
+    height: 35px;  
+    border-radius: 50%;
+    border: 8px solid;
+    border-color: #000 #0000;
+    animation: l1 1s infinite;
+  }
+  @keyframes l1 {to{transform: rotate(.5turn)}}
+  @keyframes l7 {to{transform: rotate(.5turn)}}
   .form-actions {
     &.disabled {
       cursor: not-allowed;

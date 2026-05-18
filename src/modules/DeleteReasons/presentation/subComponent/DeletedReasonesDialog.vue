@@ -22,29 +22,35 @@
   const editId = ref<number | null>(null);
 
   const title = ref<Record<string, string>>({});
+  const loading = ref(false);
   const SavenDocumentType = async () => {
     const deletedReasonsController = DeletedReasonsController.getInstance();
 
-    if (isEdit.value) {
-      const editparams = new EditDeleteResonsParams({
-        id: editId.value!,
-        translations: new TranslationParams({
-          title: title.value!,
-        }),
-      });
+    loading.value = true;
+    try {
+      if (isEdit.value) {
+        const editparams = new EditDeleteResonsParams({
+          id: editId.value!,
+          translations: new TranslationParams({
+            title: title.value!,
+          }),
+        });
 
-      await deletedReasonsController.update(editparams);
-    } else {
-      const addDeletedParams = new AddDeleteResonsParams({
-        translations: new TranslationParams({
-          title: title.value!,
-        }),
-      });
-      await deletedReasonsController.create(addDeletedParams);
+        await deletedReasonsController.update(editparams);
+      } else {
+        const addDeletedParams = new AddDeleteResonsParams({
+          translations: new TranslationParams({
+            title: title.value!,
+          }),
+        });
+        await deletedReasonsController.create(addDeletedParams);
+      }
+      await FetchReasons();
+      title.value = {};
+      isEdit.value = false;
+    } finally {
+      loading.value = false;
     }
-    await FetchReasons();
-    title.value = {};
-    isEdit.value = false;
   };
 
   const FetchReasons = async () => {
@@ -140,7 +146,10 @@
         />
       </div>
       <div class="btns">
-        <button class="btn btn-primary" @click="SavenDocumentType">save</button>
+        <button class="btn btn-primary" @click="SavenDocumentType">
+          <span v-if="loading" class="loader"></span>
+          <span v-else>save</span>
+        </button>
         <button class="btn btn-secondary" @click="visible = false">cancel</button>
       </div>
     </div>

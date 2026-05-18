@@ -47,6 +47,7 @@
   "add_contact": "إضافة جهة اتصال",
   "save_change": "حفظ التغييرات",
   "cancel": "إلغاء",
+  "save": "حفظ",
   "edit": "تعديل",
   "invalid_input_warning_title": "إدخال غير صحيح",
   "invalid_phone_number_format": "يرجى إدخال رقم هاتف صحيح (مثال: +20 123 456 7890).",

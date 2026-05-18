@@ -193,13 +193,13 @@
             class="field-group col-span-2"
             :tabs="tabs"
             :selected-tab="selectedTab"
-            @update:modelValue="selectTab"
+            @update:model-value="selectTab"
           />
           <QuestionContantTabs
             class="field-group col-span-2"
-            @update:modelValue="getQuestionCOntent"
+            @update:model-value="getQuestionCOntent"
           />
-          <QuestionSource @update:modelValue="GetQuestionSource" class="field-group col-span-2" />
+          <QuestionSource class="field-group col-span-2" @update:model-value="GetQuestionSource" />
         </div>
       </AccordionContent>
     </AccordionPanel>

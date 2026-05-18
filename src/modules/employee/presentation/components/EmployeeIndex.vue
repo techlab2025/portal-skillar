@@ -139,7 +139,8 @@ const CloseFiletrDialog = () => {
         <span class="search-icon">
           <IndexSearchIcon />
         </span>
-        <input v-model="word" placeholder="Search by employee name or email…" class="search-input" type="text"
+        <input
+v-model="word" placeholder="Search by employee name or email…" class="search-input" type="text"
           @input="Search" />
       </div>
       <div class="btns-container">
@@ -180,9 +181,11 @@ const CloseFiletrDialog = () => {
 
             <template #actions="{ item }">
               <div class="row-actions">
-                <router-link class="action-btn edit" :to="`/${route.params.country_code}/employees/edit/${item.id}`"
+                <router-link
+class="action-btn edit" :to="`/${route.params.country_code}/employees/edit/${item.id}`"
                   title="Edit">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  <svg
+width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
@@ -192,7 +195,8 @@ const CloseFiletrDialog = () => {
                 <DeleteDialog @delete="deleteEmployee(item.id!)">
                   <template #Dialog>
                     <button class="action-btn delete" title="Delete">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      <svg
+width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 6h18" />
                         <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
@@ -206,13 +210,15 @@ const CloseFiletrDialog = () => {
           </AppTable>
         </div>
 
-        <Pagination v-if="controller.pagination.value" :pagination="controller.pagination.value"
+        <Pagination
+v-if="controller.pagination.value" :pagination="controller.pagination.value"
           @change-page="onPageChange" @count-per-page="onPerPageChange" />
       </template>
 
       <template #empty>
         <div class="empty-state">
-          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"
+          <svg
+width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"
             stroke-linecap="round">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
             <circle cx="9" cy="7" r="4" />
@@ -222,7 +228,8 @@ const CloseFiletrDialog = () => {
           <h3>No employees found</h3>
           <p>Start by adding a new employee to your organization</p>
           <router-link :to="formRoute" class="btn btn-primary empty-cta">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            <svg
+width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
               stroke-linecap="round">
               <path d="M12 5v14M5 12h14" />
             </svg>

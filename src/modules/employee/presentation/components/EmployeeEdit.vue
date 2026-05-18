@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
   import { useRoute } from 'vue-router';
-  import AppButton from '@/shared/HelpersComponents/AppButton.vue';
-  import IconAccept from '@/shared/icons/IconAccept.vue';
+  // import AppButton from '@/shared/HelpersComponents/AppButton.vue';
+  // import IconAccept from '@/shared/icons/IconAccept.vue';
   import EmployeeController from '../controllers/employee.controller';
   import type EditEmployeeParams from '../../core/params/edit.employee.params';
   import ShowEmployeeParams from '../../core/params/show.employee.params';
@@ -47,7 +47,7 @@
     />
 
     <div class="actions" :class="{ disabled: loading }">
-      <AppButton
+      <!-- <AppButton
         title="Update Employee"
         :loading="loading"
         size="sm"
@@ -59,7 +59,13 @@
         <template #icon>
           <IconAccept />
         </template>
-      </AppButton>
+      </AppButton> -->
+      <button  class="btn btn-primary w-full" type="submit" @click="saveEmployee">
+        <span v-if="loading" class="loader"></span> 
+        <span v-else>
+          {{ $t('update_employee') }}
+        </span>
+      </button>
     </div>
 
     <!-- Error Display -->
@@ -70,6 +76,16 @@
 </template>
 
 <style scoped lang="scss">
+  .loader {
+    width: 35px;
+    height: 35px;  
+    border-radius: 50%;
+    border: 8px solid;
+    border-color: #000 #0000;
+    animation: l1 1s infinite;
+  }
+  @keyframes l1 {to{transform: rotate(.5turn)}}
+  @keyframes l7 {to{transform: rotate(.5turn)}}
   // .employee-edit-page {
   //   padding: 24px;
   //   max-width: 1000px;

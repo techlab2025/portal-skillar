@@ -48,8 +48,9 @@
     />
 
     <div class="actions">
-      <AppButton
+      <!-- <AppButton
         title="Save Employee"
+        :loading="loading"
         size="sm"
         icon="right"
         type="submit"
@@ -61,7 +62,13 @@
         <template #icon>
           <IconAccept />
         </template>
-      </AppButton>
+      </AppButton> -->
+      <button  class="btn btn-primary w-full" type="submit" @click="saveEmployee">
+        <span v-if="loading" class="loader"></span> 
+        <span v-else>
+          {{ $t('save_employee') }}
+        </span>
+      </button>
       <button class="btn btn-draft">{{ $t(`Save As draft`) }}</button>
       <button class="btn btn-cancel">{{ $t(`cancel`) }}</button>
     </div>
@@ -74,6 +81,16 @@
 </template>
 
 <style scoped lang="scss">
+  .loader {
+    width: 35px;
+    height: 35px;  
+    border-radius: 50%;
+    border: 8px solid;
+    border-color: #000 #0000;
+    animation: l1 1s infinite;
+  }
+  @keyframes l1 {to{transform: rotate(.5turn)}}
+  @keyframes l7 {to{transform: rotate(.5turn)}}
   .btn-cancel {
     background-color: var(--background-btn-outline-color);
     color: var(--danger-color);

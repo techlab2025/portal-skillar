@@ -13,8 +13,8 @@
   import AddEducationSubjectParams from '../../core/params/EducationSubjects/add.educationSubject.params';
   import EducationConfigurationController from '../controllers/educationConfiguration/education.configuration.controller';
   import EducationSubjectController from '../controllers/educationSubject/education.subject.controller';
-  import EducationConfigurationModel from '../../core/models/EducationConfiguration/education.configuration.model';
-  import EducationSubjectConfigurationModel from '../../core/models/EducationConfiguration/education.subject.configuration.model';
+  import type EducationConfigurationModel from '../../core/models/EducationConfiguration/education.configuration.model';
+  import type EducationSubjectConfigurationModel from '../../core/models/EducationConfiguration/education.subject.configuration.model';
   import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
   import IndexEducationConfigurationParams from '../../core/params/EducationConfiguration/index.educationConfiguration.params co';
   // import { mapLocales } from '@/base/Presentation/Utils/MapLocales';
@@ -239,11 +239,11 @@
       </div>
 
       <SingularPluralForm
-        :numberOfBranches="ConfigurationNumberOfBranchs"
+        :number-of-branches="ConfigurationNumberOfBranchs"
         :label="$t('name_of_branch')"
         :initial-branches="configurationInitialBranches"
-        @update="GetConfigurationBranchs"
         :loading="Configurationloading"
+        @update="GetConfigurationBranchs"
       />
     </div>
     <div class="education-classification-form-card">
@@ -308,8 +308,8 @@
         :number-of-branches="subjectNumberOfBranchs"
         :label="$t('name_of_subjects')"
         :initial-branches="subjectInitialBranches"
-        @update="GetSubjectBranchs"
         :loading="subjectConfigurationloading"
+        @update="GetSubjectBranchs"
       />
     </div>
   </div>

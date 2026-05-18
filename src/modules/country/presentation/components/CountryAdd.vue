@@ -50,7 +50,7 @@
     />
 
     <div class="actions" :class="{ disabled: loading }">
-      <AppButton :title="$t('Save')" size="sm" icon="right" type="submit" @click="saveEmail">
+      <AppButton :title="$t('Save')" :loading="loading" size="sm" icon="right" type="submit" @click="saveEmail">
         {{ $t('Save') }}
 
         <template #icon>

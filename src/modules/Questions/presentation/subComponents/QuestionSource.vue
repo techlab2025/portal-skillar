@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import TitleInterface from '@/base/Data/Models/titleInterface';
+  import type TitleInterface from '@/base/Data/Models/titleInterface';
   import { DocumentController, IndexDocumentParams } from '@/modules/document';
   import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
   import { ref } from 'vue';

@@ -261,5 +261,6 @@
   "add_privacy": "Add Privacy",
   "Add terms and conditions for using the platform": "Add terms and conditions for using the platform",
   "continue_to_login": "Continue to login",
-  "employee_ref_number": "Employee Ref Number"
+  "employee_ref_number": "Employee Ref Number",
+  "update_employee":"update_employee"
 }

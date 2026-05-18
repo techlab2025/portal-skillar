@@ -8,7 +8,7 @@ type Branch = {
 };
 
 const props = defineProps<{
-  numberOfBranches: number;
+  numberOfBranches: number; 
   label: string;
   initialBranches?: Branch[];
   loading?: boolean;
@@ -53,21 +53,23 @@ const SaveData = () => {
       <!-- Singular -->
 
       <div class="input-group" :class="{ disabled: loading }">
-        <MultiLangInput :field-key="`title_Singular`" :label="`${label} ${index + 1} (Singular)`"
+        <MultiLangInput
+:field-key="`title_Singular`" :label="`${label} ${index + 1} (Singular)`"
           :languages="['en', 'ar']" :type="`title`" :model-value="branch.singular"
           @update:model-value="branch.singular = $event" />
       </div>
 
       <!-- Plural -->
       <div class="input-group" :class="{ disabled: loading }">
-        <MultiLangInput :field-key="`title_Plural`" :label="`${label} ${index + 1} (Plural)`" :languages="['en', 'ar']"
+        <MultiLangInput
+:field-key="`title_Plural`" :label="`${label} ${index + 1} (Plural)`" :languages="['en', 'ar']"
           :type="`title`" :model-value="branch.plural" @update:model-value="branch.plural = $event" />
       </div>
     </div>
     <!-- <button v-if="numberOfBranches" class="save-btn" @click="SaveData" :disabled="loading">
       {{ loading ? $t('loading') : $t('save') }}
     </button> -->
-    <button v-if="numberOfBranches" class="save-btn" @click="SaveData" :disabled="loading">
+    <button v-if="numberOfBranches" class="save-btn" :disabled="loading" @click="SaveData">
       <!-- <img v-if="loading" src="@/assets/images/original-a5a6bbdebdd0c283b9e2dae1408882bd.gif" alt="loading"
         class="loading-img"  /> -->
       <!-- <LodingBtn v-if="loading" class="loading-img"/> -->

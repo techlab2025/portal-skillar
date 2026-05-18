@@ -46,12 +46,12 @@
     <SkillsForm :skill="controller.itemData.value!" :form-key="formKey" :loading="loading" @update-data="updateData" />
 
     <div class="actions" :class="{ disabled: loading }">
-      <AppButton title="Update Skill" size="sm" icon="right" type="submit" @click="saveSkill">
-        Update Skill
-        <template #icon>
-          <IconAccept />
-        </template>
-      </AppButton>
+      <button  class="btn btn-primary w-full" @click="saveSkill">
+        <span v-if="loading" class="loader-skills"></span> 
+        <span v-else>
+          {{ $t('save') }} <IconAccept />
+        </span>
+      </button>
     </div>
 
     <div v-if="controller.errorMessage.value" class="error-toast">
@@ -61,6 +61,18 @@
 </template>
 
 <style scoped lang="scss">
+
+        .loader-skills {
+          width: 35px;
+          height: 35px;  
+          border-radius: 50%;
+          border: 8px solid;
+          border-color: #000 #0000;
+          animation: l1 1s infinite;
+        }
+        @keyframes l1 {to{transform: rotate(.5turn)}}
+        @keyframes l7 {to{transform: rotate(.5turn)}}
+
   .actions {
     margin-top: 24px;
     display: flex;

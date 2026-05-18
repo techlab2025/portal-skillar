@@ -86,6 +86,17 @@
 </template>
 
 <style scoped lang="scss">
+
+  .loader {
+    width: 35px;
+    height: 35px;  
+    border-radius: 50%;
+    border: 8px solid;
+    border-color: #000 #0000;
+    animation: l1 1s infinite;
+  }
+  @keyframes l1 {to{transform: rotate(.5turn)}}
+  @keyframes l7 {to{transform: rotate(.5turn)}}
   .email-crud-example {
     padding: 20px;
     margin: 0 auto;

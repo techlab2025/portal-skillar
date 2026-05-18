@@ -11,7 +11,7 @@
   // import RadioButton from 'primevue/radiobutton';
   import type ShowQuestionsModel from '../../core/models/show.questions.model';
   // import EditquestionsParams from '../../core/params/edit.question.params';
-  import AddquestionsParams from '../../core/params/add.question.params';
+  import type AddquestionsParams from '../../core/params/add.question.params';
   import BasicQuestionDataForm from './FormComponent/BasicQuestionDataForm.vue';
 
   const emit = defineEmits(['updateData']);
@@ -130,6 +130,6 @@
       </div>
     </header>
 
-    <BasicQuestionDataForm @updateData="GetAllBasicData" />
+    <BasicQuestionDataForm @update-data="GetAllBasicData" />
   </div>
 </template>

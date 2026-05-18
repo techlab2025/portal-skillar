@@ -1,9 +1,9 @@
 <template>
   <svg
+    id="Capa_1"
     height="64px"
     width="64px"
     version="1.1"
-    id="Capa_1"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     viewBox="0 0 56.724 56.724"

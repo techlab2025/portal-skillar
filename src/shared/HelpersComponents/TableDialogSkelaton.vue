@@ -11,7 +11,8 @@ defineProps<{
             <!-- Title -->
             <div class="item-title">
                 <div class="skeleton skeleton-small-text"></div>
-                <div class="skeleton skeleton-main-text" :style="{
+                <div
+class="skeleton skeleton-main-text" :style="{
                     width:
                         i % 3 === 0
                             ? '180px'
