@@ -5,7 +5,6 @@
   import Pagination from '@/shared/HelpersComponents/Pagination.vue';
   import { useRoute, useRouter } from 'vue-router';
   import { debounce } from '@/base/Presentation/Utils/debouced';
-  import IndexEmployeeParams from '../../core/params/index.question.params';
   import DeleteEmployeeParams from '../../core/params/delete.question.params';
   import DeleteDialog from '@/shared/HelpersComponents/dialog/DeleteDialog.vue';
   import { useFormsStore } from '@/stores/formsStore';

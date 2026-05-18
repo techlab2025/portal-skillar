@@ -211,7 +211,7 @@
           id="doc-branch"
           :label="`Stage Name`"
           :static-options="branchOptions"
-          :model-value="selectedBranchTitle"
+          :model-value="selectedBranchTitle "
           :placeholder="$t('Stage Name')"
           :reload="false"
           @update:model-value="handleBranchChange($event)"

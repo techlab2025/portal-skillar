@@ -2,15 +2,15 @@
   import { onMounted, ref, watch } from 'vue';
   import { onBeforeRouteLeave, useRoute } from 'vue-router';
   import { useFormsStore } from '@/stores/formsStore';
-  import AddEmployeeParams from '../../core/params/add.question.params';
-  import EditEmployeeParams from '../../core/params/edit.question.params';
-  import EmployeeIcon from '@/shared/icons/EmployeeIcon.vue';
-  import HandleFilesUpload from '@/shared/FormInputs/HandleFilesUpload.vue';
-  import UplaodImageInput from '@/shared/icons/UploadImage/UplaodImageInput.vue';
-  import InputSwitch from 'primevue/inputswitch';
-  import RadioButton from 'primevue/radiobutton';
+  // import AddEmployeeParams from '../../core/params/add.question.params';
+  // import EditEmployeeParams from '../../core/params/edit.question.params';
+  // import EmployeeIcon from '@/shared/icons/EmployeeIcon.vue';
+  // import HandleFilesUpload from '@/shared/FormInputs/HandleFilesUpload.vue';
+  // import UplaodImageInput from '@/shared/icons/UploadImage/UplaodImageInput.vue';
+  // import InputSwitch from 'primevue/inputswitch';
+  // import RadioButton from 'primevue/radiobutton';
   import type ShowQuestionsModel from '../../core/models/show.questions.model';
-  import EditquestionsParams from '../../core/params/edit.question.params';
+  // import EditquestionsParams from '../../core/params/edit.question.params';
   import AddquestionsParams from '../../core/params/add.question.params';
   import BasicQuestionDataForm from './FormComponent/BasicQuestionDataForm.vue';
 
@@ -41,7 +41,7 @@
   const lastName = ref<string>('');
   const employeeId = ref('');
   const UploadedImage = ref<string[]>([]);
-  const checked = ref(false); //employee status
+  // const checked = ref(false); //employee status
 
   watch(
     () => employee,
@@ -68,14 +68,14 @@
     FormStore.setFormData(formKey!, data);
 
     let params: any;
-    if (route.params.id) {
-      params = new EditquestionsParams({
-        id: Number(route.params.id),
-        ...data,
-      });
-    } else {
-      params = new AddquestionsParams(data);
-    }
+    // if (route.params.id) {
+    //   params = new EditquestionsParams({
+    //     id: Number(route.params.id),
+    //     ...data,
+    //   });
+    // } else {
+    //   params = new AddquestionsParams(data);
+    // }
     emit('updateData', params);
   };
 
@@ -111,10 +111,10 @@
     }
   });
 
-  const handleImageChange = (file: any) => {
-    UploadedImage.value = file[0]?.base64;
-    updateData();
-  };
+  // const handleImageChange = (file: any) => {
+  //   UploadedImage.value = file[0]?.base64;
+  //   updateData();
+  // };
   const GetAllBasicData = (data: AddquestionsParams) => {
     console.log(data, 'GetAllBasicData');
   };

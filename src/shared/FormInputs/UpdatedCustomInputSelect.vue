@@ -16,7 +16,7 @@
     label?: string;
     options?: TitleInterface<number>[];
     staticOptions?: TitleInterface<number>[] | null;
-    modelValue: TitleInterface<number> | TitleInterface<number>[] | null;
+    modelValue: TitleInterface<number> | TitleInterface<number>[] | undefined | null;
     placeholder: string;
     controller?: BaseController<any>;
     params?: Params;

@@ -7,7 +7,6 @@
   import { QuestionDifficultyEnum } from '../../core/constant/question.difficulty.enum';
   const indexDocumentTypeParams = new IndexDocumentTypeParams();
   const documentTypeController = DocumentTypeController.getInstance();
-  const selectedDocumentType = ref<TitleInterface<number> | null>(null);
   const emit = defineEmits(['updateData']);
 
   const SelectedSubject = ref<TitleInterface<number> | null>(null);

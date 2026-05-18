@@ -33,8 +33,8 @@
       subjects: updatedParams.subjects,
       stage_id: updatedParams.stage_id,
       tags: updatedParams.tags,
-      images: updatedParams.images,
-      files: updatedParams.files,
+      images: [updatedParams.images!],
+      files: [updatedParams.files!],
       translations: updatedParams.translations,
       documentTypeId: updatedParams.documentTypeId,
     });
