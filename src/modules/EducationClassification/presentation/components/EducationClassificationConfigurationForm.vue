@@ -24,7 +24,7 @@
     'save-education-classification',
     'save-education-subjects',
   ]);
-  const { country, formKey, loading } = defineProps<{
+  const { country, formKey } = defineProps<{
     country?: EducationClassificationModel;
     formKey?: string;
     loading?: boolean;
@@ -93,9 +93,9 @@
     subjectNumberOfBranchs.value = SubjectnumberOfBranchs.value;
   };
 
-  const Configurationloading = ref<boolean>(false)
+  const Configurationloading = ref<boolean>(false);
   const GetConfigurationBranchs = async (branches: Branch[]) => {
-    Configurationloading.value = true
+    Configurationloading.value = true;
     const configurationBranches: ConfigurationParams[] = [];
     branches.forEach((branch, index) => {
       configurationBranches.push(
@@ -115,13 +115,12 @@
     });
     const controller = EducationConfigurationController.getInstance();
     await controller.create(params);
-    Configurationloading.value = false
+    Configurationloading.value = false;
   };
 
-
-  const subjectConfigurationloading = ref<boolean>(false)
+  const subjectConfigurationloading = ref<boolean>(false);
   const GetSubjectBranchs = async (branches: Branch[]) => {
-    subjectConfigurationloading.value = true
+    subjectConfigurationloading.value = true;
     const configurationBranches: ConfigurationParams[] = [];
     branches.forEach((branch, index) => {
       configurationBranches.push(
@@ -145,7 +144,7 @@
     });
     const controller = EducationSubjectController.getInstance();
     await controller.create(params);
-    subjectConfigurationloading.value = false
+    subjectConfigurationloading.value = false;
   };
 
   const fillConfigurationForm = (data: EducationConfigurationModel | undefined) => {
@@ -233,7 +232,7 @@
             />
           </div>
         </div>
-        <button  class="save-btn" @click="ApplyConfigurationBranchs">
+        <button class="save-btn" @click="ApplyConfigurationBranchs">
           {{ $t('apply') }}
         </button>
       </div>

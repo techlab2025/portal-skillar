@@ -6,7 +6,6 @@ import {
   type DataState,
   DataSuccess,
 } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
-import router from '@/router';
 import { useFormsStore } from '@/stores/formsStore';
 import EducationSubjectRepository from '@/modules/EducationClassification/data/repositories/educationSubject/education.subject.repository';
 import type EducationSubjectConfigurationModel from '@/modules/EducationClassification/core/models/EducationConfiguration/education.subject.configuration.model';
