@@ -10310,6 +10310,90 @@ body::-webkit-scrollbar-thumb:hover {
   width: var(--md-size);
   height: var(--md-size);
 }
+.question-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: start;
+  padding: var(--md-size);
+  border: 1px solid var(--border-color);
+  border-radius: var(--xl-size-1);
+  gap: var(--md-size);
+}
+.question-info-wrapper .question-info-categories {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--md-size);
+}
+.question-info-wrapper .question-info-categories .question-info-item {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: center;
+  justify-content: center;
+  align-items: stretch;
+  gap: var(--sm-size);
+  background-color: var(--gray-soft);
+  padding: var(--xs-size-2) var(--xs-size);
+  border-radius: var(--xl-size-base);
+}
+.question-info-wrapper .question-info-categories .question-info-item label {
+  font-size: var(--md-size);
+  font-family: 'Medium';
+  color: var(--second-text);
+}
+.question-info-wrapper .question-info-categories .question-info-item p {
+  font-size: var(--md-size);
+  font-family: 'Bold';
+  color: var(--Gray-6);
+}
+.question-info-wrapper .question-show-body {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: var(--xs-size-3);
+}
+@media (max-width: 600px) {
+  .question-info-wrapper .question-show-body {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.question-info-wrapper .question-show-body .question-body-text {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 6px;
+}
+.question-info-wrapper .question-show-body .question-body-text label {
+  font-size: var(--md-size);
+  font-family: 'Medium';
+  color: var(--second-text);
+}
+.question-info-wrapper .question-show-body .question-body-text h2 {
+  font-size: var(--md-size);
+  font-family: 'Bold';
+  color: var(--standard-black);
+}
+.question-info-wrapper .question-show-body .question-body-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 150px;
+}
+.question-info-wrapper .question-show-body .question-body-img img {
+  max-width: 100%;
+  height: auto;
+}
 .login {
   width: 100%;
   min-height: 100vh;
