@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { mount } from '@vue/test-utils';
+import { mount, flushPromises } from '@vue/test-utils';
+import { createPinia, setActivePinia } from 'pinia';
 import ChooseCountry from '../ChooseCountry.vue';
 import CountryController from '@/modules/country/presentation/controllers/country.controller';
 import { ref } from 'vue';
@@ -15,6 +16,7 @@ vi.mock('vue-router', () => ({
   }),
   useRoute: () => ({
     query: mockQuery.value,
+    params: {},
   }),
 }));
 
@@ -24,14 +26,22 @@ vi.mock('@/modules/country/presentation/controllers/country.controller', () => (
   },
 }));
 
+vi.mock('@/stores/country', () => ({
+  useCountryStore: () => ({
+    setCountryCode: vi.fn(),
+    countryCode: '',
+  }),
+}));
+
 vi.mock('@/base/Presentation/Utils/debouced', () => ({
-  debounce: (fn: any) => fn, // bypass debounce for testing
+  debounce: (fn: any) => fn,
 }));
 
 describe('ChooseCountry.vue', () => {
   let mockFetchList: any;
 
   beforeEach(() => {
+    setActivePinia(createPinia());
     vi.clearAllMocks();
     mockFetchList = vi.fn();
     (CountryController.getInstance as any).mockReturnValue({
@@ -48,6 +58,7 @@ describe('ChooseCountry.vue', () => {
 
   const mountOptions = {
     global: {
+      plugins: [createPinia()],
       mocks: {
         $t: (msg: string) => msg,
       },
@@ -70,9 +81,8 @@ describe('ChooseCountry.vue', () => {
 
   it('renders properly and fetches countries on mount', async () => {
     const wrapper = mount(ChooseCountry, mountOptions);
+    await flushPromises();
     expect(wrapper.find('h3.title').text()).toBe('Choose your country');
-
-    // The component fetches on mounted
     expect(mockFetchList).toHaveBeenCalledTimes(1);
     expect(mockFetchList).toHaveBeenCalledWith(new IndexCountryParams('', 1, 10));
   });
@@ -85,7 +95,6 @@ describe('ChooseCountry.vue', () => {
   it('navigates to login on continue button click', async () => {
     const wrapper = mount(ChooseCountry, mountOptions);
 
-    // Select country (simulate emitted event)
     const cards = wrapper.findAllComponents({ name: 'CountryCard' });
     if (cards.length > 0) {
       await cards[0].vm.$emit(

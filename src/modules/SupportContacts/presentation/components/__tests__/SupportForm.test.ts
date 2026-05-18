@@ -7,6 +7,7 @@ import SupportForm from '../SupportForm.vue';
 vi.mock('vue-router', () => ({
   useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
   useRoute: () => ({ query: {}, params: {}, fullPath: '/support' }),
+  onBeforeRouteLeave: vi.fn(),
   createRouter: vi.fn(() => ({
     install: vi.fn(),
     push: vi.fn(),
@@ -14,6 +15,20 @@ vi.mock('vue-router', () => ({
     beforeEach: vi.fn(),
   })),
   createWebHistory: vi.fn(),
+}));
+
+vi.mock('@/modules/SupportContacts/presentation/controllers/support.controller', () => ({
+  default: {
+    getInstance: vi.fn(() => ({
+      delete: vi.fn().mockResolvedValue(undefined),
+    })),
+  },
+}));
+
+vi.mock('@/base/Presentation/Dialogs/dialog.manager', () => ({
+  dialogManager: {
+    toastWarning: vi.fn(),
+  },
 }));
 
 vi.mock('@/shared/MultiLangInput.vue', () => ({
@@ -27,6 +42,10 @@ vi.mock('@/shared/MultiLangInput.vue', () => ({
 
 vi.mock('@/shared/icons/Support/DeleteIcon.vue', () => ({
   default: { name: 'DeleteIcon', template: '<span class="delete-icon" />' },
+}));
+
+vi.mock('@/shared/icons/Support/DeleteSectionIcon.vue', () => ({
+  default: { name: 'DeleteSectionIcon', template: '<span class="delete-section-icon" />' },
 }));
 
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en: {} } });
@@ -84,6 +103,7 @@ describe('SupportForm', () => {
     await wrapper.find('.add-section-btn').trigger('click');
     expect(wrapper.findAll('.support-section-card')).toHaveLength(2);
     await wrapper.find('.delete-section-btn').trigger('click');
+    await vi.dynamicImportSettled();
     expect(wrapper.findAll('.support-section-card')).toHaveLength(1);
   });
 

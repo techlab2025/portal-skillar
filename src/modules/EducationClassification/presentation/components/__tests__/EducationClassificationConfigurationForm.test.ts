@@ -131,7 +131,7 @@ describe('EducationClassificationConfigurationForm', () => {
       );
     });
 
-    it('falls back to example data when fetchList does not return DataSuccess', async () => {
+    it('leaves inputs at default when fetchList does not return DataSuccess', async () => {
       mockConfigFetchList.mockResolvedValue({ data: null });
       mockSubjectFetchList.mockResolvedValue({ data: null });
 
@@ -140,9 +140,7 @@ describe('EducationClassificationConfigurationForm', () => {
 
       expect(wrapper.exists()).toBe(true);
       const inputs = wrapper.findAll('input[type="number"]');
-      expect((inputs[0].element as HTMLInputElement).valueAsNumber).toBe(
-        EducationConfigurationModel.example.numberOfBranches,
-      );
+      expect((inputs[0].element as HTMLInputElement).valueAsNumber).toBe(0);
     });
   });
 

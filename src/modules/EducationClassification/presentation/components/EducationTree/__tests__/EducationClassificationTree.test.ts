@@ -1,10 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
+import { createI18n } from 'vue-i18n';
 import EducationClassificationTree from '../EducationClassificationTree.vue';
 import EducationTreeController from '../../../controllers/EducationTree/education.configuration.tree.controller';
 import { ref } from 'vue';
 
-// Mock vue-router
+const i18n = createI18n({ legacy: false, locale: 'en', messages: { en: {} } });
+
 vi.mock('vue-router', () => ({
   useRoute: () => ({
     params: { id: '1' },
@@ -21,14 +23,12 @@ const mockController = {
   }),
 };
 
-// Mock controller
 vi.mock('../../../controllers/EducationTree/education.configuration.tree.controller', () => ({
   default: {
     getInstance: () => mockController,
   },
 }));
 
-// Mock subcomponents
 vi.mock('../EducationTypeItem.vue', () => ({
   default: {
     name: 'EducationTypeItem',
@@ -61,12 +61,10 @@ describe('EducationClassificationTree', () => {
   const mountComponent = () =>
     mount(EducationClassificationTree, {
       global: {
+        plugins: [i18n],
         stubs: {
           'router-link': true,
           'router-view': true,
-        },
-        mocks: {
-          $t: (key: string) => key,
         },
       },
     });
@@ -98,7 +96,6 @@ describe('EducationClassificationTree', () => {
 
   it('updates type dialog visibility on child emit', async () => {
     const wrapper = mountComponent();
-    // Open it first
     await wrapper.find('.btn-primary').trigger('click');
     const typeDialog = wrapper.getComponent({ name: 'AddEducationTypeDialog' });
 
@@ -107,7 +104,6 @@ describe('EducationClassificationTree', () => {
   });
 
   it('opens add branch dialog when branch button is clicked', async () => {
-    // We need to mock list data to see an item with an add branch button
     mockController.listState.value = {
       data: [
         {
@@ -120,7 +116,6 @@ describe('EducationClassificationTree', () => {
 
     const wrapper = mountComponent();
     await flushPromises();
-    // Since we mock EducationTypeItem, we just emit the event from it
     const typeItem = wrapper.getComponent({ name: 'EducationTypeItem' });
     await typeItem.vm.$emit('add-branch', { node: { id: '1' }, level: 1 });
 

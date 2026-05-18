@@ -100,6 +100,7 @@
 
   .save-emp {
     width: 60%;
+
     &.disabled {
       cursor: not-allowed;
       opacity: 0.6;

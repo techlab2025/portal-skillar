@@ -11,7 +11,7 @@
   const controller = SkillsController.getInstance();
   const route = useRoute();
   const formKey = route.fullPath;
- 
+
   const params = ref<EditSkillsParams | null>(null);
   const loading = ref(false);
 
@@ -43,7 +43,12 @@
 
 <template>
   <div class="skills-edit-page">
-    <SkillsForm :skill="controller.itemData.value!" :form-key="formKey" :loading="loading" @update-data="updateData" />
+    <SkillsForm
+      :skill="controller.itemData.value!"
+      :form-key="formKey"
+      :loading="loading"
+      @update-data="updateData"
+    />
 
     <div class="actions" :class="{ disabled: loading }">
       <AppButton title="Update Skill" size="sm" icon="right" type="submit" @click="saveSkill">
@@ -65,6 +70,7 @@
     margin-top: 24px;
     display: flex;
     justify-content: flex-end;
+
     &.disabled {
       cursor: not-allowed;
       pointer-events: none;

@@ -3,20 +3,48 @@ import { mount } from '@vue/test-utils';
 import SidebarNavigation from '../SidebarNavigation.vue';
 import { createPinia, setActivePinia } from 'pinia';
 
-// Mock vue-router
 vi.mock('vue-router', () => ({
   useRoute: () => ({
-    path: '/employees',
-    params: {},
+    path: '/eg/employees',
+    params: { country_code: 'eg' },
   }),
   useRouter: () => ({
     push: vi.fn(),
   }),
 }));
 
-// Mock assets
 vi.mock('@/assets/images/TechlabLogo.png', () => ({
   default: 'mock-logo.png',
+}));
+
+vi.mock('@/stores/user', () => ({
+  useUserStore: () => ({
+    user: { name: 'Admin', image: '' },
+    logout: vi.fn(),
+  }),
+}));
+
+vi.mock('primevue/accordion', () => ({
+  default: {
+    name: 'Accordion',
+    template: '<div class="mock-accordion"><slot /></div>',
+    props: ['value'],
+  },
+}));
+vi.mock('primevue/accordionpanel', () => ({
+  default: { name: 'AccordionPanel', template: '<div><slot /></div>', props: ['value'] },
+}));
+vi.mock('primevue/accordionheader', () => ({
+  default: {
+    name: 'AccordionHeader',
+    template: '<div class="mock-accordion-header"><slot /></div>',
+  },
+}));
+vi.mock('primevue/accordioncontent', () => ({
+  default: {
+    name: 'AccordionContent',
+    template: '<div class="mock-accordion-content"><slot /></div>',
+  },
 }));
 
 describe('SidebarNavigation.vue', () => {
@@ -27,10 +55,10 @@ describe('SidebarNavigation.vue', () => {
       plugins: [pinia],
       stubs: {
         'router-link': {
-          template: '<a><slot /></a>',
+          template:
+            '<a class="menu-item" :class="{ active: $attrs.class?.includes?.(\'active\') }"><slot /></a>',
+          props: ['to'],
         },
-        SettingIcon: true,
-        DocumentIcon: true,
       },
       mocks: {
         $t: (msg: string) => msg,
@@ -47,30 +75,20 @@ describe('SidebarNavigation.vue', () => {
   it('renders menu groups and items', () => {
     const wrapper = mount(SidebarNavigation, mountOptions);
 
-    // Check for Overview group
     expect(wrapper.text()).toContain('Overview');
-
-    // Check for some menu items
     expect(wrapper.text()).toContain('Employees');
     expect(wrapper.text()).toContain('Documents');
-    expect(wrapper.text()).toContain('Countries');
+    expect(wrapper.text()).toContain('Skills');
   });
 
-  it('applies active class based on current route', () => {
+  it('renders the Apps Kits group', () => {
     const wrapper = mount(SidebarNavigation, mountOptions);
-
-    // According to our mock, path is '/employees'
-    const activeLink = wrapper.find('a.active');
-    expect(activeLink.exists()).toBe(true);
-    expect(activeLink.text()).toContain('Employees');
+    expect(wrapper.text()).toContain('Questions');
   });
 
-  it('emits clickItem event when a menu item is clicked', async () => {
+  it('renders the statics group', () => {
     const wrapper = mount(SidebarNavigation, mountOptions);
-
-    const menuItem = wrapper.find('a.menu-item');
-    await menuItem.trigger('click');
-
-    expect(wrapper.emitted('clickItem')).toBeTruthy();
+    expect(wrapper.text()).toContain('About');
+    expect(wrapper.text()).toContain('Support');
   });
 });

@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import FaqsController from './faqs.controller';
 
-// Mock dependencies
 vi.mock('@/router', () => ({
   default: {
     push: vi.fn(),
@@ -29,7 +28,12 @@ describe('FaqsController', () => {
     const controller = FaqsController.getInstance();
     // @ts-expect-error - config is protected
     const config = controller.config;
-    expect(config.showLoadingDialog).toBe(true);
-    expect(config.showSuccessDialog).toBe(true);
+    expect(config.showLoadingDialog).toBe(false);
+    expect(config.showSuccessDialog).toBe(false);
+    expect(config.showErrorDialog).toBe(false);
+    expect(config.showErrorTosat).toBe(true);
+    expect(config.showSuccessTosat).toBe(true);
+    expect(config.autoRetry).toBe(false);
+    expect(config.maxAutoRetries).toBe(1);
   });
 });

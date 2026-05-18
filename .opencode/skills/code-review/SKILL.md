@@ -67,5 +67,3 @@ When reviewing code, follow this methodology:
 - Breaking changes to existing singleton patterns without migration path.
 - Security risks (XSS via `v-html`, unsafe dynamic imports).
 - Changes that break `npm run type-check` or `npm run test:run`.
-
-**Tone:** Professional, direct, and constructive. Provide specific code examples for fixes.

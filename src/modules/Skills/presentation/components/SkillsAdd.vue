@@ -58,9 +58,11 @@
     gap: 10px;
     justify-content: flex-end;
     width: 100%;
+
     button {
       width: 50%;
     }
+
     &.disabled {
       cursor: not-allowed;
       pointer-events: none;

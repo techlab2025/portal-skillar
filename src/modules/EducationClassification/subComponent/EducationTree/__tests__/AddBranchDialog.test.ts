@@ -7,6 +7,7 @@ describe('AddBranchDialog', () => {
     visible: true,
     level: 1,
     branchId: 123,
+    branchName: 'branch',
   };
 
   it('renders when visible', async () => {
@@ -22,11 +23,16 @@ describe('AddBranchDialog', () => {
               '<div v-if="visible" class="dialog-stub"><slot name="header" /><slot /></div>',
             props: ['visible'],
           },
+          MultiLangInput: {
+            template: '<input class="multi-lang-input" />',
+            props: ['modelValue', 'fieldKey', 'label', 'languages', 'type'],
+          },
         },
       },
     });
     expect(wrapper.find('.dialog-stub').exists()).toBe(true);
-    expect(wrapper.text()).toContain('add_a_new_branch');
+    expect(wrapper.text()).toContain('add_a_new');
+    expect(wrapper.text()).toContain('branch');
   });
 
   it('emits update:visible false when Cancel button is clicked', async () => {
@@ -40,6 +46,10 @@ describe('AddBranchDialog', () => {
           Dialog: {
             template: '<div v-if="visible"><slot /></div>',
             props: ['visible'],
+          },
+          MultiLangInput: {
+            template: '<input class="multi-lang-input" />',
+            props: ['modelValue', 'fieldKey', 'label', 'languages', 'type'],
           },
         },
       },
@@ -63,11 +73,17 @@ describe('AddBranchDialog', () => {
             template: '<div v-if="visible"><slot /></div>',
             props: ['visible'],
           },
+          MultiLangInput: {
+            template:
+              '<input class="multi-lang-input" :value="modelValue" @input="$emit(\'update:modelValue\', { en: $event.target.value })" />',
+            props: ['modelValue', 'fieldKey', 'label', 'languages', 'type'],
+            emits: ['update:modelValue'],
+          },
         },
       },
     });
 
-    const input = wrapper.find('input');
+    const input = wrapper.find('input.multi-lang-input');
     await input.setValue('New Branch Name');
     await wrapper.find('button.btn-primary').trigger('click');
 
@@ -92,6 +108,12 @@ describe('AddBranchDialog', () => {
             template: '<div v-if="visible"><slot /></div>',
             props: ['visible'],
           },
+          MultiLangInput: {
+            template:
+              '<input class="multi-lang-input" :value="modelValue" @input="$emit(\'update:modelValue\', { en: $event.target.value })" />',
+            props: ['modelValue', 'fieldKey', 'label', 'languages', 'type'],
+            emits: ['update:modelValue'],
+          },
         },
       },
     });
@@ -99,10 +121,10 @@ describe('AddBranchDialog', () => {
     const addButton = wrapper.find('button.btn-primary');
     expect((addButton.element as HTMLButtonElement).disabled).toBe(true);
 
-    await wrapper.find('input').setValue('   ');
+    await wrapper.find('input.multi-lang-input').setValue('   ');
     expect((addButton.element as HTMLButtonElement).disabled).toBe(true);
 
-    await wrapper.find('input').setValue('Valid Name');
+    await wrapper.find('input.multi-lang-input').setValue('Valid Name');
     expect((addButton.element as HTMLButtonElement).disabled).toBe(false);
   });
 });

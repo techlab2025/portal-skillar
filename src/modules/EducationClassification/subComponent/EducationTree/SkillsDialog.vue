@@ -224,6 +224,7 @@
     flex-direction: column;
     gap: 0.75rem;
   }
+
   .document-type-row {
     display: flex;
     align-items: center;
@@ -232,26 +233,31 @@
     border-radius: 8px;
     background-color: var(--color-light-gray);
   }
+
   .item-title {
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
+
   .item-small-title {
     font-size: 0.7rem;
     color: var(--bread-crumb-color-span);
   }
+
   .item-main-title {
     font-size: 0.9rem;
     font-weight: 600;
     color: black;
   }
+
   .item-actions {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
   }
+
   .field-input {
     background-color: var(--bg-main);
     border-radius: 30px;
@@ -261,21 +267,25 @@
       color: var(--bread-crumb-color-span);
     }
   }
+
   .dialog-inputs {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     gap: 5px;
+
     .field-group {
       &:first-child {
         width: 60%;
       }
+
       &:last-child {
         width: 40%;
       }
     }
   }
+
   .dialog-footer {
     display: flex;
     gap: 0.5rem;

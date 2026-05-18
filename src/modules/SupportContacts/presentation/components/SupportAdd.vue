@@ -48,6 +48,7 @@
     margin-top: 24px;
     display: flex;
     justify-content: flex-end;
+
     &.disabled {
       cursor: not-allowed;
       pointer-events: none;

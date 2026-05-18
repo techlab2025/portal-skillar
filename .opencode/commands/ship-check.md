@@ -1,3 +1,5 @@
+Compatibility alias for `/ship`.
+
 Run a pre-merge quality gate for current changes.
 
 Checklist:

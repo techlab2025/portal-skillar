@@ -17,7 +17,7 @@
     loading?: boolean;
   }>();
 
-  const FormStore = useFormsStore(); 
+  const FormStore = useFormsStore();
   onBeforeRouteLeave((to, from) => {
     const savedData = FormStore.getFormData(formKey!);
     if (savedData && to.path !== from.path) {
@@ -34,12 +34,15 @@
       if (newskill) {
         const raw: Record<string, string> | Array<Record<string, string>> = newskill.title;
         if (Array.isArray(raw)) {
-          translations.value = raw.reduce((acc: Record<string, string>, item: Record<string, string>) => {
-            if (item?.locale) {
-              acc[item.locale] = item.title ?? '';
-            }
-            return acc;
-          }, {});
+          translations.value = raw.reduce(
+            (acc: Record<string, string>, item: Record<string, string>) => {
+              if (item?.locale) {
+                acc[item.locale] = item.title ?? '';
+              }
+              return acc;
+            },
+            {},
+          );
         } else {
           translations.value = raw;
         }
@@ -135,8 +138,10 @@
   .form-fields {
     width: 100%;
   }
+
   .field-group {
     width: 100%;
+
     &.disabled {
       cursor: not-allowed;
       pointer-events: none;
