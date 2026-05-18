@@ -46,6 +46,7 @@
 ## Source-of-Truth Warnings
 
 - Module README files and some `index.ts` headers are stale copy-paste ("employee-email"); trust executable code/routes over those docs.
+- API contracts should be checked in `docs/Skillar_ai.postman_collection.json` first, then `documentation/**` for request/response examples, then existing module code for implementation patterns.
 - `src/main.ts` imports `src/styles/main.min.css` (not `main.scss`), so verify global style edits against what is actually imported.
 - Env selection comes from `VITE_APP_ENV`:
   - `.env` → `production`
@@ -109,12 +110,14 @@ Commands are entry points that activate a role + skill combination.
 
 - `/feature <description>` — Activate **Senior Frontend Engineer** + `feature-implementation`. Plan, implement, and validate a new feature with full architecture, i18n, and tests.
 - `/fix <bug-description>` — Activate **Senior Frontend Engineer** + `bug-investigation`. Reproduce, isolate, patch, and add regression tests.
+- `/api <endpoint-or-module>` — Activate **API Integration Engineer** + `api-integration`. Inspect the Postman collection and `documentation/**`, then wire the endpoint through the module data layer.
 - `/review` — Activate **Senior Frontend Engineer** + `code-review`. Review staged or proposed changes against architecture and quality gates.
 - `/ship` — Activate **QA Engineer** + `release-readiness`. Run pre-merge checks: lint, type-check, tests, coverage, and hook compliance.
-- `/api <endpoint-description>` — Activate **API Integration Engineer** + `api-integration`. Wire a new backend endpoint into the module's data layer.
 - `/i18n <audit|add>` — Activate **i18n Specialist** + `i18n-localization`. Audit for hardcoded strings or add translations for a feature.
 - `/test <file-or-scope>` — Activate **QA Engineer** + `test-authoring`. Write or improve companion tests for the given scope.
 - `/ui <component-or-page>` — Activate **UI/UX Engineer** + `UI-UX-Optimization`. Refactor styling, improve accessibility, or optimize PrimeVue usage.
+
+Command files live in `.opencode/commands/`. `ship-check.md` remains as a compatibility alias for `/ship`.
 
 ## Universal Rules
 

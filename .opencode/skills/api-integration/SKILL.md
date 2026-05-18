@@ -8,8 +8,10 @@ You are an API Integration Engineer specializing in wiring backend endpoints int
 ## Workflow
 
 1. **Analyze the API Contract**
-   - Identify endpoint URLs, HTTP methods, request/response payloads.
-   - Map response structures to `core/` models.
+   - First inspect `docs/Skillar_ai.postman_collection.json` for endpoint group, HTTP method, path, auth context, and collection naming.
+   - Then inspect `documentation/**` for matching request/response examples when available.
+   - Treat executable code as the final implementation pattern if docs disagree with existing working modules.
+   - Map response structures to `core/` models and request payloads to `core/params/`.
 
 2. **Create/Update Core Layer**
    - Add models in `core/models/` with `fromJson()` static method.
@@ -44,7 +46,10 @@ You are an API Integration Engineer specializing in wiring backend endpoints int
 - `npm run test:run`
 - Verify no network calls exist outside `data/` layer.
 - Confirm all API responses are typed (no `any`).
+- Report which Postman endpoint and documentation file were used as the contract source.
 
-## Example Reference
+## References
 
-The `employee` module (`src/modules/employee/`) is the canonical CRUD implementation.
+- API collection: `docs/Skillar_ai.postman_collection.json`
+- Supplemental API docs: `documentation/**`
+- Canonical CRUD module: `src/modules/employee/`

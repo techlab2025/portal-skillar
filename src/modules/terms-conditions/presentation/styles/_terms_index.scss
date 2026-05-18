@@ -3,17 +3,22 @@
 
 .terms-container {
   min-height: 80vh;
+
   .header-container {
     @include flex-row(nowrap, space-between, center);
+
     width: 100%;
   }
+
   .terms-content {
     @include flex-column(nowrap, flex-start, flex-start);
+
     gap: 5px;
     font-family: 'Medium';
     padding: 24px;
     background-color: #fafafa;
     border-radius: 20px;
+
     h2 {
       color: #4faf7c;
       font-weight: 700;
@@ -29,6 +34,7 @@
 
   .empty-data {
     @include flex-column(nowrap, center, center);
+
     margin-top: auto;
     margin-bottom: auto;
     height: 100%;
@@ -38,6 +44,7 @@
     text-align: center;
     gap: 12px;
     font-family: 'Medium';
+
     h5 {
       color: var(--black-soft);
       font-size: $XlSize;
