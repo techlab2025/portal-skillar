@@ -145,7 +145,7 @@
 </script>
 
 <template>
-  <Accordion value="0">
+  <Accordion value="0" :lazy="true" >
     <AccordionPanel value="0">
       <AccordionHeader>
         <template #toggleicon>
