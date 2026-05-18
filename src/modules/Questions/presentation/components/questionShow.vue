@@ -64,6 +64,7 @@
         :logs="showState?.data?.questionLogHistory"
       />
     </div>
+    <QuestionReviewProcedures />
   </div>
 </template>
 
@@ -74,10 +75,10 @@
     gap: 1rem;
     padding: 1rem;
   }
+
   .solution-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-    
   }
 </style>
