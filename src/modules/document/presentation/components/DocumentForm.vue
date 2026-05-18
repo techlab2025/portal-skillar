@@ -21,9 +21,10 @@
 
   const emit = defineEmits(['updateData']);
 
-  const { document, formKey } = defineProps<{
+  const { document, formKey, loading } = defineProps<{
     document?: DocumentShowModel;
     formKey?: string;
+    loading?: boolean;
   }>();
 
   const FormStore = useFormsStore();
@@ -159,8 +160,8 @@
       </div>
     </div>
 
-    <div class="form-fields">
-      <div class="field-group">
+    <div class="form-fields" :class="{ disabled: loading }">
+      <div class="field-group" >
         <MultiLangInput
           :field-key="`title`"
           :label="$t(`Document_name`)"
@@ -174,7 +175,7 @@
         />
       </div>
 
-      <div class="field-group col-span-1 ref-number-group">
+      <div class="field-group col-span-1 ref-number-group" >
         <label class="field-label" for="doc-ref">{{ $t('Reference_Number') }}</label>
 
         <div class="input-wrap">
@@ -189,7 +190,7 @@
         </div>
       </div>
 
-      <div class="field-group select-group col-span-2">
+      <div class="field-group select-group col-span-2" >
         <UpdatedCustomInputSelect
           id="documentType"
           :class="`field-input`"
@@ -206,7 +207,7 @@
         />
       </div>
 
-      <div class="field-group col-span-2">
+      <div class="field-group col-span-2" >
         <UpdatedCustomInputSelect
           id="doc-branch"
           :label="`Stage Name`"
@@ -218,7 +219,7 @@
         />
       </div>
 
-      <div class="field-group col-span-2">
+      <div class="field-group col-span-2" >
         <MultiLangInput
           :field-key="`description`"
           :label="$t(`Description`)"
@@ -232,7 +233,7 @@
         />
       </div>
 
-      <div class="field-group tags-group col-span-2">
+      <div class="field-group tags-group col-span-2" >
         <label class="field-label" for="tag">{{ $t('tag') }}</label>
 
         <div class="input-wrap input-tag-wrap">
@@ -257,7 +258,7 @@
         </div>
       </div>
 
-      <div class="field-group col-span-2">
+      <div class="field-group col-span-2" >
         <HandleFilesUpload
           :label="`upload image`"
           accept="image/*"
@@ -282,7 +283,7 @@
         </HandleFilesUpload>
       </div>
 
-      <div class="field-group col-span-2">
+      <div class="field-group col-span-2" >
         <HandleFilesUpload
           :label="`upload image`"
           accept=".pdf"

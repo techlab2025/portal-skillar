@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
   import { useRoute } from 'vue-router';
-  import AppButton from '@/shared/HelpersComponents/AppButton.vue';
+  // import AppButton from '@/shared/HelpersComponents/AppButton.vue';
   import IconAccept from '@/shared/icons/IconAccept.vue';
   import DocumentController from '../controllers/document.controller';
   import DocumentForm from './DocumentForm.vue';
@@ -56,7 +56,7 @@
       @update-data="updateData"
     />
 
-    <div class="actions" :class="{ disabled: loading }">
+    <!-- <div class="actions" :class="{ disabled: loading }">
       <AppButton
         :title="$t('save_document')"
         size="sm"
@@ -69,6 +69,14 @@
           <IconAccept />
         </template>
       </AppButton>
+    </div> -->
+    <div class="actions" :class="{ disabled: loading }">
+      <button  class="btn btn-primary w-full" type="submit" @click="saveDocument">
+        <span v-if="loading" class="loader"></span> 
+        <span v-else>
+          {{ $t('save_document') }}  <IconAccept />
+        </span>
+      </button>
     </div>
 
     <div v-if="controller.errorMessage.value" class="error">

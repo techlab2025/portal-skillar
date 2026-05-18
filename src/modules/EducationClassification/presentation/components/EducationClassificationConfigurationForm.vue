@@ -93,7 +93,9 @@
     subjectNumberOfBranchs.value = SubjectnumberOfBranchs.value;
   };
 
+  const Configurationloading = ref<boolean>(false)
   const GetConfigurationBranchs = async (branches: Branch[]) => {
+    Configurationloading.value = true
     const configurationBranches: ConfigurationParams[] = [];
     branches.forEach((branch, index) => {
       configurationBranches.push(
@@ -113,9 +115,13 @@
     });
     const controller = EducationConfigurationController.getInstance();
     await controller.create(params);
+    Configurationloading.value = false
   };
 
+
+  const subjectConfigurationloading = ref<boolean>(false)
   const GetSubjectBranchs = async (branches: Branch[]) => {
+    subjectConfigurationloading.value = true
     const configurationBranches: ConfigurationParams[] = [];
     branches.forEach((branch, index) => {
       configurationBranches.push(
@@ -139,6 +145,7 @@
     });
     const controller = EducationSubjectController.getInstance();
     await controller.create(params);
+    subjectConfigurationloading.value = false
   };
 
   const fillConfigurationForm = (data: EducationConfigurationModel | undefined) => {
@@ -213,7 +220,7 @@
       <!-- ── Fields ────────────────────────────────────────── -->
       <div class="education-classification-form-fields">
         <!-- Email Field -->
-        <div class="field-group" :class="{ disabled: loading }">
+        <div class="field-group" :class="{ disabled: Configurationloading }">
           <label class="field-label" for="title"> {{ $t('number_of_branchs') }} </label>
           <div class="input-wrap">
             <input
@@ -226,7 +233,7 @@
             />
           </div>
         </div>
-        <button class="save-btn" @click="ApplyConfigurationBranchs">
+        <button  class="save-btn" @click="ApplyConfigurationBranchs">
           {{ $t('apply') }}
         </button>
       </div>
@@ -236,6 +243,7 @@
         :label="$t('name_of_branch')"
         :initial-branches="configurationInitialBranches"
         @update="GetConfigurationBranchs"
+        :loading="Configurationloading"
       />
     </div>
     <div class="education-classification-form-card">
@@ -252,7 +260,7 @@
       <!-- ── Fields ────────────────────────────────────────── -->
       <div class="education-classification-form-fields">
         <!-- Email Field -->
-        <div class="field-group" :class="{ disabled: loading }">
+        <div class="field-group" :class="{ disabled: subjectConfigurationloading }">
           <div class="input-wrap">
             <MultiLangInput
               :field-key="`title_Singular`"
@@ -264,7 +272,7 @@
             />
           </div>
         </div>
-        <div class="field-group" :class="{ disabled: loading }">
+        <div class="field-group" :class="{ disabled: subjectConfigurationloading }">
           <div class="input-wrap">
             <MultiLangInput
               :field-key="`title_Plural`"
@@ -277,7 +285,7 @@
           </div>
         </div>
 
-        <div class="field-group" :class="{ disabled: loading }">
+        <div class="field-group" :class="{ disabled: subjectConfigurationloading }">
           <label class="field-label" for="subject_number"> {{ $t('num_of_levels') }} </label>
           <div class="input-wrap">
             <input
@@ -301,6 +309,7 @@
         :label="$t('name_of_subjects')"
         :initial-branches="subjectInitialBranches"
         @update="GetSubjectBranchs"
+        :loading="subjectConfigurationloading"
       />
     </div>
   </div>

@@ -39,8 +39,11 @@
       </template>
 </AppButton> -->
     <div class="actions" :class="{ disabled: loading }">
-      <button class="btn btn-primary w-full" type="submit" @click="saveDocument">
-        {{ $t('save_document') }}
+      <button  class="btn btn-primary w-full" type="submit" @click="saveDocument">
+        <span v-if="loading" class="loader"></span> 
+        <span v-else>
+          {{ $t('save_document') }}
+        </span>
       </button>
     </div>
 

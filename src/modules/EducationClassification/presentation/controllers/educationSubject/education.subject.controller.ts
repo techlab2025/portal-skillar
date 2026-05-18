@@ -27,7 +27,7 @@ export default class EducationSubjectController extends BaseController<
    */
   protected get config(): ControllerConfig {
     return {
-      showLoadingDialog: true,
+      showLoadingDialog: false,
       showSuccessDialog: false,
       showErrorDialog: false,
       showErrorTosat: true,
@@ -57,7 +57,7 @@ export default class EducationSubjectController extends BaseController<
 
     const result = await super.create(params, { ...options, useJson: true });
     if (result instanceof DataSuccess) {
-      router.push({ name: 'EducationClassifications' });
+      // router.push({ name: 'EducationClassifications' });
       if (formKey) {
         FormStore.clearFormData(formKey);
       }

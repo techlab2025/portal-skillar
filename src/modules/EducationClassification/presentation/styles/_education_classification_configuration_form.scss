@@ -135,6 +135,12 @@
     gap: 20px;
     border-bottom: 1px dashed var(--sidebar-group-text-color);
 
+    &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
     @media (max-width: 1000px) {
       flex-direction: column;
     }
