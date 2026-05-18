@@ -137,18 +137,18 @@
     <header class="form-header">
       <div class="form-title">
         <div class="header-text">
-          <h3>{{ route.params.id ? 'Edit Employee' : 'Add New Employee' }}</h3>
+          <h3>{{ route.params.id ? $t('edit_employee') : $t('add_new_employee') }}</h3>
           <p class="header-subtitle">
             {{
               route.params.id
-                ? 'Update the employee details below'
-                : 'Fill in the required information to add a new employee'
+                ? $t('update_the_employee_details')
+                : $t('fill_in_the_required_information_to_add_new_employee')
             }}
           </p>
         </div>
         <div class="employee-status">
           <div class="title">
-            <h6>Employee Status</h6>
+            <h6>{{ $t('employee_status') }}</h6>
             <p :class="checked ? `` : `warn`">{{ checked ? $t('active') : $t('disactive') }}</p>
           </div>
           <div class="switch">
@@ -156,36 +156,36 @@
           </div>
         </div>
       </div>
-      <span v-if="route.params.id" class="edit-badge">Editing</span>
+      <span v-if="route.params.id" class="edit-badge">{{ $t('editing') }}</span>
     </header>
 
     <div class="employee-details-form">
-      <p><EmployeeIcon /> {{ $t(`Basic Info`) }}</p>
+      <p><EmployeeIcon /> {{ $t('basic_info') }}</p>
       <h6 @click="resetForm">{{ $t(`reset`) }}</h6>
     </div>
 
     <div class="form-fields">
       <div class="field-group" :class="{ disabled: loading }">
-        <label class="field-label" for="name">{{ $t(`First Name`) }}</label>
+        <label class="field-label" for="name">{{ $t('first_name') }}</label>
         <div class="input-wrap">
           <input
             id="name"
             v-model="name"
             type="text"
-            placeholder="Enter first name"
+            :placeholder="$t('enter_first_name')"
             class="field-input"
             @input="updateData"
           />
         </div>
       </div>
       <div class="field-group" :class="{ disabled: loading }">
-        <label class="field-label" for="name">{{ $t(`Last Name`) }}</label>
+        <label class="field-label" for="name">{{ $t('last_name') }}</label>
         <div class="input-wrap">
           <input
             id="name"
             v-model="lastName"
             type="text"
-            placeholder="Enter last name"
+            :placeholder="$t('enter_last_name')"
             class="field-input"
             @input="updateData"
           />
@@ -198,7 +198,7 @@
             id="password"
             v-model="password"
             type="text"
-            placeholder="Enter Password"
+            :placeholder="$t('enter_password')"
             class="field-input"
             @input="updateData"
           />
@@ -206,13 +206,13 @@
       </div>
 
       <div class="field-group col-span-1" :class="{ disabled: loading }">
-        <label class="field-label" for="email">{{ $t(`Email`) }}</label>
+        <label class="field-label" for="email">{{ $t('email') }}</label>
         <div class="input-wrap">
           <input
             id="email"
             v-model="email"
             type="email"
-            placeholder="enter your email"
+            :placeholder="$t('enter_your_email')"
             class="field-input"
             @input="updateData"
           />
@@ -225,20 +225,20 @@
             id="employeeId"
             v-model="employeeId"
             type="tel"
-            placeholder="Enter Employee Ref Number"
+            :placeholder="$t('enter_employee_ref_number')"
             class="field-input"
             @input="updateData"
           />
         </div>
       </div>
       <div class="field-group" :class="{ disabled: loading }">
-        <label class="field-label" for="phone">{{ $t(`Phone`) }}</label>
+        <label class="field-label" for="phone">{{ $t('phone') }}</label>
         <div class="input-wrap">
           <input
             id="phone"
             v-model="phone"
             type="tel"
-            placeholder="Enter phone number"
+            :placeholder="$t('enter_phone_number')"
             class="field-input"
             @input="updateData"
           />
@@ -246,7 +246,7 @@
       </div>
 
       <div class="field-group" :class="{ disabled: loading }">
-        <label class="field-label" for="phone">{{ $t(`Gender`) }}</label>
+        <label class="field-label" for="phone">{{ $t('gender') }}</label>
 
         <div class="gender-group">
           <div class="input-field">
@@ -268,7 +268,7 @@
 
       <div class="field-group col-span-2" :class="{ disabled: loading }">
         <HandleFilesUpload
-          :label="`upload image`"
+          :label="$t('upload_image')"
           accept="image/*"
           :multiple="false"
           :index="1"
@@ -280,8 +280,11 @@
           <template #content>
             <div class="add-imaegs-data">
               <UplaodImageInput />
-              <p class="first-text"><span>Click to upload</span>or drag and drop</p>
-              <p class="second-text">JPG, JPEG, PNG less than 1MB</p>
+              <p class="first-text">
+                <span>{{ $t('click_to_upload') }}</span
+                >{{ $t('or_drag_and_drop') }}
+              </p>
+              <p class="second-text">{{ $t('jpg_jpeg_png_less_than_1mb') }}</p>
             </div>
           </template>
         </HandleFilesUpload>

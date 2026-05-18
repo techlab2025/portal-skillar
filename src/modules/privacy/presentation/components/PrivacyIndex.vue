@@ -29,8 +29,8 @@
       <div class="privacy-container">
         <div class="header-container">
           <div class="privacy-header">
-            <h3>{{ $t('Privacy & Policy') }}</h3>
-            <p>{{ $t('Define how user data is collected, used, and protected') }}</p>
+            <h3>{{ $t('privacy_policy') }}</h3>
+            <p>{{ $t('privacy_policy_description') }}</p>
           </div>
           <router-link :to="{ name: 'Add Privacy' }" class="btn btn-primary">
             <EditIcon />
@@ -53,11 +53,7 @@
           <EmptyPrivacy />
           <h5>{{ $t('no_privacy_yet') }}</h5>
           <p>
-            {{
-              $t(
-                'Add privacy and policy information so users can know how their data is collected, used, and protected',
-              )
-            }}
+            {{ $t('add_privacy_policy_information_description') }}
           </p>
           <router-link :to="{ name: 'Add Privacy' }" class="btn btn-primary">
             {{ $t('add_privacy') }}
@@ -71,11 +67,7 @@
           <EmptyPrivacy />
           <h5>{{ $t('no_privacy_yet') }}</h5>
           <p>
-            {{
-              $t(
-                'Add privacy and policy information so users can know how their data is collected, used, and protected',
-              )
-            }}
+            {{ $t('add_privacy_policy_information_description') }}
           </p>
           <router-link :to="{ name: 'Add Privacy' }" class="btn btn-primary">
             {{ $t('add_privacy') }}

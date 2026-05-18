@@ -309,23 +309,23 @@
 
   :deep(.p-inputtext) {
     width: 100%;
-    background-color: white;
-    border: 1px solid rgba(230, 230, 230, 1);
+    background-color: var(--white);
+    border: 1px solid var(--input-border-color);
     border-radius: 20px;
-    color: black !important;
+    color: var(--Black) !important;
   }
 
   .date-remove {
-    border-bottom: 2px dashed rgba(230, 230, 230, 1);
+    border-bottom: 2px dashed var(--input-border-color);
     padding-bottom: 1rem;
     margin: 1rem 0;
 
     &::placeholder {
-      color: red !important;
+      color: var(--danger-color) !important;
     }
 
     h6 {
-      color: rgba(75, 75, 75, 1);
+      color: var(--table-data-color);
       font-family: medium;
       font-size: 18px;
       font-weight: 600;
@@ -334,7 +334,7 @@
 
     :deep(.input-label) {
       label {
-        color: black !important;
+        color: var(--Black) !important;
       }
     }
   }

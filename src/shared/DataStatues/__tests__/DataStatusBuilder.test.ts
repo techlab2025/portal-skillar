@@ -162,7 +162,7 @@ describe('DataStatusBuilder', () => {
       controller: new DataEmpty(),
     });
     expect(wrapper.find('.status-empty').exists()).toBe(true);
-    expect(wrapper.text()).toContain('No data available');
+    expect(wrapper.text()).toContain('no_data');
   });
 
   it('renders failed state', () => {
@@ -199,7 +199,7 @@ describe('DataStatusBuilder', () => {
       controller: new DataCancelled(),
     });
     expect(wrapper.find('.status-cancelled').exists()).toBe(true);
-    expect(wrapper.text()).toContain('Request was cancelled');
+    expect(wrapper.text()).toContain('request_was_cancelled');
   });
 
   it('renders progress state', () => {
@@ -214,7 +214,7 @@ describe('DataStatusBuilder', () => {
       controller: new DataRateLimited(),
     });
     expect(wrapper.find('.status-rate-limited').exists()).toBe(true);
-    expect(wrapper.text()).toContain('Too Many Requests');
+    expect(wrapper.text()).toContain('too_many_requests');
   });
 
   it('emits retry when retry button clicked on rate limited', async () => {

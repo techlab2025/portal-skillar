@@ -43,7 +43,7 @@
     .support-section-card {
       width: 100%;
       border-radius: $MdSize;
-      background-color: #fafafa;
+      background-color: var(--background-color-soft-light);
 
       @include flex-column(nowrap, flex-start, flex-start);
 

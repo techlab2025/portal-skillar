@@ -41,7 +41,7 @@
       gap: 4px;
       font-size: 20px;
       font-weight: 600;
-      color: #121212;
+      color: var(--table-header-color);
     }
 
     .form-title {
@@ -67,7 +67,7 @@
     .btn-cancel {
       background-color: var(--background-btn-outline-color);
       color: var(--danger-color);
-      border: 1px solid rgba(245, 194, 192, 1);
+      border: 1px solid var(--danger-light);
       border-radius: 50px;
       width: 20%;
 

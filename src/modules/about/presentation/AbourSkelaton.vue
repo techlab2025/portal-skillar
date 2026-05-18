@@ -161,7 +161,7 @@
   .skeleton {
     position: relative;
     overflow: hidden;
-    background: #e5e7eb;
+    background: var(--gray-200);
     border-radius: 8px;
 
     &::after {

@@ -28,13 +28,14 @@
 
   const FormStore = useFormsStore();
   const formRoute = computed(() => `/${route.params.country_code}/employees/add`);
+  const { t } = useI18n();
 
   // Table headers
   const headers: TableHeader[] = [
-    { key: 'firstname', label: 'Employee name', width: '30%', sortable: true },
-    { key: 'email', label: 'Email', width: '30%' },
-    { key: 'phone', label: 'Phone', width: '15%' },
-    { key: 'status', label: 'Status', width: '15%' },
+    { key: 'firstname', label: t('employee_name'), width: '30%', sortable: true },
+    { key: 'email', label: t('email'), width: '30%' },
+    { key: 'phone', label: t('phone'), width: '15%' },
+    { key: 'status', label: t('status'), width: '15%' },
   ];
 
   // Pagination state
@@ -89,8 +90,6 @@
     return Object.keys(data).length === 0 || Object.values(data).every((v) => v == null);
   });
 
-  const { t } = useI18n();
-
   const employeeExportColumns: ExportColumn[] = [
     { key: 'firstname', label: t('employee_name') },
     { key: 'email', label: t('email') },
@@ -130,7 +129,7 @@
         </span>
         <input
           v-model="word"
-          placeholder="Search by employee name or email…"
+          :placeholder="$t('search_by_employee_name_or_email')"
           class="search-input"
           type="text"
           @input="Search"
@@ -143,13 +142,13 @@
         </button>
         <router-link :to="formRoute" class="btn btn-primary btn-add">
           <IndexPluseIcon />
-          <span>{{ isDraft ? 'Add Employee' : 'Continue Adding' }}</span>
+          <span>{{ isDraft ? $t('add_employee') : $t('continue_adding') }}</span>
         </router-link>
         <FilterDialog v-model="FilterDialogShow">
           <template #content>
             <div class="filter-action">
-              <button class="btn btn-cancel" @click="CloseFiletrDialog">Reset</button>
-              <button class="btn btn-primary" @click="ApplayFilter">apply</button>
+              <button class="btn btn-cancel" @click="CloseFiletrDialog">{{ $t('reset') }}</button>
+              <button class="btn btn-primary" @click="ApplayFilter">{{ $t('apply') }}</button>
             </div>
           </template>
         </FilterDialog>
@@ -189,7 +188,7 @@
                 <router-link
                   class="action-btn edit"
                   :to="`/${route.params.country_code}/employees/edit/${item.id}`"
-                  title="Edit"
+                  :title="$t('edit')"
                 >
                   <svg
                     width="15"
@@ -208,7 +207,7 @@
 
                 <DeleteDialog @delete="deleteEmployee(item.id!)">
                   <template #Dialog>
-                    <button class="action-btn delete" title="Delete">
+                    <button class="action-btn delete" :title="$t('delete')">
                       <svg
                         width="15"
                         height="15"
@@ -255,8 +254,8 @@
             <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
             <path d="M16 3.13a4 4 0 0 1 0 7.75" />
           </svg>
-          <h3>No employees found</h3>
-          <p>Start by adding a new employee to your organization</p>
+          <h3>{{ $t('no_employees_found') }}</h3>
+          <p>{{ $t('start_by_adding_new_employee') }}</p>
           <router-link :to="formRoute" class="btn btn-primary empty-cta">
             <svg
               width="18"
@@ -269,7 +268,7 @@
             >
               <path d="M12 5v14M5 12h14" />
             </svg>
-            <span>Add Employee</span>
+            <span>{{ $t('add_employee') }}</span>
           </router-link>
         </div>
       </template>

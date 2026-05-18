@@ -67,7 +67,7 @@
     .terms-content {
       width: 100%;
       padding: 24px;
-      background-color: #fafafa;
+      background-color: var(--background-color-soft-light);
       border-radius: 20px;
 
       @include flex-column(nowrap, flex-start, flex-start);
@@ -101,7 +101,7 @@
   .skeleton {
     position: relative;
     overflow: hidden;
-    background: #e5e7eb;
+    background: var(--gray-200);
     border-radius: 8px;
 
     &::after {

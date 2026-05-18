@@ -29,8 +29,8 @@
       <div class="terms-container">
         <div class="header-container">
           <div class="terms-header">
-            <h3>{{ $t('Terms & Conditions') }}</h3>
-            <p>{{ $t('Define the rules and guidelines for using the platform') }}</p>
+            <h3>{{ $t('terms_conditions') }}</h3>
+            <p>{{ $t('terms_conditions_description') }}</p>
           </div>
           <router-link :to="{ name: 'Add TermsConditions' }" class="btn btn-primary">
             <EditIcon />
@@ -48,12 +48,12 @@
       <div class="terms-container">
         <div class="empty-data">
           <EmptyTermsIcon />
-          <h5>{{ $t('No terms added') }}</h5>
+          <h5>{{ $t('no_terms_added') }}</h5>
           <p>
-            {{ $t('Add terms and conditions for using the platform') }}
+            {{ $t('add_terms_conditions_description') }}
           </p>
           <router-link :to="{ name: 'Add TermsConditions' }" class="btn btn-primary">
-            {{ $t('Add terms & conditions') }}
+            {{ $t('add_terms_conditions') }}
           </router-link>
         </div>
       </div>
@@ -65,12 +65,12 @@
       <div class="terms-container">
         <div class="empty-data">
           <EmptyTermsIcon />
-          <h5>{{ $t('No terms added') }}</h5>
+          <h5>{{ $t('no_terms_added') }}</h5>
           <p>
-            {{ $t('Add terms and conditions for using the platform') }}
+            {{ $t('add_terms_conditions_description') }}
           </p>
           <router-link :to="{ name: 'Add TermsConditions' }" class="btn btn-primary">
-            {{ $t('Add terms & conditions') }}
+            {{ $t('add_terms_conditions') }}
           </router-link>
         </div>
       </div>

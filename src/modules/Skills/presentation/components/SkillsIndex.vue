@@ -28,9 +28,12 @@
 
   const FormStore = useFormsStore();
   const formRoute = computed(() => `/${route.params.country_code}/skills/add`);
+  const { t } = useI18n();
 
   // Table headers
-  const headers: TableHeader[] = [{ key: 'title', label: 'title', width: '100%', sortable: true }];
+  const headers: TableHeader[] = [
+    { key: 'title', label: t('title'), width: '100%', sortable: true },
+  ];
 
   // Pagination state
   const perPage = ref(10);
@@ -84,8 +87,6 @@
     return Object.keys(data).length === 0 || Object.values(data).every((v) => v == null);
   });
 
-  const { t } = useI18n();
-
   const skillsExportColumns: ExportColumn[] = [{ key: 'title', label: t('title') }];
 
   const exportExcel = () => {
@@ -111,7 +112,7 @@
         </span>
         <input
           v-model="word"
-          placeholder="Search by skills…"
+          :placeholder="$t('search_by_skills')"
           class="search-input"
           type="text"
           @input="Search"
@@ -124,13 +125,13 @@
         </button>
         <router-link :to="formRoute" class="btn btn-primary btn-add">
           <IndexPluseIcon />
-          <span>{{ isDraft ? 'Add Skills' : 'Continue Adding' }}</span>
+          <span>{{ isDraft ? $t('add_skills') : $t('continue_adding') }}</span>
         </router-link>
         <FilterDialog v-model="FilterDialogShow">
           <template #content>
             <div class="filter-action">
-              <button class="btn btn-cancel" @click="CloseFiletrDialog">Reset</button>
-              <button class="btn btn-primary" @click="ApplayFilter">apply</button>
+              <button class="btn btn-cancel" @click="CloseFiletrDialog">{{ $t('reset') }}</button>
+              <button class="btn btn-primary" @click="ApplayFilter">{{ $t('apply') }}</button>
             </div>
           </template>
         </FilterDialog>
@@ -158,7 +159,7 @@
                 <router-link
                   class="action-btn edit"
                   :to="`/${route.params.country_code}/skills/edit/${item.id}`"
-                  title="Edit"
+                  :title="$t('edit')"
                 >
                   <svg
                     width="15"
@@ -176,7 +177,7 @@
                 </router-link>
 
                 <DeleteSkillsDialog
-                  :message="`Are you sure you want to delete this skill?`"
+                  :message="$t('delete_skill_confirmation')"
                   @delete="deleteSkills(item.id!)"
                 >
                 </DeleteSkillsDialog>

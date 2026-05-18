@@ -167,6 +167,7 @@
   --radius-full: 9999px;
   --overlay-bg: rgba(0, 0, 0, 0.5);
   --white-alpha-75: rgba(255, 255, 255, 0.75);
+  --white-alpha-60: rgba(255, 255, 255, 0.6);
   --white-alpha-30: rgba(255, 255, 255, 0.3);
   --white-alpha-90: rgba(255, 255, 255, 0.9);
   --white-alpha-85: rgba(255, 255, 255, 0.85);
@@ -174,6 +175,7 @@
   --white-alpha-15: rgba(255, 255, 255, 0.15);
   --white-alpha-40: rgba(255, 255, 255, 0.4);
   --white-alpha-20: rgba(255, 255, 255, 0.2);
+  --white-alpha-6: rgba(255, 255, 255, 0.06);
   --black-alpha-45: rgba(0, 0, 0, 0.45);
   --black-alpha-60: rgba(0, 0, 0, 0.6);
   --black-alpha-36: rgba(0, 0, 0, 0.36);
@@ -267,7 +269,7 @@
   --danger-border-light: #fecaca;
   --in-active-color: #d99100;
   --badge-bg: #4faf7c0f;
-  --sidebar-auth-bg:#24385C;
+  --sidebar-auth-bg: #24385c;
 }
 
 /* =============================================================================
@@ -451,7 +453,7 @@ $TitleColor: var(--title-color);
 $SecondText: var(--second-text);
 $SoftBlack: var(--black-soft);
 $BadgeBg: var(--badge-bg);
-$SidebarAuthbg:var(--sidebar-auth-bg);
+$SidebarAuthbg: var(--sidebar-auth-bg);
 
 /* Sizes */
 $XsSize5: var(--xs-size-5); //4px
