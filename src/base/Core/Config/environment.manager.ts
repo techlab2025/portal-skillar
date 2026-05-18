@@ -136,7 +136,6 @@ class EnvironmentManager {
    * Check if running in test mode
    */
   get isTest(): boolean {
-    console.log(this._stage.value, 'this._stage.value');
     return this._stage.value === 'test';
   }
 

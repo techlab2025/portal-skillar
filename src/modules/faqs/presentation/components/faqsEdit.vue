@@ -2,7 +2,7 @@
   import { ref, onMounted, computed } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
   import FaqsController from '../controllers/faqs.controller';
-  import EditFaqsParams from '../../core/params/edit.faqs.params';
+  import type EditFaqsParams from '../../core/params/edit.faqs.params';
   import FaqsDetailsParams from '../../core/params/faqs.details.params';
   import FaqsForm from './faqsForm.vue';
   import type AddFaqsParams from '../../core/params/add.faqs.params';

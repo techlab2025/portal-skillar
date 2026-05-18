@@ -4,7 +4,10 @@ import type TermsConditionsModel from '../../core/models/terms-conditions.model'
 import TermsConditionsRepository from '../../data/repositories/terms-conditions.repository';
 import type Params from '@/base/Core/Params/params';
 import type { ApiCallOptions } from '@/base/Data/ApiService/baseApiService';
-import { DataState, DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
+import {
+  type DataState,
+  DataSuccess,
+} from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 import router from '@/router';
 
 export default class TermsConditionsController extends BaseController<

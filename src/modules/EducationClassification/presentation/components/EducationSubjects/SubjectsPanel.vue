@@ -251,7 +251,7 @@
               v-for="node in rootNodes"
               :key="node.subject.subject_id"
               :node="node"
-              :maxDepth="(subjectConfig as any)?.[0]?.numberOfBranches"
+              :max-depth="(subjectConfig as any)?.[0]?.numberOfBranches"
               :selected-subject-id="selectedNode?.subject.subject_id ?? null"
               :parent-id="null"
               @fetch-children="fetchChildren"

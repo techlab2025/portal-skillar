@@ -34,7 +34,7 @@ export const environments: Record<EnvironmentStage, EnvironmentConfig> = {
    */
   production: {
     stage: 'production',
-    apiBaseUrl: 'https://back.orbitconsults.com/orbit/',
+    apiBaseUrl: 'https://api.skillarai.com/skillar/',
     timeout: 15000,
     enableLogging: false,
     useStaticData: false,

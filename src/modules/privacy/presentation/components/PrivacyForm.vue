@@ -78,7 +78,7 @@
 
     <div class="form-header-left">
       <p><Privecyicon /> {{ $t(`Policy Details`) }}</p>
-      <button @click="ResetData" class="reset-btn">{{ $t(`reset`) }}</button>
+      <button class="reset-btn" @click="ResetData">{{ $t(`reset`) }}</button>
     </div>
 
     <!-- List -->

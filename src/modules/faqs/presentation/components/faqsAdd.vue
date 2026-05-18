@@ -2,7 +2,7 @@
   import { ref } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
   import FaqsController from '../controllers/faqs.controller';
-  import AddFaqsParams from '../../core/params/add.faqs.params';
+  import type AddFaqsParams from '../../core/params/add.faqs.params';
   import FaqsForm from './faqsForm.vue';
 
   const controller = FaqsController.getInstance();

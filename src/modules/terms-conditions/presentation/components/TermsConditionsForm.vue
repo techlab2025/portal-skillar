@@ -79,7 +79,7 @@
 
     <div class="form-header-left">
       <p><Privecyicon /> {{ $t(`Terms Details`) }}</p>
-      <button @click="ResetData" class="reset-btn">{{ $t(`reset`) }}</button>
+      <button class="reset-btn" @click="ResetData">{{ $t(`reset`) }}</button>
     </div>
 
     <!-- List -->
@@ -100,7 +100,7 @@
           :field-key="`terms`"
           :label="`terms description`"
           :languages="['en', 'ar']"
-          :modelValue="description as Record<string, string>"
+          :model-value="description as Record<string, string>"
           :type="`description`"
           @update:model-value="description = $event"
         />
