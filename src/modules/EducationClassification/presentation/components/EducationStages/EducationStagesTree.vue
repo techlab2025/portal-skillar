@@ -1,12 +1,9 @@
 <script setup lang="ts">
-  import { ref, provide, onMounted, computed, nextTick } from 'vue';
+  import { ref, provide, onMounted, computed, nextTick, defineAsyncComponent } from 'vue';
   import { useRoute } from 'vue-router';
   import { useI18n } from 'vue-i18n';
   import StageTreeNode from './StageTreeNode.vue';
   import type { StageNode } from './StageTreeNode.vue';
-  import AddEducationTypeDialog from '@/modules/EducationClassification/subComponent/EducationTree/AddEducationTypeDialog.vue';
-  import AddBranchDialog from '@/modules/EducationClassification/subComponent/EducationTree/AddBranchDialog.vue';
-  import SubjectsPanel from '../EducationSubjects/SubjectsPanel.vue';
   import EducationStageController from '../../controllers/EducationStages/education.stages.controller';
   import EducationConfigurationController from '../../controllers/educationConfiguration/education.configuration.controller';
   import AddEducationStageParams from '@/modules/EducationClassification/core/params/EducationStages/add.education.stage.params';
@@ -15,13 +12,36 @@
   import type EducationConfigurationModel from '@/modules/EducationClassification/core/models/EducationConfiguration/education.configuration.model';
   import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
   import DialogIconFillter from '@/shared/icons/DialogIconFillter.vue';
-  import RenameClassificationDialog from '@/modules/EducationClassification/subComponent/RenameClassificationDialog.vue';
-  import DropList from '@/shared/HelpersComponents/DropList.vue';
+  const AddEducationTypeDialog = defineAsyncComponent(() =>
+    import('@/modules/EducationClassification/subComponent/EducationTree/AddEducationTypeDialog.vue').then(
+      (module) => module.default,
+    ),
+  );
+  const AddBranchDialog = defineAsyncComponent(() =>
+    import('@/modules/EducationClassification/subComponent/EducationTree/AddBranchDialog.vue').then(
+      (module) => module.default,
+    ),
+  );
+  const SubjectsPanel = defineAsyncComponent(() =>
+    import('../EducationSubjects/SubjectsPanel.vue').then((module) => module.default),
+  );
+  const RenameClassificationDialog = defineAsyncComponent(() =>
+    import('@/modules/EducationClassification/subComponent/RenameClassificationDialog.vue').then(
+      (module) => module.default,
+    ),
+  );
+  const DropList = defineAsyncComponent(() =>
+    import('@/shared/HelpersComponents/DropList.vue').then((module) => module.default),
+  );
   import EditIcon from '@/shared/icons/DropListIcons/EditIcon.vue';
   import DeletIcon from '@/shared/icons/DropListIcons/DeletIcon.vue';
-  import Dialog from 'primevue/dialog';
+  const Dialog = defineAsyncComponent(() =>
+    import('primevue/dialog').then((module) => module.default),
+  );
   import PriceIconDialog from '@/shared/icons/priceIconDialog.vue';
-  import InputNumber from 'primevue/inputnumber';
+  const InputNumber = defineAsyncComponent(() =>
+    import('primevue/inputnumber').then((module) => module.default),
+  );
   import Skills from '@/assets/images/Skills.png';
   import TranslationParams from '@/modules/about/core/params/translation.params';
   import EmptyTree from '@/assets/images/EmptyTree.gif';

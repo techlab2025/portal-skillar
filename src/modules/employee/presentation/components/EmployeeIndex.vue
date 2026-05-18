@@ -96,9 +96,9 @@
     { key: 'phone', label: t('phone') },
   ];
 
-  const exportExcel = () => {
+  const exportExcel = async () => {
     if (!state.value.data || state.value.data.length === 0) return;
-    exportToExcel(state.value.data, employeeExportColumns, 'Employees', 'Employees');
+    await exportToExcel(state.value.data, employeeExportColumns, 'Employees', 'Employees');
   };
   const GetEmployeeStatus = (status: number) => {
     switch (Number(status)) {
