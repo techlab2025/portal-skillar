@@ -226,7 +226,7 @@ const handleFilsChange = (files: UploadedFile[]) => {
           :controller="documentTypeController as any"
           :model-value="selectedDocumentType"
           :relaod="false"
-          :placeholder="$t('Select_document_type')"
+          :placeholder="$t('enter your document type')"
           @update:model-value="
             selectedDocumentType = $event;
             updateData();
@@ -237,10 +237,10 @@ const handleFilsChange = (files: UploadedFile[]) => {
       <div class="field-group col-span-2" >
         <UpdatedCustomInputSelect
           id="doc-branch"
-          :label="`Stage Name`"
+          :label="`subject name`"
           :static-options="branchOptions"
           :model-value="selectedBranchTitle "
-          :placeholder="$t('Stage Name')"
+          :placeholder="$t('Enter subject name')"
           :reload="false"
           @update:model-value="handleBranchChange($event)"
         />
@@ -261,19 +261,19 @@ const handleFilsChange = (files: UploadedFile[]) => {
       </div>
 
       <div class="field-group tags-group col-span-2" >
-        <label class="field-label" for="tag">{{ $t('tag') }}</label>
+        <label class="field-label" for="tag">{{ $t('Tag') }}</label>
 
         <div class="input-wrap input-tag-wrap">
           <input
             id="tags"
             v-model="tag"
             type="text"
-            :placeholder="$t('enter_refrence_number')"
+            :placeholder="$t('Add Tag....')"
             class="field-input"
             @input="updateData"
           />
 
-          <button class="btn btn-primary" @click="setTags">{{ $t('add tag') }}</button>
+          <button class="btn btn-primary" @click="setTags">{{ $t('Add Tag') }}</button>
         </div>
 
         <div class="tags-container" :class="tags.length > 0 ? `border` : ``">
@@ -312,7 +312,7 @@ const handleFilsChange = (files: UploadedFile[]) => {
 
       <div class="field-group col-span-2" >
         <HandleFilesUpload
-          :label="`upload image`"
+          :label="`upload document`"
           accept=".pdf"
           :multiple="true"
           :index="2"
