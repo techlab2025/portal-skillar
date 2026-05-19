@@ -27,7 +27,7 @@ export default class DocumentRepository extends BaseRepository<
   }
 
   protected get mockList(): DocumentModel[] {
-    return [DocumentModel.example, { ...DocumentModel.example }];
+    return [{...DocumentModel.example , id:1 , title:'b'}, { ...DocumentModel.example,id:2 , title:'a' }];
   }
 
 

@@ -40,7 +40,6 @@ watch(() => documentSource, (newValue) => {
   <div class="contant_tabs document-tab">
     <div class="form-group">
       <div class="input">
-        {{ SelectedSubject }}
         <UpdatedCustomInputSelect id="doc-subject" :label="`Document Source`" :params="indexDocumentParams"
           :controller="documentController" v-model="SelectedSubject " placeholder="Document Source"
           @update:model-value="updateData" />

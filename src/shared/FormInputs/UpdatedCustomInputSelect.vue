@@ -287,6 +287,7 @@ async function reloadData(): Promise<void> {
   </div>
 
   <slot v-if="!hascontent">
+
     <component :is="componentType" v-model="normalizedValue" :options="mergedOptions" :placeholder="placeholder"
       class="input-select w-full" option-label="title" v-bind="multiselectProps" filter :loading="loading"
       :empty-message="message" />

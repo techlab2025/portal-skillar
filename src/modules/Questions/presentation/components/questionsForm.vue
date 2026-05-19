@@ -105,9 +105,7 @@ watch(
 </script>
 
 <template>
-  <pre>
-    {{ question }}
-  </pre>
+
   <div class="questions-details-form-card">
     <header class="form-header">
       <div class="form-title">

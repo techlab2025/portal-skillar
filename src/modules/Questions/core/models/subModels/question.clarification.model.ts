@@ -35,8 +35,8 @@ export default class QuestionClarificationModel {
 
   static example: QuestionClarificationModel = new QuestionClarificationModel({
     documents:new TitleInterface<number>({
-      id:10,
-      title:'title'
+      id:2,
+      title:'a'
     }),
     source: 'Source',
     clarification: 'Clarification',

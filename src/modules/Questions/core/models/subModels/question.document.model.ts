@@ -23,8 +23,8 @@ export default class QuestionDocumentModel {
   }
 
   static example: QuestionDocumentModel = new QuestionDocumentModel({
-    id: 10,
-    title: 'title',
+    id: 1,
+    title: 'b',
     source: 'Source',
   });
 }
