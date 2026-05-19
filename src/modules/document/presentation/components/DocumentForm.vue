@@ -62,7 +62,7 @@
           (s) =>
             new TitleInterface<number>({
               id: s.id!,
-              title: `${b.title} -> ${s.title}`,
+              title: `${b.title} → ${s.title}`,
               subtitle: b.id,
             }),
         ),
@@ -72,31 +72,39 @@
 
   const selectedBranchTitle = ref<TitleInterface<number>>();
   watch(
-    () => document,
-    (newDoc) => {
-      if (newDoc) {
-        title.value = newDoc.translations.title;
-        selectedDocumentType.value = newDoc.documentType;
+  () => document,
+  (newDoc) => {
+    if (newDoc) {
+      title.value = newDoc.translations.title;
+      selectedDocumentType.value = newDoc.documentType;
+      
+      // ← فقط اضبط لو القيمة اتغيرت فعلاً
+      if (UploadedImage.value !== newDoc.images) {
         UploadedImage.value = newDoc.images;
-        UploadedFiles.value = newDoc.files;
-        RefrenceNumber.value = newDoc.RefNumber;
-        selectedBranch.value = {
-          id: newDoc.stage.id,
-          title: newDoc.stage.title,
-          subjects: [],
-        } as BranchesModel;
-        selectedSubject.value = new TitleInterface({
-          id: newDoc.subject.id,
-          title: newDoc.subject.title,
-        });
-        selectedDocumentType.value = new TitleInterface({
-          id: newDoc.documentType.id,
-          title: newDoc.documentType.title,
-        });
       }
-    },
-    { immediate: true },
-  );
+      if (UploadedFiles.value !== newDoc.files) {
+        UploadedFiles.value = newDoc.files;
+      }
+      
+      RefrenceNumber.value = newDoc.RefNumber;
+      selectedBranchTitle.value = new TitleInterface({
+        id: newDoc.subject.id,
+        title: `${newDoc.stage.title} → ${newDoc.subject.title}`,
+        subtitle: newDoc.stage.id,
+      });
+      selectedSubject.value = new TitleInterface({
+        id: newDoc.subject.id,
+        title: newDoc.subject.title,
+      });
+      selectedDocumentType.value = new TitleInterface({
+        id: newDoc.documentType.id,
+        title: newDoc.documentType.title,
+      });
+      tags.value = newDoc.tags;
+    }
+  },
+  { immediate: true },
+);
 
   const updateData = () => {
     console.log(UploadedImage.value, 'UploadedImage emit');
@@ -122,15 +130,34 @@
     updateData();
   };
 
-  const handleImageChange = (files: UploadedFile[]) => {
-    UploadedImage.value = files?.[0]?.base64;
-    updateData();
-  };
+  // const handleImageChange = (files: UploadedFile[]) => {
+  //   UploadedImage.value = files?.[0]?.base64;
+  //   updateData();
+  // };
 
-  const handleFilsChange = (files: UploadedFile[]) => {
-    UploadedFiles.value = files?.[0]?.base64;
-    updateData();
-  };
+  // const handleFilsChange = (files: UploadedFile[]) => {
+  //   UploadedFiles.value = files?.[0]?.base64;
+  //   updateData();
+  // };
+
+  const handleImageChange = (files: UploadedFile[]) => {
+  if (files.length === 0) {
+    UploadedImage.value = '';
+  } else {
+    // لو base64 موجود (رفع جديد) بعته، لو لأ بعت الـ URL (صورة من السيرفر)
+    UploadedImage.value = files[0]?.base64 || files[0]?.url || '';
+  }
+  updateData();
+};
+
+const handleFilsChange = (files: UploadedFile[]) => {
+  if (files.length === 0) {
+    UploadedFiles.value = '';
+  } else {
+    UploadedFiles.value = files[0]?.base64 || files[0]?.url || '';
+  }
+  updateData();
+};
 
   const tag = ref<string>('');
   const tags = ref<string[]>([]);
@@ -175,7 +202,7 @@
         />
       </div>
 
-      <div class="field-group col-span-1 ref-number-group" >
+      <div class="field-group col-span-1 ref-number-group" :class="{ 'disabled-input': document?.RefNumber }" >
         <label class="field-label" for="doc-ref">{{ $t('Reference_Number') }}</label>
 
         <div class="input-wrap">
@@ -199,7 +226,7 @@
           :controller="documentTypeController as any"
           :model-value="selectedDocumentType"
           :relaod="false"
-          :placeholder="$t('Select_document_type')"
+          :placeholder="$t('enter your document type')"
           @update:model-value="
             selectedDocumentType = $event;
             updateData();
@@ -210,10 +237,10 @@
       <div class="field-group col-span-2" >
         <UpdatedCustomInputSelect
           id="doc-branch"
-          :label="`Stage Name`"
+          :label="`subject name`"
           :static-options="branchOptions"
           :model-value="selectedBranchTitle "
-          :placeholder="$t('Stage Name')"
+          :placeholder="$t('Enter subject name')"
           :reload="false"
           @update:model-value="handleBranchChange($event)"
         />
@@ -234,19 +261,19 @@
       </div>
 
       <div class="field-group tags-group col-span-2" >
-        <label class="field-label" for="tag">{{ $t('tag') }}</label>
+        <label class="field-label" for="tag">{{ $t('Tag') }}</label>
 
         <div class="input-wrap input-tag-wrap">
           <input
             id="tags"
             v-model="tag"
             type="text"
-            :placeholder="$t('enter_refrence_number')"
+            :placeholder="$t('Add Tag....')"
             class="field-input"
             @input="updateData"
           />
 
-          <button class="btn btn-primary" @click="setTags">{{ $t('add tag') }}</button>
+          <button class="btn btn-primary" @click="setTags">{{ $t('Add Tag') }}</button>
         </div>
 
         <div class="tags-container" :class="tags.length > 0 ? `border` : ``">
@@ -285,7 +312,7 @@
 
       <div class="field-group col-span-2" >
         <HandleFilesUpload
-          :label="`upload image`"
+          :label="`upload document`"
           accept=".pdf"
           :multiple="true"
           :index="2"
@@ -312,3 +339,10 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.disabled-input {
+  pointer-events: none;
+  opacity: 0.5;
+}
+</style>
