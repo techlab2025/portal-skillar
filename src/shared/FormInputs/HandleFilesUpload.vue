@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, onMounted, computed } from 'vue';
+  import { ref, onMounted, computed, watch } from 'vue';
 
   export interface UploadedFile {
     id: string;
@@ -117,15 +117,11 @@
     yml: '⚙️',
   };
 
-  onMounted(() => {
-    if (!props.file && !props.base64File) return;
+  const initFilesFromProps = (file: string | string[] | undefined, base64File: string | string[] | undefined) => {
+    if (!file && !base64File) return;
 
-    const fileList = Array.isArray(props.file) ? props.file : props.file ? [props.file] : [];
-    const base64List = Array.isArray(props.base64File)
-      ? props.base64File
-      : props.base64File
-        ? [props.base64File]
-        : [];
+    const fileList = Array.isArray(file) ? file : file ? [file] : [];
+    const base64List = Array.isArray(base64File) ? base64File : base64File ? [base64File] : [];
 
     files.value = fileList.map((url, i) => {
       const name = url.split('/').pop() ?? 'file';
@@ -141,7 +137,11 @@
         base64: base64List[i] ?? '',
       };
     });
-  });
+  };
+
+  onMounted(() => initFilesFromProps(props.file, props.base64File));
+
+  watch(() => props.file, (newFile) => initFilesFromProps(newFile, props.base64File));
 
   const isMaxReached = computed(() => files.value.length >= props.maxFiles);
 
@@ -262,9 +262,10 @@
         title="Click to download"
         @click="downloadFile(fileItem)"
       >
-        <template v-if="isImage(fileItem)">
-          <img :src="fileItem.url" :alt="fileItem.name" class="preview-thumb" />
-        </template>
+      <template v-if="isImage(fileItem)">
+        <img :src="fileItem.url" :alt="fileItem.name" class="preview-thumb" />
+      </template>
+      
 
         <template v-else>
           <div class="preview-icon">
