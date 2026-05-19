@@ -1,4 +1,3 @@
-import TitleInterface from '@/base/Data/Models/titleInterface';
 import { QuestionGeneratedByEnum } from '../constant/generatedby.enum';
 import { QuestionDifficultyEnum } from '../constant/question.difficulty.enum';
 import { QuestionStatusEnum } from '../constant/question.status.enum';
@@ -11,6 +10,7 @@ import SubjectTreeModel from './subModels/subject.tree.model';
 import sequenceTreeModel from './subModels/sequence.model';
 import QuestionDocumentModel from './subModels/question.document.model';
 import QuestionSkillsModel from './subModels/question.skills.model';
+import type TitleInterface from '@/base/Data/Models/titleInterface';
 
 export default class ShowQuestionsModel {
   public readonly id?: number;
@@ -115,7 +115,7 @@ export default class ShowQuestionsModel {
     createdAt: '2022-01-01',
     questionTitle: 'Question Title',
     questionImage: `https://cyber.comolho.com/static/img/avatar.png`,
-    topics: [{ id: 1, title: 'topic' }],
+    topics: [{ id: 2, title: 'Document 2' }],
     answers: [AnswerModel.example],
     questionClarification: QuestionClarificationModel.example,
     solutionSteps: SolutionStepsModel.example,

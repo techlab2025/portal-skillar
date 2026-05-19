@@ -215,6 +215,7 @@
     <slot v-else name="Header"></slot>
   </div>
 
+  <!-- {{ normalizedValue }} -->
   <slot v-if="!hascontent">
     <component
       :is="componentType"

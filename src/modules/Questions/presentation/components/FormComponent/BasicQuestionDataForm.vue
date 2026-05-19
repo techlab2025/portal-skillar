@@ -19,7 +19,7 @@ import QuestionSourceParams from '@/modules/Questions/core/params/subParams/ques
 import type { QuestionDifficultyEnum } from '@/modules/Questions/core/constant/question.difficulty.enum';
 import QuestionSkillParams from '@/modules/Questions/core/params/subParams/question.skills.params';
 import type QuestionClarificationParams from '@/modules/Questions/core/params/subParams/question.clarification.params';
-import type ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
+import ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
 
 const emit = defineEmits(['updateData']);
 const route = useRoute();
@@ -136,6 +136,7 @@ onMounted(() => {
   updateData();
 })
 
+const ContentData = ref<ShowQuestionsModel | null>(null);
 watch(() => questionData, (newValue) => {
   if (newValue) {
     title.value = newValue?.questionTitle || '';
@@ -153,6 +154,15 @@ watch(() => questionData, (newValue) => {
     SelectedQuestionSequence.value = newValue?.sequenceTree?.id || null;
     SelectedDocumet.value = newValue?.questionDocuments?.id || null;
     questionSource.value = newValue?.questionDocuments?.source || '';
+    ContentData.value = new ShowQuestionsModel({
+      questionType: newValue?.questionType,
+      difficulty: newValue?.difficulty,
+      topics: newValue?.topics,
+      subjectTree: newValue?.subjectTree,
+      sequenceTree: newValue?.sequenceTree,
+      questionDocuments: newValue?.questionDocuments,
+      skills: newValue?.skills,
+    });
   }
 })
 </script>
@@ -196,7 +206,7 @@ watch(() => questionData, (newValue) => {
 
           <SelectionTabs class="field-group col-span-2" :tabs="tabs" :selected-tab="selectedTab"
             @update:model-value="selectTab" />
-          <QuestionContantTabs  class="field-group col-span-2" @updateData="getQuestionCOntent" />
+          <QuestionContantTabs :ContentData="ContentData" class="field-group col-span-2" @updateData="getQuestionCOntent" />
           <QuestionSource @updateData="GetQuestionSource" class="field-group col-span-2" />
         </div>
       </AccordionContent>

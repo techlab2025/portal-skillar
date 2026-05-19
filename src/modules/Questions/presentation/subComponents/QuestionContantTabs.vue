@@ -2,14 +2,18 @@
 import IndexDocumentTypeParams from '@/modules/document/core/params/documntType/index.document.type.params';
 import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
 import DocumentTypeController from '@/modules/document/presentation/controllers/DocumentType/document.type.controller';
-import type TitleInterface from '@/base/Data/Models/titleInterface';
-import { ref } from 'vue';
+import TitleInterface from '@/base/Data/Models/titleInterface';
+import { ref, watch } from 'vue';
 import { QuestionDifficultyEnum } from '../../core/constant/question.difficulty.enum';
 import AddquestionsParams from '../../core/params/add.question.params';
 import QuestionSkillParams from '../../core/params/subParams/question.skills.params';
+import type ShowQuestionsModel from '../../core/models/show.questions.model';
 const indexDocumentTypeParams = new IndexDocumentTypeParams();
 const documentTypeController = DocumentTypeController.getInstance();
 const emit = defineEmits(['updateData']);
+const { ContentData } = defineProps<{
+  ContentData: ShowQuestionsModel
+}>()
 
 const SelectedSubject = ref<TitleInterface<number> | null>(null);
 const SelectedQuestionSequence = ref<TitleInterface<number> | null>(null);
@@ -50,6 +54,12 @@ const updateData = () => {
     }),
   );
 };
+
+watch(() => ContentData, (newData) => {
+  SelectedDifficultyLevel.value = new TitleInterface<number>({ id: newData.difficulty!, title: DifficultLevels.value.find((item) => item.id === newData.difficulty)?.title as string })
+  SelectedTopic.value = newData.topics!.map((item) => new TitleInterface<number>({ id: item.id!, title: item.title! }))
+  SelectedSkill.value = newData.skills!.map((item) => new TitleInterface<number>({ id: item.id!, title: item.skill! }))
+})
 </script>
 
 <template>
@@ -85,7 +95,8 @@ const updateData = () => {
         <label :for="`skill-percentage-${index}`">
           {{ skill.title }}
         </label>
-        <input :id="`skill-percentage-${index}`" type="number" v-model="skill.subtitle" placeholder="Percentage" @input="updateData" />
+        <input :id="`skill-percentage-${index}`" type="number" v-model="skill.subtitle" placeholder="Percentage"
+          @input="updateData" />
       </div>
     </div>
   </div>
