@@ -10,10 +10,13 @@
     font-family: 'Medium';
     margin-bottom: $XsSize4;
   }
+
   .all_tabs {
     @include flex-row(nowrap, space-between, center);
+
     gap: $MdSize;
     margin-bottom: $XlSize2;
+
     .tab-item {
       background-color: var(--bg-main);
       color: var(--table-data-color);
@@ -24,10 +27,12 @@
       display: flex;
       gap: $XsSize4;
       cursor: pointer;
+
       input[type='radio'] {
         accent-color: white;
       }
     }
+
     .tab-item.active {
       background-color: var(--PrimaryColor-alpha-10);
       color: var(--primary-green);
@@ -36,6 +41,7 @@
       width: 100%;
       border-radius: $XlSize4;
       cursor: pointer;
+
       input[type='radio'] {
         background-color: green;
         accent-color: green;

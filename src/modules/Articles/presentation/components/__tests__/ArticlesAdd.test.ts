@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
-import EmployeeAdd from '../EmployeeAdd.vue';
+import ArticlesAdd from '../ArticlesAdd.vue';
+import { ref } from 'vue';
 
 // Mock dependencies
 vi.mock('@/router', () => ({
@@ -13,18 +14,24 @@ vi.mock('@/router', () => ({
 
 vi.mock('vue-router', () => ({
   useRoute: vi.fn(() => ({
-    fullPath: '/eg/employees/add',
+    fullPath: '/eg/articles/add',
   })),
   useRouter: vi.fn(() => ({
     push: vi.fn(),
   })),
+  createRouter: vi.fn(() => ({
+    getRoutes: vi.fn(() => []),
+    beforeEach: vi.fn(),
+    afterEach: vi.fn(),
+  })),
+  createWebHistory: vi.fn(),
 }));
 
-vi.mock('../controllers/employee.controller', () => ({
+vi.mock('../controllers/Article.controller', () => ({
   default: {
     getInstance: () => ({
       create: vi.fn(),
-      errorMessage: { value: '' },
+      errorMessage: ref(''),
     }),
   },
 }));
@@ -32,7 +39,7 @@ vi.mock('../controllers/employee.controller', () => ({
 const globalConfig = {
   plugins: [createPinia()],
   stubs: {
-    EmployeeForm: true,
+    ArticleForm: true,
     AppButton: true,
     IconAccept: true,
   },
@@ -41,31 +48,31 @@ const globalConfig = {
   },
 };
 
-describe('EmployeeAdd.vue', () => {
+describe('ArticlesAdd.vue', () => {
   beforeEach(() => {
     setActivePinia(createPinia());
     vi.clearAllMocks();
   });
 
   it('renders correctly', () => {
-    const wrapper = mount(EmployeeAdd, { global: globalConfig });
+    const wrapper = mount(ArticlesAdd, { global: globalConfig });
     expect(wrapper.exists()).toBe(true);
   });
 
-  it('contains the "Save Employee" button', () => {
-    const wrapper = mount(EmployeeAdd, { global: globalConfig });
+  it('contains the "Save Article" button', () => {
+    const wrapper = mount(ArticlesAdd, { global: globalConfig });
     const saveButton = wrapper.find('.save-emp');
     expect(saveButton.exists()).toBe(true);
   });
 
   it('contains the "Save As draft" button', () => {
-    const wrapper = mount(EmployeeAdd, { global: globalConfig });
+    const wrapper = mount(ArticlesAdd, { global: globalConfig });
     const draftButton = wrapper.find('.btn-draft');
     expect(draftButton.exists()).toBe(true);
   });
 
   it('contains the "cancel" button', () => {
-    const wrapper = mount(EmployeeAdd, { global: globalConfig });
+    const wrapper = mount(ArticlesAdd, { global: globalConfig });
     const cancelButton = wrapper.find('.btn-cancel');
     expect(cancelButton.exists()).toBe(true);
   });

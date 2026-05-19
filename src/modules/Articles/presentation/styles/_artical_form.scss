@@ -6,6 +6,7 @@
   .form-header {
     padding-left: 0 !important;
   }
+
   .form-fields {
     padding: 0 !important;
   }
@@ -27,6 +28,7 @@
       @include flex-column(nowrap, flex-start, flex-start);
 
       gap: 6px;
+
       &.disabled {
         cursor: not-allowed;
         pointer-events: none;
@@ -39,10 +41,12 @@
 
       .gender-group {
         @include flex-row(nowrap, flex-start, center);
+
         gap: $XlSize3;
 
         .input-field {
           @include flex-row(nowrap, flex-start, center);
+
           gap: $XsSize4;
           padding: 14px !important;
 
@@ -120,10 +124,12 @@
 
   .all_tabs {
     @include flex-row(nowrap, space-between, center);
+
     flex-direction: row !important;
     gap: $MdSize;
     margin-bottom: $XlSize2;
     width: 100% !important;
+
     .tab-item {
       background-color: var(--bg-main);
       color: var(--table-data-color);
@@ -134,10 +140,12 @@
       display: flex;
       gap: $XsSize4;
       cursor: pointer;
+
       input[type='radio'] {
         accent-color: white;
       }
     }
+
     .tab-item.active {
       background-color: var(--PrimaryColor-alpha-10);
       color: var(--primary-green);
@@ -146,11 +154,13 @@
       width: 100%;
       border-radius: $XlSize4;
       cursor: pointer;
+
       input[type='radio'] {
         background-color: green;
         accent-color: green;
       }
     }
+
     .p-radiobutton-box {
       background: none !important;
     }

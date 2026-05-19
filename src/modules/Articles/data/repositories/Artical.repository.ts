@@ -1,12 +1,10 @@
 import BaseRepository, { type RepositoryConfig } from '@/base/Domain/Repositories/baseRepository';
-import questionsModel from '../../core/models/Article.model';
-import QuestionApiService from '../api/Artical.api-service';
-import { QuestionDifficultyEnum } from '../../core/constant/question.difficulty.enum';
-import { QuestionTypeEnum } from '../../core/constant/question.type.enum';
-import { QuestionStatusEnum } from '../../core/constant/question.status.enum';
+import ArticleModel from '../../core/models/Article.model';
+import ArticleSubjectModel from '../../core/models/Subject.model';
+import ArticleApiService from '../api/Artical.api-service';
 import { QuestionGeneratedByEnum } from '../../core/constant/generatedby.enum';
 
-export default class ArticleRepository extends BaseRepository<questionsModel, questionsModel[]> {
+export default class ArticleRepository extends BaseRepository<ArticleModel, ArticleModel[]> {
   private static instance: ArticleRepository;
 
   protected get apiService() {
@@ -28,50 +26,44 @@ export default class ArticleRepository extends BaseRepository<questionsModel, qu
   protected get mockList(): ArticleModel[] {
     return [
       ArticleModel.example,
-      {
-        ...ArticleModel.example,
+      new ArticleModel({
         id: 2,
-        title: 'What are the benefits of renewable energy?',
-        difficulty: QuestionDifficultyEnum.easy,
-        questionType: QuestionTypeEnum.mcq,
+        articleTitle: 'What are the benefits of renewable energy?',
+        subject: ArticleSubjectModel.example2,
         generatedBy: QuestionGeneratedByEnum.manual,
-        status: QuestionStatusEnum.approved,
-      },
-      {
-        ...questionsModel.example,
+        noOfQs: 5,
+      }),
+      new ArticleModel({
         id: 3,
-        title: 'How does solar power work?',
-        difficulty: QuestionDifficultyEnum.medium,
-        questionType: QuestionTypeEnum.complate,
+        articleTitle: 'How does solar power work?',
+        subject: ArticleSubjectModel.example3,
         generatedBy: QuestionGeneratedByEnum.ai,
-        status: QuestionStatusEnum.not_Reviewd,
-      },
-      {
-        ...questionsModel.example,
+        noOfQs: 8,
+      }),
+      new ArticleModel({
         id: 4,
-        title: 'What are the challenges of wind energy?',
-        difficulty: QuestionDifficultyEnum.hard,
-        questionType: QuestionTypeEnum.true_false,
+        articleTitle: 'What are the challenges of wind energy?',
+        subject: ArticleSubjectModel.example,
         generatedBy: QuestionGeneratedByEnum.manual,
-        status: QuestionStatusEnum.under_review,
-      },
+        noOfQs: 12,
+      }),
     ];
   }
 
-  static getInstance(): questionsRepository {
-    if (!questionsRepository.instance) {
-      questionsRepository.instance = new questionsRepository();
+  static getInstance(): ArticleRepository {
+    if (!ArticleRepository.instance) {
+      ArticleRepository.instance = new ArticleRepository();
     }
-    return questionsRepository.instance;
+    return ArticleRepository.instance;
   }
 
-  protected parseItem(data: any): questionsModel {
-    return questionsModel.fromJson(data);
+  protected parseItem(data: any): ArticleModel {
+    return ArticleModel.fromJson(data);
   }
 
-  protected parseList(data: any): questionsModel[] {
+  protected parseList(data: any): ArticleModel[] {
     if (!Array.isArray(data)) return [];
-    return data.reduce((acc: questionsModel[], item) => {
+    return data.reduce((acc: ArticleModel[], item) => {
       try {
         if (item != null) {
           acc.push(this.parseItem(item));

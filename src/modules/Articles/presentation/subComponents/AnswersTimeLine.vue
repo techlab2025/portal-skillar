@@ -122,36 +122,44 @@
   @import '../../../../styles/variables.scss';
   @import '../../../../styles/mixins/flex.scss';
   @import '../../../../styles/mixins/grid.scss';
+
   .timeline-form-content {
     margin-block: 10px !important;
   }
+
   .timeline-form-content {
     display: grid;
     grid-template-columns: 75% 20% 5%;
     gap: 10px;
+
     @media (max-width: 767px) {
       grid-template-columns: 1fr;
-      gap: 0px;
+      gap: 0;
     }
 
     .timeline-content {
       @include flex-row(nowrap, center, center);
     }
+
     .field-group {
       position: relative;
+
       .field-label {
         text-transform: none;
       }
+
       .field-input {
         border-radius: 50px;
         background-color: white;
       }
+
       .files-input {
         position: absolute;
         bottom: 39%;
         transform: translateY(50%);
         right: 10px;
         border-radius: 50px;
+
         &.haveImage {
           :deep(.upload-area) {
             display: none !important;
@@ -168,6 +176,7 @@
           border-radius: 50%;
           border: 1px solid $PrimaryColor !important;
         }
+
         :deep(.preview-item) {
           width: 40px !important;
           height: 40px !important;
@@ -199,6 +208,7 @@
       }
     }
   }
+
   .is-correct-section {
     display: flex;
     align-items: center;
@@ -209,15 +219,18 @@
     padding: 10px !important;
     height: 50px;
     margin-top: 23px;
+
     label {
       color: #121212;
       font-size: 16px;
       font-weight: 500;
       font-family: 'Medium';
+
       @media (max-width: 767px) {
         font-size: 12px;
       }
     }
+
     .p-checkbox-box {
       border-radius: 5px !important;
     }
@@ -225,6 +238,7 @@
 
   .add-icon {
     @include flex-row(nowrap, flex-start, center);
+
     margin-block: 10px;
     cursor: pointer;
 
@@ -235,11 +249,13 @@
       font-weight: 500;
       font-family: 'Medium';
     }
+
     svg {
       width: 19px;
       height: 19px;
     }
   }
+
   .delete-icon-container {
     width: 30px;
     height: 30px;
@@ -249,6 +265,7 @@
     border-radius: 50%;
     transform: translateY(10px);
     cursor: pointer;
+
     .delete-btn {
       align-self: center;
       border: none;

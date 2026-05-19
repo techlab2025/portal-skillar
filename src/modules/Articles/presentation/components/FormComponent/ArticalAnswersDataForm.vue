@@ -96,11 +96,13 @@ import type { QuestionTypeEnum } from '@/modules/Questions/core/constant/questio
     align-items: center;
     gap: 5px;
   }
+
   .dashed-border {
     width: 90%;
     height: 1px;
     border-bottom: 1px dashed #d0d0d0;
   }
+
   .p-accordionpanel:last-child > .p-accordionheader {
     padding-left: 0 !important;
   }
