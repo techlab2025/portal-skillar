@@ -10994,6 +10994,1102 @@ body::-webkit-scrollbar-thumb:hover {
   font-family: "Medium";
 }
 
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
+.basic-data-form .form-fields .field-group .field-label {
+  width: -moz-fit-content;
+  width: fit-content;
+  text-align: start;
+  font-family: "Medium";
+  color: var(--Gray-5);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize !important;
+}
+.basic-data-form .form-fields .field-group .input-wrap input {
+  font-size: 14px;
+  font-weight: 600;
+}
+.basic-data-form .form-fields .field-group .input-wrap input::-moz-placeholder {
+  font-family: "Medium";
+  color: #94a3b8;
+  font-size: 16px;
+  font-weight: 300;
+}
+.basic-data-form .form-fields .field-group .input-wrap input::placeholder {
+  font-family: "Medium";
+  color: #94a3b8;
+  font-size: 16px;
+  font-weight: 300;
+}
+.basic-data-form .form-fields .image-input .upload-label {
+  width: -moz-fit-content;
+  width: fit-content;
+  text-align: start;
+  font-family: "Medium";
+  color: #5d5d5d;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  text-transform: capitalize !important;
+}
+.basic-data-form .new-form-group .input-label {
+  width: -moz-fit-content;
+  width: fit-content;
+  text-align: start;
+  font-family: "Medium";
+  color: #5d5d5d;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  text-transform: capitalize !important;
+}
+
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
+.ranking-answers-time-line-container {
+  font-family: var(--font-family);
+}
+.ranking-answers-time-line-container .timeline-form-content {
+  gap: var(--xs-size-3);
+  margin-block: var(--xs-size-3) !important;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.ranking-answers-time-line-container .timeline-form-content .timeline-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.ranking-answers-time-line-container .timeline-form-content .field-group {
+  width: 80%;
+}
+.ranking-answers-time-line-container .timeline-form-content .field-group .field-label {
+  text-transform: none;
+}
+.ranking-answers-time-line-container .timeline-form-content .field-group .field-input {
+  border-radius: 50px;
+  background-color: white;
+}
+.ranking-answers-time-line-container .ranking-section {
+  width: 20%;
+}
+.ranking-answers-time-line-container .ranking-section label {
+  color: var(--standard-black);
+  font-size: var(--md-size);
+  font-weight: 500;
+}
+@media (max-width: 767px) {
+  .ranking-answers-time-line-container .ranking-section label {
+    font-size: 12px;
+  }
+}
+.ranking-answers-time-line-container .ranking-section input {
+  background-color: white !important;
+  width: 100%;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--xs-size-3);
+  border: 1px solid var(--border-color);
+  border-radius: var(--xl-size-3);
+  height: var(--xl-size-3);
+  margin-top: var(--xl-size-1);
+  padding: 12px 16px;
+}
+.ranking-answers-time-line-container .ranking-section input:focus {
+  border: 1px solid var(--border-color);
+  outline: none;
+}
+.ranking-answers-time-line-container .add-icon {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-block: 10px;
+  cursor: pointer;
+}
+.ranking-answers-time-line-container .add-icon span {
+  padding-inline: 5px;
+  color: var(--PrimaryColor);
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Medium";
+}
+.ranking-answers-time-line-container .add-icon svg {
+  width: 19px;
+  height: 19px;
+}
+.ranking-answers-time-line-container .delete-icon-container {
+  width: var(--xl-size-2);
+  height: var(--xl-size-2);
+  margin-top: auto;
+  margin-bottom: auto;
+  border: 1px solid var(--Red);
+  border-radius: 50%;
+  transform: translateY(10px);
+  cursor: pointer;
+}
+.ranking-answers-time-line-container .delete-icon-container .delete-btn {
+  align-self: center;
+  border: none;
+  padding: 5px;
+}
+
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
+.mcq-answers-time-line-container .timeline-form-content {
+  margin-block: 10px !important;
+}
+.mcq-answers-time-line-container .timeline-form-content {
+  display: grid;
+  grid-template-columns: 75% 20% 5%;
+  gap: 10px;
+}
+@media (max-width: 767px) {
+  .mcq-answers-time-line-container .timeline-form-content {
+    grid-template-columns: 1fr;
+    gap: 0px;
+  }
+}
+.mcq-answers-time-line-container .timeline-form-content .timeline-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.mcq-answers-time-line-container .timeline-form-content .field-group {
+  position: relative;
+}
+.mcq-answers-time-line-container .timeline-form-content .field-group .field-label {
+  text-transform: none;
+}
+.mcq-answers-time-line-container .timeline-form-content .field-group .field-input {
+  border-radius: 50px;
+  background-color: white;
+}
+.mcq-answers-time-line-container .timeline-form-content .field-group .files-input {
+  position: absolute;
+  bottom: 39%;
+  transform: translateY(50%);
+  right: 10px;
+  border-radius: 50px;
+}
+.mcq-answers-time-line-container .timeline-form-content .field-group .files-input.haveImage .upload-area {
+  display: none !important;
+}
+.mcq-answers-time-line-container .timeline-form-content .field-group .image-input {
+  width: 100%;
+}
+.mcq-answers-time-line-container .timeline-form-content .field-group .image-input .upload-area {
+  background-color: var(--standard-white) !important;
+  padding: 5px !important;
+  border-radius: 50%;
+  border: 1px solid var(--PrimaryColor) !important;
+}
+.mcq-answers-time-line-container .timeline-form-content .field-group .image-input .preview-item {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+}
+.mcq-answers-time-line-container .timeline-form-content .field-group .image-input .add-imaegs-data {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--xs-size-5);
+}
+.mcq-answers-time-line-container .timeline-form-content .field-group .image-input .add-imaegs-data .first-text {
+  color: var(--Gray-5);
+  font-size: var(--xs-size);
+  font-weight: 600;
+}
+.mcq-answers-time-line-container .timeline-form-content .field-group .image-input .add-imaegs-data .first-text span {
+  color: var(--PrimaryColor);
+  padding-inline: var(--xs-size-5);
+}
+.mcq-answers-time-line-container .timeline-form-content .field-group .image-input .add-imaegs-data .second-text {
+  color: var(--second-text);
+  font-size: var(--xs-size);
+  font-weight: 400;
+}
+.mcq-answers-time-line-container .is-correct-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 50px;
+  padding: 10px !important;
+  height: 50px;
+  margin-top: 23px;
+}
+.mcq-answers-time-line-container .is-correct-section label {
+  color: #121212;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Medium";
+}
+@media (max-width: 767px) {
+  .mcq-answers-time-line-container .is-correct-section label {
+    font-size: 12px;
+  }
+}
+.mcq-answers-time-line-container .is-correct-section .p-checkbox-box {
+  border-radius: 5px !important;
+}
+.mcq-answers-time-line-container .add-icon {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-block: 10px;
+  cursor: pointer;
+}
+.mcq-answers-time-line-container .add-icon span {
+  padding-inline: 5px;
+  color: var(--PrimaryColor);
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Medium";
+}
+.mcq-answers-time-line-container .add-icon svg {
+  width: 19px;
+  height: 19px;
+}
+.mcq-answers-time-line-container .delete-icon-container {
+  width: 30px;
+  height: 30px;
+  margin-top: auto;
+  margin-bottom: auto;
+  border: 1px solid red;
+  border-radius: 50%;
+  transform: translateY(10px);
+  cursor: pointer;
+}
+.mcq-answers-time-line-container .delete-icon-container .delete-btn {
+  align-self: center;
+  border: none;
+  padding: 5px;
+}
+
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
+.true-false-answers-time-line-container {
+  margin-block: 10px !important;
+}
+.true-false-answers-time-line-container .timeline-form-content {
+  display: grid;
+  grid-template-columns: 75% 20% 5%;
+  gap: 10px;
+}
+@media (max-width: 767px) {
+  .true-false-answers-time-line-container .timeline-form-content {
+    grid-template-columns: 1fr;
+    gap: 0px;
+  }
+}
+.true-false-answers-time-line-container .timeline-form-content .timeline-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.true-false-answers-time-line-container .timeline-form-content .field-group {
+  position: relative;
+}
+.true-false-answers-time-line-container .timeline-form-content .field-group .field-label {
+  text-transform: none;
+}
+.true-false-answers-time-line-container .timeline-form-content .field-group .field-input {
+  border-radius: 50px;
+  background-color: white;
+}
+.true-false-answers-time-line-container .timeline-form-content .field-group .files-input {
+  position: absolute;
+  bottom: 39%;
+  transform: translateY(50%);
+  right: 10px;
+  border-radius: 50px;
+}
+.true-false-answers-time-line-container .timeline-form-content .field-group .files-input.haveImage .upload-area {
+  display: none !important;
+}
+.true-false-answers-time-line-container .timeline-form-content .field-group .image-input {
+  width: 100%;
+}
+.true-false-answers-time-line-container .timeline-form-content .field-group .image-input .upload-area {
+  background-color: var(--standard-white) !important;
+  padding: 5px !important;
+  border-radius: 50%;
+  border: 1px solid var(--PrimaryColor) !important;
+}
+.true-false-answers-time-line-container .timeline-form-content .field-group .image-input .preview-item {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+}
+.true-false-answers-time-line-container .timeline-form-content .field-group .image-input .add-imaegs-data {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--xs-size-5);
+}
+.true-false-answers-time-line-container .timeline-form-content .field-group .image-input .add-imaegs-data .first-text {
+  color: var(--Gray-5);
+  font-size: var(--xs-size);
+  font-weight: 600;
+}
+.true-false-answers-time-line-container .timeline-form-content .field-group .image-input .add-imaegs-data .first-text span {
+  color: var(--PrimaryColor);
+  padding-inline: var(--xs-size-5);
+}
+.true-false-answers-time-line-container .timeline-form-content .field-group .image-input .add-imaegs-data .second-text {
+  color: var(--second-text);
+  font-size: var(--xs-size);
+  font-weight: 400;
+}
+.true-false-answers-time-line-container .is-correct-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 50px;
+  padding: 10px !important;
+  height: 50px;
+  margin-top: 23px;
+}
+.true-false-answers-time-line-container .is-correct-section label {
+  color: #121212;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Medium";
+}
+@media (max-width: 767px) {
+  .true-false-answers-time-line-container .is-correct-section label {
+    font-size: 12px;
+  }
+}
+.true-false-answers-time-line-container .is-correct-section .p-checkbox-box {
+  border-radius: 5px !important;
+}
+.true-false-answers-time-line-container .add-icon {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-block: 10px;
+  cursor: pointer;
+}
+.true-false-answers-time-line-container .add-icon span {
+  padding-inline: 5px;
+  color: var(--PrimaryColor);
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Medium";
+}
+.true-false-answers-time-line-container .add-icon svg {
+  width: 19px;
+  height: 19px;
+}
+.true-false-answers-time-line-container .delete-icon-container {
+  width: 30px;
+  height: 30px;
+  margin-top: auto;
+  margin-bottom: auto;
+  border: 1px solid red;
+  border-radius: 50%;
+  transform: translateY(10px);
+  cursor: pointer;
+}
+.true-false-answers-time-line-container .delete-icon-container .delete-btn {
+  align-self: center;
+  border: none;
+  padding: 5px;
+}
+
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
+.matching-answers-time-line-container {
+  font-family: var(--font-family);
+}
+.matching-answers-time-line-container .timeline-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.matching-answers-time-line-container .timeline-content .timeline-form-content {
+  width: 100%;
+  gap: var(--xs-size-3);
+  margin-block: var(--xs-size-3) !important;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.matching-answers-time-line-container .timeline-content .timeline-form-content .match-icon-container {
+  margin-top: 10px;
+}
+.matching-answers-time-line-container .timeline-content .timeline-form-content .match-icon-container svg {
+  width: 24px;
+  height: 24px;
+}
+.matching-answers-time-line-container .timeline-content .timeline-form-content .matching-section {
+  width: 35%;
+}
+.matching-answers-time-line-container .timeline-content .timeline-form-content .matching-section label {
+  color: var(--standard-black);
+  font-size: var(--md-size);
+  font-weight: 500;
+}
+@media (max-width: 767px) {
+  .matching-answers-time-line-container .timeline-content .timeline-form-content .matching-section label {
+    font-size: 12px;
+  }
+}
+.matching-answers-time-line-container .timeline-content .timeline-form-content .matching-section input {
+  background-color: white !important;
+  width: 100%;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--xs-size-3);
+  border: 1px solid var(--border-color);
+  border-radius: var(--xl-size-3);
+  height: var(--xl-size-3);
+  padding: 12px 16px;
+}
+.matching-answers-time-line-container .timeline-content .timeline-form-content .matching-section input:focus {
+  border: 1px solid var(--border-color);
+  outline: none;
+}
+.matching-answers-time-line-container .add-icon {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-block: 10px;
+  cursor: pointer;
+}
+.matching-answers-time-line-container .add-icon span {
+  padding-inline: 5px;
+  color: var(--PrimaryColor);
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Medium";
+}
+.matching-answers-time-line-container .add-icon svg {
+  width: 19px;
+  height: 19px;
+}
+.matching-answers-time-line-container .delete-icon-container {
+  width: var(--xl-size-2);
+  height: var(--xl-size-2);
+  margin-top: auto;
+  margin-bottom: auto;
+  border: 1px solid var(--Red);
+  border-radius: 50%;
+  transform: translateY(10px);
+  cursor: pointer;
+}
+.matching-answers-time-line-container .delete-icon-container .delete-btn {
+  align-self: center;
+  border: none;
+  padding: 5px;
+}
+
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
+.complate-answers-time-line-container {
+  font-family: var(--font-family);
+}
+.complate-answers-time-line-container .timeline-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.complate-answers-time-line-container .timeline-content .timeline-form-content {
+  width: 100%;
+  gap: var(--xs-size-3);
+  margin-block: var(--xs-size-3) !important;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.complate-answers-time-line-container .timeline-content .timeline-form-content .matching-section {
+  width: 100%;
+}
+.complate-answers-time-line-container .timeline-content .timeline-form-content .matching-section label {
+  color: var(--standard-black);
+  font-size: var(--md-size);
+  font-weight: 500;
+}
+@media (max-width: 767px) {
+  .complate-answers-time-line-container .timeline-content .timeline-form-content .matching-section label {
+    font-size: 12px;
+  }
+}
+.complate-answers-time-line-container .timeline-content .timeline-form-content .matching-section input {
+  background-color: white !important;
+  width: 100%;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--xs-size-3);
+  border: 1px solid var(--border-color);
+  border-radius: var(--xl-size-3);
+  height: var(--xl-size-3);
+  padding: 12px 16px;
+}
+.complate-answers-time-line-container .timeline-content .timeline-form-content .matching-section input:focus {
+  border: 1px solid var(--border-color);
+  outline: none;
+}
+.complate-answers-time-line-container .add-icon {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-block: 10px;
+  cursor: pointer;
+}
+.complate-answers-time-line-container .add-icon span {
+  padding-inline: 5px;
+  color: var(--PrimaryColor);
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Medium";
+}
+.complate-answers-time-line-container .add-icon svg {
+  width: 19px;
+  height: 19px;
+}
+.complate-answers-time-line-container .delete-icon-container {
+  width: var(--xl-size-2);
+  height: var(--xl-size-2);
+  margin-top: auto;
+  margin-bottom: auto;
+  border: 1px solid var(--Red);
+  border-radius: 50%;
+  transform: translateY(10px);
+  cursor: pointer;
+}
+.complate-answers-time-line-container .delete-icon-container .delete-btn {
+  align-self: center;
+  border: none;
+  padding: 5px;
+}
+
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
+.artical-page {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: var(--xl-size-1);
+}
+.artical-page .index-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--md-size);
+}
+.artical-page .index-header .search-input::-moz-placeholder {
+  font-family: "Medium";
+}
+.artical-page .index-header .search-input::placeholder {
+  font-family: "Medium";
+}
+.artical-page .index-header .btns-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--xs-size-4);
+}
+.artical-page .status {
+  font-size: var(--sm-size);
+  font-weight: 700;
+  font-family: "Bold";
+  color: var(--success);
+}
+.artical-page .status.status-approved {
+  color: var(--success);
+}
+.artical-page .status.status-not-reviewed {
+  color: var(--warning);
+}
+.artical-page .status.status-rejected {
+  color: var(--error);
+}
+.artical-page .status.status-under-review {
+  color: var(--info);
+}
+.artical-page .employee-name {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--md-size);
+}
+.artical-page .employee-name img {
+  width: 30px;
+  height: 30px;
+}
+.artical-page .row-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--xs-size-3);
+}
+.artical-page .action-btn {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  width: calc(var(--xl-size-2) + 2px);
+  height: calc(var(--xl-size-2) + 2px);
+  border-radius: var(--xs-size-2);
+  border: 1px solid var(--border-weak);
+  background: var(--white);
+  color: var(--gray-500);
+  transition: all 0.2s ease;
+}
+.artical-page .action-btn:hover {
+  transform: translateY(-1px);
+}
+.artical-page .action-btn.edit:hover {
+  border-color: var(--PrimaryColor);
+  color: var(--PrimaryColor);
+}
+.artical-page .action-btn.show:hover {
+  border-color: var(--info-dark) !important;
+  color: var(--info-dark) !important;
+}
+.artical-page .action-btn.delete:hover {
+  border-color: var(--Red);
+  color: var(--Red);
+}
+
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
+.artical-details-form-card .form-header {
+  padding-left: 0 !important;
+}
+.artical-details-form-card .form-fields {
+  padding: 0 !important;
+}
+.artical-details-form-card .form-fields {
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--xl-size-base);
+  width: 100%;
+  /* stylelint-disable-next-line media-query-no-invalid */
+}
+@media (max-width: 600) {
+  .artical-details-form-card .form-fields {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+.artical-details-form-card .form-fields .field-group {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 6px;
+}
+.artical-details-form-card .form-fields .field-group.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.artical-details-form-card .form-fields .field-group.col-span-2 {
+  grid-column: span 2;
+}
+.artical-details-form-card .form-fields .field-group .gender-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--xl-size-2);
+}
+.artical-details-form-card .form-fields .field-group .gender-group .input-field {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--xs-size-4);
+  padding: 14px !important;
+}
+.artical-details-form-card .form-fields .field-group .gender-group .input-field .p-radiobutton-box {
+  background: none !important;
+}
+.artical-details-form-card .form-fields .field-group .gender-group .input-field .p-radiobutton-checked .p-radiobutton-icon {
+  background-color: var(--PrimaryColor) !important;
+}
+.artical-details-form-card .form-fields .field-group .image-input {
+  width: 100%;
+}
+.artical-details-form-card .form-fields .field-group .image-input .upload-area {
+  background-color: var(--standard-white) !important;
+}
+.artical-details-form-card .form-fields .field-group .image-input .add-imaegs-data {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--xs-size-5);
+}
+.artical-details-form-card .form-fields .field-group .image-input .add-imaegs-data .first-text {
+  color: var(--Gray-5);
+  font-size: var(--xs-size);
+  font-weight: 600;
+}
+.artical-details-form-card .form-fields .field-group .image-input .add-imaegs-data .first-text span {
+  color: var(--PrimaryColor);
+  padding-inline: var(--xs-size-5);
+}
+.artical-details-form-card .form-fields .field-group .image-input .add-imaegs-data .second-text {
+  color: var(--second-text);
+  font-size: var(--xs-size);
+  font-weight: 400;
+}
+.artical-details-form-card .form-fields .field-group .field-label {
+  font-size: var(--md-size);
+  color: var(--gray-5) !important;
+  text-transform: none;
+  font-weight: 600 !important;
+}
+.artical-details-form-card .form-fields .field-group .input-wrap {
+  width: 100%;
+}
+.artical-details-form-card .form-fields .field-group .input-wrap .field-input {
+  width: 100%;
+  padding: var(--xs-size) var(--md-size);
+  border: 1px solid var(--input-border-color) !important;
+  border-radius: var(--xl-size-3) !important;
+  font-size: var(--sm-size);
+  color: var(--Gray-6);
+  background: var(--BgWhite) !important;
+  outline: none;
+  transition: all 0.25s ease;
+}
+.artical-details-form-card .form-fields .field-group .input-wrap .field-input:focus {
+  border-color: var(--PrimaryColor);
+  background: var(--bg-main);
+  box-shadow: 0 0 0 3px var(--PrimaryColor-light);
+}
+.artical-details-form-card .all_tabs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row !important;
+  gap: var(--md-size);
+  margin-bottom: var(--xl-size-1);
+  width: 100% !important;
+}
+.artical-details-form-card .all_tabs .tab-item {
+  background-color: var(--bg-main);
+  color: var(--table-data-color);
+  border: 1px solid var(--input-border-color);
+  padding: var(--xl-size-1);
+  width: 100%;
+  border-radius: var(--xl-size-3);
+  display: flex;
+  gap: var(--xs-size-4);
+  cursor: pointer;
+}
+.artical-details-form-card .all_tabs .tab-item input[type=radio] {
+  accent-color: white;
+}
+.artical-details-form-card .all_tabs .tab-item.active {
+  background-color: var(--PrimaryColor-alpha-10);
+  color: var(--primary-green);
+  border: 1px solid var(--primary-green);
+  padding: var(--xl-size-1);
+  width: 100%;
+  border-radius: var(--xl-size-3);
+  cursor: pointer;
+}
+.artical-details-form-card .all_tabs .tab-item.active input[type=radio] {
+  background-color: green;
+  accent-color: green;
+}
+.artical-details-form-card .all_tabs .p-radiobutton-box {
+  background: none !important;
+}
+.artical-details-form-card .all_tabs .p-radiobutton-checked .p-radiobutton-icon {
+  background-color: var(--PrimaryColor) !important;
+}
+
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
+.parent_tabs h5 {
+  color: var(--title-header-color);
+  font-weight: 600;
+  font-size: var(--sm-size);
+  font-family: "Medium";
+  margin-bottom: var(--xs-size-4);
+}
+.parent_tabs .all_tabs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--md-size);
+  margin-bottom: var(--xl-size-1);
+}
+.parent_tabs .all_tabs .tab-item {
+  background-color: var(--bg-main);
+  color: var(--table-data-color);
+  border: 1px solid var(--input-border-color);
+  padding: var(--xl-size-1);
+  width: 100%;
+  border-radius: var(--xl-size-3);
+  display: flex;
+  gap: var(--xs-size-4);
+  cursor: pointer;
+}
+.parent_tabs .all_tabs .tab-item input[type=radio] {
+  accent-color: white;
+}
+.parent_tabs .all_tabs .tab-item.active {
+  background-color: var(--PrimaryColor-alpha-10);
+  color: var(--primary-green);
+  border: 1px solid var(--primary-green);
+  padding: var(--xl-size-1);
+  width: 100%;
+  border-radius: var(--xl-size-3);
+  cursor: pointer;
+}
+.parent_tabs .all_tabs .tab-item.active input[type=radio] {
+  background-color: green;
+  accent-color: green;
+}
+
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
+.contant_tabs {
+  width: 100%;
+}
+.contant_tabs.document-tab {
+  display: grid;
+  gap: var(--md-size);
+  margin-bottom: var(--xs-size);
+  width: 100%;
+}
+.contant_tabs.document-tab .form-group {
+  background-color: #fafafa;
+  padding: 16px;
+  border-radius: 25px;
+}
+.contant_tabs .new-form-group {
+  margin-bottom: var(--xs-size);
+  width: 100%;
+}
+.contant_tabs .new-form-group .input-select {
+  background-color: var(--standard-white);
+  color: var(--title-header-color);
+  font-weight: 600;
+  font-size: var(--sm-size);
+  font-family: "Medium";
+}
+.contant_tabs .form-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--md-size);
+  margin-bottom: var(--xs-size);
+  width: 100%;
+}
+.contant_tabs .form-group .input .input-label {
+  color: var(--title-header-color);
+  font-weight: 600;
+  font-size: var(--sm-size);
+  font-family: "Medium";
+}
+.contant_tabs .form-group .input .input-select {
+  background-color: var(--standard-white);
+}
+.contant_tabs .title h5 {
+  color: var(--title-header-color);
+  font-weight: 600;
+  font-size: var(--sm-size);
+  font-family: "Medium";
+}
+.contant_tabs .question_source {
+  background-color: var(--background-color-soft-light);
+  padding: var(--md-size);
+  border-radius: var(--xl-size-1);
+}
+
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
+.form-header-question .header-text {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: var(--xl-size-1);
+  gap: var(--xs-size-4);
+}
+.form-header-question .header-text h3 {
+  color: var(--title-color);
+  font-weight: 600;
+  font-size: var(--xl-size-base);
+  font-family: "Medium";
+}
+.form-header-question .basic-header-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: start;
+  align-items: center;
+  gap: var(--xs-size);
+  position: relative;
+  z-index: 2;
+}
+.form-header-question .basic-header-actions::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 80%;
+  height: 2%;
+  background-color: var(--bg-main);
+  border-radius: var(--xl-size-3);
+  border: 1px dashed var(--input-border-color);
+}
+.form-header-question .basic-header-actions h5 {
+  color: var(--primary-green);
+  font-weight: 600;
+  font-size: var(--sm-size);
+  font-family: "Medium";
+}
+
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
+.subject-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.subject-cell .subject-curriculum {
+  color: var(--gray-5, #888);
+  font-size: 12px;
+  position: relative;
+}
+.subject-cell .subject-curriculum .arrow-icon {
+  position: absolute;
+  left: -20px;
+  top: 100%;
+  transform: translateY(-50%);
+}
+.subject-cell .subject-cycle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+.subject-cell .subject-cycle .subject-lang {
+  color: var(--PrimaryColor, #1d9e75);
+  font-weight: 500;
+}
+.subject-cell .subject-grade {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--gray-5, #888);
+  font-size: 12px;
+  position: relative;
+}
+.subject-cell .subject-grade .arrow-icon {
+  position: absolute;
+  left: -20px;
+  top: 20%;
+  transform: translateY(-50%);
+}
+
 /* ── Pages ─────────────────────────────────────────────────────── */
 /* =============================================================================
    MAIN STYLESHEET — Organized Import Hub
@@ -12214,6 +13310,10 @@ body div {
 .question-clarification .p-accordioncontent-content,
 .answers-data-form .p-accordioncontent-content {
   padding: 0 !important;
+}
+.question-clarification .p-accordionpanel,
+.answers-data-form .p-accordionpanel {
+  border: none !important;
 }
 
 .questions-details-form-card .p-accordioncontent-content {
