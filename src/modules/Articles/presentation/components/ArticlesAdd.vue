@@ -39,7 +39,6 @@ const updateData = (updatedParams: AddEmployeeParams) => {
     <!-- <ArticleForm :form-key="formKey" @update-data="updateData" /> -->
     <ArticleNewForm :form-key="formKey" @update-data="updateData" />
 
-
     <div class="actions">
       <AppButton title="Save Article" size="sm" icon="right" type="submit" class="save-emp" @click="saveArticle">
         Save Article
