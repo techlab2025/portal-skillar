@@ -5,31 +5,24 @@
   import Pagination from '@/shared/HelpersComponents/Pagination.vue';
   import { useRoute, useRouter } from 'vue-router';
   import { debounce } from '@/base/Presentation/Utils/debouced';
-  import DeleteEmployeeParams from '../../core/params/delete.question.params';
   import DeleteDialog from '@/shared/HelpersComponents/dialog/DeleteDialog.vue';
   import { useFormsStore } from '@/stores/formsStore';
   import IndexPluseIcon from '@/shared/icons/IndexPluseIcon.vue';
-  // import ExportExcelIcon from '@/shared/icons/ExportExcelIcon.vue';
   import IndexSearchIcon from '@/shared/icons/IndexSearchIcon.vue';
   import FilterDialog from '@/shared/HelpersComponents/FilterDialog/FilterDialog.vue';
   import TableSkelaton from '@/shared/HelpersComponents/TableSkelaton.vue';
-  // import MultiSelectionTabs from '../subComponents/MultiSelectionTabs.vue';
-  import questionsController from '../controllers/questions.controller';
-  import { QuestionGeneratedByEnum } from '../../core/constant/generatedby.enum';
-  import { QuestionTypeEnum } from '../../core/constant/question.type.enum';
-  import { QuestionDifficultyEnum } from '../../core/constant/question.difficulty.enum';
-  import { QuestionStatusEnum } from '../../core/constant/question.status.enum';
-  import type questionsModel from '../../core/models/questions.model';
-  import IndexQuestionsParams from '../../core/params/index.question.params';
+  import placementController from '../controllers/placement.controller';
+  import IndexplacementParams from '../../core/params/index.placement.params';
+  import DeleteplacementParams from '../../core/params/delete.placement.params';
+  import type placementModel from '../../core/models/placement.model';
 
-  // Controller instance
-  const controller = questionsController.getInstance();
+  const controller = placementController.getInstance();
   const state = computed(() => controller.listState.value);
   const router = useRouter();
   const route = useRoute();
 
   const FormStore = useFormsStore();
-  const formRoute = computed(() => `/${route.params.country_code}/questions/add`);
+  const formRoute = computed(() => `/${route.params.country_code}/placement/add`);
 
   // Table headers
   const headers: TableHeader[] = [
@@ -45,9 +38,9 @@
   const perPage = ref(10);
   const word = ref('');
 
-  const fetchQuestions = async (page: number = 1, wordStr: string = '') => {
+  const fetchplacement = async (page: number = 1, wordStr: string = '') => {
     await controller.fetchList(
-      new IndexQuestionsParams({
+      new IndexplacementParams({
         word: wordStr || word.value,
         pageNumber: page,
         perPage: perPage.value,
@@ -64,11 +57,11 @@
         word: word.value || undefined,
       },
     });
-    fetchQuestions(1, word.value);
+    fetchplacement(1, word.value);
   });
 
   const onPageChange = (page: number) => {
-    fetchQuestions(page);
+    fetchplacement(page);
     router.push({
       query: {
         ...route.query,
@@ -80,19 +73,19 @@
 
   const onPerPageChange = (count: number) => {
     perPage.value = count;
-    fetchQuestions(1);
+    fetchplacement(1);
   };
 
   onMounted(async () => {
     if (route.query.word) {
       word.value = String(route.query.word);
     }
-    await fetchQuestions(route.query.page ? Number(route.query.page) : 1, word.value);
+    await fetchplacement(route.query.page ? Number(route.query.page) : 1, word.value);
   });
 
   const deleteQuestion = async (id: number) => {
-    await controller.delete(new DeleteEmployeeParams(id));
-    await fetchQuestions();
+    await controller.delete(new DeleteplacementParams(id));
+    await fetchplacement();
   };
 
   const isDraft = computed(() => {
@@ -107,59 +100,11 @@
   const CloseFiletrDialog = () => {
     FilterDialogShow.value = false;
   };
-
-  const GetGneratedBy = (val: QuestionGeneratedByEnum) => {
-    switch (val) {
-      case QuestionGeneratedByEnum.manual:
-        return 'Manual';
-      case QuestionGeneratedByEnum.ai:
-        return 'AI';
-    }
-  };
-
-  const GetQusetionType = (val: QuestionTypeEnum) => {
-    switch (val) {
-      case QuestionTypeEnum.mcq:
-        return 'MCQ';
-      case QuestionTypeEnum.complate:
-        return 'Complete';
-      case QuestionTypeEnum.true_false:
-        return 'True/False';
-      case QuestionTypeEnum.ranking:
-        return 'Ranking';
-      case QuestionTypeEnum.matching:
-        return 'Matching';
-    }
-  };
-
-  const GetDifficulty = (val: QuestionDifficultyEnum) => {
-    switch (val) {
-      case QuestionDifficultyEnum.easy:
-        return 'Easy';
-      case QuestionDifficultyEnum.medium:
-        return 'Medium';
-      case QuestionDifficultyEnum.hard:
-        return 'Hard';
-    }
-  };
-
-  const GetQuestionStatus = (val: QuestionStatusEnum) => {
-    switch (val) {
-      case QuestionStatusEnum.approved:
-        return 'Approved';
-      case QuestionStatusEnum.not_Reviewd:
-        return 'Not Reviewed';
-      case QuestionStatusEnum.rejected:
-        return 'Rejected';
-      case QuestionStatusEnum.under_review:
-        return 'Under Review';
-    }
-  };
 </script>
 
 <template>
   <!-- <MultiSelectionTabs /> -->
-  <div class="questions-page">
+  <div class="placement-page">
     <div class="index-header">
       <div class="search-field">
         <span class="search-icon">
@@ -167,20 +112,16 @@
         </span>
         <input
           v-model="word"
-          placeholder="Search by employee name or email…"
+          placeholder="Search by placement name or email…"
           class="search-input"
           type="text"
           @input="Search"
         />
       </div>
       <div class="btns-container">
-        <!-- <button class="btn btn-secondary" @click="exportExcel">
-          <ExportExcelIcon />
-          <span>{{ $t('export') }}</span>
-        </button> -->
         <router-link :to="formRoute" class="btn btn-primary btn-add">
           <IndexPluseIcon />
-          <span>{{ isDraft ? 'Add Questions' : 'Continue Adding' }}</span>
+          <span>{{ isDraft ? 'Add placement' : 'Continue Adding' }}</span>
         </router-link>
         <FilterDialog v-model="FilterDialogShow">
           <template #content>
@@ -193,50 +134,21 @@
       </div>
     </div>
 
-    <DataStatusBuilder :controller="state" :on-retry="async () => await fetchQuestions()">
+    <DataStatusBuilder :controller="state" :on-retry="async () => await fetchplacement()">
       <template #success="{ data }">
         <div class="table-frame">
           <AppTable
             :headers="headers"
-            :items="data as questionsModel[]"
+            :items="data as placementModel[]"
             :hoverable="true"
             :striped="true"
             show-index
           >
-            <template #cell-questionType="{ item }">
-              <div class="question-type">
-                {{ GetQusetionType(item.questionType) }}
-              </div>
-            </template>
-            <template #cell-difficulty="{ item }">
-              <div class="difficulty">
-                {{ GetDifficulty(item.difficulty) }}
-              </div>
-            </template>
-            <template #cell-status="{ item }">
-              <div
-                class="status"
-                :class="{
-                  'status-approved': item.status === QuestionStatusEnum.approved,
-                  'status-not-reviewed': item.status === QuestionStatusEnum.not_Reviewd,
-                  'status-rejected': item.status === QuestionStatusEnum.rejected,
-                  'status-under-review': item.status === QuestionStatusEnum.under_review,
-                }"
-              >
-                {{ GetQuestionStatus(item.status) }}
-              </div>
-            </template>
-            <template #cell-generatedBy="{ item }">
-              <div class="generatedBy">
-                {{ GetGneratedBy(item.generatedBy) }}
-              </div>
-            </template>
-
             <template #actions="{ item }">
               <div class="row-actions">
                 <router-link
                   class="action-btn edit"
-                  :to="`/${route.params.country_code}/questions/edit/${item.id}`"
+                  :to="`/${route.params.country_code}/placement/edit/${item.id}`"
                   title="Edit"
                 >
                   <svg
@@ -256,7 +168,7 @@
 
                 <router-link
                   class="action-btn show"
-                  :to="`/${route.params.country_code}/questions/show/${item.id}`"
+                  :to="`/${route.params.country_code}/placement/show/${item.id}`"
                   title="Show"
                 >
                   <svg
