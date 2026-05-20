@@ -56,7 +56,10 @@
           <IconAccept />
         </template>
 </AppButton> -->
-      <button class="btn btn-primary w-full" type="submit" @click="saveAbout">Save document</button>
+      <button class="btn btn-primary w-full" type="submit" @click="saveAbout">
+        <span v-if="loading" class="loader"></span>
+        <span v-else>{{ $t('save') }}</span>
+      </button>
     </div>
 
     <!-- Error Display -->
@@ -73,6 +76,16 @@
   //   margin: 0 auto;
   // }
 
+    .loader {
+    width: 35px;
+    height: 35px;  
+    border-radius: 50%;
+    border: 8px solid;
+    border-color: #000 #0000;
+    animation: l1 1s infinite;
+  }
+  @keyframes l1 {to{transform: rotate(.5turn)}}
+  @keyframes l7 {to{transform: rotate(.5turn)}}
   .actions {
     margin-top: 24px;
     display: flex;

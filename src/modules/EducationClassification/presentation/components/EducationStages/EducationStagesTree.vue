@@ -391,9 +391,9 @@
                   "
                 />
                 <RenameClassificationDialog
+                  v-model:visable="ShoweEditDialog"
                   :item-id="child.stage.stage_id"
                   :parent-id="selectedNode.stage.stage_id"
-                  v-model:visable="ShoweEditDialog"
                   @update:name="fetchEducationStagesTree"
                 />
               </button>

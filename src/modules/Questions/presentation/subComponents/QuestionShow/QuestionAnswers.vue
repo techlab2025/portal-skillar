@@ -1,49 +1,23 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import questionImage from '@/assets/images/question-image.png';
+  import AnswerModel from '@/modules/Questions/core/models/subModels/answer.model';
 
-  const answers = ref([
-    {
-      id: 1,
-      text: 'Lungs',
-      img: questionImage,
-      isCorrect: false,
-    },
-    {
-      id: 2,
-      text: 'Heart',
-      img: questionImage,
-      isCorrect: true,
-    },
-    {
-      id: 3,
-      text: 'Kidneys',
-      img: questionImage,
-      isCorrect: false,
-    },
-    {
-      id: 4,
-      text: 'Liver',
-      img: questionImage,
-      isCorrect: false,
-    },
-  ]);
+  const { answers } = defineProps<{ answers: AnswerModel[] }>();
 </script>
 <template>
   <div class="question-answers-wrapper">
     <div class="question-answers-list">
       <div
         class="question-answer-item"
-        :class="{ correct: answer.isCorrect }"
+        :class="{ correct: answer?.isCorrect }"
         v-for="answer in answers"
-        :key="answer.id"
+        :key="answer?.id"
       >
         <div class="answer-content">
-          <label> Answers No : {{ answer.id }}</label>
-          <h2 class="answer">{{ answer.text }}</h2>
+          <label> Answers No : {{ answer?.id }}</label>
+          <h2 class="answer">{{ answer?.answer }}</h2>
         </div>
         <div class="answer-image">
-          <img :src="answer.img" :alt="answer.text" />
+          <img :src="answer?.image" :alt="answer?.answer" />
         </div>
       </div>
     </div>

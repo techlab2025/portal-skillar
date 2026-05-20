@@ -20,7 +20,7 @@
   <button v-if="hasbtn" @click="visible = true">
     <slot name="btn"> </slot>
   </button>
-  <button v-else @click="visible = true" class="action-btn delete">
+  <button v-else class="action-btn delete" @click="visible = true">
     <svg
       width="15"
       height="15"

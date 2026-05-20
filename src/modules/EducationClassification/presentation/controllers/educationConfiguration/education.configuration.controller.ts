@@ -3,7 +3,6 @@ import type { ControllerConfig } from '@/base/Presentation/Controller/baseContro
 import type { ApiCallOptions } from '@/base/Data/ApiService/baseApiService';
 import type Params from '@/base/Core/Params/params';
 import { type DataState, DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
-import router from '@/router';
 import { useFormsStore } from '@/stores/formsStore';
 import EducationConfigurationRepository from '@/modules/EducationClassification/data/repositories/educationConfiguration/education.configuration.repository';
 import type EducationConfigurationModel from '@/modules/EducationClassification/core/models/EducationConfiguration/education.configuration.model';
@@ -24,7 +23,7 @@ export default class EducationConfigurationController extends BaseController<
    */
   protected get config(): ControllerConfig {
     return {
-      showLoadingDialog: true,
+      showLoadingDialog: false,
       showSuccessDialog: false,
       showErrorDialog: false,
       showErrorTosat: true,
@@ -54,7 +53,7 @@ export default class EducationConfigurationController extends BaseController<
 
     const result = await super.create(params, { ...options, useJson: true });
     if (result instanceof DataSuccess) {
-      router.push({ name: 'EducationClassifications' });
+      // router.push({ name: 'EducationClassifications' });
       if (formKey) {
         FormStore.clearFormData(formKey);
       }

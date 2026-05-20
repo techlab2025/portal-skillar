@@ -53,7 +53,8 @@ defineProps<{
 
                         <!-- Cells -->
                         <td v-for="col in columns" :key="'col-' + col">
-                            <div class="skeleton skeleton-text" :style="{
+                            <div
+class="skeleton skeleton-text" :style="{
                                 width:
                                     col % 4 === 0
                                         ? '90%'

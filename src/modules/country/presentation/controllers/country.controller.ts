@@ -4,7 +4,7 @@ import type CountryModel from '../../core/models/country.model';
 import CountryRepository from '../../data/repositories/country.repository';
 import type { ApiCallOptions } from '@/base/Data/ApiService/baseApiService';
 import type Params from '@/base/Core/Params/params';
-import { DataState, DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
+import { type DataState, DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 import router from '@/router';
 import { useFormsStore } from '@/stores/formsStore';
 

@@ -7,8 +7,28 @@
   gap: 16px;
   padding: 20px;
 
+  /* HTML: <div class="loader"></div> */
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 35px;
+  height: 35px;  
+  border-radius: 50%;
+  border: 8px solid;
+  border-color: #000 #0000;
+  animation: l1 1s infinite;
+}
+@keyframes l1 {to{transform: rotate(.5turn)}}
+@keyframes l7 {to{transform: rotate(.5turn)}}
+
   .save-btn {
     width: 100%;
+
+    &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+    
   }
 
   .branch-row {
@@ -25,6 +45,12 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+
+    &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
   }
 
   .lang-switch {

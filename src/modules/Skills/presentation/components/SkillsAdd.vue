@@ -41,9 +41,22 @@
     <SkillsForm :form-key="formKey" :loading="loading" @update-data="updateData" />
 
     <div class="actions" :class="{ disabled: loading }">
-      <button class="btn btn-primary" @click="saveEmployee">{{ $t(`save`) }}</button>
+      <button class="btn btn-primary" @click="saveEmployee">
+         <span v-if="loading" class="loader-skills"></span> 
+        <span v-else>
+          {{ $t('save') }}
+        </span>
+      </button>
       <button class="btn btn-cancel">{{ $t(`cancel`) }}</button>
     </div>
+        <!-- <div class="actions" :class="{ disabled: loading }">
+      <button  class="btn btn-primary w-full" type="submit" @click="saveDocument">
+        <span v-if="loading" class="loader"></span> 
+        <span v-else>
+          {{ $t('save_document') }}
+        </span>
+      </button>
+    </div> -->
 
     <div v-if="controller.errorMessage.value" class="error-toast">
       {{ controller.errorMessage.value }}
@@ -52,6 +65,18 @@
 </template>
 
 <style scoped lang="scss">
+
+        .loader-skills {
+          width: 35px;
+          height: 35px;  
+          border-radius: 50%;
+          border: 8px solid;
+          border-color: #000 #0000;
+          animation: l1 1s infinite;
+        }
+        @keyframes l1 {to{transform: rotate(.5turn)}}
+        @keyframes l7 {to{transform: rotate(.5turn)}}
+
   .actions {
     margin-top: 24px;
     display: flex;

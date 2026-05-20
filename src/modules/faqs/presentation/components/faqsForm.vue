@@ -74,7 +74,8 @@ const reset = () => {
 
     <div class="faq-form-fields">
       <div class="field-group" :class="{ disabled: props.loading }">
-        <MultiLangInput field-key="question" :label="$t('question')" :languages="['en', 'ar']" :type="`title`"
+        <MultiLangInput
+field-key="question" :label="$t('question')" :languages="['en', 'ar']" :type="`title`"
           :model-value="question" :placeholder="$t('enter_question')" @update:model-value="
             question = $event;
           emitData();
@@ -82,7 +83,8 @@ const reset = () => {
       </div>
 
       <div class="field-group" :class="{ disabled: props.loading }">
-        <MultiLangInput field-key="answer" :label="$t('answer')" :languages="['en', 'ar']" :model-value="answer"
+        <MultiLangInput
+field-key="answer" :label="$t('answer')" :languages="['en', 'ar']" :model-value="answer"
           :type="`description`" :placeholder="$t('enter_answer')" @update:model-value="
             answer = $event;
           emitData();

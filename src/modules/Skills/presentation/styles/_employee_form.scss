@@ -105,6 +105,7 @@
     padding: 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+   
 
     @include grid(
       2,
@@ -116,6 +117,11 @@
 
     .field-group {
       @include flex-column(nowrap, flex-start, flex-start);
+       &.disabled {
+          opacity: 0.5;
+          pointer-events: none;
+          cursor: not-allowed;
+        } 
 
       gap: $XsSize2;
 

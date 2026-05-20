@@ -1114,6 +1114,28 @@ ul {
 }
 
 /* =============================================================================
+   LOADER STYLE
+   ============================================================================= */
+.loader {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 8px solid;
+  border-color: #000 rgba(0, 0, 0, 0);
+  animation: l1 1s infinite;
+}
+
+@keyframes l1 {
+  to {
+    transform: rotate(0.5turn);
+  }
+}
+@keyframes l7 {
+  to {
+    transform: rotate(0.5turn);
+  }
+}
+/* =============================================================================
    MAIN STYLESHEET — Organized Import Hub
    ============================================================================= */
 /* ── Core ──────────────────────────────────────────────────────── */
@@ -6023,6 +6045,11 @@ body::-webkit-scrollbar-thumb:hover {
   width: 100%;
   gap: 20px;
 }
+.education-classification-form-card .education-classification-form-fields.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
 .education-classification-form-card .field-group {
   display: flex;
   flex-direction: column;
@@ -7141,6 +7168,11 @@ body::-webkit-scrollbar-thumb:hover {
   gap: 20px;
   border-bottom: 1px dashed var(--sidebar-group-text-color);
 }
+.education-classification-configuration-form-container .education-classification-form-fields.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
 @media (max-width: 1000px) {
   .education-classification-configuration-form-container .education-classification-form-fields {
     flex-direction: column;
@@ -7546,9 +7578,34 @@ body::-webkit-scrollbar-thumb:hover {
   flex-direction: column;
   gap: 16px;
   padding: 20px;
+  /* HTML: <div class="loader"></div> */
+  /* HTML: <div class="loader"></div> */
+}
+.branches .loader {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 8px solid;
+  border-color: #000 rgba(0, 0, 0, 0);
+  animation: l1 1s infinite;
+}
+@keyframes l1 {
+  to {
+    transform: rotate(0.5turn);
+  }
+}
+@keyframes l7 {
+  to {
+    transform: rotate(0.5turn);
+  }
 }
 .branches .save-btn {
   width: 100%;
+}
+.branches .save-btn.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 .branches .branch-row {
   display: grid;
@@ -7564,6 +7621,11 @@ body::-webkit-scrollbar-thumb:hover {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+.branches .input-group.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 .branches .lang-switch {
   font-size: 12px;
@@ -8041,6 +8103,11 @@ body::-webkit-scrollbar-thumb:hover {
   display: grid;
   grid-template-columns: repeat(2, 1rf);
   gap: 20px;
+}
+.document-form-card .form-fields.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 .document-form-card .col-span-2 {
   grid-column: span 2;
@@ -8726,6 +8793,29 @@ body::-webkit-scrollbar-thumb:hover {
 }
 .p-dialog.add-document-type-dialog .p-toggleswitch-slider {
   background: var(--gray-light-border);
+}
+
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
+.document-crud-example .loader {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 8px solid;
+  border-color: #000 rgba(0, 0, 0, 0);
+  animation: l1 1s infinite;
+}
+@keyframes l1 {
+  to {
+    transform: rotate(0.5turn);
+  }
+}
+@keyframes l7 {
+  to {
+    transform: rotate(0.5turn);
+  }
 }
 
 /* =============================================================================
@@ -10617,7 +10707,7 @@ body::-webkit-scrollbar-thumb:hover {
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: var(--xs-size-2);
+  gap: 6px;
 }
 .questions-details-form-card .form-fields .field-group.disabled {
   cursor: not-allowed;
@@ -10642,6 +10732,7 @@ body::-webkit-scrollbar-thumb:hover {
   justify-content: flex-start;
   align-items: center;
   gap: var(--xs-size-4);
+  padding: 14px !important;
 }
 .questions-details-form-card .form-fields .field-group .gender-group .input-field .p-radiobutton-box {
   background: none !important;
@@ -10805,7 +10896,6 @@ body::-webkit-scrollbar-thumb:hover {
 .contant_tabs.document-tab {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: var(--md-size);
   margin-bottom: var(--xs-size);
   width: 100%;
@@ -10832,6 +10922,9 @@ body::-webkit-scrollbar-thumb:hover {
   gap: var(--md-size);
   margin-bottom: var(--xs-size);
   width: 100%;
+}
+.contant_tabs .form-group .field-input {
+  border-radius: 50px !important;
 }
 .contant_tabs .form-group .input .input-label {
   color: var(--title-header-color);
@@ -12108,4 +12201,21 @@ body div {
 .questions-details-form-card .p-accordionpanel:not(.p-accordionpanel-active, .p-disabled) > .p-accordionheader:hover svg path {
   stroke: var(--PrimaryColor) !important;
   fill: var(--white) !important;
+}
+
+.is-correct-section .p-checkbox-box,
+.question-clarification-header .p-checkbox-box,
+.question-solution-steps-header .p-checkbox-box,
+.question-solution-hints-header .p-checkbox-box {
+  border-radius: 5px !important;
+  z-index: 999;
+}
+
+.question-clarification .p-accordioncontent-content,
+.answers-data-form .p-accordioncontent-content {
+  padding: 0 !important;
+}
+
+.questions-details-form-card .p-accordioncontent-content {
+  padding: 0 !important;
 }/*# sourceMappingURL=main.css.map */

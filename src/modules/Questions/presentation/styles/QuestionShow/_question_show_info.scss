@@ -71,7 +71,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      max-width: 150px;
+      max-width: calc(XlSize4 * 2);
 
       img {
         max-width: 100%;

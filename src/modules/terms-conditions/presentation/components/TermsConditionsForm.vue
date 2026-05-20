@@ -79,7 +79,7 @@
 
     <div class="form-header-left">
       <p><Privecyicon /> {{ $t(`Terms Details`) }}</p>
-      <button @click="ResetData" class="reset-btn">{{ $t(`reset`) }}</button>
+      <button class="reset-btn" @click="ResetData">{{ $t(`reset`) }}</button>
     </div>
 
     <!-- List -->
@@ -100,7 +100,7 @@
           :field-key="`terms`"
           :label="`terms description`"
           :languages="['en', 'ar']"
-          :modelValue="description as Record<string, string>"
+          :model-value="description as Record<string, string>"
           :type="`description`"
           @update:model-value="description = $event"
         />
@@ -109,13 +109,26 @@
 
     <!-- Add Button -->
     <div class="btn-container" :class="{ disabled: loading }">
-      <button class="btn btn-primary" @click="SubmitData">{{ $t(`Save`) }}</button>
+      <button class="btn btn-primary" @click="SubmitData">
+        <span v-if="loading" class="loader"></span>
+        <span v-else>{{ $t(`Save`) }}</span>
+      </button>
       <button class="btn btn-cancel">{{ $t(`cancel`) }}</button>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
+  .loader {
+    width: 35px;
+    height: 35px;  
+    border-radius: 50%;
+    border: 8px solid;
+    border-color: #000 #0000;
+    animation: l1 1s infinite;
+  }
+  @keyframes l1 {to{transform: rotate(.5turn)}}
+  @keyframes l7 {to{transform: rotate(.5turn)}}
   .field {
     &.disabled {
       cursor: not-allowed;

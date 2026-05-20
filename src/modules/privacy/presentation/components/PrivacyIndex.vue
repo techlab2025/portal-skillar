@@ -38,7 +38,7 @@
           </router-link>
         </div>
 
-        <div class="privacy-content" v-if="status.data">
+        <div v-if="status.data" class="privacy-content">
           <h2>{{ status.data?.title }}</h2>
           <p>{{ status.data?.description }}</p>
         </div>

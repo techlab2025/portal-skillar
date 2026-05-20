@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import SolutionHintIcon from '@/shared/icons/Question/SolutionHint.vue';
-  import questionImage from '@/assets/images/question-image.png';
+  import SolutionHintModel from '@/modules/Questions/core/models/subModels/solution.hint.model';
+
+  const { solutionHint } = defineProps<{ solutionHint: SolutionHintModel }>();
 </script>
 
 <template>
@@ -13,12 +15,11 @@
 
       <div class="question-solution-hint-body">
         <p class="description">
-          The center of government and administration Hostes government institutions And
-          isconsidered the most important city in the country
+          {{ solutionHint?.hint }}
         </p>
 
-        <div class="question-solution-hint-img">
-          <img :src="questionImage" alt="" />
+        <div v-if="solutionHint?.image" class="question-solution-hint-img">
+          <img :src="solutionHint?.image" alt="" />
         </div>
       </div>
     </div>

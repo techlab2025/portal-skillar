@@ -8,7 +8,7 @@
   import EditSkillsParams from '../../core/params/edit.skills.params';
   import AddSkillsParams from '../../core/params/add.skills.params';
   import MultiLangInput from '@/shared/MultiLangInput.vue';
-
+ 
   const emit = defineEmits(['updateData']);
 
   const { skill, formKey, loading } = defineProps<{

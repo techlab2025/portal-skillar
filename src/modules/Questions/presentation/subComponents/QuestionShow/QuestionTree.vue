@@ -1,26 +1,11 @@
 <script setup lang="ts">
-  import { computed } from 'vue';
+  // import { computed } from 'vue';
+
   import Arrow from '@/shared/icons/Question/Arrow.vue';
   import NextStepIcon from '@/shared/icons/Question/NextStepIcon.vue';
+  import type ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
 
-  const props = defineProps<{
-    tree: {
-      curriculum: string;
-      stage: string;
-      semester: string;
-      unit: string;
-      chapter: string;
-      lesson: string;
-    };
-  }>();
-
-  const subjectPath = computed(() => [
-    props.tree.curriculum,
-    props.tree.stage,
-    props.tree.semester,
-  ]);
-
-  const sequencePath = computed(() => [props.tree.unit, props.tree.chapter, props.tree.lesson]);
+  const { questionData } = defineProps<{ questionData: ShowQuestionsModel }>();
 </script>
 
 <template>
@@ -31,32 +16,41 @@
 
       <div class="subject-box">
         <div class="subject-info">
-          <template v-for="(item, index) in subjectPath" :key="item">
-            <span>{{ item }}</span>
-
-            <NextStepIcon v-if="index !== subjectPath.length - 1" class="arrow-next" />
-          </template>
+          <span>{{ questionData.subjectTree?.title }}</span>
+          <!-- <NextStepIcon v-if="index !== subjectPath.length - 1" class="arrow-next" /> -->
         </div>
 
         <div class="language">
           <Arrow />
-          <span>Biology</span>
+
+          <span v-for="(item, index) in questionData?.subjectTree?.children" :key="index">
+            <NextStepIcon
+              v-if="index !== questionData?.subjectTree?.children!.length - 1"
+              class="arrow-next"
+            />
+            {{ item.title }}
+          </span>
         </div>
       </div>
     </div>
 
-    <!-- Question Sequence -->
+    <!-- Sequence -->
     <div class="section">
       <h4>Question Sequence</h4>
 
       <div class="sequence-list">
-        <template v-for="(item, index) in sequencePath" :key="item">
-          <div class="sequence-item">
-            {{ item }}
-          </div>
+        <div class="sequence-item">
+          {{ questionData.sequenceTree?.title }}
+        </div>
 
-          <NextStepIcon v-if="index !== sequencePath.length - 1" class="arrow-next" />
-        </template>
+        <!-- <NextStepIcon v-if="index !== sequencePath.length - 1" class="arrow-next" /> -->
+        <NextStepIcon
+          v-if="index !== questionData?.sequenceTree?.children!.length - 1"
+          class="arrow-next"
+        />
+        <span v-for="(item, index) in questionData?.sequenceTree?.children" :key="index">
+          {{ item.title }}
+        </span>
       </div>
     </div>
 
@@ -65,35 +59,29 @@
       <h4>Documents</h4>
 
       <div class="document">
-        <h5>Biology Book</h5>
-        <NextStepIcon v-if="index !== sequencePath.length - 1" class="arrow-next" />
+        <h5>
+          {{ questionData.questionDocuments?.title }}
+        </h5>
 
-        <p>Source: School Book Page 25</p>
+        <NextStepIcon v-if="questionData?.questionDocuments?.source" class="arrow-next" />
+        <p>
+          Source:
+          {{ questionData.questionDocuments?.source }}
+        </p>
       </div>
     </div>
 
     <!-- Skills -->
-    <div class="section">
-      <h4>Skill</h4>
+    <div v-if="questionData.skills?.length" class="section">
+      <h4>Skills</h4>
 
       <ul class="skills">
-        <li>
+        <li v-for="skill in questionData?.skills" :key="skill.id">
           <span class="dot"></span>
-          Understanding
-        </li>
 
-        <li>
-          <span class="dot"></span>
-          Analysis
-        </li>
-
-        <li>
-          <span class="dot"></span>
-          Conservation
+          {{ skill.skill }}
         </li>
       </ul>
     </div>
   </div>
 </template>
-
-

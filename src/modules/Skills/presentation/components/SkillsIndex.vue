@@ -189,8 +189,8 @@
                 </router-link>
 
                 <DeleteSkillsDialog
-                  @delete="deleteSkills(item.id!)"
                   :message="`Are you sure you want to delete this skill?`"
+                  @delete="deleteSkills(item.id!)"
                 >
                 </DeleteSkillsDialog>
               </div>

@@ -30,8 +30,8 @@ const date = ref();
 
 
 const headers: TableHeader[] = [
-  { key: 'title', label: 'Title', width: '50%', sortable: true },
-  { key: 'doecumentType', label: 'Document Type', width: '50%' },
+  { key: 'title', label: 'Title', width: '100%', sortable: true },
+  // { key: 'doecumentType', label: 'Document Type', width: '50%' },
 ];
 
 const perPage = ref(10);
@@ -131,13 +131,15 @@ const CloseFiletrDialog = () => {
       <div class="toolbar">
         <div class="search-field">
           <span class="search-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            <svg
+width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round">
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
             </svg>
           </span>
-          <input v-model="word" :placeholder="$t('search_documents')" class="search-input" type="text"
+          <input
+v-model="word" :placeholder="$t('search_documents')" class="search-input" type="text"
             @input="Search" />
         </div>
       </div>
@@ -149,12 +151,14 @@ const CloseFiletrDialog = () => {
               <DatePicker v-model="date" class="date-model" :placeholder="$t('Date Remove')" />
             </div>
             <div class="date-remove">
-              <UpdatedCustomInputSelect id="documentType" :label="`document type`" :params="indexDocumentTypeParams"
+              <UpdatedCustomInputSelect
+id="documentType" :label="`document type`" :params="indexDocumentTypeParams"
                 :controller="documentTypeController" :model-value="selectedDocumentType"
                 :placeholder="$t('Document Type')" @update:model-value="updateData" />
             </div>
             <div class="date-remove">
-              <UpdatedCustomInputSelect id="documentType" :label="`added by`" :params="indexDocumentTypeParams"
+              <UpdatedCustomInputSelect
+id="documentType" :label="`added by`" :params="indexDocumentTypeParams"
                 :controller="documentTypeController" :model-value="selectedDocumentType"
                 :placeholder="$t('Student Name')" @update:model-value="updateData" />
             </div>
@@ -183,16 +187,19 @@ const CloseFiletrDialog = () => {
             </template>
             <template #actions="{ item }">
               <div class="row-actions">
-                <router-link class="action-btn edit" :to="`/${route.params.country_code}/documents/edit/${item.id}`"
+                <router-link
+class="action-btn edit" :to="`/${route.params.country_code}/documents/edit/${item.id}`"
                   title="Edit">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  <svg
+width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                   </svg>
                 </router-link>
 
-                <DeleteDialog :title="deleteDialogTitle" :message="deleteDialogMessage" :hasbtn="true"
+                <DeleteDialog
+:title="deleteDialogTitle" :message="deleteDialogMessage" :hasbtn="true"
                   @delete="deleteDocument(item.id!)">
                   <template #btn>
                     <IndexDelete />
@@ -203,13 +210,15 @@ const CloseFiletrDialog = () => {
           </AppTable>
         </div>
 
-        <Pagination :pagination="controller.pagination.value" @change-page="onPageChange"
+        <Pagination
+:pagination="controller.pagination.value" @change-page="onPageChange"
           @count-per-page="onPerPageChange" />
       </template>
 
       <template #empty>
         <div class="empty-state">
-          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"
+          <svg
+width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"
             stroke-linecap="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
             <polyline points="14 2 14 8 20 8" />
@@ -217,7 +226,8 @@ const CloseFiletrDialog = () => {
           <h3>{{ $t('no_documents_yet') }}</h3>
           <p>{{ $t('add_first_document') }}</p>
           <router-link :to="formRoute" class="btn-add empty-cta">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            <svg
+width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
               stroke-linecap="round">
               <path d="M12 5v14M5 12h14" />
             </svg>

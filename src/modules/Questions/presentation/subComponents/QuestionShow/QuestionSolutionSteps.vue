@@ -1,6 +1,8 @@
 <script setup lang="ts">
+  import SolutionStepsModel from '@/modules/Questions/core/models/subModels/solution.steps.model';
   import SolutionStepsIcon from '@/shared/icons/Question/SolutionSteps.vue';
-  import questionImage from '@/assets/images/question-image.png';
+
+  const { solutionSteps } = defineProps<{ solutionSteps: SolutionStepsModel }>();
 </script>
 
 <template>
@@ -13,12 +15,11 @@
 
       <div class="question-solution-steps-body">
         <p class="description">
-          The center of government and administration Hostes government institutions And
-          isconsidered the most important city in the country
+          {{ solutionSteps?.step }}
         </p>
 
-        <div class="question-solution-steps-img">
-          <img :src="questionImage" alt="" />
+        <div v-if="solutionSteps?.image" class="question-solution-steps-img">
+          <img :src="solutionSteps?.image" alt="" />
         </div>
       </div>
     </div>

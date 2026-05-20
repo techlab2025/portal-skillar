@@ -13,8 +13,8 @@
   import AddEducationSubjectParams from '../../core/params/EducationSubjects/add.educationSubject.params';
   import EducationConfigurationController from '../controllers/educationConfiguration/education.configuration.controller';
   import EducationSubjectController from '../controllers/educationSubject/education.subject.controller';
-  import EducationConfigurationModel from '../../core/models/EducationConfiguration/education.configuration.model';
-  import EducationSubjectConfigurationModel from '../../core/models/EducationConfiguration/education.subject.configuration.model';
+  import type EducationConfigurationModel from '../../core/models/EducationConfiguration/education.configuration.model';
+  import type EducationSubjectConfigurationModel from '../../core/models/EducationConfiguration/education.subject.configuration.model';
   import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
   import IndexEducationConfigurationParams from '../../core/params/EducationConfiguration/index.educationConfiguration.params co';
   // import { mapLocales } from '@/base/Presentation/Utils/MapLocales';
@@ -24,7 +24,7 @@
     'save-education-classification',
     'save-education-subjects',
   ]);
-  const { country, formKey, loading } = defineProps<{
+  const { country, formKey } = defineProps<{
     country?: EducationClassificationModel;
     formKey?: string;
     loading?: boolean;
@@ -93,7 +93,9 @@
     subjectNumberOfBranchs.value = SubjectnumberOfBranchs.value;
   };
 
+  const Configurationloading = ref<boolean>(false);
   const GetConfigurationBranchs = async (branches: Branch[]) => {
+    Configurationloading.value = true;
     const configurationBranches: ConfigurationParams[] = [];
     branches.forEach((branch, index) => {
       configurationBranches.push(
@@ -113,9 +115,12 @@
     });
     const controller = EducationConfigurationController.getInstance();
     await controller.create(params);
+    Configurationloading.value = false;
   };
 
+  const subjectConfigurationloading = ref<boolean>(false);
   const GetSubjectBranchs = async (branches: Branch[]) => {
+    subjectConfigurationloading.value = true;
     const configurationBranches: ConfigurationParams[] = [];
     branches.forEach((branch, index) => {
       configurationBranches.push(
@@ -139,6 +144,7 @@
     });
     const controller = EducationSubjectController.getInstance();
     await controller.create(params);
+    subjectConfigurationloading.value = false;
   };
 
   const fillConfigurationForm = (data: EducationConfigurationModel | undefined) => {
@@ -213,7 +219,7 @@
       <!-- ── Fields ────────────────────────────────────────── -->
       <div class="education-classification-form-fields">
         <!-- Email Field -->
-        <div class="field-group" :class="{ disabled: loading }">
+        <div class="field-group" :class="{ disabled: Configurationloading }">
           <label class="field-label" for="title"> {{ $t('number_of_branchs') }} </label>
           <div class="input-wrap">
             <input
@@ -232,9 +238,10 @@
       </div>
 
       <SingularPluralForm
-        :numberOfBranches="ConfigurationNumberOfBranchs"
+        :number-of-branches="ConfigurationNumberOfBranchs"
         :label="$t('name_of_branch')"
         :initial-branches="configurationInitialBranches"
+        :loading="Configurationloading"
         @update="GetConfigurationBranchs"
       />
     </div>
@@ -252,7 +259,7 @@
       <!-- ── Fields ────────────────────────────────────────── -->
       <div class="education-classification-form-fields">
         <!-- Email Field -->
-        <div class="field-group" :class="{ disabled: loading }">
+        <div class="field-group" :class="{ disabled: subjectConfigurationloading }">
           <div class="input-wrap">
             <MultiLangInput
               :field-key="`title_Singular`"
@@ -264,7 +271,7 @@
             />
           </div>
         </div>
-        <div class="field-group" :class="{ disabled: loading }">
+        <div class="field-group" :class="{ disabled: subjectConfigurationloading }">
           <div class="input-wrap">
             <MultiLangInput
               :field-key="`title_Plural`"
@@ -277,7 +284,7 @@
           </div>
         </div>
 
-        <div class="field-group" :class="{ disabled: loading }">
+        <div class="field-group" :class="{ disabled: subjectConfigurationloading }">
           <label class="field-label" for="subject_number"> {{ $t('num_of_levels') }} </label>
           <div class="input-wrap">
             <input
@@ -300,6 +307,7 @@
         :number-of-branches="subjectNumberOfBranchs"
         :label="$t('name_of_subjects')"
         :initial-branches="subjectInitialBranches"
+        :loading="subjectConfigurationloading"
         @update="GetSubjectBranchs"
       />
     </div>

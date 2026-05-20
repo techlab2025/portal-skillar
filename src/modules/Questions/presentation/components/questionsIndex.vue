@@ -1,11 +1,35 @@
 <script setup lang="ts">
+  // <<<<<<< HEAD
+  //   import { onMounted, ref, computed } from 'vue';
+  //   import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
+  //   import AppTable, { type TableHeader } from '@/shared/HelpersComponents/AppTable.vue';
+  //   import Pagination from '@/shared/HelpersComponents/Pagination.vue';
+  //   import { useRoute, useRouter } from 'vue-router';
+  //   import { debounce } from '@/base/Presentation/Utils/debouced';
+  //   // import IndexEmployeeParams from '../../core/params/index.question.params';
+  //   import DeleteEmployeeParams from '../../core/params/delete.question.params';
+  //   import DeleteDialog from '@/shared/HelpersComponents/dialog/DeleteDialog.vue';
+  //   import { useFormsStore } from '@/stores/formsStore';
+  //   import IndexPluseIcon from '@/shared/icons/IndexPluseIcon.vue';
+  //   // import ExportExcelIcon from '@/shared/icons/ExportExcelIcon.vue';
+  //   import IndexSearchIcon from '@/shared/icons/IndexSearchIcon.vue';
+  //   import FilterDialog from '@/shared/HelpersComponents/FilterDialog/FilterDialog.vue';
+  //   import TableSkelaton from '@/shared/HelpersComponents/TableSkelaton.vue';
+  //   // import MultiSelectionTabs from '../subComponents/MultiSelectionTabs.vue';
+  //   import questionsController from '../controllers/questions.controller';
+  //   import { QuestionGeneratedByEnum } from '../../core/constant/generatedby.enum';
+  //   import { QuestionTypeEnum } from '../../core/constant/question.type.enum';
+  //   import { QuestionDifficultyEnum } from '../../core/constant/question.difficulty.enum';
+  //   import { QuestionStatusEnum } from '../../core/constant/question.status.enum';
+  //   import type questionsModel from '../../core/models/questions.model';
+  //   import IndexQuestionsParams from '../../core/params/index.question.params';
+
   import { onMounted, ref, computed } from 'vue';
   import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
   import AppTable, { type TableHeader } from '@/shared/HelpersComponents/AppTable.vue';
   import Pagination from '@/shared/HelpersComponents/Pagination.vue';
   import { useRoute, useRouter } from 'vue-router';
   import { debounce } from '@/base/Presentation/Utils/debouced';
-  // import IndexEmployeeParams from '../../core/params/index.question.params';
   import DeleteEmployeeParams from '../../core/params/delete.question.params';
   import DeleteDialog from '@/shared/HelpersComponents/dialog/DeleteDialog.vue';
   import { useFormsStore } from '@/stores/formsStore';
@@ -91,7 +115,7 @@
     await fetchQuestions(route.query.page ? Number(route.query.page) : 1, word.value);
   });
 
-  const deleteEmployee = async (id: number) => {
+  const deleteQuestion = async (id: number) => {
     await controller.delete(new DeleteEmployeeParams(id));
     await fetchQuestions();
   };
@@ -237,7 +261,7 @@
               <div class="row-actions">
                 <router-link
                   class="action-btn edit"
-                  :to="`/${route.params.country_code}/employees/edit/${item.id}`"
+                  :to="`/${route.params.country_code}/questions/edit/${item.id}`"
                   title="Edit"
                 >
                   <svg
@@ -257,7 +281,7 @@
 
                 <router-link
                   class="action-btn show"
-                  :to="`/${route.params.country_code}/employees/show/${item.id}`"
+                  :to="`/${route.params.country_code}/questions/show/${item.id}`"
                   title="Show"
                 >
                   <svg
@@ -275,7 +299,7 @@
                   </svg>
                 </router-link>
 
-                <DeleteDialog @delete="deleteEmployee(item.id!)">
+                <DeleteDialog @delete="deleteQuestion(item.id!)">
                   <template #Dialog>
                     <button class="action-btn delete" title="Delete">
                       <svg

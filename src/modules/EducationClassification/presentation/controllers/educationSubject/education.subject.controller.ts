@@ -6,7 +6,6 @@ import {
   type DataState,
   DataSuccess,
 } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
-import router from '@/router';
 import { useFormsStore } from '@/stores/formsStore';
 import EducationSubjectRepository from '@/modules/EducationClassification/data/repositories/educationSubject/education.subject.repository';
 import type EducationSubjectConfigurationModel from '@/modules/EducationClassification/core/models/EducationConfiguration/education.subject.configuration.model';
@@ -27,7 +26,7 @@ export default class EducationSubjectController extends BaseController<
    */
   protected get config(): ControllerConfig {
     return {
-      showLoadingDialog: true,
+      showLoadingDialog: false,
       showSuccessDialog: false,
       showErrorDialog: false,
       showErrorTosat: true,
@@ -57,7 +56,7 @@ export default class EducationSubjectController extends BaseController<
 
     const result = await super.create(params, { ...options, useJson: true });
     if (result instanceof DataSuccess) {
-      router.push({ name: 'EducationClassifications' });
+      // router.push({ name: 'EducationClassifications' });
       if (formKey) {
         FormStore.clearFormData(formKey);
       }

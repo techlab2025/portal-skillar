@@ -45,7 +45,10 @@
     <CountryForm :country="controller.itemData.value!" :loading="loading" @update-data="updateData" />
 
     <div class="actions" :class="{ disabled: loading }">
-      <button type="button" @click="saveEmail">{{ $t('Save') }}</button>
+      <button type="button" class="btn btn-primary" @click="saveEmail">
+        <span v-if="loading" class="loader"></span>
+        <span v-else>{{ $t('Save') }}</span>
+      </button>
     </div>
 
     <!-- Error Display -->

@@ -1,4 +1,3 @@
-import type TitleInterface from '@/base/Data/Models/titleInterface';
 import { QuestionGeneratedByEnum } from '../constant/generatedby.enum';
 import { QuestionDifficultyEnum } from '../constant/question.difficulty.enum';
 import { QuestionStatusEnum } from '../constant/question.status.enum';
@@ -11,34 +10,34 @@ import SubjectTreeModel from './subModels/subject.tree.model';
 import sequenceTreeModel from './subModels/sequence.model';
 import QuestionDocumentModel from './subModels/question.document.model';
 import QuestionSkillsModel from './subModels/question.skills.model';
+import type TitleInterface from '@/base/Data/Models/titleInterface';
 
 export default class ShowQuestionsModel {
   public readonly id?: number;
   public readonly questionType?: QuestionTypeEnum;
   public readonly difficulty?: QuestionDifficultyEnum;
-  public readonly topic?: TitleInterface<number>;
+  public readonly topics?: TitleInterface<number>[];
   public readonly questionTitle?: string;
   public readonly questionImage?: string;
 
   public readonly status?: QuestionStatusEnum;
   public readonly generatedBy?: QuestionGeneratedByEnum;
   public readonly createdAt?: string;
+  public readonly approvedBy?: string;
 
   public readonly answers?: AnswerModel[];
-
   public readonly questionClarification?: QuestionClarificationModel;
-
   public readonly solutionSteps?: SolutionStepsModel;
-
   public readonly solutionHint?: SolutionHintModel;
-
   public readonly subjectTree?: SubjectTreeModel;
-
   public readonly sequenceTree?: sequenceTreeModel;
-
   public readonly questionDocuments?: QuestionDocumentModel;
-
   public readonly skills?: QuestionSkillsModel[];
+  public readonly questionLogHistory?: any;
+
+  public readonly isClarification?: boolean;
+  public readonly isQusetionSteps?: boolean;
+  public readonly isQusetionHints?: boolean;
 
   constructor(data: {
     id?: number;
@@ -46,7 +45,11 @@ export default class ShowQuestionsModel {
     questionType?: QuestionTypeEnum;
     difficulty?: QuestionDifficultyEnum;
     status?: QuestionStatusEnum;
+    topics?: TitleInterface<number>[];
+    questionTitle?: string;
+    questionImage?: string;
     createdAt?: string;
+    approvedBy?: string;
     answers?: AnswerModel[];
     questionClarification?: QuestionClarificationModel;
     solutionSteps?: SolutionStepsModel;
@@ -55,6 +58,10 @@ export default class ShowQuestionsModel {
     sequenceTree?: sequenceTreeModel;
     questionDocuments?: QuestionDocumentModel;
     skills?: QuestionSkillsModel[];
+    questionLogHistory?: any;
+    isClarification?: boolean;
+    isQusetionSteps?: boolean;
+    isQusetionHints?: boolean;
   }) {
     this.id = data.id;
     this.generatedBy = data.generatedBy;
@@ -62,6 +69,10 @@ export default class ShowQuestionsModel {
     this.difficulty = data.difficulty;
     this.status = data.status;
     this.createdAt = data.createdAt;
+    this.approvedBy = data.approvedBy;
+    this.questionTitle = data.questionTitle;
+    this.questionImage = data.questionImage;
+    this.topics = data.topics;
     this.answers = data.answers;
     this.questionClarification = data.questionClarification;
     this.solutionSteps = data.solutionSteps;
@@ -70,6 +81,10 @@ export default class ShowQuestionsModel {
     this.sequenceTree = data.sequenceTree;
     this.questionDocuments = data.questionDocuments;
     this.skills = data.skills;
+    this.questionLogHistory = data.questionLogHistory;
+    this.isClarification = data.isClarification;
+    this.isQusetionSteps = data.isQusetionSteps;
+    this.isQusetionHints = data.isQusetionHints;
 
     Object.freeze(this);
   }
@@ -86,6 +101,10 @@ export default class ShowQuestionsModel {
       difficulty: json.difficulty,
       status: json.status,
       createdAt: json.created_at,
+      approvedBy: json.approved_by,
+      questionTitle: json.question_title,
+      questionImage: json.question_image,
+      topics: json.topics,
       answers: json.answers.map((answer: any) => AnswerModel.fromJson(answer)),
       questionClarification: QuestionClarificationModel.fromJson(json.question_clarification),
       solutionSteps: SolutionStepsModel.fromJson(json.solution_steps),
@@ -94,16 +113,27 @@ export default class ShowQuestionsModel {
       sequenceTree: sequenceTreeModel.fromJson(json.sequence_tree),
       questionDocuments: QuestionDocumentModel.fromJson(json.question_documents),
       skills: json.skills.map((skill: any) => QuestionSkillsModel.fromJson(skill)),
+      questionLogHistory: json.question_logs_history,
+      isClarification: json.is_clarification,
+      isQusetionSteps: json.is_question_steps,
+      isQusetionHints: json.is_question_hint,
     });
   }
 
   static example: ShowQuestionsModel = new ShowQuestionsModel({
     id: 1,
     generatedBy: QuestionGeneratedByEnum.manual,
-    questionType: QuestionTypeEnum.mcq,
+    questionType: QuestionTypeEnum.true_false,
     difficulty: QuestionDifficultyEnum.easy,
-    status: QuestionStatusEnum.not_Reviewd,
+    status: QuestionStatusEnum.approved,
     createdAt: '2022-01-01',
+    approvedBy: 'Mohamed Abdelmoneam',
+    questionTitle: 'Question Title',
+    questionImage: `https://cyber.comolho.com/static/img/avatar.png`,
+    topics: [
+      { id: 2, title: 'Document 2' },
+      { id: 3, title: 'Document 3' },
+    ],
     answers: [AnswerModel.example],
     questionClarification: QuestionClarificationModel.example,
     solutionSteps: SolutionStepsModel.example,
@@ -111,6 +141,46 @@ export default class ShowQuestionsModel {
     subjectTree: SubjectTreeModel.example,
     sequenceTree: sequenceTreeModel.example,
     questionDocuments: QuestionDocumentModel.example,
-    skills: [QuestionSkillsModel.example],
+    skills: [
+      new QuestionSkillsModel({
+        id: 2,
+        skill: 'Document 2',
+        precentage: 10,
+      }),
+      new QuestionSkillsModel({
+        id: 3,
+        skill: 'Document 3',
+        precentage: 90,
+      }),
+    ],
+    questionLogHistory: [
+      {
+        date: '05-10-2025',
+        status: 'Waiting Review',
+        time: '5:15 PM',
+        createdBy: 'System AI',
+      },
+      {
+        date: '04-10-2025',
+        status: 'added',
+        time: '1:20 PM',
+        createdBy: 'Ahmed Hawam',
+      },
+      {
+        date: '04-10-2025',
+        status: 'approved',
+        time: '1:20 PM',
+        createdBy: 'Ahmed Hawam',
+      },
+      {
+        date: '04-10-2025',
+        status: 'rejected',
+        time: '1:20 PM',
+        createdBy: 'System AI',
+      },
+    ],
+    isClarification: true,
+    isQusetionSteps: true,
+    isQusetionHints: true,
   });
 }

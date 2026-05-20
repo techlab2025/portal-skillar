@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
   import { useRoute } from 'vue-router';
-  import AppButton from '@/shared/HelpersComponents/AppButton.vue';
+  // import AppButton from '@/shared/HelpersComponents/AppButton.vue';
   import IconAccept from '@/shared/icons/IconAccept.vue';
   import DocumentController from '../controllers/document.controller';
   import DocumentForm from './DocumentForm.vue';
@@ -17,28 +17,31 @@
   const loading = ref(false);
 
   const saveDocument = async () => {
-    if (!params.value) return;
-    loading.value = true;
-    try {
-      await controller.update(params.value, undefined, formKey);
-    } finally {
-      loading.value = false;
-    }
-  };
+  if (!params.value) return;
+  loading.value = true;
+  try {
+    // ← حول الـ URLs لـ base64 قبل الإرسال
+    const preparedParams = await EditDocumentParams.prepare(params.value);
+    await controller.update(preparedParams, undefined, formKey);
+  } finally {
+    loading.value = false;
+  }
+};
 
   const updateData = (updatedParams: AddDocumentParams) => {
-    params.value = new EditDocumentParams({
-      document_id: Number(route.params.id),
-      refNumber: updatedParams.refNumber,
-      subjects: updatedParams.subjects,
-      stage_id: updatedParams.stage_id,
-      tags: updatedParams.tags,
-      images: updatedParams.images,
-      files: updatedParams.files,
-      translations: updatedParams.translations,
-      documentTypeId: updatedParams.documentTypeId,
-    });
-  };
+  params.value = new EditDocumentParams({
+    document_id: Number(route.params.id),
+    // refNumber: updatedParams.refNumber,
+    subjects: updatedParams.subjects,
+    stage_id: updatedParams.stage_id,
+    tags: updatedParams.tags,
+    // لو فاضي مبعتوش خالص
+    images: updatedParams.images ? [updatedParams.images] : [],
+    files: updatedParams.files ? [updatedParams.files] : [],
+    translations: updatedParams.translations,
+    documentTypeId: updatedParams.documentTypeId,
+  });
+};
 
   onMounted(async () => {
     await controller.fetchOne(
@@ -56,7 +59,7 @@
       @update-data="updateData"
     />
 
-    <div class="actions" :class="{ disabled: loading }">
+    <!-- <div class="actions" :class="{ disabled: loading }">
       <AppButton
         :title="$t('save_document')"
         size="sm"
@@ -69,6 +72,14 @@
           <IconAccept />
         </template>
       </AppButton>
+    </div> -->
+    <div class="actions" :class="{ disabled: loading }">
+      <button  class="btn btn-primary w-full" type="submit" @click="saveDocument">
+        <span v-if="loading" class="loader"></span> 
+        <span v-else>
+          {{ $t('save_document') }}  <IconAccept />
+        </span>
+      </button>
     </div>
 
     <div v-if="controller.errorMessage.value" class="error">
@@ -78,6 +89,17 @@
 </template>
 
 <style scoped lang="scss">
+
+  .loader {
+    width: 35px;
+    height: 35px;  
+    border-radius: 50%;
+    border: 8px solid;
+    border-color: #000 #0000;
+    animation: l1 1s infinite;
+  }
+  @keyframes l1 {to{transform: rotate(.5turn)}}
+  @keyframes l7 {to{transform: rotate(.5turn)}}
   .email-crud-example {
     padding: 20px;
     margin: 0 auto;

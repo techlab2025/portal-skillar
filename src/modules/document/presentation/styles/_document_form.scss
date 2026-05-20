@@ -8,7 +8,7 @@
 /* ── Form Card ─────────────────────────────────────────────── */
 .document-form-card {
   background: var(--bg-main);
-  overflow: hidden;
+  overflow: hidden; 
   position: relative;
   font-family: 'Medium';
 
@@ -108,6 +108,11 @@
     display: grid;
     grid-template-columns: repeat(2, 1rf);
     gap: 20px;
+       &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
   }
 
   .col-span-2 {

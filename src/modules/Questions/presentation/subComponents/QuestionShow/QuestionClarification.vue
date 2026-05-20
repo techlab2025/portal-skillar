@@ -1,28 +1,12 @@
 <script setup lang="ts">
-  import questionImage from '@/assets/images/question-image.png';
+  import QuestionClarificationModel from '@/modules/Questions/core/models/subModels/question.clarification.model';
   import ClerificationIcon from '@/shared/icons/Question/ClerificationIcon.vue';
-
-  interface ClarificationInfoItem {
-    label: string;
-    value: string;
-  }
-
-  const clarificationInfo: ClarificationInfoItem[] = [
-    {
-      label: 'Documents',
-      value: 'book.pdf',
+  const props = defineProps({
+    clarification: {
+      type: QuestionClarificationModel,
+      required: true,
     },
-    {
-      label: 'Source',
-      value: 'School Book Page 25',
-    },
-  ];
-
-  const clarification = {
-    description:
-      'The center of government and administration hosts government institutions and is considered the most important city in the country.',
-    image: questionImage,
-  };
+  });
 </script>
 
 <template>
@@ -38,23 +22,24 @@
       <div class="question-clarification-body">
         <!-- Dynamic Info -->
         <div class="question-clarification-info">
-          <div v-for="item in clarificationInfo" :key="item.label" class="info-item">
-            <label class="question-clarification-text"> {{ item.label }}: </label>
+          <div class="info-item">
+            <label class="question-clarification-text"> documents: </label>
 
-            <span>
-              {{ item.value }}
-            </span>
+            <span> {{ clarification?.documents?.title }}</span>
+          </div>
+          <div class="info-item">
+            <label class="question-clarification-text"> source: </label>
+
+            <span> {{ clarification?.source }}</span>
           </div>
         </div>
 
         <!-- Description -->
-        <p class="description">
-          {{ clarification.description }}
-        </p>
+        <p class="description">{{ clarification?.clarification }}</p>
 
         <!-- Image -->
-        <div v-if="clarification.image" class="question-clarification-img">
-          <img :src="clarification.image" alt="question clarification" />
+        <div v-if="clarification?.file" class="question-clarification-img">
+          <img :src="clarification?.file" alt="question clarification" />
         </div>
       </div>
     </div>

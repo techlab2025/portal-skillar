@@ -1,41 +1,60 @@
 <script setup lang="ts">
-  import questionImage from '@/assets/images/question-image.png';
+  import { QuestionTypeEnum } from '@/modules/Questions/core/constant/question.type.enum';
+  import ShowQuestionsModel from '../../../core/models/show.questions.model';
+  import { QuestionDifficultyEnum } from '@/modules/Questions/core/constant/question.difficulty.enum';
 
-  interface QuestionInfoItem {
-    label: string;
-    value: string;
-  }
+  const { questionInfo } = defineProps<{ questionInfo: ShowQuestionsModel }>();
 
-  const questionInfoList: QuestionInfoItem[] = [
-    {
-      label: 'Question Type',
-      value: 'MCQ',
-    },
-    {
-      label: 'Difficulty',
-      value: 'Medium',
-    },
-    {
-      label: 'Marks',
-      value: '5 Points',
-    },
-  ];
+  const getQuestionType = (value: QuestionTypeEnum) => {
+    switch (value) {
+      case QuestionTypeEnum.mcq:
+        return 'Multiple Choice Question';
+      case QuestionTypeEnum.ranking:
+        return 'Ranking Question';
+      case QuestionTypeEnum.true_false:
+        return 'True False Question';
+      case QuestionTypeEnum.complate:
+        return 'Complete Question';
+      case QuestionTypeEnum.matching:
+        return 'Matching Question';
+    }
+  };
 
-  const question = {
-    text: 'What is the basic building block of a living organism?',
-    image: questionImage,
+  const getDifficultyClass = (value: QuestionDifficultyEnum) => {
+    switch (value) {
+      case QuestionDifficultyEnum.easy:
+        return 'Easy';
+      case QuestionDifficultyEnum.medium:
+        return 'Medium';
+      case QuestionDifficultyEnum.hard:
+        return 'Hard';
+    }
   };
 </script>
 
 <template>
   <div class="question-info-wrapper">
-    <!-- Dynamic Info List -->
     <div class="question-info-categories">
-      <div v-for="item in questionInfoList" :key="item.label" class="question-info-item">
-        <label> {{ item.label }}: </label>
+      <div class="question-info-item">
+        <label>Question Type :</label>
 
         <p>
-          {{ item.value }}
+          {{ getQuestionType(questionInfo?.questionType!) }}
+        </p>
+      </div>
+
+      <div class="question-info-item">
+        <label>Difficulty: </label>
+
+        <p>
+          {{ getDifficultyClass(questionInfo?.difficulty!) }}
+        </p>
+      </div>
+      <div class="question-info-item">
+        <label>Topics :</label>
+
+        <p>
+          {{ questionInfo?.topics?.map((topic: any) => topic?.title).join('  ,  ') }}
         </p>
       </div>
     </div>
@@ -46,12 +65,12 @@
         <label>Question</label>
 
         <h2>
-          {{ question.text }}
+          {{ questionInfo?.questionTitle }}
         </h2>
       </div>
 
       <div class="question-body-img">
-        <img :src="question.image" :alt="question.text" />
+        <img :src="questionInfo?.questionImage" :alt="questionInfo?.questionTitle" />
       </div>
     </div>
   </div>

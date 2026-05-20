@@ -86,7 +86,8 @@ const showDetails = async (Id: number) => {
     <IndexAddIcon />
     <span> Document Type</span>
   </button>
-  <Dialog v-model:visible="visible" :modal="true" :pt="{
+  <Dialog
+v-model:visible="visible" :modal="true" :pt="{
     root: 'delete-reason-dialog',
     header: 'dialog-header',
     content: 'dialog-body',
@@ -111,7 +112,8 @@ const showDetails = async (Id: number) => {
         <div class="item-actions">
           <EditeIcon @click="showDetails(item.id!)" />
 
-          <DeleteDialog :title="deleteDialogTitle" :message="deleteDialogMessage" :hasbtn="true"
+          <DeleteDialog
+:title="deleteDialogTitle" :message="deleteDialogMessage" :hasbtn="true"
             @delete="deleteReason(item.id!)">
             <template #btn>
               <IndexDelete />
@@ -120,7 +122,8 @@ const showDetails = async (Id: number) => {
         </div>
       </div>
       <div class="input-wrapper">
-        <MultiLangInput :field-key="`title`" :label="`title`" :languages="['en', 'ar']" :model-value="title"
+        <MultiLangInput
+:field-key="`title`" :label="`title`" :languages="['en', 'ar']" :model-value="title"
           :type="'title'" @update:model-value="updatetitle" />
       </div>
       <div class="btns">

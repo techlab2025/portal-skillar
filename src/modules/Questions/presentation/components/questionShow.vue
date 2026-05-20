@@ -1,5 +1,6 @@
-# QuestionShowPage.vue ```vue
 <script setup lang="ts">
+  import { computed, onMounted } from 'vue';
+  import questionsController from '../controllers/questions.controller';
   import QuestionAnswers from '../subComponents/QuestionShow/QuestionAnswers.vue';
   import QuestionClarification from '../subComponents/QuestionShow/QuestionClarification.vue';
   import QuestionHeader from '../subComponents/QuestionShow/QuestionHeader.vue';
@@ -10,142 +11,58 @@
   import QuestionSolutionSteps from '../subComponents/QuestionShow/QuestionSolutionSteps.vue';
   import QuestionStatusBox from '../subComponents/QuestionShow/QuestionStatusBox.vue';
   import QuestionTree from '../subComponents/QuestionShow/QuestionTree.vue';
-
-  // import questionImage from '@/assets/images/question-image.png';
-
-  const question = {
-    id: 42547896,
-    title: 'What is the main function of the heart in the human body?',
-    description:
-      'Choose the correct answer from the following options based on your biology knowledge.',
-    subject: 'Biology',
-    grade: 'First Secondary',
-    language: 'English',
-    difficulty: 'Medium',
-    status: 'rejected',
-    createdAt: '20 May 2025',
-    generatedBy: 'AI',
-    source: 'School Book Page 25',
-  };
-
-  // const answers = [
-  //   {
-  //     id: 1,
-  //     text: 'Pumping blood throughout the body',
-  //     img: questionImage,
-  //     isCorrect: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     text: 'Helping the body digest food',
-  //     img: questionImage,
-  //     isCorrect: false,
-  //   },
-  //   {
-  //     id: 3,
-  //     text: 'Controlling body temperature only',
-  //     img: questionImage,
-  //     isCorrect: false,
-  //   },
-  //   {
-  //     id: 4,
-  //     text: 'Producing oxygen for the lungs',
-  //     img: questionImage,
-  //     isCorrect: false,
-  //   },
-  // ];
-
-  // const clarification = {
-  //   description:
-  //     'The question focuses on understanding the primary role of the heart inside the circulatory system.',
-  //   documents: ['Biology-Book.pdf', 'Human-Body-Notes.pdf', 'Heart-System.pdf'],
-  //   image: questionImage,
-  // };
-
-  // const solutionHint = 'Think about how oxygen and nutrients move across the body.';
-
-  // const solutionSteps = [
-  //   'The heart belongs to the circulatory system.',
-  //   'It pushes blood to all body organs.',
-  //   'Blood carries oxygen and nutrients.',
-  //   'Therefore the correct answer is pumping blood throughout the body.',
-  // ];
-
-  // const reviewProcedures = [
-  //   'Verify question grammar',
-  //   'Validate scientific accuracy',
-  //   'Check answer correctness',
-  //   'Approve for publishing',
-  // ];
-
-  const tree = {
-    curriculum: 'Governmental',
-    stage: 'Secondary',
-    semester: 'First',
-    unit: 'Unit 1',
-    chapter: 'Chapter 2',
-    lesson: 'Circulatory System',
-  };
-
-  const logs = [
-    {
-      date: '05-10-2025',
-      status: 'Waiting Review',
-      time: '5:15 PM',
-      createdBy: 'System AI',
-    },
-    {
-      date: '04-10-2025',
-      status: 'added',
-      time: '1:20 PM',
-      createdBy: 'Ahmed Hawam',
-    },
-    {
-      date: '04-10-2025',
-      status: 'approved',
-      time: '1:20 PM',
-      createdBy: 'Ahmed Hawam',
-    },
-    {
-      date: '04-10-2025',
-      status: 'rejected',
-      time: '1:20 PM',
-      createdBy: 'System AI',
-    },
-  ];
+  import ShowquestionsParams from '../../core/params/show.question.params';
+  import { useRoute } from 'vue-router';
+  const route = useRoute();
+  const controller = questionsController.getInstance();
+  const showState = computed(() => controller.itemState.value);
+  onMounted(() => {
+    const params = new ShowquestionsParams(Number(route.params.id));
+    controller.fetchOne(params);
+  });
 </script>
 
 <template>
-  <QuestionHeader />
+  <QuestionHeader v-if="showState?.data" :questionData="showState?.data" />
 
   <div class="question-show-page">
     <div class="main-content-row">
-      <QuestionInfo />
+      <QuestionInfo v-if="showState?.data" :questionInfo="showState?.data" />
 
-      <QuestionAnswers />
+      <QuestionAnswers
+        v-if="showState?.data?.answers?.length"
+        :answers="showState?.data?.answers"
+      />
 
-      <QuestionClarification />
+      <QuestionClarification
+        v-if="showState?.data?.questionClarification"
+        :clarification="showState?.data?.questionClarification"
+      />
 
       <div class="solution-container">
-        <QuestionSolutionHint />
+        <QuestionSolutionHint
+          v-if="showState?.data?.solutionHint"
+          :solutionHint="showState?.data?.solutionHint"
+        />
 
-        <QuestionSolutionSteps />
+        <QuestionSolutionSteps
+          v-if="showState?.data?.solutionSteps"
+          :solutionSteps="showState?.data?.solutionSteps!"
+        />
       </div>
 
       <QuestionReviewProcedures />
     </div>
 
     <div class="side-content">
-      <QuestionStatusBox
-        :status="question.status"
-        :question-id="question.id"
-        :generated-by="question.generatedBy"
-        :created-at="question.createdAt"
+      <QuestionStatusBox v-if="showState?.data" :questionData="showState?.data" />
+
+      <QuestionTree v-if="showState?.data" :questionData="showState?.data" />
+
+      <QuestionLogHistory
+        v-if="showState?.data?.questionLogHistory"
+        :logs="showState?.data?.questionLogHistory"
       />
-
-      <QuestionTree :tree="tree" />
-
-      <QuestionLogHistory :logs="logs" />
     </div>
   </div>
 </template>
