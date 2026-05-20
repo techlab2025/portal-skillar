@@ -24,18 +24,18 @@ const updateData = () => {
     isClarification: isClarification.value,
     data: new ArticleClarificationParams({
       documentId: SelectedDocumet.value!,
-      source: questionSource.value!,
+      source: articleSource.value!,
       file: file.value,
       clarification: description.value,
     }),
   });
 };
 
-const questionSource = ref<string>('');
+const articleSource = ref<string>('');
 const SelectedDocumet = ref<number | null>(null);
-const GetQuestionSource = (data: ArticleClarificationParams) => {
+const GetarticleSource = (data: ArticleClarificationParams) => {
   SelectedDocumet.value = data.documentId!;
-  questionSource.value = data.source!;
+  articleSource.value = data.source!;
   updateData();
 };
 const description = ref('');
@@ -64,19 +64,19 @@ watch(
 
 <template>
   <Accordion :value="isClarification ? 1 : 0" :pt="{
-    root: `question-clarification ${isClarification ? 'active' : ''}`,
+    root: `article-clarification ${isClarification ? 'active' : ''}`,
   }" @update:value="isClarification = !isClarification; updateData()">
     <AccordionPanel :value="1">
       <AccordionHeader>
         <template #toggleicon>
-          <div class="question-clarification-header">
+          <div class="article-clarification-header">
             <div>{{ $t('Is there any Article clarification?') }}</div>
             <Checkbox v-model="isClarification" :binary="true" :input-id="`is-correct`" name="is-correct" />
           </div>
         </template>
       </AccordionHeader>
       <AccordionContent>
-        <ArticleSource :documentSource="DocumentSource" @updateData="GetQuestionSource" />
+        <ArticleSource :documentSource="DocumentSource" @updateData="GetarticleSource" />
 
         <div class="input-wrapper">
           <label for="descreption">{{ $t('Description') }}</label>
@@ -105,7 +105,7 @@ watch(
 @use '../../../../styles/variables' as *;
 @use '../../../../styles/mixins/flex' as *;
 
-.question-clarification {
+.article-clarification {
   border: 1px solid $PrimaryColor;
   border-radius: 50px;
   padding: 10px !important;
@@ -123,7 +123,7 @@ watch(
     padding: 0 !important;
   }
 
-  .question-clarification-header {
+  .article-clarification-header {
     @include flex-row(nowrap, space-between, center);
     gap: 10px;
     width: 100%;

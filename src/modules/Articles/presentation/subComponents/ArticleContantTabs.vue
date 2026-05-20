@@ -16,7 +16,7 @@ const { ContentData } = defineProps<{
 }>()
 
 const SelectedSubject = ref<TitleInterface<number> | null>(null);
-const SelectedQuestionSequence = ref<TitleInterface<number> | null>(null);
+const SelectedarticleSequence = ref<TitleInterface<number> | null>(null);
 const SelectedTopic = ref<TitleInterface<number>[] | null>(null);
 const SelectedDifficultyLevel = ref<TitleInterface<number> | null>(null);
 const SelectedSkill = ref<TitleInterface<number>[] | null>(null);
@@ -49,7 +49,7 @@ const updateData = () => {
           });
         }) || [],
       topics: SelectedTopic.value?.map((item) => item.id) || [],
-      articleSequenceId: SelectedQuestionSequence.value?.id,
+      articleSequenceId: SelectedarticleSequence.value?.id,
       subjectId: SelectedSubject.value?.id,
     }),
   );
@@ -73,8 +73,8 @@ watch(() => ContentData, (newData) => {
           @update:model-value="updateData" />
       </div>
       <div class="input">
-        <UpdatedCustomInputSelect id="question-sequence" :label="`question sequence`" :params="indexDocumentTypeParams"
-          :controller="documentTypeController" v-model="SelectedQuestionSequence" placeholder="Question sequence"
+        <UpdatedCustomInputSelect id="article-sequence" :label="`article sequence`" :params="indexDocumentTypeParams"
+          :controller="documentTypeController" v-model="SelectedarticleSequence" placeholder="article sequence"
           @update:model-value="updateData" />
       </div>
       <div class="input">

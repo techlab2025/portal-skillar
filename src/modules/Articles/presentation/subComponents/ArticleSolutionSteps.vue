@@ -43,12 +43,12 @@ watch([()=>SolutionStepsData ,  ()=>isSolutionStepsData] , ([newSolutionStepsdat
 
 <template>
   <Accordion :value="isSolutionSteps ? 1 : 0" :pt="{
-    root: `question-solution-steps ${isSolutionSteps ? 'active' : ''}`,
+    root: `article-solution-steps ${isSolutionSteps ? 'active' : ''}`,
   }" @update:value="isSolutionSteps = !isSolutionSteps">
     <AccordionPanel :value="1">
       <AccordionHeader>
         <template #toggleicon>
-          <div class="question-solution-steps-header">
+          <div class="article-solution-steps-header">
             <div>{{ $t('Is there any Solution steps?') }}</div>
             <Checkbox v-model="isSolutionSteps" :binary="true" :input-id="`is-correct`" name="is-correct" />
           </div>
@@ -82,7 +82,7 @@ watch([()=>SolutionStepsData ,  ()=>isSolutionStepsData] , ([newSolutionStepsdat
 @use '../../../../styles/variables' as *;
 @use '../../../../styles/mixins/flex' as *;
 
-.question-solution-steps {
+.article-solution-steps {
   border: 1px solid $PrimaryColor;
   border-radius: 50px;
   padding: 10px !important;
@@ -100,7 +100,7 @@ watch([()=>SolutionStepsData ,  ()=>isSolutionStepsData] , ([newSolutionStepsdat
     padding: 10px !important;
   }
 
-  .question-solution-steps-header {
+  .article-solution-steps-header {
     @include flex-row(nowrap, space-between, center);
     gap: 10px;
     width: 100%;

@@ -4,7 +4,7 @@ import { DocumentController, IndexDocumentParams } from '@/modules/document';
 import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
 import { ref, watch } from 'vue';
 import ArticleClarificationParams from '../../core/params/subParams/Artical.clarification.params';
-import ArticleDocumentModel from '@/modules/Articles/core/models/subModels/Article.document.model';
+import type ArticleDocumentModel from '../../core/models/subModels/Article.document.model';
 
 const { document, source, documentSource } = defineProps<{
   document?: TitleInterface<number> | null | undefined;
@@ -16,21 +16,21 @@ const emit = defineEmits(['updateData']);
 const indexDocumentParams = new IndexDocumentParams();
 const documentController = DocumentController.getInstance();
 const SelectedSubject = ref<TitleInterface<number> | null>(document ?? null);
-const questionSource = ref<string>(source ?? '');
+const articleSource = ref<string>(source ?? '');
 
 const updateData = () => {
   emit(
     'updateData',
     new ArticleClarificationParams({
       documentId: SelectedSubject.value?.id,
-      source: questionSource.value,
+      source: articleSource.value,
     }),
   );
 };
 
 watch(() => documentSource, (newValue) => {
   SelectedSubject.value = newValue?.id ? new TitleInterface<number>({ id: newValue.id, title: newValue.title }) : null;
-  questionSource.value = newValue?.source || '';
+  articleSource.value = newValue?.source || '';
 });
 </script>
 
@@ -45,7 +45,7 @@ watch(() => documentSource, (newValue) => {
       <div class="field-group">
         <label class="field-label" for="name">{{ $t('Article Source') }}</label>
         <div class="input-wrap">
-          <input id="question-source" v-model="questionSource" type="text" :placeholder="$t('Enter article source')"
+          <input id="article-source" v-model="articleSource" type="text" :placeholder="$t('Enter article source')"
             class="field-input" @input="updateData" />
         </div>
       </div>

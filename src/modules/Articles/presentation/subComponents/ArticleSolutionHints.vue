@@ -43,7 +43,7 @@ import type ArticleSolutionHintModel from '../../core/models/subModels/Article.s
 <template>
   <Accordion
     :pt="{
-      root: `question-solution-hints ${isSolutionSteps ? 'active' : ''}`,
+      root: `article-solution-hints ${isSolutionSteps ? 'active' : ''}`,
     }"
     @update:value="isSolutionSteps = !isSolutionSteps"
     :value="isSolutionSteps ? 1 :0"
@@ -51,7 +51,7 @@ import type ArticleSolutionHintModel from '../../core/models/subModels/Article.s
     <AccordionPanel :value="1">
       <AccordionHeader>
         <template #toggleicon>
-          <div class="question-solution-hints-header">
+          <div class="article-solution-hints-header">
             <div>{{ $t('Is there any hints for solution?') }}</div>
             <Checkbox
               v-model="isSolutionSteps"
@@ -102,7 +102,7 @@ import type ArticleSolutionHintModel from '../../core/models/subModels/Article.s
 <style scoped lang="scss">
   @import '../../../../styles/variables';
   @import '../../../../styles/mixins/flex';
-  .question-solution-hints {
+  .article-solution-hints {
     border: 1px solid $PrimaryColor;
     border-radius: 50px;
     padding: 10px !important;
@@ -117,7 +117,7 @@ import type ArticleSolutionHintModel from '../../core/models/subModels/Article.s
       padding: 10px !important;
     }
 
-    .question-solution-hints-header {
+    .article-solution-hints-header {
       @include flex-row(nowrap, space-between, center);
       gap: 10px;
       width: 100%;

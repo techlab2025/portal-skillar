@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TitleInterface from '@/base/Data/Models/titleInterface';
+import type TitleInterface from '@/base/Data/Models/titleInterface';
 import RadioButton from 'primevue/radiobutton';
 
 import { ref, watch } from 'vue';

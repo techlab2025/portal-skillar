@@ -3,8 +3,8 @@ import DeletIcon from '@/shared/icons/DropListIcons/DeletIcon.vue';
 import { onMounted, ref } from 'vue';
 import AddNewAnswerIcon from '@/shared/icons/AddNewAnswerIcon.vue';
 import SelectionTabs from '../SelectionTabs.vue';
-import TitleInterface from '@/base/Data/Models/titleInterface';
-import { AnswerEvaluationTypeEnum } from '@/modules/Questions/core/constant/answer.evaluation.type.enum';
+import { AnswerEvaluationTypeEnum } from '@/modules/Articles/core/constant/answer.evaluation.type.enum';
+import type TitleInterface from '@/base/Data/Models/titleInterface';
 const emit = defineEmits(['update:data']);
 const selectedTab = ref<number | null>(null);
 

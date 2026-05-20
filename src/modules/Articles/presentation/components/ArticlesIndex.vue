@@ -31,6 +31,7 @@ const route = useRoute();
 const FormStore = useFormsStore();
 const formRoute = computed(() => `/${route.params.country_code}/articles/add`);
 
+
 // Table headers
 const headers: TableHeader[] = [
   { key: 'id', label: 'ID', width: '10%', sortable: true },
