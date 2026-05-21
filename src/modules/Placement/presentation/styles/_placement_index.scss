@@ -1,7 +1,7 @@
 @use '../../../../styles/variables' as *;
 @use '../../../../styles/mixins/flex' as *;
 
-.questions-page {
+.placement-page {
   @include flex-column(nowrap, flex-start, flex-start);
   gap: $XlSize2;
 
@@ -20,7 +20,6 @@
 
     .btns-container {
       @include flex-row(nowrap, flex-start, center);
-
       gap: $XsSize4;
     }
   }
@@ -54,20 +53,18 @@
     gap: $MdSize;
 
     img {
-      width: 30px;
-      height: 30px;
+      width: $XlSize3;
+      height: $XlSize3;
     }
   }
 
   .row-actions {
     @include flex-row(nowrap, center, center);
-
     gap: $XsSize3;
   }
 
   .action-btn {
     @include flex-row(nowrap, center, center);
-
     width: calc($XlSize3 + 2px);
     height: calc($XlSize3 + 2px);
     border-radius: $XsSize2;

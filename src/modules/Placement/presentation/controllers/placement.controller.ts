@@ -5,15 +5,11 @@ import type Params from '@/base/Core/Params/params';
 import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 import router from '@/router';
 import { useFormsStore } from '@/stores/formsStore';
-import type placementModel from '../../core/models/placement.model';
+import type PlacementModel from '../../core/models/placement.model';
 import placementRepository from '../../data/repositories/placement.repository';
-import type ShowplacementModel from '../../core/models/placement.model';
 
-export default class placementController extends BaseController<
-  ShowplacementModel,
-  placementModel[]
-> {
-  private static instance: placementController;
+export default class PlacementController extends BaseController<PlacementModel> {
+  private static instance: PlacementController;
 
   protected get repository() {
     return placementRepository.getInstance();
@@ -35,11 +31,11 @@ export default class placementController extends BaseController<
     super();
   }
 
-  static getInstance(): placementController {
-    if (!placementController.instance) {
-      placementController.instance = new placementController();
+  static getInstance(): PlacementController {
+    if (!PlacementController.instance) {
+      PlacementController.instance = new PlacementController();
     }
-    return placementController.instance;
+    return PlacementController.instance;
   }
 
   async create(params: Params, options?: ApiCallOptions, formKey?: string) {
@@ -47,7 +43,7 @@ export default class placementController extends BaseController<
 
     const result = await super.create(params, { ...options, useJson: true });
     if (result instanceof DataSuccess) {
-      router.push({ name: 'Employees' });
+      router.push({ name: 'Placements' });
       if (formKey) {
         FormStore.clearFormData(formKey);
       }
@@ -60,7 +56,7 @@ export default class placementController extends BaseController<
 
     const result = await super.update(params, options);
     if (result instanceof DataSuccess) {
-      router.push({ name: 'Employees' });
+      router.push({ name: 'Placements' });
       if (formKey) {
         FormStore.clearFormData(formKey);
       }

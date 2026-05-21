@@ -1,6 +1,6 @@
 import IndexParams from '@/base/Core/Params/indexParams';
 
-export default class IndexplacementParams extends IndexParams {
+export default class IndexPlacementParams extends IndexParams {
   constructor(data: { word: string; pageNumber: number; perPage: number; withPage: number }) {
     super(data.word, data.pageNumber, data.perPage, data.withPage);
   }

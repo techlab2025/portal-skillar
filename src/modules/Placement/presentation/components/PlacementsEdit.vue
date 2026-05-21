@@ -3,45 +3,49 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import AppButton from '@/shared/HelpersComponents/AppButton.vue';
 import IconAccept from '@/shared/icons/IconAccept.vue';
-import type EditQuestionParams from '../../core/params/edit.question.params';
-import ShowQuestionParams from '../../core/params/show.question.params';
-import questionsController from '../controllers/questions.controller';
-import QuestionsForm from './questionsForm.vue';
+import PlacementController from '../controllers/placement.controller';
+import type EditPlacementParams from '../../core/params/edit.placement.params';
+import ShowPlacementParams from '../../core/params/show.placement.params';
+import PlacementsForm from './PlacementsForm.vue';
 
-const controller = questionsController.getInstance();
+const controller = PlacementController.getInstance();
 const route = useRoute();
 const formKey = route.fullPath;
 
-const params = ref<EditQuestionParams | null>(null);
+const params = ref<EditPlacementParams | null>(null);
 
 /**
- * Update employee
+ * Update placement
  */
-const saveQuestion = async () => {
+const savePlacement = async () => {
   if (!params.value) {
-    console.error('No employee parameters to save');
+    console.error('No placement parameters to save');
     return;
   }
 
   await controller.update(params.value, undefined, formKey);
 };
 
-const updateData = (updatedParams: EditQuestionParams) => {
+const updateData = (updatedParams: EditPlacementParams) => {
   params.value = updatedParams;
 };
 
 onMounted(async () => {
-  await controller.fetchOne(new ShowQuestionParams(Number(route.params.id)));
+  await controller.fetchOne(new ShowPlacementParams(Number(route.params.id)));
 });
 </script>
 
 <template>
-  <div class="employee-edit-page">
-    <QuestionsForm :question="controller.itemData.value!" :form-key="formKey" @update-data="updateData" />
+  <div class="placement-edit-page">
+    <PlacementsForm
+      :placement="controller.itemData.value!"
+      :form-key="formKey"
+      @update-data="updateData"
+    />
 
     <div class="actions">
-      <AppButton title="Update Employee" size="sm" icon="right" type="submit" @click="saveQuestion">
-        Update Employee
+      <AppButton title="Update Placement" size="sm" icon="right" type="submit" @click="savePlacement">
+        Update Placement
         <template #icon>
           <IconAccept />
         </template>

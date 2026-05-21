@@ -1,119 +1,113 @@
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue';
-  import { useRoute } from 'vue-router';
-  import AddplacementParams from '../../core/params/add.placement.params';
-  import placementController from '../controllers/placement.controller';
+  import { computed, ref, watch } from 'vue';
+  import DifficultyQuestion from './subComponenets/DifficultyQuestion.vue';
   import HeaderForm from '@/shared/icons/Placements/HeaderForm.vue';
-  const controller = placementController.getInstance();
-  const route = useRoute();
-  const formKey = route.fullPath;
+  import PlacementPercentageWarning from './subComponenets/PlacementPercentageWarning.vue';
+  import type PlacementModel from '../../core/models/placement.model';
+  const { placement } = defineProps<{ placement?: PlacementModel }>();
 
-  const params = ref<AddplacementParams | null>(null);
-  const saveEmployee = async () => {
-    try {
-      if (!params.value) {
-        console.error('No employee parameters to save');
-        return;
-      }
+  const numberOfQuestions = ref<number>(placement?.numberOfQuestions ?? 0);
+  const time = ref<number>(placement?.time ?? 0);
 
-      await controller.create(params.value, undefined, formKey);
-    } catch (error) {
-      console.error('Error saving employee:', error);
-    }
-  };
+  // const difficulties = ref<{ easy: number; medium: number; hard: number }>({
+  //   easy: 0,
+  //   medium: 0,
+  //   hard: 0,
+  // });
 
-  const updateData = (updatedParams: AddplacementParams) => {
-    params.value = updatedParams;
-  };
+  const difficulties = ref({
+    easy: placement?.difficulties?.easy ?? 0,
+    medium: placement?.difficulties?.medium ?? 0,
+    hard: placement?.difficulties?.hard ?? 0,
+  });
+  const difficultyFields = [
+    {
+      key: 'easy',
+      label: 'easy questions',
+      placeholder: 'enter percentage of easy questions like 20%',
+      class: 'easy',
+      value: difficulties.value.easy,
+    },
+    {
+      key: 'medium',
+      label: 'medium questions',
+      placeholder: 'enter percentage of medium questions like 80%',
+      class: 'medium',
+      value: difficulties.value.medium,
+    },
+    {
+      key: 'hard',
+      label: 'hard questions',
+      placeholder: 'enter percentage of hard questions like 20%',
+      class: 'hard',
+      value: difficulties.value.hard,
+    },
+  ];
 
-  onMounted(() => {
-    updateData(new AddplacementParams({ title: '' }));
+  const totalPercentage = computed(() => {
+    return difficulties.value.easy + difficulties.value.medium + difficulties.value.hard;
   });
 
-  const title = ref<string>('');
-  const numberOfQuestions = ref<number | null>(null);
+  const calculatedQuestions = computed(() => {
+    return {
+      easy: Math.floor((numberOfQuestions.value * difficulties.value.easy) / 100),
+
+      medium: Math.floor((numberOfQuestions.value * difficulties.value.medium) / 100),
+
+      hard: Math.floor((numberOfQuestions.value * difficulties.value.hard) / 100),
+    };
+  });
+  const emit = defineEmits(['close']);
+  const closeDialog = () => {
+    emit('close');
+  };
+
+  watch(
+    () => placement,
+    (newVal) => {
+      difficulties.value = newVal?.difficulties!;
+      numberOfQuestions.value = newVal?.numberOfQuestions!;
+      time.value = newVal?.time!;
+    },
+    { deep: true },
+  );
 </script>
 
 <template>
   <div class="placement-form-card">
     <div class="form-header">
       <HeaderForm />
-      <h2 class="title">{{ $t(`placement test configuration`) }}</h2>
+      <h2 class="title">{{ $t('Placement test configuration') }}</h2>
     </div>
 
     <div class="form-fields">
       <div class="input-wrap">
-        <label for="title">{{ $t(`placement test title`) }}</label>
-        <input
-          id="title"
-          v-model="title"
-          type="number"
-          placeholder="Enter placement title"
-          class="field-input"
-        />
+        <label>Number Of Questions</label>
+        <input v-model="numberOfQuestions" type="number" class="field-input" />
       </div>
+
       <div class="input-wrap">
-        <label for="minutes">{{ $t(`placement test time (minutes)`) }}</label>
-        <input
-          id="numberOfQuestions"
-          v-model="numberOfQuestions"
-          type="number"
-          placeholder="Enter number of questions"
-          class="field-input"
-        />
+        <label>Placement Time (Minutes)</label>
+        <input v-model="time" type="number" class="field-input" />
       </div>
     </div>
-    <div class="difficulty-selection">
-      <div class="difficulty-option-row">
-        <div class="input">
-          <label class="field-label" for="name">{{ $t(`easy questions`) }}</label>
-          <input
-            class="field-input"
-            placeholder="enter percentage of easy questions like 20%"
-            type="number"
-            name=""
-            id=""
-          />
-        </div>
-        <div class="percentage">
-          <p>equel</p>
-          <h6><span>0</span> questions</h6>
-        </div>
-      </div>
 
-      <div class="difficulty-option-row">
-        <div class="input">
-          <label class="field-label" for="name">{{ $t(`easy questions`) }}</label>
-          <input
-            placeholder="enter percentage of medium questions like 20%"
-            class="field-input"
-            type="number"
-            name=""
-            id=""
-          />
-        </div>
-        <div class="percentage">
-          <p>equel</p>
-          <h6><span>0</span> questions</h6>
-        </div>
-      </div>
+    <DifficultyQuestion
+      v-model="difficulties"
+      :difficulty-fields="difficultyFields"
+      :question-count="numberOfQuestions"
+      :calculated-questions="calculatedQuestions"
+      :total-percentage="totalPercentage"
+      :placement="placement"
+    />
 
-      <div class="difficulty-option-row">
-        <div class="input">
-          <label class="field-label" for="name">{{ $t(`easy questions`) }}</label>
-          <input
-            placeholder="enter percentage of medium questions like 20%"
-            class="field-input"
-            type="number"
-            name=""
-            id=""
-          />
-        </div>
-        <div class="percentage">
-          <p>equel</p>
-          <h6><span>0</span> questions</h6>
-        </div>
-      </div>
+    <div class="summary">
+      <p>Total Percentage: {{ totalPercentage }}%</p>
+      <PlacementPercentageWarning
+        v-if="totalPercentage > 100"
+        :percentage="totalPercentage"
+        @close="closeDialog"
+      />
     </div>
   </div>
 </template>

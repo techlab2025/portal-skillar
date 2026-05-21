@@ -1,13 +1,12 @@
 import BaseRepository, { type RepositoryConfig } from '@/base/Domain/Repositories/baseRepository';
-import placementModel from '../../core/models/placement.model';
-import ShowplacementModel from '../../core/models/show.placement.model';
+import PlacementModel from '../../core/models/placement.model';
 import PlacementApiService from '../api/placement.api-service';
 
-export default class placementRepository extends BaseRepository<
-  ShowplacementModel,
-  placementModel[]
+export default class PlacementRepository extends BaseRepository<
+  PlacementModel,
+  PlacementModel[]
 > {
-  private static instance: placementRepository;
+  private static instance: PlacementRepository;
 
   protected get apiService() {
     return PlacementApiService.getInstance();
@@ -21,45 +20,45 @@ export default class placementRepository extends BaseRepository<
     };
   }
 
-  protected get mockItem(): ShowplacementModel {
-    return ShowplacementModel.example;
+  protected get mockItem(): PlacementModel {
+    return PlacementModel.example;
   }
 
-  protected get mockList(): placementModel[] {
+  protected get mockList(): PlacementModel[] {
     return [
-      placementModel.example,
+      PlacementModel.example,
       {
-        ...placementModel.example,
+        ...PlacementModel.example,
         id: 2,
       },
       {
-        ...placementModel.example,
+        ...PlacementModel.example,
         id: 3,
       },
       {
-        ...placementModel.example,
+        ...PlacementModel.example,
         id: 4,
       },
     ];
   }
 
-  static getInstance(): placementRepository {
-    if (!placementRepository.instance) {
-      placementRepository.instance = new placementRepository();
+  static getInstance(): PlacementRepository {
+    if (!PlacementRepository.instance) {
+      PlacementRepository.instance = new PlacementRepository();
     }
-    return placementRepository.instance;
+    return PlacementRepository.instance;
   }
 
-  protected parseItem(data: any): ShowplacementModel {
-    return ShowplacementModel.fromJson(data);
+  protected parseItem(data: any): PlacementModel {
+    return PlacementModel.fromJson(data);
   }
 
-  protected parseList(data: any): placementModel[] {
+  protected parseList(data: any): PlacementModel[] {
     if (!Array.isArray(data)) return [];
-    return data.reduce((acc: placementModel[], item) => {
+    return data.reduce((acc: PlacementModel[], item) => {
       try {
         if (item != null) {
-          acc.push(placementModel.fromJson(item));
+          acc.push(PlacementModel.fromJson(item));
         }
       } catch {}
       return acc;

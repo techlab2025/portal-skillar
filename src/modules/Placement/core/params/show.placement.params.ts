@@ -4,7 +4,7 @@ import { ClassValidation } from '@/base/Presentation/Utils/classValidation';
 /**
  * Parameters for showing an employee
  */
-export default class ShowplacementParams implements Params {
+export default class ShowPlacementParams implements Params {
   public id: number;
 
   public static readonly validation = new ClassValidation().setRules({
@@ -22,10 +22,10 @@ export default class ShowplacementParams implements Params {
   }
 
   validate() {
-    return ShowplacementParams.validation.validate(this);
+    return ShowPlacementParams.validation.validate(this);
   }
 
   validateOrThrow() {
-    return ShowplacementParams.validation.validateOrThrow(this);
+    return ShowPlacementParams.validation.validateOrThrow(this);
   }
 }

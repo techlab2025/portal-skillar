@@ -11,16 +11,37 @@
 
   .form-fields {
     padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-
     @include grid(
       2,
       $XlSize,
       (
-        600: 1,
+        480px: 1,
       )
     );
+    label {
+      font-size: $MdSize;
+      font-family: 'Light';
+      color: $InputLabelText !important;
+      text-transform: none;
+      font-weight: $BaseFontSemiBoldWeight !important;
+    }
+    .field-input {
+      width: 100%;
+      padding: $MdSize;
+      border: $BaseBorderWidth solid var(--border-weak);
+      border-radius: $XlSize4;
+      font-size: $MdSize;
+      color: var(--gray-800);
+      background: var(--white);
+      outline: none;
+      transition: all 0.25s ease;
+      font-family: 'Medium';
+      &:focus {
+        border-color: var(--PrimaryColor);
+        background: var(--bg-main);
+        box-shadow: 0 0 0 3px var(--PrimaryColor-light);
+      }
+    }
   }
 
   .form-header {
@@ -37,7 +58,6 @@
   .difficulty-selection {
     @include flex-column(nowrap, flex-start, flex-start);
     gap: $MdSize;
-
     width: 100%;
     .difficulty-option-row {
       @include flex-row(nowrap, space-between, center);
@@ -47,7 +67,15 @@
 
       .input {
         @include flex-column(nowrap, flex-start, start);
-        background-color: var(--bg-approved);
+        &.easy {
+          background-color: var(--bg-approved);
+        }
+        &.medium {
+          background-color: var(--caution-bg);
+        }
+        &.hard {
+          background-color: var(--bg-rejected);
+        }
         padding: $MdSize;
         border-radius: $MdSize;
         flex: 1;
@@ -105,14 +133,11 @@
       }
       .image-input {
         width: 100%;
-
         .upload-area {
           background-color: $StandardWhite !important;
         }
-
         .add-imaegs-data {
           @include flex-column(nowrap, center, center);
-
           gap: $XsSize5;
 
           .first-text {
@@ -141,5 +166,23 @@
         font-weight: $BaseFontSemiBoldWeight !important;
       }
     }
+  }
+  .summary {
+    @include flex-column(nowrap, flex-start, start);
+    gap: $XsSize;
+    padding: $MdSize;
+    border-radius: $MdSize;
+    background-color: var(--bg-high);
+    color: $PrimaryColor;
+    .error {
+      color: var(--high-color);
+      font-size: $MdSize;
+      font-family: 'Medium';
+    }
+  }
+
+  .error-text {
+    color: var(--high-color);
+    font-family: 'Medium';
   }
 }
