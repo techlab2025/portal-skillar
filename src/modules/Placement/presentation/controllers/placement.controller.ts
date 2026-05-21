@@ -7,8 +7,9 @@ import router from '@/router';
 import { useFormsStore } from '@/stores/formsStore';
 import type PlacementModel from '../../core/models/placement.model';
 import placementRepository from '../../data/repositories/placement.repository';
+import PlacementResultModel from '../../core/models/placementResult';
 
-export default class PlacementController extends BaseController<PlacementModel> {
+export default class PlacementController extends BaseController<PlacementModel, PlacementResultModel[]> {
   private static instance: PlacementController;
 
   protected get repository() {

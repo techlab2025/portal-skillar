@@ -1,10 +1,11 @@
 import BaseRepository, { type RepositoryConfig } from '@/base/Domain/Repositories/baseRepository';
 import PlacementModel from '../../core/models/placement.model';
 import PlacementApiService from '../api/placement.api-service';
+import PlacementResultModel from '../../core/models/placementResult';
 
 export default class PlacementRepository extends BaseRepository<
   PlacementModel,
-  PlacementModel[]
+  PlacementResultModel[]
 > {
   private static instance: PlacementRepository;
 
@@ -24,21 +25,11 @@ export default class PlacementRepository extends BaseRepository<
     return PlacementModel.example;
   }
 
-  protected get mockList(): PlacementModel[] {
+  protected get mockList(): PlacementResultModel[] {
     return [
-      PlacementModel.example,
-      {
-        ...PlacementModel.example,
-        id: 2,
-      },
-      {
-        ...PlacementModel.example,
-        id: 3,
-      },
-      {
-        ...PlacementModel.example,
-        id: 4,
-      },
+      PlacementResultModel.example,
+      PlacementResultModel.example2,
+      PlacementResultModel.example3,
     ];
   }
 
@@ -53,12 +44,12 @@ export default class PlacementRepository extends BaseRepository<
     return PlacementModel.fromJson(data);
   }
 
-  protected parseList(data: any): PlacementModel[] {
+  protected parseList(data: any): PlacementResultModel[] {
     if (!Array.isArray(data)) return [];
-    return data.reduce((acc: PlacementModel[], item) => {
+    return data.reduce((acc: PlacementResultModel[], item) => {
       try {
         if (item != null) {
-          acc.push(PlacementModel.fromJson(item));
+          acc.push(PlacementResultModel.fromJson(item));
         }
       } catch {}
       return acc;

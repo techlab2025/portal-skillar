@@ -1,17 +1,15 @@
+import DifficultyModel from './difficultyModel';
+
 export default class PlacementModel {
   public readonly id?: number;
   public readonly numberOfQuestions?: number;
   public readonly time?: number;
-  public readonly difficulties?: {
-    easy: number;
-    medium: number;
-    hard: number;
-  };
+  public readonly difficulties?: DifficultyModel;
   constructor(data: {
     id?: number;
     numberOfQuestions?: number;
     time?: number;
-    difficulties?: { easy: number; medium: number; hard: number };
+    difficulties?: DifficultyModel;
   }) {
     this.id = data.id;
     this.numberOfQuestions = data.numberOfQuestions;
@@ -30,7 +28,7 @@ export default class PlacementModel {
       id: json.id,
       numberOfQuestions: json.number_of_questions,
       time: json.time,
-      difficulties: json.difficulties,
+      difficulties: DifficultyModel.fromJson(json.difficulties),
     });
   }
 
@@ -38,10 +36,6 @@ export default class PlacementModel {
     id: 5,
     numberOfQuestions: 20,
     time: 40,
-    difficulties: {
-      easy: 10,
-      medium: 5,
-      hard: 5,
-    },
+    difficulties: DifficultyModel.example,
   });
 }

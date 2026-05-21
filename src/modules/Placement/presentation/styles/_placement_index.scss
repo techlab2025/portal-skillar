@@ -28,33 +28,25 @@
     font-size: $SmSize;
     font-weight: $BaseFontWeightBold;
     font-family: 'Bold';
-    color: var(--success);
 
-    &.status-approved {
+    &.completed {
       color: var(--success);
     }
-
-    &.status-not-reviewed {
+    &.not_reviewed {
       color: var(--warning);
-    }
-
-    &.status-rejected {
-      color: var(--error);
-    }
-
-    &.status-under-review {
-      color: var(--info);
     }
   }
 
   .employee-name {
     @include flex-row(nowrap, flex-start, center);
-
     gap: $MdSize;
-
     img {
       width: $XlSize3;
       height: $XlSize3;
+    }
+    span {
+      color: var(--standard-black);
+      font-size: $MdSize;
     }
   }
 

@@ -5,32 +5,27 @@
   import Pagination from '@/shared/HelpersComponents/Pagination.vue';
   import { useRoute, useRouter } from 'vue-router';
   import { debounce } from '@/base/Presentation/Utils/debouced';
-  import { useFormsStore } from '@/stores/formsStore';
   import IndexSearchIcon from '@/shared/icons/IndexSearchIcon.vue';
   import FilterDialog from '@/shared/HelpersComponents/FilterDialog/FilterDialog.vue';
   import TableSkelaton from '@/shared/HelpersComponents/TableSkelaton.vue';
   import placementController from '../controllers/placement.controller';
   import IndexplacementParams from '../../core/params/index.placement.params';
-  import type placementModel from '../../core/models/placement.model';
-  import DeletePlacementParams from '../../core/params/delete.placement.params';
+  import type PlacementResultModel from '../../core/models/placementResult';
 
   const controller = placementController.getInstance();
   const state = computed(() => controller.listState.value);
   const router = useRouter();
   const route = useRoute();
 
-  const FormStore = useFormsStore();
-  const formRoute = computed(() => `/${route.params.country_code}/placement/add`);
-
-  // Table headers
   const headers: TableHeader[] = [
-    { key: 'id', label: 'ID', width: '10%', sortable: true },
-    { key: 'result', label: 'The result ', width: '15%' },
-    { key: 'subject', label: 'The result', width: '30%' },
-    { key: 'numberOfQuestions', label: 'num of Q', width: '15%' },
-    { key: 'status', label: 'status', width: '15%' },
+    { key: 'id', label: 'ID', width: '5%', sortable: true },
+    { key: 'studentName', label: 'student', width: '15%' },
+    { key: 'studentResult', label: 'The result ', width: '15%' },
+    { key: 'subject', label: 'Subject', width: '15%' },
+    { key: 'numberOfExams', label: 'Num of Exams', width: '15%' },
+    { key: 'status', label: 'Status', width: '15%' },
     { key: 'plane', label: 'plane', width: '15%' },
-    { key: 'actions', label: 'Date', width: '15%' },
+    { key: 'date', label: 'Date', width: '15%' },
   ];
 
   // Pagination state
@@ -82,22 +77,22 @@
     await fetchplacement(route.query.page ? Number(route.query.page) : 1, word.value);
   });
 
-  const deleteplacement = async (id: number) => {
-    await controller.delete(new DeletePlacementParams(id));
-    await fetchplacement();
-  };
-
-  const isDraft = computed(() => {
-    const data = FormStore?.formData[formRoute.value] ?? {};
-    return Object.keys(data).length === 0 || Object.values(data).every((v) => v == null);
-  });
-
   const FilterDialogShow = ref<boolean>(false);
   const ApplayFilter = () => {
     FilterDialogShow.value = false;
   };
   const CloseFiletrDialog = () => {
     FilterDialogShow.value = false;
+  };
+
+  const handelScoreColor = (percentage: number) => {
+    if (percentage >= 75) {
+      return 'var(--StandardBlue)';
+    } else if (percentage >= 50) {
+      return 'var(--warning)';
+    } else {
+      return 'var(--danger-alt)';
+    }
   };
 </script>
 
@@ -134,11 +129,58 @@
         <div class="table-frame">
           <AppTable
             :headers="headers"
-            :items="data as placementModel[]"
+            :items="data as PlacementResultModel[]"
             :hoverable="true"
             :striped="true"
-            show-index
+            :show-index="false"
           >
+            <template #cell-subject="{ item }">
+              <div class="subject-name">
+                {{ item.subject }}
+              </div>
+            </template>
+
+            <template #cell-plane="{ item }">
+              {{ item.plane }}
+            </template>
+
+            <template #cell-studentName="{ item }">
+              <div class="employee-name">
+                <img
+                  :src="item.studentImg || `https://cyber.comolho.com/static/img/avatar.png`"
+                  alt="image"
+                />
+                <span>{{ item.studentName }}</span>
+              </div>
+            </template>
+
+            <template #cell-numberOfQuestions="{ item }">
+              {{ item.totalQuestions }}
+            </template>
+
+            <template #cell-studentResult="{ item }">
+              <div class="result">
+                <span
+                  :style="{
+                    color: handelScoreColor(
+                      ((item.studentResult || 0) / (item.totalResult || 1)) * 100,
+                    ),
+                  }"
+                >
+                  {{ item.studentResult }}
+                </span>
+                /
+                {{ item.totalResult }}
+              </div>
+            </template>
+
+            <template #cell-status="{ item }">
+              <span
+                :class="`status ${item.status === 'completed' ? 'completed' : 'not_reviewed'}`"
+                >{{ item.status }}</span
+              >
+            </template>
+
             <template #actions="{ item }">
               <div class="row-actions">
                 <router-link
