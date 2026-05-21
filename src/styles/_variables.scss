@@ -34,6 +34,7 @@
   --primary-green: rgba(79, 175, 124, 1);
   --light-green-bg: #f1f8f1;
   --btn-red: rgba(214, 69, 69, 1);
+  --color-gray-soft-1: rgba(48, 48, 48, 1);
 
   /* ── Secondary ─────────────────────────────────────────────── */
   --SecondaryColor: #f8fafc;
@@ -128,7 +129,6 @@
   --gray-text-blue: #4b5563;
   --baseInputPadding: 12px;
   --gray-text: #8a8a8a;
-
   /* Status Colors */
   --bg-waiting: #eaf4ff;
   --border-waiting: #bfd9ff;
@@ -138,6 +138,7 @@
   --border-rejected: #f5c2c0;
   --bg-approved: #e9f9ee;
   --border-approved: #b7e9c9;
+  --blue-opacity-50: rgba(29, 78, 216, 1);
 
   /* ── Typography ────────────────────────────────────────────── */
   --font-family: 'Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

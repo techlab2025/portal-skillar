@@ -5,7 +5,7 @@ import IconAccept from '@/shared/icons/IconAccept.vue';
 import { useRoute } from 'vue-router';
 import type AddEmployeeParams from '../../core/params/add.Artical.params';
 import ArticleController from '../controllers/Article.controller';
-import ArticleNewForm from './ArticleNewForm.vue';
+import ArticleForm from './ArticleForm.vue';
 
 const controller = ArticleController.getInstance();
 const route = useRoute();
@@ -38,6 +38,7 @@ const updateData = (updatedParams: AddEmployeeParams) => {
   <div class="artical-add-page">
     <!-- <ArticleForm :form-key="formKey" @update-data="updateData" /> -->
     <ArticleNewForm :form-key="formKey" @update-data="updateData" />
+
 
     <div class="actions">
       <AppButton title="Save Article" size="sm" icon="right" type="submit" class="save-emp" @click="saveArticle">

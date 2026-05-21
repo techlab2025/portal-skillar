@@ -6,7 +6,7 @@ import IconAccept from '@/shared/icons/IconAccept.vue';
 import ArticleController from '../controllers/Article.controller';
 import type EditArticlesParams from '../../core/params/edit.Articles.params';
 import ShowArticlesParams from '../../core/params/show.Articles.params';
-import ArticleNewForm from './ArticleNewForm.vue';
+import ArticleNewForm from './ArticleForm.vue';
 
 const controller = ArticleController.getInstance();
 const route = useRoute();
