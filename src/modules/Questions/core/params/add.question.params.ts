@@ -1,5 +1,4 @@
 import type Params from '@/base/Core/Params/params';
-import { ClassValidation } from '@/base/Presentation/Utils/classValidation';
 import type { QuestionTypeEnum } from '../constant/question.type.enum';
 import type { QuestionDifficultyEnum } from '../constant/question.difficulty.enum';
 import type AnswersParams from './subParams/answers.params';
@@ -8,6 +7,7 @@ import type QuestionSourceParams from './subParams/question.source.params';
 import type SolutionStepsParams from './subParams/soluation.steps.params';
 import type QuestionClarificationParams from './subParams/question.clarification.params';
 import type TopicsParams from './subParams/topics.params';
+import { ClassValidation } from '@/base/Presentation/Utils/classValidation';
 
 /**
  * Parameters for adding a new employee

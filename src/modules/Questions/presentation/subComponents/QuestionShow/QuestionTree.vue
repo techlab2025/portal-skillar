@@ -24,10 +24,10 @@
           <Arrow />
 
           <span v-for="(item, index) in questionData?.subjectTree?.children" :key="index">
-            <NextStepIcon
+            <!-- <NextStepIcon
               v-if="index !== questionData?.subjectTree?.children!.length - 1"
               class="arrow-next"
-            />
+            /> -->
             {{ item.title }}
           </span>
         </div>
@@ -44,10 +44,10 @@
         </div>
 
         <!-- <NextStepIcon v-if="index !== sequencePath.length - 1" class="arrow-next" /> -->
-        <NextStepIcon
+        <!-- <NextStepIcon
           v-if="index !== questionData?.sequenceTree?.children!.length - 1"
           class="arrow-next"
-        />
+        /> -->
         <span v-for="(item, index) in questionData?.sequenceTree?.children" :key="index">
           {{ item.title }}
         </span>

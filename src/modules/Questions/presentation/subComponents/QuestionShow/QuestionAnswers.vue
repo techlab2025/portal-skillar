@@ -8,7 +8,7 @@
     <div class="question-answers-list">
       <div
         class="question-answer-item"
-        :class="{ correct: answer?.isCorrect }"
+        :class="{ correct: answer?.is_right_answer }"
         v-for="answer in answers"
         :key="answer?.id"
       >
