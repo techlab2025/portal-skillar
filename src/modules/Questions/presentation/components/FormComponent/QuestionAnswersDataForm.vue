@@ -9,7 +9,11 @@
   import AddquestionsParams from '@/modules/Questions/core/params/add.question.params';
   import EditquestionsParams from '@/modules/Questions/core/params/edit.question.params';
   import AnswersTimeLine from '../../subComponents/AnswersTimeLine.vue';
+<<<<<<< HEAD
   import AnswersParams from '@/modules/Questions/core/params/subParams/answers.params';
+=======
+  import type AnswersParams from '@/modules/Questions/core/params/subParams/answers.params';
+>>>>>>> 633ec90 (finish answer model)
   import QuestionClarification from '../../subComponents/QuestionClarification.vue';
   import QuestionClarificationParams from '@/modules/Questions/core/params/subParams/question.clarification.params';
   import QuestionSolutionSteps from '../../subComponents/QuestionSolutionSteps.vue';
@@ -20,7 +24,10 @@
   import type QuestionClarificationModel from '@/modules/Questions/core/models/subModels/question.clarification.model';
   import type SolutionStepsModel from '@/modules/Questions/core/models/subModels/solution.steps.model';
   import type SolutionHintModel from '@/modules/Questions/core/models/subModels/solution.hint.model';
+<<<<<<< HEAD
   import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachments.params';
+=======
+>>>>>>> 633ec90 (finish answer model)
 
   const emit = defineEmits(['updateData']);
   const route = useRoute();
@@ -33,6 +40,7 @@
     if (route.params.id) {
       params = new EditquestionsParams({
         id: Number(route.params.id),
+<<<<<<< HEAD
         answers: Answers.value?.map(
           (item: AnswersParams) =>
             new AnswersParams({
@@ -52,6 +60,9 @@
               rank: item.rank,
             }),
         ),
+=======
+        answers: Answers.value,
+>>>>>>> 633ec90 (finish answer model)
         isQuestionClarification: isQuestionClarification.value,
         questionClarification: QuestionClarifications.value!,
         isSolutionSteps: isSolutionSteps.value,
@@ -61,6 +72,7 @@
       });
     } else {
       params = new AddquestionsParams({
+<<<<<<< HEAD
         answers: Answers.value?.map(
           (item: AnswersParams) =>
             new AnswersParams({
@@ -80,6 +92,9 @@
               rank: item.rank,
             }),
         ),
+=======
+        answers: Answers.value,
+>>>>>>> 633ec90 (finish answer model)
         isQuestionClarification: isQuestionClarification.value,
         questionClarification: QuestionClarifications.value!,
         isSolutionSteps: isSolutionSteps.value,
@@ -88,9 +103,12 @@
         solutionHint: SolutionHints.value!,
       });
     }
+<<<<<<< HEAD
     console.log(Answers.value, 'answersanswersanswers');
 
     console.log(params, 'paramsparamsparams');
+=======
+>>>>>>> 633ec90 (finish answer model)
     emit('updateData', params);
   };
 
