@@ -46,7 +46,7 @@
       <div class="setting">
         <HeaderNotificationIcon class="cursor-pointer" />
         <HeaderMessgaesIcon class="cursor-pointer" />
-        <HeaderDarkModeIcon class="cursor-pointer" @click="themeStore.toggle()" />
+        <!-- <HeaderDarkModeIcon class="cursor-pointer" @click="themeStore.toggle()" /> -->
         <HeaderSettingIcon class="cursor-pointer" />
 
         <!-- <IconArrowDownNav class="drop-icon" /> -->
