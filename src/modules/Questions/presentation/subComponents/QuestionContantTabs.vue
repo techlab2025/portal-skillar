@@ -7,6 +7,7 @@
   import { QuestionDifficultyEnum } from '../../core/constant/question.difficulty.enum';
   import AddquestionsParams from '../../core/params/add.question.params';
   import QuestionSkillParams from '../../core/params/subParams/question.skills.params';
+  import TopicsParams from '../../core/params/subParams/topics.params';
   import type ShowQuestionsModel from '../../core/models/show.questions.model';
   const indexDocumentTypeParams = new IndexDocumentTypeParams();
   const documentTypeController = DocumentTypeController.getInstance();
@@ -48,8 +49,8 @@
               skillId: item.id,
               percentage: Number(item.subtitle),
             });
-          }) || [],
-        topics: SelectedTopic.value?.map((item) => item.id) || [],
+          }) || undefined,
+        topics: SelectedTopic.value?.map((item) => new TopicsParams({ id: item.id })) || [],
         questionSequenceId: SelectedQuestionSequence.value?.id,
         subjectId: SelectedSubject.value?.id,
       }),

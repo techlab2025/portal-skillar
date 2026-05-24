@@ -194,7 +194,7 @@ const GetQuestionStatus = (val: ArticleStatusEnum) => {
                 <span class="subject-cycle">
                   {{ item.subject?.cycle }}
                   <Articlesubject />
-                  <span class="subject-lang">{{ item.subject?.language ?? 'Arabic' }}</span>
+                  <span class="subject-lang">{{ item.subject?.subSubject ?? 'Arabic' }}</span>
                 </span>
 
                 <span class="subject-grade">

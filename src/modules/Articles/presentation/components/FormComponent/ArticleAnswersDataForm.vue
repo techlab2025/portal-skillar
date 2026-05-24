@@ -5,11 +5,9 @@ import AccordionHeader from 'primevue/accordionheader';
 import AccordionContent from 'primevue/accordioncontent';
 import AccordionToggleIcon from '@/shared/icons/questions/AccordionToggleIcon.vue';
 import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
 import AnswersTimeLine from '../../subComponents/AnswersTimeLine.vue';
 import type ShowArticleModel from '@/modules/Articles/core/models/show.Article.model';
 import type { ArticleTypeEnum } from '@/modules/Articles/core/constant/Article.type.enum';
-import EditArticlesParams from '@/modules/Articles/core/params/edit.Articles.params';
 import AddArticlesParams from '@/modules/Articles/core/params/add.Artical.params';
 import ArticleClarificationParams from '@/modules/Articles/core/params/subParams/Artical.clarification.params';
 import ArticalSolutionStepsParams from '@/modules/Articles/core/params/subParams/Artical.soluation.steps.params';
@@ -18,10 +16,10 @@ import ArticleSolutionSteps from '../../subComponents/ArticleSolutionSteps.vue';
 import ArticleSolutionHints from '../../subComponents/ArticleSolutionHints.vue';
 import ArticleClarification from '../../subComponents/ArticleClarification.vue';
 import type ArticleSolutionStepsModel from '@/modules/Articles/core/models/subModels/Article.solution.steps.model';
+import type ArticleSolutionHintModel from '@/modules/Articles/core/models/subModels/Article.solution.hint.model';
 import type ArticalAnswersParams from '@/modules/Articles/core/params/subParams/Artical.answers.params';
 
 const emit = defineEmits(['updateData']);
-const route = useRoute();
 const { articleType, articleData } = defineProps<{
   articleType: ArticleTypeEnum;
   articleData: ShowArticleModel;
@@ -29,28 +27,15 @@ const { articleType, articleData } = defineProps<{
 
 const updateData = () => {
   let params: any;
-  if (route.params.id) {
-    params = new EditArticlesParams({
-      id: Number(route.params.id),
-      answers: Answers.value,
-      isArticleClarification: isArticleClarification.value,
-      articleClarification: articleClarification.value!,
-      isArticleSolutionSteps: isSolutionSteps.value,
-      articleSolutionSteps: articleSolutionSteps.value!,
-      isArticleSolutionHint: isSolutionHints.value,
-      articleSolutionHint: articleSolutionHints.value!,
-    });
-  } else {
-    params = new AddArticlesParams({
-      answers: Answers.value,
-      isArticleClarification: isArticleClarification.value,
-      articleClarification: articleClarification.value!,
-      isArticleSolutionSteps: isSolutionSteps.value,
-      articleSolutionSteps: articleSolutionSteps.value!,
-      isArticleSolutionHint: isSolutionHints.value,
-      articleSolutionHint: articleSolutionHints.value!,
-    });
-  }
+  params = new AddArticlesParams({
+    answers: Answers.value,
+    isArticleClarification: isArticleClarification.value,
+    articleClarification: articleClarification.value!,
+    isArticleSolutionSteps: isSolutionSteps.value,
+    articleSolutionSteps: articleSolutionSteps.value!,
+    isArticleSolutionHint: isSolutionHints.value,
+    articleSolutionHint: articleSolutionHints.value!,
+  });
   emit('updateData', params);
 };
 
@@ -103,7 +88,7 @@ const ClarificationData = ref<ArticleClarificationModel>();
 const isClarification = ref<boolean>(false);
 const SolutionStepsData = ref<ArticleSolutionStepsModel>();
 const isSolutionStepsData = ref<boolean>(false);
-const SolutionHintsData = ref<ArticleSolutionStepsModel>();
+const SolutionHintsData = ref<ArticleSolutionHintModel>();
 const isSolutionHintsData = ref<boolean>(false);
 watch(
   () => articleData,
@@ -134,7 +119,7 @@ watch(
         </template>
       </AccordionHeader>
       <AccordionContent>
-        <AnswersTimeLine :ArticleType="articleType" @update:data="GetAnswers" />
+        <AnswersTimeLine :questionType="articleType" @update:data="GetAnswers" />
         <ArticleClarification
           :ClarificationData="ClarificationData!"
           :isclarification="isClarification"

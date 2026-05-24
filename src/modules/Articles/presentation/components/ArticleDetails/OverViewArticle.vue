@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ArticleDifficultyEnum } from '@/modules/Articles/core/constant/Article.difficulty.enum';
 import type ArticalDetailsModel from '@/modules/Articles/core/models/artical.details.model';
 import FolderCrudIcon from '@/shared/icons/FolderCrudIcon.vue';
 import { useRoute } from 'vue-router';
@@ -15,17 +14,6 @@ const { article } = defineProps<{
 }>();
 
 const route = useRoute();
-
-const GetDifficultyType = (val: ArticleDifficultyEnum) => {
-    switch (val) {
-        case ArticleDifficultyEnum.easy:
-            return 'Easy';
-        case ArticleDifficultyEnum.medium:
-            return 'Medium';
-        case ArticleDifficultyEnum.hard:
-            return 'Hard';
-    }
-};
 
 
 

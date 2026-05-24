@@ -1,14 +1,19 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import type ArticalDetailsModel from '@/modules/Articles/core/models/artical.details.model';
 import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
 import AnalysisIcon from '@/shared/icons/AnalysisIcon.vue';
-
 import ProgressBar from 'primevue/progressbar';
-
+import { DocumentController, IndexDocumentParams } from '@/modules/document';
 
 const { article } = defineProps<{
     article?: ArticalDetailsModel;
 }>();
+
+const indexDocumentParams = ref(new IndexDocumentParams());
+const documentController = ref<any>(DocumentController.getInstance());
+const SelectedSubject = ref<any>(null);
+const updateData = () => {};
 </script>
 <template>
     <div class="Analysis_Report">

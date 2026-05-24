@@ -12,8 +12,8 @@ import type ArticleSolutionHintModel from '../../core/models/subModels/Article.s
 
   const emit = defineEmits(['updateData']);
   const {SolutionHintsData ,isSolutionHintsData } = defineProps<{
-    SolutionHintsData:ArticleSolutionHintModel,
-    isSolutionHintsData:boolean
+    SolutionHintsData?: ArticleSolutionHintModel,
+    isSolutionHintsData: boolean
   }>()
   const updateData = () => {
     emit('updateData', {
@@ -35,8 +35,10 @@ import type ArticleSolutionHintModel from '../../core/models/subModels/Article.s
 
   watch([()=>SolutionHintsData ,  ()=>isSolutionHintsData] , ([newSolutionHinrdata , newIsSolution])=>{
   isSolutionSteps.value = newIsSolution
-  description.value = newSolutionHinrdata.hint
-  file.value = newSolutionHinrdata.image
+  if (newSolutionHinrdata) {
+    description.value = newSolutionHinrdata.hint
+    file.value = newSolutionHinrdata.image
+  }
 })
 </script>
 

@@ -1,18 +1,19 @@
 // Models
-export { default as questionsModel } from './core/models/Article.model';
+export { default as ArticleModel } from './core/models/Article.model';
 
 // Params
-export { default as AddquestionsParams } from "./core/params/add.Artical.params";
-export { default as EditquestionsParams } from "./core/params/edit.question.params";
-export { default as DeletequestionsParams } from "./core/params/Articles.question.params";
-export { default as ShowquestionsParams } from "./core/params/show.question.params";
-export { default as IndexquestionsParams } from "./core/params/index.Articles.params";
+export { default as AddArticlesParams } from "./core/params/add.Artical.params";
+export { default as EditArticlesParams } from "./core/params/edit.Articles.params";
+export { default as DeleteArticlesParams } from "./core/params/Articles.question.params";
+export { default as ShowArticlesParams } from "./core/params/show.Articles.params";
+export { default as IndexArticlesParams } from "./core/params/index.Articles.params";
 
 // Repository
-export { default as questionsRepository } from './data/repositories/Artical.repository';
+export { default as ArticleRepository } from './data/repositories/Artical.repository';
 
 // Controller
-export { default as questionsController } from './presentation/controllers/questions.controller';
+export { default as ArticleController } from './presentation/controllers/Article.controller';
 
 // API Service
-export { default as questionsApiService } from './data/api/Artical.api-service';
+export { default as ArticleApiService } from './data/api/Artical.api-service';
+

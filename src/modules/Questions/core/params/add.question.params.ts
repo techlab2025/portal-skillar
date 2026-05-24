@@ -17,7 +17,7 @@ export default class AddquestionsParams implements Params {
   public image?: string[];
   public questionType?: QuestionTypeEnum;
   public subjectId?: number | null;
-  public topics?: TopicsParams[];
+  public topics?: TopicsParams[] | null;
   public questionSequenceId?: number | null;
   public difficultyLevel?: QuestionDifficultyEnum | null;
   public skills?: QuestionSkillParams[];
@@ -47,7 +47,7 @@ export default class AddquestionsParams implements Params {
     image?: string[];
     questionType?: QuestionTypeEnum;
     subjectId?: number | null;
-    topics?: TopicsParams[];
+    topics?: TopicsParams[] | null;
     questionSequenceId?: number | null;
     difficultyLevel?: QuestionDifficultyEnum | null;
     skills?: QuestionSkillParams[];

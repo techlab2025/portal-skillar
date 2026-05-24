@@ -126,7 +126,7 @@
         percentage: item?.percentage,
       });
     });
-    SelectedTopic.value = data.topics!;
+    SelectedTopic.value = data.topics ? data.topics.map((item: any) => item.id) : [];
     SelectedQuestionSequence.value = data.questionSequenceId!;
     SelectedSubject.value = data.subjectId!;
     updateData();

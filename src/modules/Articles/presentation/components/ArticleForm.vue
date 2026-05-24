@@ -14,6 +14,9 @@ import AccordionContent from 'primevue/accordioncontent';
 import FolderCrudIcon from '@/shared/icons/FolderCrudIcon.vue';
 import Checkbox from 'primevue/checkbox';
 import AccordionToggleIcon from '@/shared/icons/questions/AccordionToggleIcon.vue';
+import { DocumentController, IndexDocumentParams } from '@/modules/document';
+import { ArticleTypeEnum } from '../../core/constant/Article.type.enum';
+import ArticalSourceParams from '../../core/params/subParams/Artical.source.params';
 
 const route = useRoute();
 const emit = defineEmits(['updateData']);
@@ -31,62 +34,59 @@ const handleFile = (files: UploadedFile[]) => {
   updateData();
 };
 
+const indexDocumentParams = ref(new IndexDocumentParams());
+const documentController = ref<any>(DocumentController.getInstance());
+const SelectedSubject = ref<any>(null);
+const articleSource = ref<string>('');
+
 const updateData = () => {
   let params: any;
   if (route?.params?.id) {
     params = new EditArticlesParams({
       id: Number(route.params.id),
-      title: BasicData.value?.title,
-      image: BasicData.value?.image,
-      articleType: BasicData.value?.articleType,
-      subjectId: BasicData.value?.subjectId,
-      skills: BasicData.value?.skills,
-      difficultyLevel: BasicData.value?.difficultyLevel,
-      topics: BasicData.value?.topics,
-      articleSequenceId: BasicData.value?.articleSequenceId,
-      articleSource: BasicData.value?.articleSource,
-      answers: AnswerData.value?.answers,
-      isArticleClarification: AnswerData.value?.isArticleClarification,
-      articleClarification: AnswerData.value?.articleClarification,
-      isArticleSolutionSteps: AnswerData.value?.isArticleSolutionSteps,
-      articleSolutionSteps: AnswerData.value?.articleSolutionSteps,
-      isArticleSolutionHint: AnswerData.value?.isArticleSolutionHint,
-      articleSolutionHint: AnswerData.value?.articleSolutionHint,
+      title: BasicData.value.title || '',
+      image: BasicData.value.image || [],
+      articleType: BasicData.value.articleType || ArticleTypeEnum.mcq,
+      subjectId: BasicData.value.subjectId ?? null,
+      skills: BasicData.value.skills || [],
+      difficultyLevel: BasicData.value.difficultyLevel ?? null,
+      topics: BasicData.value.topics || [],
+      articleSequenceId: BasicData.value.articleSequenceId ?? null,
+      articleSource: BasicData.value.articleSource || new ArticalSourceParams({ documentId: 0, source: '' }),
+      answers: AnswerData.value.answers || [],
+      isArticleClarification: AnswerData.value.isArticleClarification,
+      articleClarification: AnswerData.value.articleClarification,
+      isArticleSolutionSteps: AnswerData.value.isArticleSolutionSteps,
+      articleSolutionSteps: AnswerData.value.articleSolutionSteps,
+      isArticleSolutionHint: AnswerData.value.isArticleSolutionHint,
+      articleSolutionHint: AnswerData.value.articleSolutionHint,
     });
   } else {
     params = new AddArticlesParams({
-      title: BasicData.value?.title,
-      image: BasicData.value?.image,
-      articleType: BasicData.value?.articleType,
-      subjectId: BasicData.value?.subjectId,
-      skills: BasicData.value?.skills,
-      difficultyLevel: BasicData.value?.difficultyLevel,
-      topics: BasicData.value?.topics,
-      articleSequenceId: BasicData.value?.articleSequenceId,
-      articleSource: BasicData.value?.articleSource,
-      answers: AnswerData.value?.answers,
-      isArticleClarification: AnswerData.value?.isArticleClarification,
-      articleClarification: AnswerData.value?.articleClarification,
-      isArticleSolutionSteps: AnswerData.value?.isArticleSolutionSteps,
-      articleSolutionSteps: AnswerData.value?.articleSolutionSteps,
-      isArticleSolutionHint: AnswerData.value?.isArticleSolutionHint,
-      articleSolutionHint: AnswerData.value?.articleSolutionHint,
+      title: BasicData.value.title,
+      image: BasicData.value.image,
+      articleType: BasicData.value.articleType,
+      subjectId: BasicData.value.subjectId,
+      skills: BasicData.value.skills,
+      difficultyLevel: BasicData.value.difficultyLevel,
+      topics: BasicData.value.topics,
+      articleSequenceId: BasicData.value.articleSequenceId,
+      articleSource: BasicData.value.articleSource,
+      answers: AnswerData.value.answers,
+      isArticleClarification: AnswerData.value.isArticleClarification,
+      articleClarification: AnswerData.value.articleClarification,
+      isArticleSolutionSteps: AnswerData.value.isArticleSolutionSteps,
+      articleSolutionSteps: AnswerData.value.articleSolutionSteps,
+      isArticleSolutionHint: AnswerData.value.isArticleSolutionHint,
+      articleSolutionHint: AnswerData.value.articleSolutionHint,
     });
   }
   emit('updateData', params);
 };
 
-const BasicData = ref<AddArticlesParams>();
-const GetAllBasicData = (data: AddArticlesParams) => {
-  BasicData.value = data;
-  updateData();
-};
+const BasicData = ref<AddArticlesParams>(new AddArticlesParams({ articleType: ArticleTypeEnum.mcq }));
 
-const AnswerData = ref<AddArticlesParams>();
-const GetAllAnswers = (data: AddArticlesParams) => {
-  AnswerData.value = data;
-  updateData();
-};
+const AnswerData = ref<AddArticlesParams>(new AddArticlesParams({}));
 
 watch(
   () => article,

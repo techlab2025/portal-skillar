@@ -4,20 +4,20 @@ import ArticleSubjectModel from './Subject.model';
 export default class ArticleModel {
   public readonly id?: number;
   public readonly articleTitle: string;
-  public readonly subject: { curriculum: string; cycle: string; grade: string } | null;
+  public readonly subject: ArticleSubjectModel | null;
   public readonly generatedBy: ArticleGeneratedByEnum;
   public readonly noOfQs: number;
 
   constructor(data: {
     id?: number;
     articleTitle?: string;
-    subject?: ArticleSubjectModel;
+    subject?: ArticleSubjectModel | null;
     generatedBy?: ArticleGeneratedByEnum;
     noOfQs?: number;
   }) {
     this.id = data.id;
     this.articleTitle = data.articleTitle || '';
-    this.subject = data.subject || new ArticleSubjectModel({});
+    this.subject = data.subject || null;
     this.generatedBy = data.generatedBy || ArticleGeneratedByEnum.manual;
     this.noOfQs = data.noOfQs || 0;
 
@@ -30,13 +30,7 @@ export default class ArticleModel {
     return new ArticleModel({
       id: json.id,
       articleTitle: json.article_title,
-      subject: json.subject
-        ? {
-            curriculum: json.subject.curriculum ?? '',
-            cycle: json.subject.cycle ?? '',
-            grade: json.subject.grade ?? '',
-          }
-        : null,
+      subject: json.subject ? ArticleSubjectModel.fromJson(json.subject) : null,
       generatedBy: json.generated_by,
       noOfQs: json.no_of_qs,
     });
@@ -50,3 +44,4 @@ export default class ArticleModel {
     noOfQs: 10,
   });
 }
+

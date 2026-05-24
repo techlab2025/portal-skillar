@@ -5,7 +5,7 @@ import IconAccept from '@/shared/icons/IconAccept.vue';
 import { useRoute } from 'vue-router';
 import type AddEmployeeParams from '../../core/params/add.Artical.params';
 import ArticleController from '../controllers/Article.controller';
-import ArticleForm from './ArticleForm.vue';
+import ArticleNewForm from './ArticleNewForm.vue';
 
 const controller = ArticleController.getInstance();
 const route = useRoute();

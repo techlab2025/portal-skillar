@@ -8,11 +8,11 @@
   import HandleFilesUpload, { type UploadedFile } from '@/shared/FormInputs/HandleFilesUpload.vue';
   import UploadFileIcon from '@/shared/icons/UploadFileIcon.vue';
   import ArticalSolutionStepsParams from '../../core/params/subParams/Artical.soluation.steps.params';
-  import type SolutionStepsModel from '@/modules/Questions/core/models/subModels/solution.steps.model';
+  import type SolutionStepsModel from '../../core/models/subModels/Article.solution.steps.model';
 
   const emit = defineEmits(['updateData']);
   const { SolutionStepsData, isSolutionStepsData } = defineProps<{
-    SolutionStepsData: SolutionStepsModel;
+    SolutionStepsData?: SolutionStepsModel;
     isSolutionStepsData: boolean;
   }>();
   const updateData = () => {
@@ -38,8 +38,10 @@
     [() => SolutionStepsData, () => isSolutionStepsData],
     ([newSolutionStepsdata, newIsSolution]) => {
       isSolutionSteps.value = newIsSolution;
-      description.value = newSolutionStepsdata.step;
-      file.value = newSolutionStepsdata.image;
+      if (newSolutionStepsdata) {
+        description.value = newSolutionStepsdata.step;
+        file.value = newSolutionStepsdata.image;
+      }
     },
   );
 </script>

@@ -11,6 +11,7 @@ import { ArticleDifficultyEnum } from '../constant/Article.difficulty.enum';
 import { ArticleStatusEnum } from '../constant/Article.status.enum';
 import { ArticleGeneratedByEnum } from '../constant/Article.generatedby.enum';
 import ArticleDocumentModel from './subModels/Article.document.model';
+import ArticleSubjectModel from './Subject.model';
 
 export default class ShowArticleModel {
   public readonly id?: number;
@@ -30,7 +31,7 @@ export default class ShowArticleModel {
   public readonly articleDocuments?: ArticleDocumentModel;
   public readonly articleSkills?: ArticleSkillsModel[];
   public readonly articleTitle?: string;
-  public readonly subject?: string;
+  public readonly subject?: ArticleSubjectModel | null;
   public readonly noOfQs?: number;
 
   constructor(data: {
@@ -50,7 +51,7 @@ export default class ShowArticleModel {
     articleDocuments?: ArticleDocumentModel;
     articleSkills?: ArticleSkillsModel[];
     articleTitle?: string;
-    subject?: string;
+    subject?: ArticleSubjectModel | null;
     noOfQs?: number;
   }) {
     this.id = data.id;
@@ -98,7 +99,7 @@ export default class ShowArticleModel {
       articleDocuments: ArticleDocumentModel.fromJson(json.article_documents),
       articleSkills: json.article_skills.map((skill: any) => ArticleSkillsModel.fromJson(skill)),
       articleTitle: json.article_title,
-      subject: json.subject,
+      subject: json.subject ? ArticleSubjectModel.fromJson(json.subject) : null,
       noOfQs: json.no_of_qs,
     });
   }
@@ -119,7 +120,7 @@ export default class ShowArticleModel {
     articleDocuments: ArticleDocumentModel.example,
     articleSkills: [ArticleSkillsModel.example],
     articleTitle: 'What is the capital of Egypt? ',
-    subject: 'Math',
+    subject: ArticleSubjectModel.example,
     noOfQs: 10,
   });
 }
