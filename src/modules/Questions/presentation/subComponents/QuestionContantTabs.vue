@@ -135,7 +135,6 @@
     <div class="form-group">
       <div class="input">
         <UpdatedCustomInputSelect
-
           id="doc-branch"
           :label="`subject name`"
           :static-options="branchOptions"
@@ -186,7 +185,6 @@
         :type="2"
         :params="indexSkillsParams"
         :controller="skillsController"
-        v-model="SelectedSkill"
         placeholder="Subject Type"
         @update:model-value="updateData"
       />
