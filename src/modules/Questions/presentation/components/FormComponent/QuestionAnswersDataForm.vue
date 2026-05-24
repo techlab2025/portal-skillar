@@ -9,15 +9,8 @@
   import AddquestionsParams from '@/modules/Questions/core/params/add.question.params';
   import EditquestionsParams from '@/modules/Questions/core/params/edit.question.params';
   import AnswersTimeLine from '../../subComponents/AnswersTimeLine.vue';
-<<<<<<< HEAD
-<<<<<<< HEAD
   import AnswersParams from '@/modules/Questions/core/params/subParams/answers.params';
-=======
   import type AnswersParams from '@/modules/Questions/core/params/subParams/answers.params';
->>>>>>> 633ec90 (finish answer model)
-=======
-  import AnswersParams from '@/modules/Questions/core/params/subParams/answers.params';
->>>>>>> a72a2c7 (update question form)
   import QuestionClarification from '../../subComponents/QuestionClarification.vue';
   import QuestionClarificationParams from '@/modules/Questions/core/params/subParams/question.clarification.params';
   import QuestionSolutionSteps from '../../subComponents/QuestionSolutionSteps.vue';
@@ -28,14 +21,7 @@
   import type QuestionClarificationModel from '@/modules/Questions/core/models/subModels/question.clarification.model';
   import type SolutionStepsModel from '@/modules/Questions/core/models/subModels/solution.steps.model';
   import type SolutionHintModel from '@/modules/Questions/core/models/subModels/solution.hint.model';
-<<<<<<< HEAD
-<<<<<<< HEAD
   import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachments.params';
-=======
->>>>>>> 633ec90 (finish answer model)
-=======
-  import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachments.params';
->>>>>>> a72a2c7 (update question form)
 
   const emit = defineEmits(['updateData']);
   const route = useRoute();
@@ -48,10 +34,6 @@
     if (route.params.id) {
       params = new EditquestionsParams({
         id: Number(route.params.id),
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a72a2c7 (update question form)
         answers: Answers.value?.map(
           (item: AnswersParams) =>
             new AnswersParams({
@@ -71,12 +53,6 @@
               rank: item.rank,
             }),
         ),
-<<<<<<< HEAD
-=======
-        answers: Answers.value,
->>>>>>> 633ec90 (finish answer model)
-=======
->>>>>>> a72a2c7 (update question form)
         isQuestionClarification: isQuestionClarification.value,
         questionClarification: QuestionClarifications.value!,
         isSolutionSteps: isSolutionSteps.value,
@@ -86,10 +62,6 @@
       });
     } else {
       params = new AddquestionsParams({
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a72a2c7 (update question form)
         answers: Answers.value?.map(
           (item: AnswersParams) =>
             new AnswersParams({
@@ -109,12 +81,6 @@
               rank: item.rank,
             }),
         ),
-<<<<<<< HEAD
-=======
-        answers: Answers.value,
->>>>>>> 633ec90 (finish answer model)
-=======
->>>>>>> a72a2c7 (update question form)
         isQuestionClarification: isQuestionClarification.value,
         questionClarification: QuestionClarifications.value!,
         isSolutionSteps: isSolutionSteps.value,
@@ -123,18 +89,8 @@
         solutionHint: SolutionHints.value!,
       });
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-    console.log(Answers.value, 'answersanswersanswers');
-
-    console.log(params, 'paramsparamsparams');
-=======
->>>>>>> 633ec90 (finish answer model)
-=======
-    console.log(Answers.value, 'answersanswersanswers');
-
-    console.log(params, 'paramsparamsparams');
->>>>>>> a72a2c7 (update question form)
+    // console.log(Answers.value, 'answersanswersanswers');
+    // console.log(params, 'paramsparamsparams');
     emit('updateData', params);
   };
 
