@@ -6,6 +6,7 @@ import { onMounted } from 'vue';
 import ShowArticlesParams from '../../../core/params/show.Articles.params';
 import OverViewArticle from './OverViewArticle.vue';
 import AnalysisReport from './AnalysisReport.vue';
+import ArticleQuestion from './ArticleQuestion.vue';
 
 
 const controller = ArticleController.getInstance();
@@ -24,5 +25,6 @@ onMounted(() => {
     <div class="Article_details">
         <OverViewArticle :article="state.data!" />
         <AnalysisReport :article="state.data!" />
+        <ArticleQuestion :article="state.data!" />
     </div>
 </template>

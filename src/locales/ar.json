@@ -111,5 +111,9 @@
   "Add New Article": "إضافة مقال جديد",
   "Edit Article": "تعديل المقال",
   "Article Source": "مصدر المقال",
-  "Enter article source": "أدخل مصدر المقال"
+  "Enter article source": "أدخل مصدر المقال",
+  "easy": "سهل",
+  "medium": "متوسط",
+  "hard": "صعب",
+  "select_difficulty": "اختر درجة الصعوبة"
 }

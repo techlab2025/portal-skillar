@@ -1,6 +1,7 @@
 import ArticalDetailsQuestionModel from './artical.details.questions.model';
 import ArticleSubjectModel from './Subject.model';
 import AnalysisReportModel from './analysis.report.model';
+import ArticleCardModel from './article.card';
 export default class ArticalDetailsModel {
   public readonly id: number; 
   public readonly createdAt: string;
@@ -16,6 +17,7 @@ export default class ArticalDetailsModel {
   public readonly articleDocument: string;
   public readonly articlesource: string;
   public readonly analysisReport: AnalysisReportModel[];
+  public readonly articlecard: ArticleCardModel [];
 
 
   constructor(data: {
@@ -33,6 +35,7 @@ export default class ArticalDetailsModel {
     articleDocument: string;
     articlesource: string;
     analysisReport: AnalysisReportModel[];
+    articlecard: ArticleCardModel[];
   }) {
     this.id = data.id;
     this.createdAt = data.createdAt;
@@ -48,6 +51,7 @@ export default class ArticalDetailsModel {
     this.articleDocument = data.articleDocument;
     this.articlesource = data.articlesource;
     this.analysisReport =data.analysisReport;
+    this.articlecard = data.articlecard;
   }
 
   static fromJson(json: any): ArticalDetailsModel {
@@ -69,6 +73,7 @@ export default class ArticalDetailsModel {
       articleDocument: json.articleDocument ?? json.articleDocument ?? '',
       articlesource: json.articlesource ?? json.articlesource ?? '',
       analysisReport: json.analysisReport?.map((answer: any) => AnalysisReportModel.fromJson(answer)) ?? [],
+      articlecard: json.articlecard?.map((answer: any) => ArticleCardModel.fromJson(answer)) ?? [],
     });
   }
 
@@ -87,6 +92,7 @@ export default class ArticalDetailsModel {
     articleDocument: 'book',
     articlesource: 'school book page 25',
     analysisReport: AnalysisReportModel.example,
+    articlecard: ArticleCardModel.example,
   });
 
   // static example2 = new ArticalDetailsModel({
