@@ -9,12 +9,14 @@
   import AnswersParams from '@/modules/Questions/core/params/subParams/answers.params';
   import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachments.params';
 
+  type LocalAnswer = Omit<AnswerModel, 'image'> & { image?: string };
+
   const emit = defineEmits(['update:data']);
   const { questionData } = defineProps<{
     questionData: AnswerModel[];
   }>();
 
-  const Answers = ref<AnswerModel[]>([
+  const Answers = ref<LocalAnswer[]>([
     {
       answer: '',
       is_right_answer: false,
@@ -36,7 +38,7 @@
   const UpdateData = () => {
     emit(
       'update:data',
-      Answers.value.map((el: AnswerModel) => {
+      Answers.value.map((el: LocalAnswer) => {
         return new AnswersParams({
           title: el.answer,
           file: el.image
@@ -56,7 +58,7 @@
   onMounted(() => {
     emit(
       'update:data',
-      Answers.value.map((el: AnswerModel) => {
+      Answers.value.map((el: LocalAnswer) => {
         return new AnswersParams({
           title: el.answer,
           file: el.image
@@ -88,8 +90,11 @@
   watch(
     () => questionData,
     (newvalue) => {
-      if (newvalue) {
-        Answers.value = newvalue;
+      if (newvalue && newvalue.length > 0) {
+        Answers.value = newvalue.map((item) => ({
+          ...item,
+          image: item.image?.[0]?.file || '',
+        }));
       }
     },
     {
