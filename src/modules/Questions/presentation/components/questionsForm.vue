@@ -21,7 +21,7 @@
         title: BasicData.value?.title,
         image: BasicData.value?.image,
         questionType: BasicData.value?.questionType,
-        branchId: BasicData.value?.branchId,
+        subjectId: BasicData.value?.subjectId,
         skills: BasicData.value?.skills,
         difficultyLevel: BasicData.value?.difficultyLevel,
         topics: BasicData.value?.topics ?? undefined,
@@ -42,7 +42,7 @@
         title: BasicData.value?.title,
         image: BasicData.value?.image,
         questionType: BasicData.value?.questionType,
-        branchId: BasicData.value?.branchId,
+        subjectId: BasicData.value?.subjectId,
         skills: BasicData.value?.skills,
         difficultyLevel: BasicData.value?.difficultyLevel,
         topics: BasicData.value?.topics ?? undefined,
@@ -69,7 +69,7 @@
       title: data.title,
       image: data.image,
       questionType: data.questionType,
-      branchId: data.branchId,
+      subjectId: data.subjectId,
       skills: data.skills,
       difficultyLevel: data.difficultyLevel,
       topics: data.topics,
@@ -97,7 +97,6 @@
     () => question,
     (newquestion) => {
       if (newquestion) {
-        
       }
     },
     { immediate: true },
