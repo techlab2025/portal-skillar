@@ -3,7 +3,7 @@
   import UploadFileIcon from '@/shared/icons/UploadFileIcon.vue';
   import { onMounted, ref, watch } from 'vue';
   import Checkbox from 'primevue/checkbox';
-  import type AnswerModel from '@/modules/Questions/core/models/subModels/answer.model';
+  import AnswerModel from '@/modules/Questions/core/models/subModels/answer.model';
   import AnswersParams from '@/modules/Questions/core/params/subParams/answers.params';
   import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachments.params';
 
@@ -81,14 +81,24 @@
     () => questionData,
     (newValue) => {
       if (newValue && newValue.length > 0) {
-        Answers.value = newValue;
+        console.log(newValue , "newValue")
+        Answers.value = newValue.map((item) => {
+          return new AnswerModel({
+            answer: item.answer,
+            image: item.image,
+            is_right_answer: item.is_right_answer,
+          });
+        });
       }
     },
-    { immediate: true },
+    { immediate: true ,deep: true },
   );
+
+  
 </script>
 
 <template>
+
   <div class="true-false-answers-time-line-container">
     <div
       v-for="(item, index) in Answers"
