@@ -15,6 +15,8 @@ import FolderCrudIcon from '@/shared/icons/FolderCrudIcon.vue';
 import Checkbox from 'primevue/checkbox';
 import AccordionToggleIcon from '@/shared/icons/questions/AccordionToggleIcon.vue';
 
+import { DocumentController, IndexDocumentParams } from '@/modules/document';
+
 const route = useRoute();
 const emit = defineEmits(['updateData']);
 const { article } = defineProps<{
@@ -23,6 +25,12 @@ const { article } = defineProps<{
 const isSolutionSteps = ref(true);
 const isSolutionHint = ref(true);
 const isExplain = ref(false);
+
+// Document dependencies
+const indexDocumentParams = new IndexDocumentParams();
+const documentController = DocumentController.getInstance();
+const SelectedSubject = ref<any>(null);
+const articleSource = ref('');
 
 const description = ref('');
 const file = ref();

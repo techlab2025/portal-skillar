@@ -6,7 +6,7 @@ export default class ArticleCardModel {
   public readonly title: string;
   public readonly createdAt: string;
   public readonly questions: string;
-  public readonly answer?: ArticleAnswerModel;
+  public readonly answer?: ArticleAnswerModel[];
   public readonly articledifficulty?: ArticleDifficultyEnum; 
   public readonly status?: ArticleTypeEnum;
 
@@ -15,7 +15,7 @@ export default class ArticleCardModel {
     title: string;
     createdAt: string;
     questions: string;
-    answer?: ArticleAnswerModel;
+    answer?: ArticleAnswerModel[];
     articledifficulty?: ArticleDifficultyEnum; 
     status?: ArticleTypeEnum;
   }) {
@@ -49,7 +49,25 @@ export default class ArticleCardModel {
       title: 'Exam frequency',
       createdAt: '2022-01-01',
       questions: 'Which of the following best describes the primary mechanism through which rising ocean ?',
-      answer: ArticleAnswerModel.example,
+      answer: ArticleAnswerModel.examples,
+      articledifficulty: ArticleDifficultyEnum.easy,
+      status: ArticleTypeEnum.mcq,
+    }),
+      new ArticleCardModel({
+      id: 1,
+      title: 'Exam frequency',
+      createdAt: '2022-01-01',
+      questions: 'Which of the following best describes the primary mechanism through which rising ocean ?',
+      answer: ArticleAnswerModel.examples,
+      articledifficulty: ArticleDifficultyEnum.easy,
+      status: ArticleTypeEnum.mcq,
+    }),
+      new ArticleCardModel({
+      id: 1,
+      title: 'Exam frequency',
+      createdAt: '2022-01-01',
+      questions: 'Which of the following best describes the primary mechanism through which rising ocean ?',
+      answer: ArticleAnswerModel.examples,
       articledifficulty: ArticleDifficultyEnum.easy,
       status: ArticleTypeEnum.mcq,
     }),

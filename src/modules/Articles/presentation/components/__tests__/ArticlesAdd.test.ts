@@ -45,7 +45,7 @@ vi.mock('../controllers/Article.controller', () => ({
 const globalConfig = {
   plugins: [createPinia()],
   stubs: {
-    ArticleNewForm: true,
+    ArticleForm: true,
     AppButton: true,
     IconAccept: true,
   },

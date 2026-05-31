@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import type ArticalDetailsModel from '@/modules/Articles/core/models/artical.details.model';
+import { DocumentController, IndexDocumentParams } from '@/modules/document';
 import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
 import AnalysisIcon from '@/shared/icons/AnalysisIcon.vue';
 
@@ -9,6 +11,15 @@ import ProgressBar from 'primevue/progressbar';
 const { article } = defineProps<{
     article?: ArticalDetailsModel;
 }>();
+
+const indexDocumentParams = new IndexDocumentParams();
+const documentController = DocumentController.getInstance();
+const SelectedSubject = ref<any>(null);
+
+const emit = defineEmits(['updateData']);
+const updateData = () => {
+    emit('updateData', SelectedSubject.value);
+};
 </script>
 <template>
     <div class="Analysis_Report">
