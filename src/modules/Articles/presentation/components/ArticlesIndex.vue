@@ -45,16 +45,16 @@ import { ArticleQuestionTypeEnum } from '../../core/constant/Article.question.ty
   const perPage = ref(10);
   const word = ref('');
 
-  const fetchArticles = async (page: number = 1, wordStr: string = '') => {
-    await controller.fetchList(
-      new IndexArticleParams({
-        word: wordStr || word.value,
-        pageNumber: page,
-        perPage: perPage.value,
-        withPage: 1,
-      }),
-    );
-  };
+  // const fetchArticles = async (page: number = 1, wordStr: string = '') => {
+  //   await controller.fetchList(
+  //     new IndexArticleParams({
+  //       word: wordStr || word.value,
+  //       pageNumber: page,
+  //       perPage: perPage.value,
+  //       withPage: 1,
+  //     }),
+  //   );
+  // };
 
 const fetchArticles = async (page: number = 1, wordStr: string = '') => {
   await controller.fetchList(
@@ -63,11 +63,19 @@ const fetchArticles = async (page: number = 1, wordStr: string = '') => {
       pageNumber: page,
       perPage: perPage.value,
       withPage: 1,
-      question_type: ArticleQuestionTypeEnum.PARAGRAPH,
+      // question_type: ArticleQuestionTypeEnum.PARAGRAPH,
     }),
   );
 };
 
+// const Search = debounce(() => {
+//   router.push({
+//     query: {
+//       ...route.query,
+//       page: 1,
+//       word: word.value || undefined,
+//     },
+//   });
 const Search = debounce(() => {
   router.push({
     query: {
@@ -77,21 +85,24 @@ const Search = debounce(() => {
     },
   });
 
-  const onPageChange = (page: number) => {
-    fetchArticles(page);
-    router.push({
-      query: {
-        ...route.query,
-        page: String(page),
-        word: word.value,
-      },
-    });
-  };
+  fetchArticles(1);
+});
 
-  const onPerPageChange = (count: number) => {
-    perPage.value = count;
-    fetchArticles(1);
-  };
+ const onPageChange = (page: number) => {
+  fetchArticles(page);
+  router.push({
+    query: {
+      ...route.query,
+      page: String(page),
+      word: word.value,
+    },
+  });
+};
+
+const onPerPageChange = (count: number) => {
+  perPage.value = count;
+  fetchArticles(1);
+};
 
   onMounted(async () => {
     if (route.query.word) {
