@@ -6,8 +6,8 @@ import AnswerModel from './subModels/answer.model';
 import QuestionClarificationModel from './subModels/question.clarification.model';
 import SolutionHintModel from './subModels/solution.hint.model';
 import SolutionStepsModel from './subModels/solution.steps.model';
-import SubjectTreeModel from './subModels/subject.tree.model';
-import sequenceTreeModel from './subModels/sequence.model';
+// import SubjectTreeModel from './subModels/subject.tree.model';
+// import sequenceTreeModel from './subModels/sequence.model';
 import QuestionDocumentModel from './subModels/question.document.model';
 import AttachmentModel from './subModels/attachment.model';
 import QuestionSkillsModel from './subModels/question.skills.model';
@@ -32,7 +32,7 @@ export default class ShowQuestionsModel {
   public readonly solutionSteps?: SolutionStepsModel;
   public readonly solutionHint?: SolutionHintModel;
   public readonly subjectTree?: TitleInterface<number>;
-  public readonly sequenceTree?: sequenceTreeModel;
+  public readonly sequenceTree?: TitleInterface<number>;
   public readonly questionDocuments?: QuestionDocumentModel[];
   public readonly skills?: QuestionSkillsModel[];
   public readonly questionLogHistory?: any;
@@ -58,7 +58,7 @@ export default class ShowQuestionsModel {
     solutionSteps?: SolutionStepsModel;
     solutionHint?: SolutionHintModel;
     subjectTree?: TitleInterface<number>;
-    sequenceTree?: sequenceTreeModel;
+    sequenceTree?: TitleInterface<number>;
     questionDocuments?: QuestionDocumentModel[];
     skills?: QuestionSkillsModel[];
     questionLogHistory?: any;
@@ -124,8 +124,14 @@ export default class ShowQuestionsModel {
         ? SolutionStepsModel.fromJson(json.solution_steps)
         : undefined,
       solutionHint: json.solution_hint ? SolutionHintModel.fromJson(json.solution_hint) : undefined,
-      subjectTree: json.e_c_subject_id,
-      sequenceTree: json.sequence_tree ? sequenceTreeModel.fromJson(json.sequence_tree) : undefined,
+      subjectTree: new TitleInterface<number>({
+        id: json.e_c_branch?.e_c_branch_id,
+        title: json.e_c_branch?.title,
+      }),
+      sequenceTree: new TitleInterface<number>({
+        id: json.e_c_subject?.e_c_subject_id,
+        title: json.e_c_subject?.title,
+      }),
       questionDocuments: json.documents
         ? json.documents.map((document: any) => QuestionDocumentModel.fromJson(document))
         : [],

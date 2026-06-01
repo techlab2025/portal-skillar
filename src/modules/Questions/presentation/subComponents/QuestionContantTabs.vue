@@ -83,7 +83,9 @@
             subtitle: item.precentage!,
           }),
       );
-      selectedBranchTitle.value = newData.subjects;
+
+      handleBranchChange(newData.subjectTree!);
+      handelSubjectUpdate(newData.sequenceTree!);
     },
   );
 
@@ -134,7 +136,7 @@
   });
 
   const handelSubjectUpdate = async (selected: TitleInterface<number> | undefined) => {
-    SelectedSubject.value = selected!;
+    SelectedQuestionSequence.value = selected!;
     await topicsControoller.fetchList(
       new IndexEducationSubjectTopicParams({ SubjectId: selected?.id as number }),
     );
@@ -150,16 +152,17 @@
           id="doc-branch"
           :label="`subject name`"
           :static-options="branchOptions"
-          v-model="selectedBranchTitle"
+          :model-value="selectedBranchTitle"
           :placeholder="$t('Enter subject name')"
           :reload="true"
           @update:model-value="handleBranchChange($event)"
         />
       </div>
+      <!-- {{ SelectedQuestionSequence }} -->
       <div class="input">
         <UpdatedCustomInputSelect
           id="question-sequence"
-          v-model="SelectedQuestionSequence"
+          :model-value="SelectedQuestionSequence"
           :label="`question sequence`"
           :static-options="subjectOptions"
           placeholder="Question sequence"

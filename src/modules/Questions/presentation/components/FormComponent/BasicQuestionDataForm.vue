@@ -169,6 +169,9 @@
         SelectedQuestionSequence.value = newValue?.sequenceTree?.id || null;
         SelectedDocumet.value = newValue?.questionDocuments?.[0]?.id || null;
         questionSource.value = newValue?.questionDocuments?.[0]?.source || '';
+        // console.log(newValue.subjectTree, 'subjectTree');
+        // console.log(newValue.sequenceTree, 'sequenceTree');
+
         ContentData.value = new ShowQuestionsModel({
           questionType: newValue?.questionType,
           difficulty: newValue?.difficulty,
