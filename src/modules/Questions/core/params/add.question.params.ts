@@ -89,23 +89,22 @@ export default class AddquestionsParams implements Params {
   toMap(): { [p: string]: any } {
     return {
       question: this.title,
-       attachments  : this.image?.map ((f) => f.toMap()),
+      attachments: this.image?.map((f) => f.toMap()),
       question_type: this.questionType,
-      e_c_subject_id: this.questionSequenceId
-      ,
+      e_c_subject_id: this.questionSequenceId,
       e_c_branch_id: this.subjectId,
       topics: this.topics?.map((item) => item.toMap()),
       question_sequence_id: this.questionSequenceId,
       difficulty_level: this.difficultyLevel,
       skills: this.skills?.map((item) => item.toMap()),
       answers: this.answers?.map((item) => item.toMap()),
-      question_source: this.questionSource?.toMap(),
+      documents: [this.questionSource?.toMap()],
       is_question_clarification: this.isQuestionClarification,
       explanation: this.questionClarification?.toMap(),
       is_solution_steps: this.isSolutionSteps,
-      solution_steps: this.solutionSteps?.toMap(),
+      answer_steps: this.solutionSteps?.toMap(),
       is_solution_hint: this.isSolutionHint,
-      solution_hint: this.solutionHint,
+      answer_hint: this.solutionHint?.toMap(),
       correct_status: this.answerEvaluation,
       identical_precentage: this.similarPrecentage,
     };

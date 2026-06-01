@@ -117,7 +117,12 @@
     yml: '⚙️',
   };
 
-  const initFilesFromProps = (file: string | string[] | undefined, base64File: string | string[] | undefined) => {
+  const initFilesFromProps = (
+    file: string | string[] | undefined,
+    base64File: string | string[] | undefined,
+  ) => {
+
+
     if (!file && !base64File) return;
 
     const fileList = Array.isArray(file) ? file : file ? [file] : [];
@@ -150,7 +155,10 @@
 
   onMounted(() => initFilesFromProps(props.file, props.base64File));
 
-  watch(() => props.file, (newFile) => initFilesFromProps(newFile, props.base64File));
+  watch(
+    () => props.file,
+    (newFile) => initFilesFromProps(newFile, props.base64File),
+  );
 
   const isMaxReached = computed(() => files.value.length >= props.maxFiles);
 
@@ -271,10 +279,9 @@
         title="Click to download"
         @click="downloadFile(fileItem)"
       >
-      <template v-if="isImage(fileItem)">
-        <img :src="fileItem.url" :alt="fileItem.name" class="preview-thumb" />
-      </template>
-      
+        <template v-if="isImage(fileItem)">
+          <img :src="fileItem.url" :alt="fileItem.name" class="preview-thumb" />
+        </template>
 
         <template v-else>
           <div class="preview-icon">

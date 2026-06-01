@@ -9,6 +9,7 @@ import type SolutionStepsParams from './subParams/soluation.steps.params';
 import type QuestionClarificationParams from './subParams/question.clarification.params';
 import type TopicsParams from './subParams/topics.params';
 import type { AnswerEvaluationTypeEnum } from '../constant/answer.evaluation.type.enum';
+import type AttachmentsParams from './subParams/attachments.params';
 
 /**
  * Parameters for adding a new employee
@@ -16,10 +17,10 @@ import type { AnswerEvaluationTypeEnum } from '../constant/answer.evaluation.typ
 export default class EditquestionsParams implements Params {
   public id: number;
   public title?: string;
-  public image?: string[];
+  public image?: AttachmentsParams[];
   public questionType?: QuestionTypeEnum;
   public subjectId?: number | null;
-  public topics?: TopicsParams[];
+  public topics?: TopicsParams[] | null;
   public questionSequenceId?: number | null;
   public difficultyLevel?: QuestionDifficultyEnum | null;
   public skills?: QuestionSkillParams[];
@@ -49,10 +50,10 @@ export default class EditquestionsParams implements Params {
   constructor(data: {
     id: number;
     title?: string;
-    image?: string[];
+    image?: AttachmentsParams[];
     questionType?: QuestionTypeEnum;
     subjectId?: number | null;
-    topics?: TopicsParams[];
+    topics?: TopicsParams[] | null;
     questionSequenceId?: number | null;
     difficultyLevel?: QuestionDifficultyEnum | null;
     skills?: QuestionSkillParams[];
@@ -90,23 +91,24 @@ export default class EditquestionsParams implements Params {
 
   toMap(): { [p: string]: any } {
     return {
-      id: this.id,
-      title: this.title,
-      image: this.image,
+      question_id: this.id,
+      question: this.title,
+      attachments: this.image?.map((f) => f.toMap()),
       question_type: this.questionType,
-      subject_id: this.subjectId,
+      e_c_subject_id: this.questionSequenceId,
+      e_c_branch_id: this.subjectId,
+      topics: this.topics?.map((item) => item.toMap()),
       question_sequence_id: this.questionSequenceId,
-      topics: this.topics,
       difficulty_level: this.difficultyLevel,
-      skills: this.skills,
-      answers: this.answers,
-      question_source: this.questionSource,
+      skills: this.skills?.map((item) => item.toMap()),
+      answers: this.answers?.map((item) => item.toMap()),
+      documents: [this.questionSource?.toMap()],
       is_question_clarification: this.isQuestionClarification,
-      question_clarification: this.questionClarification,
+      explanation: this.questionClarification?.toMap(),
       is_solution_steps: this.isSolutionSteps,
-      solution_steps: this.solutionSteps,
+      answer_steps: this.solutionSteps?.toMap(),
       is_solution_hint: this.isSolutionHint,
-      solution_hint: this.solutionHint,
+      answer_hint: this.solutionHint?.toMap(),
       correct_status: this.answerEvaluation,
       identical_precentage: this.similarPrecentage,
     };

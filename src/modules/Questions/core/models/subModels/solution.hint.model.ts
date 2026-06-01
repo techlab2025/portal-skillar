@@ -1,12 +1,14 @@
+import AttachmentModel from './attachment.model';
+
 export default class SolutionHintModel {
   public readonly id?: number;
   public readonly hint: string;
-  public readonly image: string;
+  public readonly attachments: AttachmentModel[];
 
-  constructor(data: { id?: number; hint?: string; image?: string }) {
+  constructor(data: { id?: number; hint?: string; attachments?: AttachmentModel[] }) {
     this.id = data.id;
     this.hint = data.hint || '';
-    this.image = data.image || '';
+    this.attachments = data.attachments || [];
     Object.freeze(this);
   }
 
@@ -16,15 +18,15 @@ export default class SolutionHintModel {
     }
 
     return new SolutionHintModel({
-      id: json.id,
-      hint: json.hint,
-      image: json.image,
+      id: json.question_answer_hint_id,
+      hint: json.text,
+      attachments: json.attachments,
     });
   }
 
   static example: SolutionHintModel = new SolutionHintModel({
     id: 1,
     hint: 'Hint',
-    image:`https://cyber.comolho.com/static/img/avatar.png`,
+    attachments: [AttachmentModel.example],
   });
 }

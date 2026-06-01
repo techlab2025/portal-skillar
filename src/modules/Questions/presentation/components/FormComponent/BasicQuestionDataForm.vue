@@ -22,7 +22,7 @@
   import ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
   import QuestionDocumentModel from '@/modules/Questions/core/models/subModels/question.document.model';
   import TopicsParams from '@/modules/Questions/core/params/subParams/topics.params';
-import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachments.params';
+  import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachments.params';
 
   const emit = defineEmits(['updateData']);
   const route = useRoute();
@@ -44,7 +44,7 @@ import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachm
       params = new EditquestionsParams({
         id: Number(route.params.id),
         title: title.value,
-        image:UploadedImage.value.map((file) => new AttachmentsParams({ alt: '', file })) || [],
+        image: UploadedImage.value.map((file) => new AttachmentsParams({ alt: '', file })) || [],
         questionType: selectedTab.value as QuestionTypeEnum,
         subjectId: SelectedSubject.value ? SelectedSubject.value : null,
         skills: SelectedSkill.value || [],
@@ -80,7 +80,6 @@ import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachm
         }),
       });
     }
-    // console.log(params, 'updateData');
     emit('updateData', params);
   };
   const UploadedImage = ref<string[]>([]);
@@ -121,12 +120,14 @@ import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachm
 
   const getQuestionCOntent = (data: AddquestionsParams) => {
     selectedDifficultyLevel.value = data.difficultyLevel!;
-    SelectedSkill.value = data.skills ? data.skills!.map((item) => {
-      return new QuestionSkillParams({
-        skillId: item.skillId,
-        percentage: item?.percentage,
-      });
-    }) : [];
+    SelectedSkill.value = data.skills
+      ? data.skills!.map((item) => {
+          return new QuestionSkillParams({
+            skillId: item.skillId,
+            percentage: item?.percentage,
+          });
+        })
+      : [];
     SelectedTopic.value = data.topics ? data.topics.map((item: any) => item.id) : [];
     SelectedQuestionSequence.value = data.questionSequenceId!;
     SelectedSubject.value = data.subjectId!;
@@ -150,11 +151,12 @@ import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachm
     () => questionData,
     (newValue) => {
       if (newValue) {
-        console.log(newValue, 'questionDataquestionDataquestionData');
         title.value = newValue?.questionTitle || '';
-        UploadedImage.value = newValue?.questionImage ? newValue?.questionImage.map((img) => img.file!  ) : [];
+        UploadedImage.value = newValue?.questionImage
+          ? newValue?.questionImage.map((img) => img.file!)
+          : [];
         selectedTab.value = newValue?.questionType || null;
-        SelectedSubject.value = newValue?.subjectTree;
+        // SelectedSubject.value = newValue?.subjectTree;
         SelectedSkill.value =
           newValue?.skills!.map((item) => {
             return new QuestionSkillParams({
@@ -165,8 +167,11 @@ import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachm
         selectedDifficultyLevel.value = newValue?.difficulty || null;
         SelectedTopic.value = newValue?.topics ? newValue?.topics.map((item: any) => item.id) : [];
         SelectedQuestionSequence.value = newValue?.sequenceTree?.id || null;
-        SelectedDocumet.value = newValue?.questionDocuments?.id || null;
-        questionSource.value = newValue?.questionDocuments?.source || '';
+        SelectedDocumet.value = newValue?.questionDocuments?.[0]?.id || null;
+        questionSource.value = newValue?.questionDocuments?.[0]?.source || '';
+        // console.log(newValue.subjectTree, 'subjectTree');
+        // console.log(newValue.sequenceTree, 'sequenceTree');
+
         ContentData.value = new ShowQuestionsModel({
           questionType: newValue?.questionType,
           difficulty: newValue?.difficulty,
@@ -177,13 +182,14 @@ import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachm
           skills: newValue?.skills,
         });
         DocumentSource.value = new QuestionDocumentModel({
-          id: newValue?.questionDocuments?.id,
-          title: newValue?.questionDocuments?.title,
-          source: newValue?.questionDocuments?.source,
+          id: newValue?.questionDocuments?.[0]?.id,
+          title: newValue?.questionDocuments?.[0]?.title,
+          source: newValue?.questionDocuments?.[0]?.source,
         });
       }
     },
   );
+  const isActive = ref(true);
 </script>
 
 <template>
@@ -191,15 +197,16 @@ import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachm
     :pt="{
       root: 'basic-data-form',
     }"
-    value="0"
+    :value="isActive ? '0' : ''"
     :lazy="true"
+    @update:value="isActive = !isActive"
   >
     <AccordionPanel value="0">
       <AccordionHeader>
         <template #toggleicon>
           <div class="toggll-container">
-            <div>basic question data</div>
-            <AccordionToggleIcon />
+            <p class="title">basic question data</p>
+            <AccordionToggleIcon :class="{ 'rotate-180': !isActive }" />
           </div>
           <span class="dashed-border"></span>
         </template>
@@ -265,22 +272,3 @@ import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachm
     </AccordionPanel>
   </Accordion>
 </template>
-
-<style scoped>
-  .toggll-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .dashed-border {
-    width: 85%;
-    height: 1px;
-    border-bottom: 1px dashed #d0d0d0;
-  }
-
-  .p-accordionpanel:last-child > .p-accordionheader {
-    padding-left: 0 !important;
-  }
-</style>

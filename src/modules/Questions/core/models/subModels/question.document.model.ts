@@ -16,9 +16,9 @@ export default class QuestionDocumentModel {
     }
 
     return new QuestionDocumentModel({
-      id: json.id,
-      title: json.title,
-      source: json.source,
+      id: json.document_id,
+      title: json.document_title,
+      source: json.text,
     });
   }
 
