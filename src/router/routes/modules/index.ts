@@ -15,6 +15,7 @@ import { DeletedAccountsRoutes } from './deleted-accounts';
 import { SkillsRoutes } from './skills';
 import { questionsRoutes } from './question';
 import { ArticlesRoutes } from './Articles';
+import { PackagesRoutes } from './package';
 
 export const dashboardRoutes: RouteRecordRaw[] = [
   // ...countryRoutes,
@@ -32,5 +33,6 @@ export const dashboardRoutes: RouteRecordRaw[] = [
   ...DeletedAccountsRoutes,
   ...SkillsRoutes,
   ...questionsRoutes,
-  ...ArticlesRoutes
+  ...ArticlesRoutes,
+  ...PackagesRoutes,
 ];
