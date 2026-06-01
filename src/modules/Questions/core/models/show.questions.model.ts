@@ -33,7 +33,7 @@ export default class ShowQuestionsModel {
   public readonly solutionHint?: SolutionHintModel;
   public readonly subjectTree?: TitleInterface<number>;
   public readonly sequenceTree?: sequenceTreeModel;
-  public readonly questionDocuments?: QuestionDocumentModel;
+  public readonly questionDocuments?: QuestionDocumentModel[];
   public readonly skills?: QuestionSkillsModel[];
   public readonly questionLogHistory?: any;
 
@@ -59,7 +59,7 @@ export default class ShowQuestionsModel {
     solutionHint?: SolutionHintModel;
     subjectTree?: TitleInterface<number>;
     sequenceTree?: sequenceTreeModel;
-    questionDocuments?: QuestionDocumentModel;
+    questionDocuments?: QuestionDocumentModel[];
     skills?: QuestionSkillsModel[];
     questionLogHistory?: any;
     isClarification?: boolean;
@@ -126,9 +126,9 @@ export default class ShowQuestionsModel {
       solutionHint: json.solution_hint ? SolutionHintModel.fromJson(json.solution_hint) : undefined,
       subjectTree: json.e_c_subject_id,
       sequenceTree: json.sequence_tree ? sequenceTreeModel.fromJson(json.sequence_tree) : undefined,
-      questionDocuments: json.question_documents
-        ? QuestionDocumentModel.fromJson(json.question_documents)
-        : undefined,
+      questionDocuments: json.documents
+        ? json.documents.map((document: any) => QuestionDocumentModel.fromJson(document))
+        : [],
       skills: json.skills
         ? json.skills.map((skill: any) => QuestionSkillsModel.fromJson(skill))
         : [],

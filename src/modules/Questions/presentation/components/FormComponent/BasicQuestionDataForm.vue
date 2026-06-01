@@ -80,7 +80,6 @@
         }),
       });
     }
-    console.log(SelectedSubject.value, 'SelectedSubject');
     emit('updateData', params);
   };
   const UploadedImage = ref<string[]>([]);
@@ -152,7 +151,6 @@
     () => questionData,
     (newValue) => {
       if (newValue) {
-        console.log(newValue, 'questionDataquestionDataquestionData');
         title.value = newValue?.questionTitle || '';
         UploadedImage.value = newValue?.questionImage
           ? newValue?.questionImage.map((img) => img.file!)
@@ -169,8 +167,8 @@
         selectedDifficultyLevel.value = newValue?.difficulty || null;
         SelectedTopic.value = newValue?.topics ? newValue?.topics.map((item: any) => item.id) : [];
         SelectedQuestionSequence.value = newValue?.sequenceTree?.id || null;
-        SelectedDocumet.value = newValue?.questionDocuments?.id || null;
-        questionSource.value = newValue?.questionDocuments?.source || '';
+        SelectedDocumet.value = newValue?.questionDocuments?.[0]?.id || null;
+        questionSource.value = newValue?.questionDocuments?.[0]?.source || '';
         ContentData.value = new ShowQuestionsModel({
           questionType: newValue?.questionType,
           difficulty: newValue?.difficulty,
@@ -181,9 +179,9 @@
           skills: newValue?.skills,
         });
         DocumentSource.value = new QuestionDocumentModel({
-          id: newValue?.questionDocuments?.id,
-          title: newValue?.questionDocuments?.title,
-          source: newValue?.questionDocuments?.source,
+          id: newValue?.questionDocuments?.[0]?.id,
+          title: newValue?.questionDocuments?.[0]?.title,
+          source: newValue?.questionDocuments?.[0]?.source,
         });
       }
     },

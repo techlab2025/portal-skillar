@@ -5,7 +5,7 @@
   import AccordionContent from 'primevue/accordioncontent';
   import Checkbox from 'primevue/checkbox';
   import { ref, watch } from 'vue';
-  import HandleFilesUpload, { type UploadedFile } from '@/shared/FormInputs/HandleFilesUpload.vue';
+  import HandleFilesUpload from '@/shared/FormInputs/HandleFilesUpload.vue';
   import UploadFileIcon from '@/shared/icons/UploadFileIcon.vue';
   import SolutionStepsParams from '../../core/params/subParams/soluation.steps.params';
   import type SolutionHintModel from '../../core/models/subModels/solution.hint.model';
@@ -21,9 +21,9 @@
       isSolutionSteps: isSolutionSteps.value,
       data: new SolutionStepsParams({
         image: file.value?.map(
-          (f: UploadedFile) =>
+          (f: any) =>
             new AttachmentsParams({
-              file: f?.base64,
+              file: f,
             }),
         ),
         explanation: description.value,
@@ -34,17 +34,16 @@
   const isSolutionSteps = ref(isSolutionHintsData);
   const description = ref('');
   const file = ref();
-  const handleFile = (files: UploadedFile[]) => {
-    file.value = files;
+  const handleFile = (f: any) => {
+    file.value = f[0]?.base64 ? [f[0].base64] : [];
     updateData();
   };
-
   watch(
     [() => SolutionHintsData, () => isSolutionHintsData],
     ([newSolutionHinrdata, newIsSolution]) => {
       isSolutionSteps.value = newIsSolution;
       description.value = newSolutionHinrdata.hint;
-      file.value = newSolutionHinrdata.image;
+      file.value = newSolutionHinrdata.attachments;
     },
   );
 </script>

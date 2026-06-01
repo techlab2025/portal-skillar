@@ -7,7 +7,7 @@
   import { ref, watch } from 'vue';
   import QuestionSource from './QuestionSource.vue';
   import QuestionClarificationParams from '../../core/params/subParams/question.clarification.params';
-  import HandleFilesUpload, { type UploadedFile } from '@/shared/FormInputs/HandleFilesUpload.vue';
+  import HandleFilesUpload from '@/shared/FormInputs/HandleFilesUpload.vue';
   import UploadFileIcon from '@/shared/icons/UploadFileIcon.vue';
   import type QuestionClarificationModel from '../../core/models/subModels/question.clarification.model';
   import QuestionDocumentModel from '../../core/models/subModels/question.document.model';
@@ -21,15 +21,16 @@
 
   const emit = defineEmits(['updateData']);
   const updateData = () => {
+    console.log(file.value, 'file.value');
     emit('updateData', {
       isClarification: isClarification.value,
       data: new QuestionClarificationParams({
         documentId: SelectedDocumet.value!,
         source: questionSource.value!,
         file: file.value?.map(
-          (f: UploadedFile) =>
+          (f: any) =>
             new AttachmentsParams({
-              file: f?.base64,
+              file: f,
               alt: '',
             }),
         ),
@@ -47,11 +48,11 @@
   };
   const description = ref('');
   const file = ref();
-  const handleFile = (files: UploadedFile[]) => {
-    file.value = files;
+
+  const handleFile = (f: any) => {
+    file.value = f[0]?.base64 ? [f[0].base64] : [];
     updateData();
   };
-
   const DocumentSource = ref<QuestionDocumentModel | null>(null);
 
   watch([() => ClarificationData, () => isclarification], ([newValue, neIsClarification]) => {
@@ -61,7 +62,7 @@
       source: newValue?.source,
     });
     description.value = newValue.clarification!;
-    file.value = newValue.attachments!;
+    file.value = newValue.attachments?.map((a) => a.file).filter(Boolean) as string[];
     isClarification.value = neIsClarification;
   });
 </script>
@@ -108,7 +109,6 @@
                 :class="`image-input`"
                 :file="file"
                 @change="(files) => handleFile(files)"
-                
               >
                 <template #content>
                   <div class="upload-attachment-container">
