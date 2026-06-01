@@ -14,9 +14,12 @@ import AccordionContent from 'primevue/accordioncontent';
 import FolderCrudIcon from '@/shared/icons/FolderCrudIcon.vue';
 import Checkbox from 'primevue/checkbox';
 import AccordionToggleIcon from '@/shared/icons/questions/AccordionToggleIcon.vue';
+import IndexDocumentTypeParams from '@/modules/document/core/params/documntType/index.document.type.params';
+import DocumentTypeController from '@/modules/document/presentation/controllers/DocumentType/document.type.controller';
 import { DocumentController, IndexDocumentParams } from '@/modules/document';
-import { ArticleTypeEnum } from '../../core/constant/Article.type.enum';
-import ArticalSourceParams from '../../core/params/subParams/Artical.source.params';
+
+const indexDocumentTypeParams = new IndexDocumentTypeParams();
+const documentTypeController = DocumentTypeController.getInstance();
 
 const route = useRoute();
 const emit = defineEmits(['updateData']);
@@ -27,7 +30,15 @@ const isSolutionSteps = ref(true);
 const isSolutionHint = ref(true);
 const isExplain = ref(false);
 
-const description = ref('');
+// Document dependencies
+const indexDocumentParams = new IndexDocumentParams();
+const documentController = DocumentController.getInstance();
+const SelectedSubject = ref<any>(null);
+const SelectedDocument = ref<any>(null);
+const question = ref('');
+const articleSource = ref('');
+const descriptionArticle = ref('');
+const QuestionDescription = ref('');
 const file = ref();
 const handleFile = (files: UploadedFile[]) => {
   file.value = files[0]?.base64;
@@ -44,41 +55,30 @@ const updateData = () => {
   if (route?.params?.id) {
     params = new EditArticlesParams({
       id: Number(route.params.id),
-      title: BasicData.value.title || '',
-      image: BasicData.value.image || [],
-      articleType: BasicData.value.articleType || ArticleTypeEnum.mcq,
-      subjectId: BasicData.value.subjectId ?? null,
-      skills: BasicData.value.skills || [],
-      difficultyLevel: BasicData.value.difficultyLevel ?? null,
-      topics: BasicData.value.topics || [],
-      articleSequenceId: BasicData.value.articleSequenceId ?? null,
-      articleSource: BasicData.value.articleSource || new ArticalSourceParams({ documentId: 0, source: '' }),
-      answers: AnswerData.value.answers || [],
-      isArticleClarification: AnswerData.value.isArticleClarification,
-      articleClarification: AnswerData.value.articleClarification,
-      isArticleSolutionSteps: AnswerData.value.isArticleSolutionSteps,
-      articleSolutionSteps: AnswerData.value.articleSolutionSteps,
-      isArticleSolutionHint: AnswerData.value.isArticleSolutionHint,
-      articleSolutionHint: AnswerData.value.articleSolutionHint,
+      title: BasicData.value?.title,
+      image: BasicData.value?.image,
+      question_type: BasicData.value?.question_type,
+      subjectId: SelectedSubject.value?.id,
+      skills: BasicData.value?.skills,
+      difficultyLevel: BasicData.value?.difficultyLevel,
+      topics: BasicData.value?.topics,
+      articleSequenceId: BasicData.value?.articleSequenceId,
+      articleSource: BasicData.value?.articleSource,
+      answers: AnswerData.value?.answers,
     });
   } else {
     params = new AddArticlesParams({
-      title: BasicData.value.title,
-      image: BasicData.value.image,
-      articleType: BasicData.value.articleType,
-      subjectId: BasicData.value.subjectId,
-      skills: BasicData.value.skills,
-      difficultyLevel: BasicData.value.difficultyLevel,
-      topics: BasicData.value.topics,
-      articleSequenceId: BasicData.value.articleSequenceId,
-      articleSource: BasicData.value.articleSource,
-      answers: AnswerData.value.answers,
-      isArticleClarification: AnswerData.value.isArticleClarification,
-      articleClarification: AnswerData.value.articleClarification,
-      isArticleSolutionSteps: AnswerData.value.isArticleSolutionSteps,
-      articleSolutionSteps: AnswerData.value.articleSolutionSteps,
-      isArticleSolutionHint: AnswerData.value.isArticleSolutionHint,
-      articleSolutionHint: AnswerData.value.articleSolutionHint,
+      question_description: QuestionDescription.value,
+      attachments: BasicData.value?.attachments,
+      question: question.value,
+      question_type: 5,
+      e_c_subject_id: SelectedSubject.value?.id,
+      documents: SelectedDocument.value?.id && {
+        id: SelectedDocument.value?.id,
+        text: articleSource.value,
+      },
+      explanation: descriptionArticle.value,
+
     });
   }
   emit('updateData', params);
@@ -143,27 +143,26 @@ watch(
                   </template>
                 </HandleFilesUpload>
               </div>
-              <textarea
-id="descreption" v-model="description" name="descreption"
+              <textarea id="descreption" v-model="QuestionDescription" name="descreption"
                 :placeholder="$t('Enter Question clarification')" @input="updateData"></textarea>
             </div>
           </div>
           <div class="document-tab">
             <div class="form-group">
-              <div class="input">
-                <UpdatedCustomInputSelect
-id="doc-subject" v-model="SelectedSubject" :label="`subject`"
-                  :params="indexDocumentParams" :controller="documentController" placeholder="select subject"
-                  @update:model-value="updateData" />
-              </div>
               <div class="field-group">
                 <label class="field-label" for="name">{{ $t('title of artical') }}</label>
                 <div class="input-wrap">
-                  <input
-id="article-source" v-model="articleSource" type="text"
+                  <input id="article-source" v-model="question" type="text"
                     :placeholder="$t('enter title of artical ')" class="field-input" @input="updateData" />
                 </div>
               </div>
+              <div class="input">
+
+                <UpdatedCustomInputSelect id="doc-subject" v-model="SelectedSubject" :label="`subject`"
+                  :params="indexDocumentTypeParams" :controller="documentTypeController" placeholder="select subject"
+                  @update:model-value="updateData" />
+              </div>
+
             </div>
           </div>
         </AccordionContent>
@@ -177,7 +176,7 @@ id="article-source" v-model="articleSource" type="text"
       <AccordionPanel :value="1">
         <AccordionHeader>
           <template #toggleicon>
-           <div class="article-solution-steps-header">
+            <div class="article-solution-steps-header">
               <div class="toggll-container">
                 <div>{{ $t('artical source') }}</div>
                 <AccordionToggleIcon />
@@ -191,10 +190,11 @@ id="article-source" v-model="articleSource" type="text"
           <div class=" document-tab">
             <div class="form-group form-group-grid">
               <div class="input">
-                <UpdatedCustomInputSelect
-id="doc-subject" v-model="SelectedSubject" :label="`Documents`"
+
+                <UpdatedCustomInputSelect id="doc-subject" v-model="SelectedDocument" :label="`Documents`"
                   :params="indexDocumentParams" :controller="documentController" placeholder="select Documents"
                   @update:model-value="updateData" />
+
               </div>
               <div class="field-group">
                 <label class="field-label" for="name">{{ $t('source') }}</label>
@@ -239,7 +239,7 @@ id="article-source" v-model="articleSource" type="text" :placeholder="$t('enter 
                   </template>
                 </HandleFilesUpload>
               </div>
-              <textarea id="descreption" v-model="description" name="descreption" @input="updateData"></textarea>
+              <textarea id="descreption" v-model="descriptionArticle" name="descreption" @input="updateData"></textarea>
             </div>
           </div>
         </AccordionContent>
@@ -253,50 +253,57 @@ id="article-source" v-model="articleSource" type="text" :placeholder="$t('enter 
 @use '../../../../styles/variables' as *;
 @use '../../../../styles/mixins/flex' as *;
 
- .article-solution-steps-explain{
-    border: 1px solid $PrimaryColor;
-    border-radius: 50px;
+.article-solution-steps-explain {
+  border: 1px solid $PrimaryColor;
+  border-radius: 50px;
+  padding: 10px !important;
+  margin-block: 20px !important;
+
+  &.active {
+    border-radius: 12px;
+  }
+
+  .p-accordionheader {
+    padding: 5px 0 !important;
+  }
+
+  .p-accordioncontent-content {
     padding: 10px !important;
-    margin-block: 20px !important;
-    &.active {
-      border-radius: 12px;
-    }
-    .p-accordionheader {
-      padding: 5px 0 !important;
-    }
-    .p-accordioncontent-content {
-      padding: 10px !important;
-    }
   }
-  .article-solution-steps-header-explain{
-       @include flex-row(nowrap, space-between, center);
-      gap: 10px;
-      width: 100%;
-      color: $PrimaryColor;
-      padding: 0 !important;
-  }
+}
+
+.article-solution-steps-header-explain {
+  @include flex-row(nowrap, space-between, center);
+  gap: 10px;
+  width: 100%;
+  color: $PrimaryColor;
+  padding: 0 !important;
+}
+
 .article-details-form-card {
   // border: 1px solid $PrimaryColor;
   // border-radius: 50px;
   // padding: 10px !important;
   margin-block: 20px !important;
- 
-  .article-solution-steps-header{
+
+  .article-solution-steps-header {
     position: relative;
     width: 100%;
   }
+
   .toggll-container {
     display: flex;
     justify-content: flex-start;
     align-items: center;
   }
-    .dashed-border {
+
+  .dashed-border {
     width: 85%;
-  height: 1px;
-  border-bottom: 1px dashed #d0d0d0;
-  position: absolute;
-  right: 0;
-  bottom: 10px;
+    height: 1px;
+    border-bottom: 1px dashed #d0d0d0;
+    position: absolute;
+    right: 0;
+    bottom: 10px;
   }
 
   .article-solution-steps-header {

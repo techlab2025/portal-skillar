@@ -4,6 +4,7 @@ export default class TitleInterface<T extends string | number> {
   subtitle?: T;
   kpi?: string;
   decodedData?: string = "";
+  text?: string;
 
   constructor({
     id,
@@ -11,17 +12,20 @@ export default class TitleInterface<T extends string | number> {
     subtitle,
     kpi,
     decodedData = "",
+    text = "",
   }: {
     id: number;
     title?: string;
     subtitle?: T;
     kpi?: string;
     decodedData?: string;
+    text?: string;
   }) {
     this.id = id;
     this.title = title;
     this.subtitle = subtitle;
     this.kpi = kpi;
     this.decodedData = decodedData;
+    this.text = text;
   }
 }

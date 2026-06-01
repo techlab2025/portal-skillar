@@ -227,6 +227,7 @@
       <div class="field-group col-span-2">
         <UpdatedCustomInputSelect
           id="doc-branch"
+          v-model="selectedBranchTitle "
           :label="`subject name`"
           :static-options="branchOptions"
           v-model="selectedBranchTitle"

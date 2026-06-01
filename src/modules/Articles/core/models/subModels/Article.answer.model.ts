@@ -1,3 +1,4 @@
+import ArticleImage from '@/assets/images/image 22.png';
 export default class ArticleAnswerModel {
   public readonly id?: number;
   public readonly answer: string;
@@ -29,11 +30,27 @@ export default class ArticleAnswerModel {
     });
   }
 
-  static example: ArticleAnswerModel = new ArticleAnswerModel({
+  static examples: ArticleAnswerModel[] = [
+  new ArticleAnswerModel({
     id: 1,
     answer: 'Cairo',
-    image: 'https://example.com/cairo.jpg',
+    image: ArticleImage,
     countCorrect: 10,
     countStudent: 20,
-  });
+  }),
+  new ArticleAnswerModel({
+    id: 2,
+    answer: 'Alexandria',
+    image: ArticleImage,
+    countCorrect: 25,
+    countStudent: 40,
+  }),
+  new ArticleAnswerModel({
+    id: 3,
+    answer: 'Mansoura',
+    image: ArticleImage,
+    countCorrect: 65,
+    countStudent: 90,
+  }),
+];
 }

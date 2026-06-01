@@ -1,26 +1,27 @@
 <script setup lang="ts">
-  import { onMounted, ref, computed } from 'vue';
-  import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
-  import AppTable, { type TableHeader } from '@/shared/HelpersComponents/AppTable.vue';
-  import Pagination from '@/shared/HelpersComponents/Pagination.vue';
-  import { useRoute, useRouter } from 'vue-router';
-  import { debounce } from '@/base/Presentation/Utils/debouced';
-  import DeleteDialog from '@/shared/HelpersComponents/dialog/DeleteDialog.vue';
-  import { useFormsStore } from '@/stores/formsStore';
-  import IndexPluseIcon from '@/shared/icons/IndexPluseIcon.vue';
-  import IndexSearchIcon from '@/shared/icons/IndexSearchIcon.vue';
-  import FilterDialog from '@/shared/HelpersComponents/FilterDialog/FilterDialog.vue';
-  import TableSkelaton from '@/shared/HelpersComponents/TableSkelaton.vue';
-  import { ArticleGeneratedByEnum } from '../../core/constant/Article.generatedby.enum';
-  import { ArticleTypeEnum } from '../../core/constant/Article.type.enum';
-  import { ArticleStatusEnum } from '../../core/constant/Article.status.enum';
-  import ShowIcon from '@/shared/icons/ShowIcon.vue';
-  import ArticleController from '../controllers/Article.controller';
-  import IndexArticleParams from '../../core/params/index.Articles.params';
-  import DeleteArticleParams from '../../core/params/Articles.question.params';
-  import type ShowArticleModel from '../../core/models/show.Article.model';
-  import Articlearrow from '@/shared/icons/articlearrow.vue';
-  import Articlesubject from '@/shared/icons/articlesubject.vue';
+import { onMounted, ref, computed } from 'vue';
+import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
+import AppTable, { type TableHeader } from '@/shared/HelpersComponents/AppTable.vue';
+import Pagination from '@/shared/HelpersComponents/Pagination.vue';
+import { useRoute, useRouter } from 'vue-router';
+import { debounce } from '@/base/Presentation/Utils/debouced';
+import DeleteDialog from '@/shared/HelpersComponents/dialog/DeleteDialog.vue';
+import { useFormsStore } from '@/stores/formsStore';
+import IndexPluseIcon from '@/shared/icons/IndexPluseIcon.vue';
+import IndexSearchIcon from '@/shared/icons/IndexSearchIcon.vue';
+import FilterDialog from '@/shared/HelpersComponents/FilterDialog/FilterDialog.vue';
+import TableSkelaton from '@/shared/HelpersComponents/TableSkelaton.vue';
+import { ArticleGeneratedByEnum } from '../../core/constant/Article.generatedby.enum';
+import { ArticleTypeEnum } from '../../core/constant/Article.type.enum';
+import { ArticleStatusEnum } from '../../core/constant/Article.status.enum';
+import ShowIcon from '@/shared/icons/ShowIcon.vue';
+import ArticleController from '../controllers/Article.controller';
+import IndexArticleParams from '../../core/params/index.Articles.params';
+import DeleteArticleParams from '../../core/params/delet.Articles.params';
+import type ShowArticleModel from '../../core/models/show.Article.model';
+import Articlearrow from '@/shared/icons/articlearrow.vue';
+import Articlesubject from '@/shared/icons/articlesubject.vue';
+import { ArticleQuestionTypeEnum } from '../../core/constant/Article.question.type.enum';
 
   // Controller instance
   const controller = ArticleController.getInstance();
@@ -55,15 +56,25 @@
     );
   };
 
-  const Search = debounce(() => {
-    router.push({
-      query: {
-        ...route.query,
-        page: 1,
-        word: word.value || undefined,
-      },
-    });
-    fetchArticles(1, word.value);
+const fetchArticles = async (page: number = 1, wordStr: string = '') => {
+  await controller.fetchList(
+    new IndexArticleParams({
+      word: wordStr || word.value,
+      pageNumber: page,
+      perPage: perPage.value,
+      withPage: 1,
+      question_type: ArticleQuestionTypeEnum.PARAGRAPH,
+    }),
+  );
+};
+
+const Search = debounce(() => {
+  router.push({
+    query: {
+      ...route.query,
+      page: 1,
+      word: word.value || undefined,
+    },
   });
 
   const onPageChange = (page: number) => {
@@ -154,12 +165,8 @@
           <IndexSearchIcon />
         </span>
         <input
-          v-model="word"
-          placeholder="Search by employee name or email…"
-          class="search-input"
-          type="text"
-          @input="Search"
-        />
+v-model="word" placeholder="Search by employee name or email…" class="search-input" type="text"
+          @input="Search" />
       </div>
       <div class="btns-container">
         <!-- <button class="btn btn-secondary" @click="exportExcel">
@@ -216,14 +223,12 @@
             </template>
             <template #cell-status="{ item }">
               <div
-                class="status"
-                :class="{
-                  'status-approved': item.status === ArticleStatusEnum.approved,
-                  'status-not-reviewed': item.status === ArticleStatusEnum.not_Reviewd,
-                  'status-rejected': item.status === ArticleStatusEnum.rejected,
-                  'status-under-review': item.status === ArticleStatusEnum.under_review,
-                }"
-              >
+class="status" :class="{
+                'status-approved': item.status === ArticleStatusEnum.approved,
+                'status-not-reviewed': item.status === ArticleStatusEnum.not_Reviewd,
+                'status-rejected': item.status === ArticleStatusEnum.rejected,
+                'status-under-review': item.status === ArticleStatusEnum.under_review,
+              }">
                 {{ GetQuestionStatus(item.status!) }}
               </div>
             </template>
@@ -236,29 +241,18 @@
             <template #actions="{ item }">
               <div class="row-actions">
                 <router-link
-                  class="action-btn edit"
-                  :to="`/${route.params.country_code}/articles/edit/${item.id}`"
-                  title="Edit"
-                >
+class="action-btn edit" :to="`/${route.params.country_code}/articles/edit/${item.id}`"
+                  title="Edit">
                   <svg
-                    width="15"
-                    height="15"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
+width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                   </svg>
                 </router-link>
                 <router-link
-                  :to="`/${route.params.country_code}/articles/edit/${item.id}`"
-                  title="show"
-                  class="action-btn show"
-                >
+:to="`/${route.params.country_code}/articles/show/${item.id}`" title="show"
+                  class="action-btn show">
                   <ShowIcon />
                 </router-link>
 
@@ -266,15 +260,8 @@
                   <template #Dialog>
                     <button class="action-btn delete" title="Delete">
                       <svg
-                        width="15"
-                        height="15"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
+width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 6h18" />
                         <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
                         <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
@@ -288,11 +275,8 @@
         </div>
 
         <Pagination
-          v-if="controller.pagination.value"
-          :pagination="controller.pagination.value"
-          @change-page="onPageChange"
-          @count-per-page="onPerPageChange"
-        />
+v-if="controller.pagination.value" :pagination="controller.pagination.value"
+          @change-page="onPageChange" @count-per-page="onPerPageChange" />
       </template>
 
       <template #loader>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type ArticalDetailsModel from '@/modules/Articles/core/models/artical.details.model';
+import { DocumentController, IndexDocumentParams } from '@/modules/document';
 import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
 import AnalysisIcon from '@/shared/icons/AnalysisIcon.vue';
 import ProgressBar from 'primevue/progressbar';

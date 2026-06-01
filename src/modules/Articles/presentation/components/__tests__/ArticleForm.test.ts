@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
 import { createI18n } from 'vue-i18n';
-import ArticlesForm from '../ArticlesForm.vue';
+import ArticleForm from '../ArticleForm.vue';
 
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en: {} } });
 
@@ -18,6 +18,7 @@ vi.mock('vue-router', () => ({
   useRoute: () => ({
     query: {},
     params: { id: '1' },
+    fullPath: '/eg/articles/edit/1',
   }),
   createRouter: vi.fn(() => ({
     getRoutes: vi.fn(() => []),
@@ -27,21 +28,37 @@ vi.mock('vue-router', () => ({
   createWebHistory: vi.fn(),
 }));
 
-describe('ArticlesForm', () => {
+// Mock document module
+vi.mock('@/modules/document', () => ({
+  DocumentController: {
+    getInstance: () => ({
+      fetchList: vi.fn(),
+    }),
+  },
+  IndexDocumentParams: class {},
+}));
+
+describe('ArticleForm', () => {
   beforeEach(() => {
     setActivePinia(createPinia());
     vi.clearAllMocks();
   });
 
   it('renders without crashing', () => {
-    const wrapper = mount(ArticlesForm, {
+    const wrapper = mount(ArticleForm, {
       global: {
         plugins: [i18n],
         stubs: {
-          'router-link': true,
-          'router-view': true,
-          BasicArticleDataForm: true,
-          ArticleAnswersDataForm: true,
+          Accordion: true,
+          AccordionPanel: true,
+          AccordionHeader: true,
+          AccordionContent: true,
+          Checkbox: true,
+          HandleFilesUpload: true,
+          UpdatedCustomInputSelect: true,
+          FolderCrudIcon: true,
+          UploadFileIcon: true,
+          AccordionToggleIcon: true,
         },
         mocks: {
           $t: (msg: string) => msg,

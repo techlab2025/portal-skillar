@@ -143,7 +143,7 @@ const handelSubjectUpdate = async (selected: TitleInterface<number> | undefined)
 </script>
 
 <template>
-  <div class="contant_tabs">
+  <div class="contant_tabs"> 
     <div class="form-group">
       <div class="input">
         <UpdatedCustomInputSelect

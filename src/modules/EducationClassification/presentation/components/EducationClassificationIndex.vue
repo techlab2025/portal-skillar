@@ -109,7 +109,7 @@ const ToggleStatus = async (id: number) => {
       icon: DeletIcon,
       action: () => deleteEducationClassification(id),
     },
-  ];
+  ]; 
 </script>
 
 <template>
