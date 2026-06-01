@@ -37,8 +37,8 @@ const SelectedSubject = ref<any>(null);
 const SelectedDocument = ref<any>(null);
 const question = ref('');
 const articleSource = ref('');
-const description = ref('');
 const descriptionArticle = ref('');
+const QuestionDescription = ref('');
 const file = ref();
 const handleFile = (files: UploadedFile[]) => {
   file.value = files[0]?.base64;
@@ -63,12 +63,15 @@ const updateData = () => {
     });
   } else {
     params = new AddArticlesParams({
-      question_description: BasicData.value?.question_description,
+      question_description: QuestionDescription.value,
       attachments: BasicData.value?.attachments,
-      question: BasicData.value?.question,
+      question: question.value,
       question_type: 5,
       e_c_subject_id: SelectedSubject.value?.id,
-      documents: SelectedDocument.value?.id,
+      documents: SelectedDocument.value?.id && {
+        id: SelectedDocument.value?.id,
+        text: articleSource.value,
+      },
       explanation: descriptionArticle.value,
 
     });
@@ -141,7 +144,7 @@ watch(
                   </template>
                 </HandleFilesUpload>
               </div>
-              <textarea id="descreption" v-model="descriptionArticle" name="descreption"
+              <textarea id="descreption" v-model="QuestionDescription" name="descreption"
                 :placeholder="$t('Enter Question clarification')" @input="updateData"></textarea>
             </div>
           </div>
@@ -233,7 +236,7 @@ watch(
                   </template>
                 </HandleFilesUpload>
               </div>
-              <textarea id="descreption" v-model="description" name="descreption" @input="updateData"></textarea>
+              <textarea id="descreption" v-model="descriptionArticle" name="descreption" @input="updateData"></textarea>
             </div>
           </div>
         </AccordionContent>
