@@ -21,6 +21,7 @@ import DeleteArticleParams from '../../core/params/delet.Articles.params';
 import type ShowArticleModel from '../../core/models/show.Article.model';
 import Articlearrow from '@/shared/icons/articlearrow.vue';
 import Articlesubject from '@/shared/icons/articlesubject.vue';
+import { ArticleQuestionTypeEnum } from '../../core/constant/Article.question.type.enum';
 
 // Controller instance
 const controller = ArticleController.getInstance();
@@ -52,6 +53,7 @@ const fetchArticles = async (page: number = 1, wordStr: string = '') => {
       pageNumber: page,
       perPage: perPage.value,
       withPage: 1,
+      question_type: ArticleQuestionTypeEnum.PARAGRAPH,
     }),
   );
 };
@@ -154,7 +156,8 @@ const GetQuestionStatus = (val: ArticleStatusEnum) => {
         <span class="search-icon">
           <IndexSearchIcon />
         </span>
-        <input v-model="word" placeholder="Search by employee name or email…" class="search-input" type="text"
+        <input
+v-model="word" placeholder="Search by employee name or email…" class="search-input" type="text"
           @input="Search" />
       </div>
       <div class="btns-container">
@@ -205,7 +208,8 @@ const GetQuestionStatus = (val: ArticleStatusEnum) => {
               </div>
             </template>
             <template #cell-status="{ item }">
-              <div class="status" :class="{
+              <div
+class="status" :class="{
                 'status-approved': item.status === ArticleStatusEnum.approved,
                 'status-not-reviewed': item.status === ArticleStatusEnum.not_Reviewd,
                 'status-rejected': item.status === ArticleStatusEnum.rejected,
@@ -222,15 +226,18 @@ const GetQuestionStatus = (val: ArticleStatusEnum) => {
 
             <template #actions="{ item }">
               <div class="row-actions">
-                <router-link class="action-btn edit" :to="`/${route.params.country_code}/articles/edit/${item.id}`"
+                <router-link
+class="action-btn edit" :to="`/${route.params.country_code}/articles/edit/${item.id}`"
                   title="Edit">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  <svg
+width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                   </svg>
                 </router-link>
-                <router-link :to="`/${route.params.country_code}/articles/show/${item.id}`" title="show"
+                <router-link
+:to="`/${route.params.country_code}/articles/show/${item.id}`" title="show"
                   class="action-btn show">
                   <ShowIcon />
                 </router-link>
@@ -238,7 +245,8 @@ const GetQuestionStatus = (val: ArticleStatusEnum) => {
                 <DeleteDialog @delete="deleteArticle(item.id!)">
                   <template #Dialog>
                     <button class="action-btn delete" title="Delete">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      <svg
+width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 6h18" />
                         <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
@@ -252,7 +260,8 @@ const GetQuestionStatus = (val: ArticleStatusEnum) => {
           </AppTable>
         </div>
 
-        <Pagination v-if="controller.pagination.value" :pagination="controller.pagination.value"
+        <Pagination
+v-if="controller.pagination.value" :pagination="controller.pagination.value"
           @change-page="onPageChange" @count-per-page="onPerPageChange" />
       </template>
 

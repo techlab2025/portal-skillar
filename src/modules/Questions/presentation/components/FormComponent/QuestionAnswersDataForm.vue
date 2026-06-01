@@ -15,7 +15,7 @@
   import QuestionSolutionSteps from '../../subComponents/QuestionSolutionSteps.vue';
   import SolutionStepsParams from '@/modules/Questions/core/params/subParams/soluation.steps.params';
   import QuestionSolutionHints from '../../subComponents/QuestionSolutionHints.vue';
-  import { QuestionTypeEnum } from '@/modules/Questions/core/constant/question.type.enum';
+  import { type QuestionTypeEnum } from '@/modules/Questions/core/constant/question.type.enum';
   import type ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
   import type QuestionClarificationModel from '@/modules/Questions/core/models/subModels/question.clarification.model';
   import type SolutionStepsModel from '@/modules/Questions/core/models/subModels/solution.steps.model';
@@ -133,8 +133,8 @@
       </AccordionHeader>
       <AccordionContent>
         <AnswersTimeLine
-          :questionData="safeAnswers.answers"
-          :questionType="questionType"
+          :question-data="safeAnswers.answers"
+          :question-type="questionType"
           @update:data="GetAnswers"
         />
         <QuestionClarification
@@ -144,12 +144,12 @@
         />
         <QuestionSolutionSteps
           :SolutionStepsData="SolutionStepsData!"
-          :isSolutionStepsData="isSolutionStepsData"
+          :is-solution-steps-data="isSolutionStepsData"
           @update-data="GetSolutionSteps"
         />
         <QuestionSolutionHints
           :SolutionHintsData="SolutionHintsData!"
-          :isSolutionHintsData="isSolutionHintsData"
+          :is-solution-hints-data="isSolutionHintsData"
           @update-data="GetSolutionHints"
         />
       </AccordionContent>

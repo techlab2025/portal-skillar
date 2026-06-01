@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ArticleDifficultyEnum } from '@/modules/Articles/core/constant/Article.difficulty.enum';
-import ArticleCardModel from '../../../core/models/article.card';
+import type ArticleCardModel from '../../../core/models/article.card';
 import { ArticleTypeEnum } from '@/modules/Articles/core/constant/Article.type.enum';
 import DropList from '@/shared/HelpersComponents/DropList.vue';
 import EditIcon from '@/shared/icons/DropListIcons/EditIcon.vue';
@@ -72,7 +72,7 @@ const actionList = (id: number, deleteArticleQuestion: (id: number) => void) => 
 </script>
 <template>
     <div class="question_card">
-        <div class="num-question" v-for="(value,index) in question" :key="value?.id">
+        <div v-for="(value,index) in question" :key="value?.id" class="num-question">
             <div class="contant-card">
                 <div class="header-card">
                      <div class="title"> <h6>questions {{ index + 1 }}</h6>   </div>  
@@ -104,7 +104,7 @@ const actionList = (id: number, deleteArticleQuestion: (id: number) => void) => 
                    <p>{{ value?.questions }}</p> 
                 </div>
                 <div class="all_answers">
-                    <div class="answer" v-for="(answer,index) in value?.answer" :key="index">
+                    <div v-for="(answer,index) in value?.answer" :key="index" class="answer">
                         <div class="imge-text">
                             <div class="text">
                                 <span class="label">{{ $t('Answers') }} {{ index + 1 }}</span>

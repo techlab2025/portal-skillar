@@ -176,7 +176,8 @@ watch(() => questionData, (newValue) => {
 </script>
 
 <template>
-  <Accordion :pt="{
+  <Accordion
+:pt="{
     'root': 'basic-data-form'
   }" value="0" :lazy="true">
     <AccordionPanel value="0">
@@ -194,13 +195,15 @@ watch(() => questionData, (newValue) => {
           <div class="field-group col-span-2" :class="{ disabled: loading }">
             <label class="field-label" for="name">{{ $t(`question title`) }}</label>
             <div class="input-wrap">
-              <input id="title" v-model="title" type="text" placeholder="Enter question title" class="field-input"
+              <input
+id="title" v-model="title" type="text" placeholder="Enter question title" class="field-input"
                 @input="updateData" />
             </div>
           </div>
 
           <div class="field-group col-span-2" :class="{ disabled: loading }">
-            <HandleFilesUpload :label="`upload image`" accept="image/*" :multiple="false" :index="1"
+            <HandleFilesUpload
+:label="`upload image`" accept="image/*" :multiple="false" :index="1"
               :file="UploadedImage" :have-content="true" :class="`image-input`" @change="handleImageChange">
               <template #content>
                 <div class="add-imaegs-data">
@@ -212,12 +215,15 @@ watch(() => questionData, (newValue) => {
             </HandleFilesUpload>
           </div>
 
-          <SelectionTabs class="field-group col-span-2" :tabs="tabs" :selected-tab="selectedTab"
+          <SelectionTabs
+class="field-group col-span-2" :tabs="tabs" :selected-tab="selectedTab"
             @update:model-value="selectTab" />
-          <QuestionContantTabs :ContentData="ContentData!" class="field-group col-span-2"
-            @updateData="getQuestionCOntent" />
-          <QuestionSource :documentSource="DocumentSource" @updateData="GetQuestionSource"
-            class="field-group col-span-2" />
+          <QuestionContantTabs
+:ContentData="ContentData!" class="field-group col-span-2"
+            @update-data="getQuestionCOntent" />
+          <QuestionSource
+:document-source="DocumentSource" class="field-group col-span-2"
+            @update-data="GetQuestionSource" />
         </div>
       </AccordionContent>
     </AccordionPanel>

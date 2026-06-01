@@ -102,9 +102,11 @@ const updateData = () => {
                 </div>
             </div>
             <div class="btn-add-question">
-                <router-link :to="`/${route.params.country_code}/questions/add?article_id=${route.params.id}`"
+                <router-link
+:to="`/${route.params.country_code}/questions/add?article_id=${route.params.id}`"
                     title="add new question" class="btn btn-add">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    <svg
+width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round">
                         <path d="M12 5v14M5 12h14" />
                     </svg>
@@ -115,22 +117,24 @@ const updateData = () => {
         <div class="fillters-search">
                 <div class="search-field">
                     <span class="search-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        <svg
+width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round">
                             <circle cx="11" cy="11" r="8" />
                             <path d="m21 21-4.35-4.35" />
                         </svg>
                     </span>
-                    <input v-model="word" :placeholder="$t('search by id, question title,  type , difficulty')" class="search-input" type="text"
+                    <input
+v-model="word" :placeholder="$t('search by id, question title,  type , difficulty')" class="search-input" type="text"
                         @input="Search" />
                 </div>
                 <div class="fillters">
                     <div class="input-select">
                         <UpdatedCustomInputSelect
                             id="doc-difficulty"
+                            v-model="SelectedDifficulty"
                             :label="``"
                             :static-options="difficultyOptions"
-                            v-model="SelectedDifficulty"
                             :placeholder="$t('select_difficulty')"
                             @update:model-value="updateData"
                         />
@@ -139,9 +143,9 @@ const updateData = () => {
 
                            <UpdatedCustomInputSelect
                                id="doc-type"
+                               v-model="SelectedType"
                                :label="``"
                                :static-options="typeOptions"
-                               v-model="SelectedType"
                                :placeholder="$t('select_type')"
                                @update:model-value="updateData"
                            />
@@ -150,9 +154,9 @@ const updateData = () => {
 
                            <UpdatedCustomInputSelect
                                id="doc-status"
+                               v-model="SelectedStatus"
                                :label="``"
                                :static-options="statusOptions"
-                               v-model="SelectedStatus"
                                :placeholder="$t('select_status')"
                                @update:model-value="updateData"
                            />

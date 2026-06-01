@@ -260,7 +260,8 @@ async function reloadData(): Promise<void> {
       <div class="flex items-center">
         <slot name="reloadHeader"></slot>
 
-        <span v-if="enableReload" class="reload-icon cursor-pointer flex items-center gap-sm me-2 w-full"
+        <span
+v-if="enableReload" class="reload-icon cursor-pointer flex items-center gap-sm me-2 w-full"
           @click="reloadData">
           <span v-if="optional" class="optional-text">({{ $t('optional') }})</span>
 
@@ -288,7 +289,8 @@ async function reloadData(): Promise<void> {
 
   <slot v-if="!hascontent">
 
-    <component :is="componentType" v-model="normalizedValue" :options="mergedOptions" :placeholder="placeholder"
+    <component
+:is="componentType" v-model="normalizedValue" :options="mergedOptions" :placeholder="placeholder"
       class="input-select w-full" option-label="title" v-bind="multiselectProps" filter :loading="loading"
       :empty-message="message" />
 

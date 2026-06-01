@@ -28,8 +28,8 @@ export default class ArticleModel {
     if (!json) throw new Error('Cannot create ArticleModel from null or undefined');
 
     return new ArticleModel({
-      id: json.id,
-      articleTitle: json.article_title,
+      id: json.question_id,
+      articleTitle: json.question,
       subject: json.subject
         ? {
             curriculum: json.subject.curriculum ?? '',

@@ -165,7 +165,8 @@ const GetQuestionStatus = (val: QuestionStatusEnum) => {
         <span class="search-icon">
           <IndexSearchIcon />
         </span>
-        <input v-model="word" placeholder="Search by employee name or email…" class="search-input" type="text"
+        <input
+v-model="word" placeholder="Search by employee name or email…" class="search-input" type="text"
           @input="Search" />
       </div>
       <div class="btns-container">
@@ -203,7 +204,8 @@ const GetQuestionStatus = (val: QuestionStatusEnum) => {
               </div>
             </template>
             <template #cell-status="{ item }">
-              <div class="status" :class="{
+              <div
+class="status" :class="{
                 'status-approved': item.status === QuestionStatusEnum.approved,
                 'status-not-reviewed': item.status === QuestionStatusEnum.not_Reviewd,
                 'status-rejected': item.status === QuestionStatusEnum.rejected,
@@ -220,9 +222,11 @@ const GetQuestionStatus = (val: QuestionStatusEnum) => {
 
             <template #actions="{ item }">
               <div class="row-actions">
-                <router-link class="action-btn edit" :to="`/${route.params.country_code}/questions/edit/${item.id}`"
+                <router-link
+class="action-btn edit" :to="`/${route.params.country_code}/questions/edit/${item.id}`"
                   title="Edit">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  <svg
+width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
@@ -232,7 +236,8 @@ const GetQuestionStatus = (val: QuestionStatusEnum) => {
                 <DeleteDialog @delete="deleteQuestion(item.id!)">
                   <template #Dialog>
                     <button class="action-btn delete" title="Delete">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      <svg
+width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 6h18" />
                         <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
@@ -246,7 +251,8 @@ const GetQuestionStatus = (val: QuestionStatusEnum) => {
           </AppTable>
         </div>
 
-        <Pagination v-if="controller.pagination.value" :pagination="controller.pagination.value"
+        <Pagination
+v-if="controller.pagination.value" :pagination="controller.pagination.value"
           @change-page="onPageChange" @count-per-page="onPerPageChange" />
       </template>
 
