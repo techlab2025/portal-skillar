@@ -247,7 +247,7 @@
           @update:model-value="handleBranchChange($event)"
         />
       </div>
-      <div class="input">
+      <div class="input"> 
         <UpdatedCustomInputSelect
           id="question-sequence"
           v-model="SelectedQuestionSequence"

@@ -44,7 +44,7 @@ export default class ArticleController extends BaseController<ArticalDetailsMode
 
     const result = await super.create(params, { ...options, useJson: true });
     if (result instanceof DataSuccess) { 
-      router.push({ name: 'Employees' });
+      router.push({ name: 'Articles' });
       if (formKey) {
         FormStore.clearFormData(formKey);
       }
@@ -57,7 +57,7 @@ export default class ArticleController extends BaseController<ArticalDetailsMode
 
     const result = await super.update(params, options);
     if (result instanceof DataSuccess) {
-      router.push({ name: 'Employees' });
+      router.push({ name: 'Articles' });
       if (formKey) {
         FormStore.clearFormData(formKey);
       }

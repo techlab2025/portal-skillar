@@ -4,10 +4,11 @@ import { useRoute } from 'vue-router';
 import AppButton from '@/shared/HelpersComponents/AppButton.vue';
 import IconAccept from '@/shared/icons/IconAccept.vue';
 import ArticleController from '../controllers/Article.controller';
-import type EditArticlesParams from '../../core/params/edit.Articles.params';
+import EditArticlesParams from '../../core/params/edit.Articles.params';
 import ShowArticlesParams from '../../core/params/show.Articles.params';
 
 import ArticleForm from './ArticleForm.vue';
+import type AddArticlesParams from '../../core/params/add.Artical.params.ts';
 
 const controller = ArticleController.getInstance();
 const route = useRoute();
@@ -27,8 +28,17 @@ const saveArticle = async () => {
   await controller.update(params.value, undefined, formKey);
 };
 
-const updateData = (updatedParams: EditArticlesParams) => {
-  params.value = updatedParams;
+const updateData = (updatedParams: AddArticlesParams) => {
+  params.value = new EditArticlesParams({
+    id: Number(route.params.id),
+    question_description: updatedParams.question_description,
+    attachments: updatedParams.attachments,
+    question: updatedParams.question,
+    question_type: updatedParams.question_type,
+    e_c_subject_id: updatedParams.e_c_subject_id,
+    documents: updatedParams.documents,
+    explanation: updatedParams.explanation,
+  });
 };
 
 onMounted(async () => {
