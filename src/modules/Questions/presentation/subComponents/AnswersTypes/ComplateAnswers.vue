@@ -103,14 +103,14 @@
   watch(
     () => draftData,
     (newvalue) => {
-      if (route.params.id) return 
-        if (newvalue && newvalue.length > 0) {
-          Answers.value = newvalue.map((item) => {
-            return {
-              answer: item.title,
-            } as AnswerModel;
-          });
-        }
+      if (route.params.id) return;
+      if (newvalue && newvalue.length > 0) {
+        Answers.value = newvalue.map((item) => {
+          return {
+            answer: item.title,
+          } as AnswerModel;
+        });
+      }
       selectedTab.value = newvalue?.[0]?.answerEvaluation as AnswerEvaluationTypeEnum;
     },
     { deep: true, immediate: true },
@@ -139,7 +139,7 @@
               :id="`similar-${index}`"
               v-model="item.similar"
               type="text"
-              :placeholder="$t('similar_answer')"
+              :placeholder="$t('similar_percentage')"
               @input="UpdateData"
             />
           </div>

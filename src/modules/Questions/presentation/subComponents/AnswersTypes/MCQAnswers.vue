@@ -107,10 +107,11 @@
     () => draftData,
     (newvalue) => {
       if (newvalue && newvalue.length > 0) {
+        console.log(newvalue, 'newvalue');
         Answers.value = newvalue.map((item) => ({
           answer: item.title,
           file: item.file,
-          isCorrect: item.isCorrect,
+          is_right_answer: item.isCorrect,
         }));
       }
     },

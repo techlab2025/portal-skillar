@@ -11,7 +11,7 @@
   import HandleFilesUpload from '@/shared/FormInputs/HandleFilesUpload.vue';
   import UplaodImageInput from '@/shared/icons/UploadImage/UplaodImageInput.vue';
   import SelectionTabs from '../../subComponents/SelectionTabs.vue';
-  import TitleInterface from '@/base/Data/Models/titleInterface';
+  import type TitleInterface from '@/base/Data/Models/titleInterface';
   import { QuestionTypeEnum } from '@/modules/Questions/core/constant/question.type.enum';
   import QuestionContantTabs from '../../subComponents/QuestionContantTabs.vue';
   import QuestionSource from '../../subComponents/QuestionSource.vue';
@@ -211,7 +211,7 @@
       SelectedSubject.value = draftData?.subjectId ?? null;
       title.value = draftData?.title ?? '';
       UploadedImage.value = draftData?.image?.map((item: any) => item.file) ?? [];
-      selectedTab.value = draftData?.questionType ?? null;
+      selectedTab.value = draftData?.questionType || QuestionTypeEnum.mcq;
     },
     { immediate: true },
   );
@@ -296,7 +296,7 @@
             @update-data="getQuestionCOntent"
           />
           <QuestionSource
-            :draftData="draftData"
+            :draft-data="draftData"
             :document-source="DocumentSource"
             class="field-group col-span-2"
             @update-data="GetQuestionSource"
