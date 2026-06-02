@@ -1,18 +1,17 @@
 // Models
-export { default as ArticleModel } from './core/models/Article.model';
+export { default as PackageModel } from './core/models/packages.model';
 
 // Params
-export { default as AddArticlesParams } from './core/params/add.Artical.params';
-export { default as EditArticlesParams } from './core/params/edit.Articles.params';
-export { default as DeleteArticlesParams } from './core/params/Articles.question.params';
-export { default as ShowArticlesParams } from './core/params/show.Articles.params';
-export { default as IndexArticlesParams } from './core/params/index.Articles.params';
+export { default as AddPackagesParams } from './core/params/add.packages.params';
+export { default as EditPackagesParams } from './core/params/edit.packages.params';
+export { default as ShowPackagesParams } from './core/params/show.packages.params';
+export { default as IndexPackagesParams } from './core/params/index.packages.params';
 
 // Repository
-export { default as ArticleRepository } from './data/repositories/Artical.repository';
+export { default as PackageRepository } from './data/repositories/packages.repository';
 
 // Controller
-export { default as ArticleController } from './presentation/controllers/Article.controller';
+export { default as PackageController } from './presentation/controllers/packages.controller';
 
 // API Service
-export { default as ArticleApiService } from './data/api/Artical.api-service';
+export { default as PackageApiService } from './data/api/packages.api-service';

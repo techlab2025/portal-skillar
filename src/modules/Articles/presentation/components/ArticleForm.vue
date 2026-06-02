@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router';
 import type ShowArticleModel from '../../core/models/show.Article.model';
 import EditArticlesParams from '../../core/params/edit.Articles.params';
 import AddArticlesParams from '../../core/params/add.Artical.params';
-import HandleFilesUpload, { type UploadedFile } from '@/shared/FormInputs/HandleFilesUpload.vue';
+import HandleFilesUpload from '@/shared/FormInputs/HandleFilesUpload.vue';
 import UploadFileIcon from '@/shared/icons/UploadFileIcon.vue';
 import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
 import Accordion from 'primevue/accordion';
@@ -53,22 +53,25 @@ const updateData = () => {
   if (route?.params?.id) {
     params = new EditArticlesParams({
       id: Number(route.params.id),
-      title: BasicData.value?.title,
-      image: BasicData.value?.image,
-      question_type: BasicData.value?.question_type,
-      subjectId: SelectedSubject.value?.id,
-      skills: BasicData.value?.skills,
-      difficultyLevel: BasicData.value?.difficultyLevel,
-      topics: BasicData.value?.topics,
-      articleSequenceId: BasicData.value?.articleSequenceId,
-      articleSource: BasicData.value?.articleSource,
-      answers: AnswerData.value?.answers,
+      question_description: QuestionDescription.value,
+      attachments: UploadedImage.value.map((file) => new AttachmentsParams({ alt: '', file })) || [],
+      question: question.value,
+      question_type: 5,
+      e_c_subject_id: SelectedSubject.value?.id,
+      documents: SelectedDocument.value?.id && {
+        document_id: SelectedDocument.value?.id,
+        text: articleSource.value,
+      },
+      explanation: {
+        explanation: descriptionArticle.value,
+        attachments:explanationAttachments.value.map((file) => new AttachmentsParams({ alt: '', file })) || [], 
+      },
+
     });
   } else {
     params = new AddArticlesParams({
       question_description: QuestionDescription.value,
       attachments: UploadedImage.value.map((file) => new AttachmentsParams({ alt: '', file })) || [],
-      // attachments: BasicData.value?.attachments,
       question: question.value,
       question_type: 5,
       e_c_subject_id: SelectedSubject.value?.id,
@@ -97,13 +100,13 @@ const handleExplanationAttachments = (file: any) => {
   updateData();
 };
 
-const BasicData = ref<AddArticlesParams>();
+// const BasicData = ref<AddArticlesParams>();
 // const GetAllBasicData = (data: AddArticlesParams) => {
 //   BasicData.value = data;
 //   updateData();
 // };
 
-const AnswerData = ref<AddArticlesParams>();
+// const AnswerData = ref<AddArticlesParams>();
 // const GetAllAnswers = (data: AddArticlesParams) => {
 //   AnswerData.value = data;
 //   updateData();

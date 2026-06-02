@@ -1,15 +1,14 @@
 import BaseRepository, { type RepositoryConfig } from '@/base/Domain/Repositories/baseRepository';
-import ArticleModel from '../../core/models/Article.model';
-import ArticleSubjectModel from '../../core/models/Subject.model';
-import ArticleApiService from '../api/Artical.api-service';
-import { ArticleGeneratedByEnum } from '../../core/constant/Article.generatedby.enum';
-import ArticalDetailsModel from '../../core/models/artical.details.model';
+import ArticalDetailsModel from '@/modules/Articles/core/models/artical.details.model';
+import { ArticleGeneratedByEnum } from '@/modules/Articles/core/constant/Article.generatedby.enum';
+import ArticleSubjectModel from '@/modules/Articles/core/models/Subject.model';
+import { ArticleApiService, ArticleModel } from '@/modules/Articles';
 
 export default class ArticleRepository extends BaseRepository<ArticalDetailsModel, ArticleModel[]> {
   private static instance: ArticleRepository;
 
   protected get apiService() {
-    return ArticleApiService.getInstance();
+    return ArticleApiService.getInstance(); 
   }
 
   protected get config(): RepositoryConfig {

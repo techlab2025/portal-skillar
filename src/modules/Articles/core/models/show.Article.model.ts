@@ -111,7 +111,7 @@ export default class ShowArticleModel {
     difficulty: ArticleDifficultyEnum.easy,
     status: ArticleStatusEnum.not_Reviewd,
     createdAt: '2022-01-01',
-    answers: [AnswerModel.example],
+    answers: AnswerModel.examples,
     articleClarification: QuestionClarificationModel.example,
     articleSolutionSteps: SolutionStepsModel.example,
     articleSolutionHint: SolutionHintModel.example,

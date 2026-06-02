@@ -5,9 +5,8 @@ import type Params from '@/base/Core/Params/params';
 import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 import router from '@/router';
 import { useFormsStore } from '@/stores/formsStore';
-import type ArticleModel from '../../core/models/Article.model';
-import ArticleRepository from '../../data/repositories/Artical.repository';
-import type ArticalDetailsModel from '../../core/models/artical.details.model';
+import { ArticleRepository, type ArticleModel } from '@/modules/Articles';
+import type ArticalDetailsModel from '@/modules/Articles/core/models/artical.details.model';
 
 export default class ArticleController extends BaseController<ArticalDetailsModel, ArticleModel[]> {
   private static instance: ArticleController;

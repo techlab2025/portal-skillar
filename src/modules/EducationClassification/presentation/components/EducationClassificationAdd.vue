@@ -4,6 +4,7 @@
   import EducationClassificationController from '../controllers/educationClassification.controller';
   import type AddEducationClassificationParams from '../../core/params/add.educationClassification.params';
   import EducationClassificationForm from './EducationClassificationForm.vue';
+import type Params from '@/base/Core/Params/params.ts';
   // Controller instance
   const controller = EducationClassificationController.getInstance();
   const route = useRoute();
@@ -23,7 +24,8 @@
     try {
       const paramsToSave = params.value;
       await controller.create(paramsToSave, undefined, formKey);
-      await controller.fetchList();
+      // await controller.fetchList();
+      await controller.fetchList({} as Params);
     } catch (error) {
       console.error('Error saving email:', error);
     } finally {

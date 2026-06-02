@@ -50,20 +50,21 @@ export default class StageModel {
       title: json.title,
       full_title: json.full_title,
       e_c_subject_id: json.e_c_subject_id,
-      branches: json.branches,
+      branches: json.branches?.map((branch: any) => BranchesModel.fromJson(branch)) ?? [],
       EducationType: json.education_type,
-      children: json.children,
+      children: json.children?.map((child: any) => StageModel.fromJson(child)) ?? [],
     });
   }
 
   static example: StageModel = new StageModel({
-    id: 1,
-    title: 'المرحلة الثانوية',
-    branches: [BranchesModel.example],
-    EducationType: new TitleInterface({
-      id: EducationType.General,
-      title: 'General',
-    }),
-    children: [{}],
-  });
+  id: 1,
+  title: 'المرحلة الثانوية',
+  full_title: 'المرحلة الثانوية',
+  branches: [BranchesModel.example],
+  EducationType: new TitleInterface({
+    id: EducationType.General,
+    title: 'General',
+  }),
+  children: [],
+});
 }

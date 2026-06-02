@@ -1,6 +1,6 @@
 import BaseApiService from '@/base/Data/ApiService/baseApiService';
 import type { ApiEndpoints } from '@/base/Data/ApiService/baseApiService';
-import { ArticleEndpoints } from './Artical.api.endpoints';
+import { ArticleEndpoints } from './packages.api.endpoints'; 
 
 export default class PackagesApiService extends BaseApiService {
   private static instance: PackagesApiService;

@@ -46,11 +46,7 @@ const getStatusClass = (status: ArticleTypeEnum) => {
   const ShoweEditDialog = ref<boolean>(false);
   const selectedItemId = ref<number>(0);
   const deleteArticleQuestion = async (id: number) => {
-    await controller.delete(
-      new DeleteArticlesParams({
-        id: id,
-      }),
-    );
+    await controller.delete(new DeleteArticlesParams(id)); 
   };
 // droplist
 const actionList = (id: number, deleteArticleQuestion: (id: number) => void) => [

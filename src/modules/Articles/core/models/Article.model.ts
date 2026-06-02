@@ -28,18 +28,14 @@ export default class ArticleModel {
     if (!json) throw new Error('Cannot create ArticleModel from null or undefined');
 
     return new ArticleModel({
-      id: json.question_id,
-      articleTitle: json.question,
-      subject: json.subject
-        ? {
-            curriculum: json.subject.curriculum ?? '',
-            cycle: json.subject.cycle ?? '',
-            grade: json.subject.grade ?? '',
-          }
-        : null,
-      generatedBy: json.generated_by,
-      noOfQs: json.no_of_qs,
-    });
+  id: json.question_id,
+  articleTitle: json.question, 
+  subject: json.subject
+    ? ArticleSubjectModel.fromJson(json.subject)
+    : null,
+  generatedBy: json.generated_by,
+  noOfQs: json.no_of_qs,
+});
   }
 
   static example: ArticleModel = new ArticleModel({
