@@ -9,8 +9,9 @@
   import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachments.params';
 
   const emit = defineEmits(['update:data']);
-  const { questionData } = defineProps<{
+  const { questionData, draftData } = defineProps<{
     questionData: AnswerModel[];
+    draftData?: AnswersParams[];
   }>();
 
   const Answers = ref<AnswerModel[]>([
@@ -95,7 +96,20 @@
     { immediate: true, deep: true },
   );
 
-  
+  watch(
+    () => draftData,
+    (newValue) => {
+      if (newValue && newValue.length > 0) {
+        Answers.value = newValue.map((item) => ({
+          answer: item.title ?? '',
+          is_right_answer: item.isCorrect ?? false,
+          image: item.file?.length
+            ? [new AttachmentsParams({ file: item.file[0]?.file })]
+            : [new AttachmentsParams({ file: '' })],
+        }));
+      }
+    },
+  );
 </script>
 
 <template>

@@ -204,7 +204,6 @@
   watch(
     [() => draftData, skillsOptions],
     ([draft, options]) => {
-      if (!route.params.id) return;
       if (!draft?.skills) return;
       if (!options?.length) return;
 
@@ -219,6 +218,19 @@
     },
     { immediate: true },
   );
+
+  watch(topicsOptions, (options) => {
+    if (route.params.id) return;
+    if (!draftData?.topics?.length || !options?.length) return;
+    SelectedTopic.value = draftData.topics.map(
+      (item) =>
+        new TitleInterface<number>({
+          id: item.id || 0,
+          title: options.find((el) => el.id === item.id)?.title ?? '',
+        }),
+    );
+    updateData();
+  });
 </script>
 
 <template>
@@ -263,7 +275,7 @@
           :label="`Difficulty level`"
           :static-options="DifficultLevels as TitleInterface<number>[]"
           placeholder="Difficulty level"
-          @update:model-value="console.log($event, 'eveent')"
+          @update:model-value="updateData"
         />
       </div>
     </div>

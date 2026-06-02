@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { onMounted, ref, watch } from 'vue';
+  import { ref, watch } from 'vue';
   import { useRoute } from 'vue-router';
   import type ShowQuestionsModel from '../../core/models/show.questions.model';
   import AddquestionsParams from '../../core/params/add.question.params';
@@ -7,6 +7,7 @@
   import QuestionAnswersDataForm from './FormComponent/QuestionAnswersDataForm.vue';
   import EditquestionsParams from '../../core/params/edit.question.params';
   import FolderIcon from '@/shared/icons/Question/FolderIcon.vue';
+  import { CustomToast } from '../subComponents/CustomTosat.ts';
 
   const route = useRoute();
   const emit = defineEmits(['updateData']);
@@ -104,11 +105,13 @@
     { immediate: true },
   );
   const QuestionDraftData = ref<AddquestionsParams>();
-  onMounted(() => {
-    QuestionDraftData.value = JSON.parse(localStorage.getItem(`question-draft`) || '{}');
-    if (QuestionDraftData.value) {
-      BasicData.value = QuestionDraftData.value;
-      AnswerData.value = QuestionDraftData.value;
+  const draftRef = CustomToast();
+
+  watch(draftRef, (newVal) => {
+    if (newVal) {
+      QuestionDraftData.value = newVal;
+      BasicData.value = newVal;
+      AnswerData.value = newVal;
     }
   });
 </script>

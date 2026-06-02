@@ -188,22 +188,6 @@
     leaveToClass: 'accordion-leave-to',
   };
 
-  // watch(
-  //   () => draftData,
-  //   (newValue) => {
-  //     if (!newValue) return;
-  //     if (route.params.id) return;
-  //     Answers.value = newValue.answers ?? [];
-  //     isQuestionClarification.value = !!newValue.isQuestionClarification;
-  //     QuestionClarifications.value =
-  //       newValue.questionClarification ?? ({} as QuestionClarificationParams);
-  //     isSolutionSteps.value = !!newValue.isSolutionSteps;
-  //     SolutionSteps.value = newValue.solutionSteps ?? ({} as SolutionStepsParams);
-  //     isSolutionHints.value = !!newValue.isSolutionHint;
-  //     SolutionHints.value = newValue.solutionHint ?? ({} as SolutionStepsParams);
-  //   },
-  //   { immediate: true },
-  // );
 </script>
 
 <template>
@@ -238,16 +222,19 @@
         <QuestionClarification
           :ClarificationData="ClarificationData!"
           :isclarification="isClarification"
+          :draft-data="draftData"
           @update-data="GetClarification"
         />
         <QuestionSolutionSteps
           :SolutionStepsData="SolutionStepsData!"
           :is-solution-steps-data="isSolutionStepsData"
+          :draft-data="draftData"
           @update-data="GetSolutionSteps"
         />
         <QuestionSolutionHints
           :SolutionHintsData="SolutionHintsData!"
           :is-solution-hints-data="isSolutionHintsData"
+          :draft-data="draftData"
           @update-data="GetSolutionHints"
         />
       </AccordionContent>

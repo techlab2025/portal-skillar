@@ -2,7 +2,7 @@
   import { ref } from 'vue';
   import AppButton from '@/shared/HelpersComponents/AppButton.vue';
   import IconAccept from '@/shared/icons/IconAccept.vue';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import questionsController from '../controllers/questions.controller';
   import questionsForm from './questionsForm.vue';
   import type AddEmployeeParams from '../../core/params/add.question.params';
@@ -12,7 +12,7 @@
   const formKey = route.fullPath;
 
   const params = ref<AddEmployeeParams | null>(null);
-
+  const router = useRouter();
   /**
    * Save new employee
    */
@@ -37,6 +37,7 @@
       }
 
       localStorage.setItem(`question-draft`, JSON.stringify(params.value));
+      router.push({ name: 'Questions' });
     } catch (error) {
       console.error('Error saving employee:', error);
     }
