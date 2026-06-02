@@ -41,7 +41,7 @@ export default class AnswersParams implements Params {
     return {
       answer: this.title,
       attachments: this.file?.map((item) => item.toMap()),
-      is_correct: this.isCorrect,
+      is_correct: this.isCorrect || true,
       correct_order: this.correctOrder,
       match_answer: this.matchAnswer,
       answer_evaluation: this.answerEvaluation,

@@ -50,6 +50,7 @@
           : null;
         questionSource.value = data?.source || '';
       }
+      updateData();
     },
     { immediate: true },
   );

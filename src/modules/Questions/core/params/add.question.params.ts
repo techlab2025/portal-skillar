@@ -16,7 +16,7 @@ import type AttachmentsParams from './subParams/attachments.params';
  */
 export default class AddquestionsParams implements Params {
   public title?: string;
-  public image?: AttachmentsParams[]; 
+  public image?: AttachmentsParams[];
   public questionType?: QuestionTypeEnum;
   public subjectId?: number | null;
   public topics?: TopicsParams[] | null;
@@ -33,7 +33,7 @@ export default class AddquestionsParams implements Params {
   public solutionHint?: SolutionStepsParams;
   public answerEvaluation?: AnswerEvaluationTypeEnum;
   public similarPrecentage?: string;
-  public parentId ?:number | null
+  public parentId?: number | null;
 
   public static readonly validation = new ClassValidation().setRules({
     title: { required: true },
@@ -66,7 +66,7 @@ export default class AddquestionsParams implements Params {
     solutionHint?: SolutionStepsParams;
     answerEvaluation?: AnswerEvaluationTypeEnum;
     similarPrecentage?: string;
-    parentId ?:number | null
+    parentId?: number | null;
   }) {
     this.title = data.title;
     this.image = data.image;
@@ -103,11 +103,11 @@ export default class AddquestionsParams implements Params {
       answers: this.answers?.map((item) => item.toMap()),
       documents: [this.questionSource?.toMap()],
       is_question_clarification: this.isQuestionClarification,
-      explanation: this.questionClarification?.toMap(),
+      explanation: this.isQuestionClarification ? this.questionClarification?.toMap() : null,
       is_solution_steps: this.isSolutionSteps,
-      answer_step: this.solutionSteps?.toMap(),
+      answer_step: this.isSolutionSteps ? this.solutionSteps?.toMap() : null,
       is_solution_hint: this.isSolutionHint,
-      answer_hint: this.solutionHint?.toMap(),
+      answer_hint: this.isSolutionHint ? this.solutionHint?.toMap() : null,
       correct_status: this.answerEvaluation,
       identical_precentage: this.similarPrecentage,
       parent_id: this.parentId ?? null,
