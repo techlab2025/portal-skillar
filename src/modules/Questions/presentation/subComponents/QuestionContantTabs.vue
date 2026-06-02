@@ -145,7 +145,7 @@
 </script>
 
 <template>
-  <div class="contant_tabs"> 
+  <div class="contant_tabs">   
     <div class="form-group">
       <div class="input">
         <UpdatedCustomInputSelect
@@ -158,7 +158,7 @@
           @update:model-value="handleBranchChange($event)"
         />
       </div>
-      <div class="input">
+      <div class="input"> 
         <UpdatedCustomInputSelect
           id="question-sequence"
           v-model="SelectedQuestionSequence"

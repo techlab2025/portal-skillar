@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import type ShowArticleModel from '../../core/models/show.Article.model';
 import EditArticlesParams from '../../core/params/edit.Articles.params';
 import AddArticlesParams from '../../core/params/add.Artical.params';
 import HandleFilesUpload from '@/shared/FormInputs/HandleFilesUpload.vue';
@@ -14,18 +13,20 @@ import AccordionContent from 'primevue/accordioncontent';
 import FolderCrudIcon from '@/shared/icons/FolderCrudIcon.vue';
 import Checkbox from 'primevue/checkbox';
 import AccordionToggleIcon from '@/shared/icons/questions/AccordionToggleIcon.vue';
-import IndexDocumentTypeParams from '@/modules/document/core/params/documntType/index.document.type.params';
-import DocumentTypeController from '@/modules/document/presentation/controllers/DocumentType/document.type.controller';
 import { DocumentController, IndexDocumentParams } from '@/modules/document';
 import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachments.params';
+import type ArticalDetailsModel from '../../core/models/artical.details.model';
+import type TitleInterface from '@/base/Data/Models/titleInterface';
+import type StageModel from '@/modules/Stages/core/models/stage.model';
+import flattenSubjectBranchTree from '@/modules/Questions/core/SubjectTreeSelectHelper';
+import FullSubjectTreeController from '@/modules/Questions/presentation/controllers/FullSubjectTree/full.subject.tree.controller';
 
-const indexDocumentTypeParams = new IndexDocumentTypeParams();
-const documentTypeController = DocumentTypeController.getInstance();
+const SelectedQuestionSequence = ref<TitleInterface<number> | null>(null);
 
 const route = useRoute();
 const emit = defineEmits(['updateData']);
-const { article } = defineProps<{
-  article?: ShowArticleModel;
+const props = defineProps<{
+  article?: ArticalDetailsModel;
 }>();
 const isSolutionSteps = ref(true);
 const isSolutionHint = ref(true);
@@ -36,7 +37,6 @@ const explanationAttachments = ref<string[]>([]);
 // Document dependencies
 const indexDocumentParams = new IndexDocumentParams();
 const documentController = DocumentController.getInstance();
-const SelectedSubject = ref<any>(null);
 const SelectedDocument = ref<any>(null);
 const question = ref('');
 const articleSource = ref('');
@@ -48,6 +48,44 @@ const QuestionDescription = ref('');
 //   updateData();
 // };
 
+const fullSubjectTreeController = FullSubjectTreeController.getInstance();
+const AllSubjectTree = ref<StageModel[]>([]);
+
+const subjectOptions = computed<TitleInterface<number>[]>(() => {
+  return (AllSubjectTree.value! || []).flatMap((stage: StageModel) => {
+    return flattenSubjectBranchTree(stage.children);
+  });
+});
+const handelSubjectUpdate = async (selected: TitleInterface<number> | undefined) => {
+  SelectedQuestionSequence.value = selected!;
+  updateData();
+};
+onMounted(async () => {
+  const result = await fullSubjectTreeController.fetchList();
+  AllSubjectTree.value = result.data!;
+  // console.log('AllSubjectTree.value', AllSubjectTree.value);
+})
+
+watch(
+  () => props.article,
+  (newValue) => {
+    if (newValue) {
+      QuestionDescription.value = newValue.question_description;
+      question.value = newValue.question;
+      SelectedQuestionSequence.value = newValue.e_c_subject;
+      const selectedDoc = newValue.document.find((doc: any) => doc.document_id);
+      if (selectedDoc) {
+        SelectedDocument.value = {
+          id: selectedDoc.document_id,
+          title: selectedDoc.document_title,
+        };
+        articleSource.value = selectedDoc?.text;
+      }
+      descriptionArticle.value = newValue.explanation?.explanation;
+    }
+  },
+  { immediate: true },
+);
 const updateData = () => {
   let params: any;
   if (route?.params?.id) {
@@ -57,14 +95,14 @@ const updateData = () => {
       attachments: UploadedImage.value.map((file) => new AttachmentsParams({ alt: '', file })) || [],
       question: question.value,
       question_type: 5,
-      e_c_subject_id: SelectedSubject.value?.id,
+      e_c_subject_id: SelectedQuestionSequence.value?.id,
       documents: SelectedDocument.value?.id && {
         document_id: SelectedDocument.value?.id,
         text: articleSource.value,
       },
       explanation: {
         explanation: descriptionArticle.value,
-        attachments:explanationAttachments.value.map((file) => new AttachmentsParams({ alt: '', file })) || [], 
+        attachments: explanationAttachments.value.map((file) => new AttachmentsParams({ alt: '', file })) || [],
       },
 
     });
@@ -74,14 +112,14 @@ const updateData = () => {
       attachments: UploadedImage.value.map((file) => new AttachmentsParams({ alt: '', file })) || [],
       question: question.value,
       question_type: 5,
-      e_c_subject_id: SelectedSubject.value?.id,
+      e_c_subject_id: SelectedQuestionSequence.value?.id,
       documents: SelectedDocument.value?.id && {
         document_id: SelectedDocument.value?.id,
         text: articleSource.value,
       },
       explanation: {
         explanation: descriptionArticle.value,
-        attachments:explanationAttachments.value.map((file) => new AttachmentsParams({ alt: '', file })) || [], 
+        attachments: explanationAttachments.value.map((file) => new AttachmentsParams({ alt: '', file })) || [],
       },
 
     });
@@ -112,14 +150,7 @@ const handleExplanationAttachments = (file: any) => {
 //   updateData();
 // };
 
-watch(
-  () => article,
-  (newValue) => {
-    if (newValue) {
-    }
-  },
-  { immediate: true },
-);
+
 </script>
 
 <template>
@@ -174,15 +205,20 @@ watch(
               <div class="field-group">
                 <label class="field-label" for="name">{{ $t('title of artical') }}</label>
                 <div class="input-wrap">
-                  <input id="article-source" v-model="question" type="text"
-                    :placeholder="$t('enter title of artical ')" class="field-input" @input="updateData" />
+                  <input id="article-source" v-model="question" type="text" :placeholder="$t('enter title of artical ')"
+                    class="field-input" @input="updateData" />
                 </div>
               </div>
               <div class="input">
 
-                <UpdatedCustomInputSelect id="doc-subject" v-model="SelectedSubject" :label="`subject`"
+                <div class="input">
+                  <UpdatedCustomInputSelect id="question-sequence" v-model="SelectedQuestionSequence"
+                    :label="`question sequence`" :static-options="subjectOptions" placeholder="Question sequence"
+                    @update:model-value="handelSubjectUpdate" />
+                </div>
+                <!-- <UpdatedCustomInputSelect id="doc-subject" v-model="SelectedSubject" :label="`subject`"
                   :params="indexDocumentTypeParams" :controller="documentTypeController" placeholder="select subject"
-                  @update:model-value="updateData" />
+                  @update:model-value="updateData" /> -->
               </div>
 
             </div>
