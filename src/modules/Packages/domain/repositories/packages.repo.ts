@@ -1,6 +1,6 @@
 import type { DataState } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 import type Params from '@/base/Core/Params/params';
-import type ArticleModel from '../../core/models/Article.model';
+import type { ArticleModel } from '@/modules/Articles';
 
 /**
  * Interface for Employee Repository

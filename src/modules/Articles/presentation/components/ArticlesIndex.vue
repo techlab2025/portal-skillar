@@ -21,7 +21,6 @@ import DeleteArticleParams from '../../core/params/delet.Articles.params';
 import type ShowArticleModel from '../../core/models/show.Article.model';
 import Articlearrow from '@/shared/icons/articlearrow.vue';
 import Articlesubject from '@/shared/icons/articlesubject.vue';
-import { ArticleQuestionTypeEnum } from '../../core/constant/Article.question.type.enum';
 
   // Controller instance
   const controller = ArticleController.getInstance();

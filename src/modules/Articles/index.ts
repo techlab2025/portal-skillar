@@ -4,7 +4,7 @@ export { default as ArticleModel } from './core/models/Article.model';
 // Params
 export { default as AddArticlesParams } from './core/params/add.Artical.params';
 export { default as EditArticlesParams } from './core/params/edit.Articles.params';
-export { default as DeleteArticlesParams } from './core/params/Articles.question.params';
+export { default as DeleteArticlesParams } from './core/params/delet.Articles.params';
 export { default as ShowArticlesParams } from './core/params/show.Articles.params';
 export { default as IndexArticlesParams } from './core/params/index.Articles.params';
 

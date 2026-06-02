@@ -68,7 +68,7 @@
     const res = await educationSkillsController.fetchList(
       new IndexEducationSubjectSkillsParams({ subjectId: props.branchId }),
     );
-    // console.log(res.data, 'res');
+    console.log(res.data, 'res');
   };
 
   const updateSelectedSkill = (skill: TitleInterface<number>) => {
@@ -204,8 +204,16 @@
             @keydown.esc="dialogVisible = false"
             @keydown.enter="!isInputEmpty && handleSave()"
           /> 
-          <span class="error-message-inputs" v-if="percentageValue < 0 || percentageValue > 100   || typeof percentageValue === 'string' ">  
-            {{ $t('percentage must be between 0 and 100') }}
+          <!-- <span class="error-message-inputs" v-if="percentageValue < 0 || percentageValue > 100   || typeof percentageValue === 'string' ">  
+            {{ $t('percentage must be between 0 and 100') }} 
+          </span> -->
+          <span class="error-message-inputs" v-if="
+    percentageValue !== null &&
+    (percentageValue < 0 ||
+      percentageValue > 100 ||
+      typeof percentageValue === 'string')
+  ">  
+            {{ $t('percentage must be between 0 and 100') }} 
           </span>
         </div>
       </div>

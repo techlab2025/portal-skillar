@@ -49,7 +49,7 @@
           class="arrow-next"
         /> -->
         <span v-for="(item, index) in questionData?.sequenceTree?.children" :key="index">
-          {{ item.title }}
+          {{ item?.title }}
         </span>
       </div>
     </div>
@@ -60,7 +60,7 @@
 
       <div class="document">
         <h5>
-          {{ questionData.questionDocuments?.title }}
+          {{ questionData.questionDocuments?.title }} 
         </h5>
 
         <NextStepIcon v-if="questionData?.questionDocuments?.source" class="arrow-next" />

@@ -165,7 +165,7 @@ v-model="word" :placeholder="$t('search by id, question title,  type , difficult
         </div>
         <div class="question_list">
             <!-- v-for="question in article?.articlecard" :key="question.id" -->
-            <QuestionCard  :question="article?.articlecard" />
+            <QuestionCard   v-if="article?.articlecard" :question="article?.articlecard" /> 
         </div>
     </div>
 </template>

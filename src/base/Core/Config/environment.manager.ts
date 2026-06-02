@@ -179,7 +179,7 @@ class EnvironmentManager {
   /**
    * Log message if logging is enabled
    */
-  log(message: string, ...args: any[]): void {
+  log(_message: string, ..._args: any[]): void {
     if (this.isLoggingEnabled) {
       // console.log(`[${this.currentStage}] ${message}`, ...args);
     }
@@ -188,7 +188,7 @@ class EnvironmentManager {
   /**
    * Log warning if logging is enabled
    */
-  warn(message: string, ...args: any[]): void {
+  warn(_message: string, ..._args: any[]): void {
     // if (this.isLoggingEnabled) {
     //   console.warn(`[${this.currentStage}] ${message}`, ...args);
     // }
@@ -197,7 +197,7 @@ class EnvironmentManager {
   /**
    * Log error (always logged)
    */
-  error(message: string, ...args: any[]): void {
+  error(_message: string, ..._args: any[]): void {
     // console.error(`[${this.currentStage}] ${message}`, ...args);
   }
 }

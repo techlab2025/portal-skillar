@@ -32,11 +32,11 @@ export default class ArticalDetailsQuestionModel {
       throw new Error('Cannot create ArticalDetailsQuestionModel from null or undefined');
     }
     return new ArticalDetailsQuestionModel({
-      id: json.id ?? json.id ?? 0,
-      createdAt: json.createdAt ?? json.createdAt ?? '',
+      id: json.id ?? 0,
+      createdAt: json.createdAt ?? '',
       ArticleDifficulty: json.ArticleDifficulty ?? json.ArticleDifficulty,
       ArticleType: json.ArticleType ?? json.ArticleType,
-      title: json.title ?? json.title ?? '',
+      title: json.title ?? '',
       ArticleAnswer: json.ArticleAnswer?.map((answer: any) => ArticleAnswerModel.fromJson(answer)) ?? [],
     });
   }
@@ -47,7 +47,7 @@ export default class ArticalDetailsQuestionModel {
     ArticleDifficulty: ArticleDifficultyEnum.easy,
     ArticleType: ArticleTypeEnum.mcq,
     title: 'Which of the following best describes the primary mechanism through which rising ocean ?',
-    ArticleAnswer: [ArticleAnswerModel.example],
+    ArticleAnswer: ArticleAnswerModel.examples,
   });
 
 }

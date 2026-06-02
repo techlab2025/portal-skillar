@@ -129,9 +129,9 @@ export default class NetworkService {
     // Response interceptor
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => {
-        const requestId = (response.config as any).__requestId;
+        const _requestId = (response.config as any).__requestId;
         const startTime = (response.config as any).__startTime;
-        const duration = Date.now() - (startTime || Date.now());
+        const _duration = Date.now() - (startTime || Date.now());
 
         // Log response if enabled
         if (env.isLoggingEnabled) {
