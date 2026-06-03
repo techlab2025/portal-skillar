@@ -28,7 +28,7 @@
       h6 {
         font-size: $SmSize;
         font-weight: $BaseFontWeightBold;
-        font-family: 'bold';
+        font-family: $FontFamily;
         color: var(--table-header-color);
       }
     }
@@ -43,7 +43,7 @@
       h6 {
         font-size: $SmSize;
         font-weight: $BaseFontSemiBoldWeight;
-        font-family: 'medium';
+        font-family: $FontFamily;
       }
     }
   }

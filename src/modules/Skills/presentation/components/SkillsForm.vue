@@ -139,8 +139,10 @@
   .form-fields {
     width: 100%;
   }
+
   .field-group {
     width: 100%;
+
     &.disabled {
       cursor: not-allowed;
       pointer-events: none;

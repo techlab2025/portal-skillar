@@ -15,10 +15,10 @@
 
 <template>
   <component
-    :draftData="draftData"
     :is="AnswerTypeHelper(questionType)"
+    :draft-data="draftData"
     :question-data="questionData!"
-    @update:data="emit('update:data', $event);"
+    @update:data="emit('update:data', $event)"
   />
   <!--  -->
 </template>

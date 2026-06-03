@@ -19,14 +19,14 @@
         color: var(--table-header-color);
         font-size: $XlSize;
         font-weight: $BaseFontWeightBold;
-        font-family: 'medium';
+        font-family: $FontFamily;
       }
 
       p {
         color: var(--title-header-color);
         font-size: $MdSize;
         font-weight: $BaseFontMediumWeight;
-        font-family: 'medium';
+        font-family: $FontFamily;
       }
     }
   }
@@ -54,14 +54,14 @@
           color: var(--bread-crumb-color-span);
           font-size: $SmSize;
           font-weight: $BaseFontWeight;
-          font-family: 'medium';
+          font-family: $FontFamily;
         }
 
         .item-main-title {
           color: var(--table-header-color);
           font-size: $MdSize;
           font-weight: $BaseFontMediumWeight;
-          font-family: 'medium';
+          font-family: $FontFamily;
         }
       }
 
@@ -89,7 +89,7 @@
         color: var(--title-header-color);
         font-size: $MdSize;
         font-weight: $BaseFontSemiBoldWeight;
-        font-family: 'medium';
+        font-family: $FontFamily;
       }
 
       input {
@@ -115,7 +115,7 @@
         color: var(--title-header-color);
         font-size: $MdSize;
         font-weight: $BaseFontSemiBoldWeight;
-        font-family: 'medium';
+        font-family: $FontFamily;
       }
     }
 

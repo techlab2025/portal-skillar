@@ -96,14 +96,14 @@
       h6 {
         font-size: $MdSize;
         font-weight: $BaseFontSemiBoldWeight;
-        font-family: 'bold';
+        font-family: $FontFamily;
         color: var(--table-header-color);
       }
 
       p {
         font-size: $MdSize;
         font-weight: $BaseFontMediumWeight;
-        font-family: 'bold';
+        font-family: $FontFamily;
         color: var(--title-header-color);
       }
     }
@@ -122,14 +122,14 @@
       label {
         font-size: $MdSize;
         font-weight: $BaseFontMediumWeight;
-        font-family: 'medium';
+        font-family: $FontFamily;
         color: var(--title-header-color);
       }
 
       input {
         font-size: $MdSize;
         font-weight: $BaseFontMediumWeight;
-        font-family: 'medium';
+        font-family: $FontFamily;
         color: var(--title-header-color);
         background-color: var(--BgWhite);
         border: 1px solid var(--input-border-color);

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { onMounted, ref, computed } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import SupportContactsController from '../controllers/support.controller';
   import type AddSupportContactsParams from '../../core/params/add.support.params';
@@ -40,7 +40,7 @@
   onMounted(async () => {
     const indexSupportParams = new IndexSupportContactsParams('', 1, 10, true);
 
-    await controller.fetchList(indexSupportParams ,undefined,true);
+    await controller.fetchList(indexSupportParams, undefined, true);
     const state = controller.listState.value;
     if (state instanceof DataSuccess && Array.isArray(state.data)) {
       initialSections.value = state.data as SupportContactsModel[];
@@ -87,6 +87,7 @@
     gap: 16px;
     margin-top: 24px;
     width: 100%;
+
     &.disabled {
       cursor: not-allowed;
       pointer-events: none;

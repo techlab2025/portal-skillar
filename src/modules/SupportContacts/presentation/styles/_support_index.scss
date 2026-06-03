@@ -41,7 +41,7 @@
         align-items: center;
         gap: 6px;
         padding: 10px 18px;
-        border: 1.5px solid #4faf7c;
+        border: 1.5px solid $PrimaryColor;
         border-radius: 50px;
         color: var(--PrimaryColor);
         font-size: 14px;
@@ -98,7 +98,7 @@
 
     .section-title-bar {
       padding: 14px 20px;
-      border-bottom: 1px dashed #e5e7eb;
+      border-bottom: 1px dashed $Gray-200-std;
 
       span {
         color: var(--PrimaryColor);

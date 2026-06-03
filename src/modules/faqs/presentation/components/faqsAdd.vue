@@ -60,23 +60,26 @@
     height: 35px;
     border-radius: 50%;
     border: 8px solid;
-    border-color: #000 #0000;
+    border-color: $BorderColor;
     animation: l1 1s infinite;
   }
+
   @keyframes l1 {
     to {
       transform: rotate(0.5turn);
     }
   }
+
   @keyframes l7 {
     to {
       transform: rotate(0.5turn);
     }
   }
+
   .form-actions {
     &.disabled {
       cursor: not-allowed;
-      pointer-events: none; 
+      pointer-events: none;
       opacity: 0.7;
     }
   }

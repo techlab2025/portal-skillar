@@ -110,7 +110,9 @@ export default class AddquestionsParams implements Params {
       answer_hint: this.isSolutionHint ? this.solutionHint?.toMap() : null,
       correct_status: this.answerEvaluation,
       identicality_percentage:
-        this.similarPrecentage?.length! > 0 ? Number(this.similarPrecentage) : null,
+        this.similarPrecentage && this.similarPrecentage.length > 0
+          ? Number(this.similarPrecentage)
+          : null,
       parent_id: this.parentId ?? null,
     };
   }

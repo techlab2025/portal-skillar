@@ -34,20 +34,25 @@
 
   .sections-list {
     width: 100%;
+
     @include flex-column(nowrap, flex-start, flex-start);
+
     gap: $XlSize3;
     background-color: white;
 
     .support-section-card {
       width: 100%;
       border-radius: $MdSize;
-      background-color: #fafafa;
+      background-color: $GraySoft;
+
       @include flex-column(nowrap, flex-start, flex-start);
+
       gap: $MdSize;
       padding: 20px;
 
       .support-section-header {
         width: 100%;
+
         @include flex-row(nowrap, space-between, center);
 
         .support-section-label {
@@ -75,7 +80,7 @@
 
       .support-section-divider {
         width: 100%;
-        border-top: 1.5px dashed #e5e7eb;
+        border-top: 1.5px dashed $Gray-200-std;
       }
 
       .support-field-group {
@@ -131,7 +136,7 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            border: 2px solid #4faf7c;
+            border: 2px solid $PrimaryColor;
             color: var(--PrimaryColor);
             background: transparent;
             display: flex;

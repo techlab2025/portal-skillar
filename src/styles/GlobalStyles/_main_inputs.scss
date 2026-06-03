@@ -25,7 +25,7 @@
     font-size: $MdSize;
     font-weight: $BaseFontSemiBoldWeight;
     text-transform: capitalize !important;
-    font-family: 'Demi';
+    font-family: $FontFamily;
   }
 
   .lang-switcher {
@@ -42,7 +42,7 @@
     border: none;
     background: transparent;
     padding: 4px 10px;
-    font-family: 'medium';
+    font-family: $FontFamily;
     font-weight: $BaseFontSemiBoldWeight;
     font-size: $XsSize;
     color: var(--gray-500);

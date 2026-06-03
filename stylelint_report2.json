@@ -1,0 +1,1662 @@
+[
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/_fonts.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/_normalize.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/_variables.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/main.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/ActionsButtons/_actions_buttons.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/Dialogs/_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/Droplist/_lists.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/FileUpload/_file_upload.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/GlobalStyles/_email_curd_example.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/GlobalStyles/_email_form_card.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/GlobalStyles/_employee_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/GlobalStyles/_import.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/GlobalStyles/_intro_pages.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/GlobalStyles/_main_inputs.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/HomeBreadCrump/_fast_routes.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/Pagination/_pagination.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/TopSlider/_top_slider.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/TreeTable/_tree_table.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/abstracts/_functions.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/abstracts/_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/abstracts/_mixins.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/abstracts/_variables.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/auth/_auth_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/auth/_auth_layout.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/auth/_choose_country.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/auth/_country_card.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/error/_error.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/mixins/_border.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/mixins/_flex.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/mixins/_grid.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/primevue/_global_accordion_styles.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/primevue/_primevue_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/skeleton/_skeleton.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/tables/_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/tables/_main_table.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/toast/_tosat.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_app_button.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_app_input.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_bread_crumb.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_btn_add.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_btn_cancel.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_button.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_container.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_crop.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_custom_checkbox.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_custom_select.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_danger_btn.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_data_empty.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_explore_btn.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_heplers_spaces.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_hidden.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_input_serach.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_loader.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_permission.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_popover.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_primary_btn.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_reset_btn.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_search_input.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_secondary_btn.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_section_title.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_single_file_input.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_switch_input.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_table.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_tabs_selections.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_third_btn.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/utils/_timeline.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/shared/FeatureHeader/styles/_feature_header.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/shared/LayoutComponents/styles/_body.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/shared/LayoutComponents/styles/_breadcrump.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/shared/LayoutComponents/styles/_footer.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/shared/LayoutComponents/styles/_header.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": [
+      {
+        "line": 155,
+        "column": 11,
+        "endLine": 156,
+        "endColumn": 52,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(136, 165, 191, 0.48) 6px 2px 16px 0,\n          rgba(255, 255, 255, 0.8) -6px -2px 16px 0\" for property \"box-shadow\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 203,
+        "column": 27,
+        "endLine": 203,
+        "endColumn": 34,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"#fff1f1\" for property \"background\" (declaration-property-value-disallowed-list)"
+      }
+    ]
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/shared/LayoutComponents/styles/_layout_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/shared/LayoutComponents/styles/_sidebar.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": [
+      {
+        "line": 151,
+        "column": 19,
+        "endLine": 151,
+        "endColumn": 26,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"#16181f\" for property \"background\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 163,
+        "column": 21,
+        "endLine": 163,
+        "endColumn": 45,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(29, 158, 117, 0.08)\" for property \"background\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 186,
+        "column": 25,
+        "endLine": 186,
+        "endColumn": 32,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"#1d9e75\" for property \"background\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 194,
+        "column": 18,
+        "endLine": 194,
+        "endColumn": 25,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"#f2f2f2\" for property \"color\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 202,
+        "column": 23,
+        "endLine": 202,
+        "endColumn": 47,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(29, 158, 117, 0.18)\" for property \"background\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 203,
+        "column": 18,
+        "endLine": 203,
+        "endColumn": 25,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"#4ecda4\" for property \"color\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 227,
+        "column": 18,
+        "endLine": 227,
+        "endColumn": 43,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(255, 255, 255, 0.35)\" for property \"color\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 232,
+        "column": 18,
+        "endLine": 232,
+        "endColumn": 43,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(255, 255, 255, 0.55)\" for property \"color\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 261,
+        "column": 23,
+        "endLine": 261,
+        "endColumn": 48,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(255, 255, 255, 0.06)\" for property \"background\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 262,
+        "column": 18,
+        "endLine": 262,
+        "endColumn": 43,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(255, 255, 255, 0.88)\" for property \"color\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 273,
+        "column": 25,
+        "endLine": 273,
+        "endColumn": 48,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(224, 112, 96, 0.1)\" for property \"background\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 280,
+        "column": 21,
+        "endLine": 280,
+        "endColumn": 46,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(255, 255, 255, 0.06)\" for property \"background\" (declaration-property-value-disallowed-list)"
+      }
+    ]
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/Dialogs/DeleteDialog/_delete_dialog.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/Dialogs/Loader/_default_loader.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/styles/Dialogs/MainDialog/_main_dialog.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Articles/presentation/styles/_artical_analysis_report.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": [
+      {
+        "line": 95,
+        "column": 25,
+        "endLine": 95,
+        "endColumn": 47,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(255, 247, 230, 1)\" for property \"background-color\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 103,
+        "column": 18,
+        "endLine": 103,
+        "endColumn": 38,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(217, 145, 0, 1)\" for property \"color\" (declaration-property-value-disallowed-list)"
+      }
+    ]
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Articles/presentation/styles/_artical_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Articles/presentation/styles/_artical_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Articles/presentation/styles/_artical_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Articles/presentation/styles/_artical_main_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Articles/presentation/styles/_artical_question.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Articles/presentation/styles/_article_subject.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Articles/presentation/styles/_contant_tabs.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Articles/presentation/styles/_form_header.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Articles/presentation/styles/_multi_selection.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Articles/presentation/styles/_overview_artical.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": [
+      {
+        "line": 19,
+        "column": 14,
+        "endLine": 19,
+        "endColumn": 33,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(26, 26, 26, 1)\" for property \"color\" (declaration-property-value-disallowed-list)"
+      }
+    ]
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Articles/presentation/styles/_question_card.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": [
+      {
+        "line": 82,
+        "column": 29,
+        "endLine": 82,
+        "endColumn": 51,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(255, 247, 230, 1)\" for property \"background-color\" (declaration-property-value-disallowed-list)"
+      },
+      {
+        "line": 83,
+        "column": 18,
+        "endLine": 83,
+        "endColumn": 38,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"rgba(217, 145, 0, 1)\" for property \"color\" (declaration-property-value-disallowed-list)"
+      }
+    ]
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/DeleteReasons/presentation/styles/_deleted_accounts_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/DeleteReasons/presentation/styles/_deleted_accounts_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/DeleteReasons/presentation/styles/_deleted_resone_dialog.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/_education_classification_configuration_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/_education_classification_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/_education_classification_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/_education_classification_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/_eduction_statge_tree.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/_rename_classification_dialog.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/_single_plur_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/_statge_tree_node.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Packages/presentation/styles/_artical_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Packages/presentation/styles/_artical_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Packages/presentation/styles/_artical_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Packages/presentation/styles/_article_subject.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Packages/presentation/styles/_contant_tabs.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Packages/presentation/styles/_form_header.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Packages/presentation/styles/_multi_selection.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/_add_questions_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/_answers_form_data.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/_basic_data_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": [
+      {
+        "line": 82,
+        "column": 14,
+        "endLine": 82,
+        "endColumn": 21,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"#5d5d5d\" for property \"color\" (declaration-property-value-disallowed-list)"
+      }
+    ]
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/_contant_tabs.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/_form_header.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/_multi_selection.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/_question_time_line.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/_questions_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/_questions_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/_questions_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Skills/presentation/styles/_add_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Skills/presentation/styles/_employee_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Skills/presentation/styles/_employee_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Skills/presentation/styles/_employee_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Skills/presentation/styles/_loader_btn.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Stages/presentation/styles/_country_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Stages/presentation/styles/_country_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Stages/presentation/styles/_country_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Subjects/presentation/styles/_subject_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Subjects/presentation/styles/_subject_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Subjects/presentation/styles/_subject_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/SupportContacts/presentation/styles/_support_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/SupportContacts/presentation/styles/_support_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/SupportContacts/presentation/styles/_support_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/about/presentation/styles/_about_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/about/presentation/styles/_about_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/about/presentation/styles/_about_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/auth/presentation/styles/_login.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/country/presentation/styles/_country_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/country/presentation/styles/_country_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/country/presentation/styles/_country_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/document/presentation/styles/_document_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/document/presentation/styles/_document_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/document/presentation/styles/_document_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/document/presentation/styles/_document_type_dialog.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/document/presentation/styles/_loader_btn.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/employee/presentation/styles/_add_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/employee/presentation/styles/_employee_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/employee/presentation/styles/_employee_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/employee/presentation/styles/_employee_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/faqs/presentation/styles/_faqs_Add.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/faqs/presentation/styles/_faqs_edit.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/faqs/presentation/styles/_faqs_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/faqs/presentation/styles/_faqs_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/faqs/presentation/styles/_faqs_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/privacy/presentation/styles/_privacy_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/privacy/presentation/styles/_privacy_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/privacy/presentation/styles/_privacy_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/terms-conditions/presentation/styles/_terms_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/terms-conditions/presentation/styles/_terms_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/terms-conditions/presentation/styles/_terms_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/unit/presentation/styles/_unit_form.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/unit/presentation/styles/_unit_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/unit/presentation/styles/_unit_index.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/shared/HelpersComponents/FilterDialog/styles/_filter_dialog.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/EducationSubjectsPanel/_education_subject_panel.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/EducationTree/_add_branch_dialog.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/EducationTree/_add_pricing_dialog.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": [
+      {
+        "line": 14,
+        "column": 14,
+        "endLine": 14,
+        "endColumn": 21,
+        "rule": "declaration-property-value-disallowed-list",
+        "severity": "warning",
+        "text": "Disallowed value \"#5d5d5d\" for property \"color\" (declaration-property-value-disallowed-list)"
+      }
+    ]
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/EducationTree/_education_classification_tree.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/EducationTree/_education_type_dilaog.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/EducationClassification/presentation/styles/EducationTree/_education_type_item.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/AnswerTypes/_answer_types_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/AnswerTypes/_complate_type.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/AnswerTypes/_matching_type.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/AnswerTypes/_mcq_type.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/AnswerTypes/_ranksing_type.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/AnswerTypes/_true_false_type.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/QuestionShow/_question_clerification.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/QuestionShow/_question_log_history.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/QuestionShow/_question_review.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/QuestionShow/_question_show_Answers.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/QuestionShow/_question_show_header.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/QuestionShow/_question_show_imports.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/QuestionShow/_question_show_info.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/QuestionShow/_question_show_page.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/QuestionShow/_question_status_box.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  },
+  {
+    "source": "/home/techlab/projects/eduhub-exams/src/modules/Questions/presentation/styles/QuestionShow/_question_tree_card.scss",
+    "deprecations": [],
+    "invalidOptionWarnings": [],
+    "parseErrors": [],
+    "errored": false,
+    "warnings": []
+  }
+]

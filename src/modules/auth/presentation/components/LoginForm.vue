@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import LoginController from '../controllers/login.controller';
-import LoginParams from '../../core/params/login.params';
-import logo from '@/assets/images/TechlabLogo.png';
-import CloseEyeIcon from '@/shared/icons/Login/CloseEyeIcon.vue';
-import OpenEyeIcon from '@/shared/icons/Login/OpenEyeIcon.vue';
-// import ChangeLanguage from '@/shared/LayoutComponents/SubComponents/ChangeLanguage.vue';
-import LoadingIcon from '@/assets/images/loading.webp';
+  import { ref } from 'vue';
+  import LoginController from '../controllers/login.controller';
+  import LoginParams from '../../core/params/login.params';
+  import logo from '@/assets/images/TechlabLogo.png';
+  import CloseEyeIcon from '@/shared/icons/Login/CloseEyeIcon.vue';
+  import OpenEyeIcon from '@/shared/icons/Login/OpenEyeIcon.vue';
+  // import ChangeLanguage from '@/shared/LayoutComponents/SubComponents/ChangeLanguage.vue';
+  import LoadingIcon from '@/assets/images/loading.webp';
 
-const email = ref('');
-const password = ref('');
+  const email = ref('');
+  const password = ref('');
 
-const controller = LoginController.getInstance();
-const loading = ref(false);
-const login = async () => {
-  loading.value = true;
-  const params = new LoginParams(email.value, password.value);
-  await controller.login(params);
-  loading.value = false;
-};
+  const controller = LoginController.getInstance();
+  const loading = ref(false);
+  const login = async () => {
+    loading.value = true;
+    const params = new LoginParams(email.value, password.value);
+    await controller.login(params);
+    loading.value = false;
+  };
 
-const isPasswordVisible = ref(false);
+  const isPasswordVisible = ref(false);
 </script>
 
 <template>
@@ -86,15 +86,16 @@ const isPasswordVisible = ref(false);
 </template>
 
 <style scoped>
-.disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-  pointer-events: none;
-}
-.login {
-  background-image: url('../../../../assets/images/LoginBg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+  .disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .login {
+    background-image: url('../../../../assets/images/LoginBg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 </style>

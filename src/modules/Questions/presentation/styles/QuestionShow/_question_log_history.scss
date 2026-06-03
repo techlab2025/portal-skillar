@@ -6,9 +6,11 @@
   border-radius: $XlSize2;
   border: $BaseBorderWidth solid var(--border-color);
   background: var(--gray-soft);
+
   .card-header {
     margin-bottom: $XsSize4;
     padding: $MdSize;
+
     h3 {
       font-size: $MdSize;
       color: var(--standard-black);
@@ -17,12 +19,14 @@
 
   .logs {
     @include flex-column();
+
     gap: $XlSize;
     padding: $XsSize;
   }
 
   .log-item {
     @include flex(row, nowrap, center, start);
+
     gap: $XsSize;
     position: relative;
 
@@ -57,8 +61,8 @@
 
     .top {
       @include flex(row, nowrap, space-between, center);
-      gap: $XsSize3;
 
+      gap: $XsSize3;
       margin-bottom: $XsSize4;
 
       h4 {
@@ -76,6 +80,7 @@
       font-size: $XsSize;
       color: var(--gray-text);
       font-family: 'Light';
+
       .created-by-name {
         color: var(--Gray-6);
         font-family: 'Medium';

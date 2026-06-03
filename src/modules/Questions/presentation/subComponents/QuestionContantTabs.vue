@@ -247,7 +247,7 @@
           @update:model-value="handleBranchChange($event)"
         />
       </div>
-      <div class="input"> 
+      <div class="input">
         <UpdatedCustomInputSelect
           id="question-sequence"
           v-model="SelectedQuestionSequence"
@@ -316,7 +316,7 @@
 
     & label {
       width: 80%;
-      border: 1px solid #e6e6e6;
+      border: 1px solid $BorderColor;
       padding: 10px;
       border-radius: 10px;
     }
@@ -324,15 +324,14 @@
     & input {
       width: 20%;
       padding: 10px;
-      border: 1px solid #e6e6e6;
-      border-radius: 4px;
+      border: 1px solid $BorderColor;
       background-color: white;
       color: black;
       border-radius: 10px;
 
       &:focus {
         outline: none;
-        border: 1px solid #e6e6e6;
+        border: 1px solid $BorderColor;
       }
     }
   }

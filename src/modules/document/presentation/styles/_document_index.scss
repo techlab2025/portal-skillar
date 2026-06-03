@@ -55,14 +55,14 @@
     color: var(--title-card-color);
     font-size: $XlSize2;
     font-weight: $BaseFontWeightBold;
-    font-family: 'bold';
+    font-family: $FontFamily;
   }
 
   .document-index-dexription {
     color: var(--title-header-color);
     font-size: $MdSize;
     font-weight: $BaseFontMediumWeight;
-    font-family: 'medium';
+    font-family: $FontFamily;
   }
 
   .flex {

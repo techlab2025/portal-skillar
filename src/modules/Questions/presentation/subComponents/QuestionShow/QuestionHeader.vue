@@ -3,7 +3,7 @@
   import { QuestionStatusEnum } from '@/modules/Questions/core/constant/question.status.enum';
   import EditIcon from '@/shared/icons/Privacy/EditIcon.vue';
   import type ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
-  const props = defineProps<{ questionData: ShowQuestionsModel }>();
+  defineProps<{ questionData: ShowQuestionsModel }>();
 
   const getStatusText = (status: QuestionStatusEnum) => {
     switch (status) {

@@ -115,7 +115,9 @@ export default class EditquestionsParams implements Params {
       correct_status: this.answerEvaluation,
       parent_id: this.parentId ?? null,
       identicality_percentage:
-        this.similarPrecentage?.length! > 0 ? Number(this.similarPrecentage) : null,
+        this.similarPrecentage && this.similarPrecentage.length > 0
+          ? Number(this.similarPrecentage)
+          : null,
     };
   }
 

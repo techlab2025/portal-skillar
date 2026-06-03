@@ -100,7 +100,8 @@
     align-items: center;
     width: 100%;
     gap: 20px;
-        &.disabled {
+
+    &.disabled {
       opacity: 0.5;
       pointer-events: none;
       cursor: not-allowed;
@@ -121,7 +122,7 @@
     gap: 8px;
     font-size: $XsSize;
     font-weight: $BaseFontSemiBoldWeight;
-    font-family: 'medium';
+    font-family: $FontFamily;
     color: var(--title-header-color);
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -150,7 +151,7 @@
 
     &::placeholder {
       color: var(--bread-crumb-color-span);
-      font-family: 'medium';
+      font-family: $FontFamily;
     }
 
     &:focus {
@@ -246,6 +247,6 @@
     width: 20%;
     margin-top: 25px;
     font-weight: $BaseFontSemiBoldWeight;
-    font-family: 'medium';
+    font-family: $FontFamily;
   }
 }

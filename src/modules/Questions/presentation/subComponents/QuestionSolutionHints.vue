@@ -121,8 +121,8 @@
                 :have-content="true"
                 :class="`image-input`"
                 :file="file"
-                @change="(files) => handleFile(files)"
                 :hidepreview="true"
+                @change="(files) => handleFile(files)"
               >
                 <template #content>
                   <div class="upload-attachment-container">
@@ -136,9 +136,8 @@
               id="descreption"
               v-model="description"
               name="descreption"
+              placeholder="type hints for solution text"
               @input="updateData"
-                            placeholder="type hints for solution text"
-
             ></textarea>
 
             <div class="preview-container">
@@ -166,13 +165,16 @@
 <style scoped lang="scss">
   @use '../../../../styles/variables' as *;
   @use '../../../../styles/mixins/flex' as *;
+
   .preview-container {
     width: 100%;
     border-top: 1px solid rgba(128, 128, 128, 0.353);
   }
+
   textarea {
     min-height: 150px;
     width: 100%;
+
     &::placeholder {
       font-weight: 400;
       font-family: 'Light';
@@ -209,18 +211,22 @@
     border-radius: 50px;
     padding: 10px !important;
     margin-block: 20px !important;
+
     &.active {
       border-radius: 12px;
     }
+
     .p-accordionheader {
       padding: 5px 0 !important;
     }
+
     .p-accordioncontent-content {
       padding: 10px !important;
     }
 
     .question-solution-hints-header {
       @include flex-row(nowrap, space-between, center);
+
       gap: 10px;
       width: 100%;
       color: $PrimaryColor;
@@ -230,30 +236,35 @@
     .form-group {
       padding: 0;
     }
+
     .input-wrapper {
       @include flex-column(nowrap, flex-start, stretch);
+
       gap: 5px;
       width: 100%;
       padding: 0 !important;
+
       .description-container {
         width: 100%;
-        border: 1px solid #e6e6e6;
+        border: 1px solid $BorderColor;
         border-radius: 12px;
 
         .description-header {
-          background-color: #e6e6e6;
+          background-color: $BorderColor;
           width: 100%;
           border-radius: 12px 12px 0 0;
           padding: 10px;
-          color: #000000;
+          color: $StandardBlack000;
+
           @include flex-row(nowrap, space-between, center);
         }
+
         textarea {
           background-color: white !important;
           padding: 10px;
-          border: 1px solid #848484;
           width: 100%;
           border: none;
+
           &:active,
           &:focus {
             border: none;
@@ -263,15 +274,19 @@
         }
       }
     }
+
     .image-input {
       :deep(.upload-area) {
         padding: 10px !important;
         border-radius: 50px;
         background-color: white;
       }
+
       .upload-attachment-container {
         @include flex-row(nowrap, flex-start, center);
+
         gap: 10px;
+
         .upload-attachment {
           color: $PrimaryColor;
         }
@@ -350,6 +365,7 @@
 
       .upload-attachment-container {
         @include flex-row(nowrap, flex-start, center);
+
         gap: 10px;
 
         .upload-attachment {
