@@ -1,14 +1,12 @@
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { useRouter, useRoute } from 'vue-router';
+  import { useRouter } from 'vue-router';
   import FaqsController from '../controllers/faqs.controller';
   import type AddFaqsParams from '../../core/params/add.faqs.params';
   import FaqsForm from './faqsForm.vue';
 
   const controller = FaqsController.getInstance();
   const router = useRouter();
-  const route = useRoute();
-  const countryCode = (route.params?.country_code as string) || '';
 
   const formParams = ref<AddFaqsParams | null>(null);
   const loading = ref(false);
@@ -20,11 +18,12 @@
       await controller.create(formParams.value);
     } finally {
       loading.value = false;
+      router.push({ name: 'Faqs' });
     }
   };
 
   const cancel = () => {
-    router.push(`/${countryCode}/faqs`);
+    router.push({ name: 'Faqs' });
   };
 
   const updateData = (params: AddFaqsParams) => {
@@ -58,14 +57,22 @@
 <style scoped lang="scss">
   .loader {
     width: 35px;
-    height: 35px;  
+    height: 35px;
     border-radius: 50%;
     border: 8px solid;
     border-color: #000 #0000;
     animation: l1 1s infinite;
   }
-  @keyframes l1 {to{transform: rotate(.5turn)}}
-  @keyframes l7 {to{transform: rotate(.5turn)}}
+  @keyframes l1 {
+    to {
+      transform: rotate(0.5turn);
+    }
+  }
+  @keyframes l7 {
+    to {
+      transform: rotate(0.5turn);
+    }
+  }
   .form-actions {
     &.disabled {
       cursor: not-allowed;

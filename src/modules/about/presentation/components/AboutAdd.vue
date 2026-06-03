@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import AboutController from '../controllers/about.controller';
   import type AddAboutParams from '../../core/params/add.about.params';
   import AboutForm from './AboutForm.vue';
@@ -11,7 +11,7 @@
 
   const params = ref<AddAboutParams | null>(null);
   const loading = ref(false);
-
+  const router = useRouter();
   /**
    * Save new employee
    */
@@ -28,6 +28,7 @@
       console.error('Error saving employee:', error);
     } finally {
       loading.value = false;
+      router.push({ name: 'About' });
     }
   };
 
@@ -63,14 +64,22 @@
 <style scoped lang="scss">
   .loader {
     width: 35px;
-    height: 35px;  
+    height: 35px;
     border-radius: 50%;
     border: 8px solid;
     border-color: #000 #0000;
     animation: l1 1s infinite;
   }
-  @keyframes l1 {to{transform: rotate(.5turn)}}
-  @keyframes l7 {to{transform: rotate(.5turn)}}
+  @keyframes l1 {
+    to {
+      transform: rotate(0.5turn);
+    }
+  }
+  @keyframes l7 {
+    to {
+      transform: rotate(0.5turn);
+    }
+  }
   .actions {
     margin-top: 24px;
     display: flex;

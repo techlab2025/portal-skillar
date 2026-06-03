@@ -12,7 +12,7 @@
 
   const ShowTermsConditions = async () => {
     const showTermsConditionsParams = new ShowTermsParams({
-      id: 1,
+      id: 3,
       allLocales: false,
     });
     await termsConditionsController.fetchOne(showTermsConditionsParams);
@@ -24,10 +24,23 @@
 </script>
 
 <template>
-  <DataStatusBuilder :controller="status">
-    <template #success>
-      <div class="terms-container">
-        <div class="header-container">
+  <div class="terms-container">
+    <div class="header-container">
+      <div class="terms-header">
+        <h3>{{ $t('Terms & Conditions') }}</h3>
+        <p>{{ $t('Define the rules and guidelines for using the platform') }}</p>
+      </div>
+      <router-link :to="{ name: 'Add TermsConditions' }" class="btn btn-primary">
+        <EditIcon />
+        {{ $t('edit') }}
+      </router-link>
+    </div>
+    <!-- </div> -->
+
+    <DataStatusBuilder :controller="status">
+      <template #success>
+        <!-- <div class="terms-container"> -->
+        <!-- <div class="header-container">
           <div class="terms-header">
             <h3>{{ $t('Terms & Conditions') }}</h3>
             <p>{{ $t('Define the rules and guidelines for using the platform') }}</p>
@@ -36,44 +49,59 @@
             <EditIcon />
             {{ $t('edit') }}
           </router-link>
-        </div>
+        </div> -->
 
         <div v-if="status.data" class="terms-content">
           <h2>{{ status.data?.title }}</h2>
           <p>{{ status.data?.description }}</p>
         </div>
-      </div>
-    </template>
-    <template #empty>
-      <div class="terms-container">
-        <div class="empty-data">
-          <EmptyTermsIcon />
-          <h5>{{ $t('No terms added') }}</h5>
-          <p>
-            {{ $t('Add terms and conditions for using the platform') }}
-          </p>
-          <router-link :to="{ name: 'Add TermsConditions' }" class="btn btn-primary">
-            {{ $t('Add terms & conditions') }}
-          </router-link>
+        <!-- </div> -->
+      </template>
+      <template #empty>
+        <div class="terms-container">
+          <div class="empty-data">
+            <EmptyTermsIcon />
+            <h5>{{ $t('No terms added') }}</h5>
+            <p>
+              {{ $t('Add terms and conditions for using the platform') }}
+            </p>
+            <!-- <router-link :to="{ name: 'Add TermsConditions' }" class="btn btn-primary">
+              {{ $t('Add terms & conditions') }}
+            </router-link> -->
+          </div>
         </div>
-      </div>
-    </template>
-    <template #loader>
-      <TermSkellaton />
-    </template>
-    <template #default>
-      <div class="terms-container">
-        <div class="empty-data">
-          <EmptyTermsIcon />
-          <h5>{{ $t('No terms added') }}</h5>
-          <p>
-            {{ $t('Add terms and conditions for using the platform') }}
-          </p>
-          <router-link :to="{ name: 'Add TermsConditions' }" class="btn btn-primary">
-            {{ $t('Add terms & conditions') }}
-          </router-link>
+      </template>
+      <template #failed>
+        <div class="terms-container">
+          <div class="empty-data">
+            <EmptyTermsIcon />
+            <h5>{{ $t('No terms added') }}</h5>
+            <p>
+              {{ $t('Add terms and conditions for using the platform') }}
+            </p>
+            <!-- <router-link :to="{ name: 'Add TermsConditions' }" class="btn btn-primary">
+              {{ $t('Add terms & conditions') }}
+            </router-link> -->
+          </div>
         </div>
-      </div>
-    </template>
-  </DataStatusBuilder>
+      </template>
+      <template #loader>
+        <TermSkellaton />
+      </template>
+      <template #default>
+        <div class="terms-container">
+          <div class="empty-data">
+            <EmptyTermsIcon />
+            <h5>{{ $t('No terms added') }}</h5>
+            <p>
+              {{ $t('Add terms and conditions for using the platform') }}
+            </p>
+            <router-link :to="{ name: 'Add TermsConditions' }" class="btn btn-primary">
+              {{ $t('Add terms & conditions') }}
+            </router-link>
+          </div>
+        </div>
+      </template>
+    </DataStatusBuilder>
+  </div>
 </template>

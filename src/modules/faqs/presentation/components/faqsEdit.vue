@@ -11,7 +11,6 @@
   const router = useRouter();
   const route = useRoute();
 
-  const countryCode = (route.params?.country_code as string) || '';
   const formParams = ref<EditFaqsParams | null>(null);
   const isLoaded = ref(false);
   const loading = ref(false);
@@ -23,14 +22,14 @@
     loading.value = true;
     try {
       await controller.update(formParams.value);
-      router.push(`/${countryCode}/faqs`);
+      router.push('/faqs');
     } finally {
       loading.value = false;
     }
   };
 
   const cancel = () => {
-    router.push(`/${countryCode}/faqs`);
+    router.push('/faqs');
   };
 
   const updateData = (params: EditFaqsParams | AddFaqsParams) => {

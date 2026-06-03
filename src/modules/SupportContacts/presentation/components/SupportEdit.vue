@@ -12,7 +12,6 @@
   const route = useRoute();
   const router = useRouter();
 
-  const countryCode = computed(() => (route.params?.country_code as string) || '');
   const formKey = route.fullPath;
 
   const initialSections = ref<SupportContactsModel[]>([]);
@@ -31,7 +30,7 @@
   };
 
   const cancel = () => {
-    router.push(`/${countryCode.value}/support`);
+    router.push('/support');
   };
 
   const updateData = (params: AddSupportContactsParams) => {

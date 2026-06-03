@@ -78,7 +78,7 @@
   };
 
   const FormStore = useFormsStore();
-  const formRoute = computed(() => `/${route.params.country_code}/stages/add`);
+  const formRoute = computed(() => '/stages/add');
 
   const isDraft = computed(() => {
     const data = FormStore?.formData[formRoute.value] ?? {};
@@ -180,7 +180,7 @@
               <div class="row-actions">
                 <router-link
                   class="action-btn edit"
-                  :to="`/${route.params.country_code}/stages/edit/${item.id}`"
+                  :to="`/stages/edit/${item.id}`"
                   title="Edit"
                 >
                   <svg

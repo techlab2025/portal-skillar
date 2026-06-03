@@ -5,6 +5,7 @@
   import TranslationParams from '@/modules/about/core/params/translation.params';
   import TermsConditionsController from '../controllers/terms-conditions.controller';
   import AddTermsConditionsParams from '../../core/params/add.terms-conditions.params';
+  import { useRouter } from 'vue-router';
 
   const emit = defineEmits(['update:data']);
 
@@ -40,6 +41,7 @@
       );
     } finally {
       loading.value = false;
+      router.push({ name: 'TermsConditions' });
     }
   };
 
@@ -66,6 +68,10 @@
   const ResetData = () => {
     title.value = {};
     description.value = {};
+  };
+  const router = useRouter();
+  const goBack = () => {
+    router.back();
   };
 </script>
 
@@ -113,7 +119,7 @@
         <span v-if="loading" class="loader"></span>
         <span v-else>{{ $t(`Save`) }}</span>
       </button>
-      <button class="btn btn-cancel">{{ $t(`cancel`) }}</button>
+      <button class="btn btn-cancel" @click="goBack">{{ $t(`cancel`) }}</button>
     </div>
   </div>
 </template>
@@ -121,14 +127,22 @@
 <style scoped lang="scss">
   .loader {
     width: 35px;
-    height: 35px;  
+    height: 35px;
     border-radius: 50%;
     border: 8px solid;
     border-color: #000 #0000;
     animation: l1 1s infinite;
   }
-  @keyframes l1 {to{transform: rotate(.5turn)}}
-  @keyframes l7 {to{transform: rotate(.5turn)}}
+  @keyframes l1 {
+    to {
+      transform: rotate(0.5turn);
+    }
+  }
+  @keyframes l7 {
+    to {
+      transform: rotate(0.5turn);
+    }
+  }
   .field {
     &.disabled {
       cursor: not-allowed;

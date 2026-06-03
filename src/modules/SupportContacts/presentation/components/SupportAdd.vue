@@ -1,17 +1,17 @@
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import SupportContactsController from '../controllers/support.controller';
   import type AddSupportContactsParams from '../../core/params/add.support.params';
   import SupportForm from './SupportForm.vue';
 
   const controller = SupportContactsController.getInstance();
+  const router = useRouter();
   const route = useRoute();
   const formKey = route.fullPath;
 
   const sectionParams = ref<AddSupportContactsParams | null>(null);
   const loading = ref(false);
-
   const saveSupport = async () => {
     if (!sectionParams.value) return;
     loading.value = true;
@@ -19,6 +19,7 @@
       await controller.create(sectionParams.value, undefined);
     } finally {
       loading.value = false;
+      router.push({ name: 'Support' });
     }
   };
 

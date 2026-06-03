@@ -54,23 +54,21 @@
 </script>
 
 <template>
-  <DataStatusBuilder :controller="controller.listState.value">
-    <template #success>
-      <div class="faqs-page">
-        <!-- ── Page Header ──────────────────────────────────────────────────── -->
-        <div class="header-container">
-          <div class="about-header">
-            <h2 class="title">{{ $t('faqs') }}</h2>
-            <p class="description">{{ $t('faqs_description') }}</p>
-          </div>
-          <div class="header-actions">
-            <router-link v-if="hasData" :to="`/${countryCode}/faqs/add`" class="btn-filled-green">
-              + {{ $t('add_faq') }}
-            </router-link>
-          </div>
-        </div>
-
-        <!-- ── FAQ List ────────────────────────────────────────────────────── -->
+  <div class="faqs-page">
+    <div class="header-container">
+      <div class="about-header">
+        <h2 class="title">{{ $t('faqs') }}</h2>
+        <p class="description">{{ $t('faqs_description') }}</p>
+      </div>
+      <div class="header-actions">
+        <!-- v-if="hasData"  -->
+        <router-link :to="`/faqs/add`" class="btn-filled-green">
+          + {{ $t('add_faq') }}
+        </router-link>
+      </div>
+    </div>
+    <DataStatusBuilder :controller="controller.listState.value">
+      <template #success>
         <div v-if="hasData" class="sections-list">
           <div v-for="(faq, idx) in faqs" :key="faq.id ?? idx" class="faq-card">
             <!-- Question row -->
@@ -122,38 +120,36 @@
             </transition>
           </div>
         </div>
-
-        <!-- ── Empty State ─────────────────────────────────────────────────── -->
-      </div>
-    </template>
-    <template #empty>
-      <div class="faqs-page">
-        <div class="empty-data">
-          <EmptyFaqs />
-          <h5>{{ $t('no_faqs_yet') }}</h5>
-          <p>{{ $t('no_faqs_description') }}</p>
-          <router-link :to="`/${countryCode}/faqs/add`" class="btn-filled-green">
-            {{ $t('add_faq') }}
-          </router-link>
+      </template>
+      <template #empty>
+        <div class="faqs-page">
+          <div class="empty-data">
+            <EmptyFaqs />
+            <h5>{{ $t('no_faqs_yet') }}</h5>
+            <p>{{ $t('no_faqs_description') }}</p>
+            <router-link :to="`/${countryCode}/faqs/add`" class="btn-filled-green">
+              {{ $t('add_faq') }}
+            </router-link>
+          </div>
         </div>
-      </div>
-    </template>
-    <template #loader>
-      <FaqsSkellaton />
-    </template>
-    <template #default>
-      <div class="faqs-page">
-        <div class="empty-data">
-          <EmptyFaqs />
-          <h5>{{ $t('no_faqs_yet') }}</h5>
-          <p>{{ $t('no_faqs_description') }}</p>
-          <router-link :to="`/${countryCode}/faqs/add`" class="btn-filled-green">
-            {{ $t('add_faq') }}
-          </router-link>
+      </template>
+      <template #loader>
+        <FaqsSkellaton />
+      </template>
+      <template #default>
+        <div class="faqs-page">
+          <div class="empty-data">
+            <EmptyFaqs />
+            <h5>{{ $t('no_faqs_yet') }}</h5>
+            <p>{{ $t('no_faqs_description') }}</p>
+            <router-link :to="`/${countryCode}/faqs/add`" class="btn-filled-green">
+              {{ $t('add_faq') }}
+            </router-link>
+          </div>
         </div>
-      </div>
-    </template>
-  </DataStatusBuilder>
+      </template>
+    </DataStatusBuilder>
+  </div>
 </template>
 
 <style scoped lang="scss"></style>

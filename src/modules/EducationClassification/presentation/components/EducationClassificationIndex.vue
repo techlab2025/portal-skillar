@@ -92,7 +92,6 @@ const ToggleStatus = async (id: number) => {
   await fetchEducationClassifications();
 };
 */
-  const countryCode = computed(() => (route.params?.country_code as string) || '');
   const ShoweEditDialog = ref<boolean>(false);
   const selectedItemId = ref<number>(0);
   const actionList = (id: number, deleteEducationClassification: (id: number) => void) => [
@@ -149,14 +148,14 @@ const ToggleStatus = async (id: number) => {
             <template #actions="{ item }">
               <div class="row-actions">
                 <router-link
-                  :to="`/${countryCode}/education-classifications-configuration/${item.id}`"
+                  :to="`/education-classifications-configuration/${item.id}`"
                   class="configuration-btn"
                 >
                   <AddIcon />
                   {{ $t('add_configuration') }}
                 </router-link>
                 <router-link
-                  :to="`/${countryCode}/education-classifications-tree/${item.id}`"
+                  :to="`/education-classifications-tree/${item.id}`"
                   class="configuration-btn tree-btn"
                   :class="!item.has_configuration ? `disabled` : ``"
                 >

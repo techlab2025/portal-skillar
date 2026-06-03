@@ -12,30 +12,21 @@ const router = createRouter({
       component: () => import('@/views/auth/LoginCountry.vue'),
     },
     {
+      path: '/login',
+      name: 'Login',
+      component: () => import('@/views/auth/LoginOrg.vue'),
+    },
+    {
       path: '/not-found',
       name: 'Not Found',
       component: () => import('@/views/error/Error.vue'),
     },
     {
-      path: '/:country_code',
-      children: [
-        {
-          path: 'login',
-          name: 'Login',
-          component: () => import('@/views/auth/LoginOrg.vue'),
-        },
-        {
-          path: '',
-          name: 'Home App',
-          component: () => import('@/views/AppLayout.vue'),
-          children: [{ path: '', redirect: { name: 'Countries' } }, ...dashboardRoutes],
-          meta: { icon: HomeIcon },
-        },
-      ],
-    },
-    {
       path: '/',
-      redirect: '/choose-country',
+      name: 'Home App',
+      component: () => import('@/views/AppLayout.vue'),
+      children: [{ path: '', redirect: { name: 'Countries' } }, ...dashboardRoutes],
+      meta: { icon: HomeIcon },
     },
     {
       path: '/:pathMatch(.*)*',

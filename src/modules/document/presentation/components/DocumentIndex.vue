@@ -92,7 +92,7 @@ const deleteDocument = async (id: number) => {
 };
 
 const FormStore = useFormsStore();
-const formRoute = computed(() => `/${route.params.country_code}/documents/add`);
+const formRoute = computed(() => '/documents/add');
 
 const isDraft = computed(() => {
   const data = FormStore?.formData[formRoute.value] ?? {};
@@ -188,7 +188,7 @@ id="documentType" :label="`added by`" :params="indexDocumentTypeParams"
             <template #actions="{ item }">
               <div class="row-actions">
                 <router-link
-class="action-btn edit" :to="`/${route.params.country_code}/documents/edit/${item.id}`"
+class="action-btn edit" :to="`/documents/edit/${item.id}`"
                   title="Edit">
                   <svg
 width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

@@ -28,7 +28,7 @@ const router = useRouter();
 const route = useRoute();
 
 const FormStore = useFormsStore();
-const formRoute = computed(() => `/${route.params.country_code}/employees/add`);
+const formRoute = computed(() => '/employees/add');
 
 // Table headers
 const headers: TableHeader[] = [
@@ -182,7 +182,7 @@ v-model="word" placeholder="Search by employee name or email…" class="search-i
             <template #actions="{ item }">
               <div class="row-actions">
                 <router-link
-class="action-btn edit" :to="`/${route.params.country_code}/employees/edit/${item.id}`"
+class="action-btn edit" :to="`/employees/edit/${item.id}`"
                   title="Edit">
                   <svg
 width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

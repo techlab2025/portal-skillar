@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { onMounted, computed, ref } from 'vue';
-  import { useRoute } from 'vue-router';
   import AboutController from '../controllers/about.controller';
   import EditpinIcon from '@/shared/icons/EditpinIcon.vue';
   import LinksIcon from '@/shared/icons/SocialIcons/LinksIcon.vue';
@@ -12,7 +11,7 @@
   // Controller instance
   const controller = AboutController.getInstance();
   const state = computed(() => controller.listState.value);
-  const route = useRoute();
+  // const route = useRoute();
 
   const about = computed(() =>
     state.value.data && state.value.data.length > 0 ? state.value.data[0] : null,
@@ -32,7 +31,6 @@
     await fetchAbout();
   });
 
-  const countryCode = computed(() => (route.params?.country_code as string) || '');
 </script>
 
 <template>
@@ -46,7 +44,7 @@
               {{ $t('Manage and review platform information visible to students') }}
             </p>
           </div>
-          <router-link :to="`/${countryCode}/about/edit`" class="btn btn-primary">
+          <router-link to="/about/edit" class="btn btn-primary">
             <EditpinIcon />
             <span>{{ $t('edit') }}</span>
           </router-link>
@@ -96,7 +94,7 @@
           <EmptyData />
           <h5>No about information added</h5>
           <p>Add details about your platform to display them to students</p>
-          <router-link :to="`/${countryCode}/about/add`" class="btn btn-primary"
+          <router-link to="/about/add" class="btn btn-primary"
             >Add about</router-link
           >
         </div>
@@ -111,7 +109,7 @@
           <EmptyData />
           <h5>No about information added</h5>
           <p>Add details about your platform to display them to students</p>
-          <router-link :to="`/${countryCode}/about/add`" class="btn btn-primary"
+          <router-link to="/about/add" class="btn btn-primary"
             >Add about</router-link
           >
         </div>

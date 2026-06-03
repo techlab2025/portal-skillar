@@ -13,11 +13,9 @@ export const buildBreadcrumb = (route: any, router: any): BreadCrumbItem[] => {
     return Params;
   };
 
-  const countryCode = route.params?.country_code as string | undefined;
-
   result.push({
     label: 'Home',
-    url: countryCode ? `/${countryCode}/` : '/',
+    url: '/',
   });
 
   const added = new Set<string>();

@@ -29,7 +29,7 @@ import Articlesubject from '@/shared/icons/articlesubject.vue';
   const route = useRoute();
 
   const FormStore = useFormsStore();
-  const formRoute = computed(() => `/${route.params.country_code}/articles/add`);
+  const formRoute = computed(() => '/articles/add');
 
   // Table headers
   const headers: TableHeader[] = [
@@ -251,7 +251,7 @@ class="status" :class="{
             <template #actions="{ item }">
               <div class="row-actions">
                 <router-link
-class="action-btn edit" :to="`/${route.params.country_code}/articles/edit/${item.id}`"
+class="action-btn edit" :to="`/articles/edit/${item.id}`"
                   title="Edit">
                   <svg
 width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -261,7 +261,7 @@ width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" str
                   </svg>
                 </router-link>
                 <router-link
-:to="`/${route.params.country_code}/articles/show/${item.id}`" title="show"
+:to="`/articles/show/${item.id}`" title="show"
                   class="action-btn show">
                   <ShowIcon />
                 </router-link>

@@ -27,7 +27,7 @@
   const route = useRoute();
 
   const FormStore = useFormsStore();
-  const formRoute = computed(() => `/${route.params.country_code}/skills/add`);
+  const formRoute = computed(() => '/skills/add');
 
   // Table headers
   const headers: TableHeader[] = [{ key: 'title', label: 'title', width: '100%', sortable: true }];
@@ -170,7 +170,7 @@
               <div class="row-actions">
                 <router-link
                   class="action-btn edit"
-                  :to="`/${route.params.country_code}/skills/edit/${item.id}`"
+                  :to="`/skills/edit/${item.id}`"
                   title="Edit"
                 >
                   <svg

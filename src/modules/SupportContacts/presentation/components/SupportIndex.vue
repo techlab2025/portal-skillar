@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { onMounted, computed } from 'vue';
-  import { useRoute } from 'vue-router';
   import SupportContactsController from '../controllers/support.controller';
   import SupportEmptyDataIcon from '@/shared/icons/Support/SupportEmptyDataIcon.vue';
   import EditpinIcon from '@/shared/icons/EditpinIcon.vue';
@@ -13,9 +12,6 @@
   import SupportSeklaton from '../SupportSeklaton.vue';
 
   const controller = SupportContactsController.getInstance();
-  const route = useRoute();
-
-  const countryCode = computed(() => (route.params?.country_code as string) || '');
 
   const contacts = computed(() => {
     const state = controller.listState.value;
@@ -41,10 +37,10 @@
             <p class="description">{{ $t('support_contact_details_description') }}</p>
           </div>
           <div class="header-actions">
-            <router-link :to="`/${countryCode}/support/add`" class="btn-outline-green">
+            <router-link to="/support/add" class="btn-outline-green">
               + {{ $t('add_new_support_section') }}
             </router-link>
-            <router-link :to="`/${countryCode}/support/edit`" class="btn-filled-green">
+            <router-link to="/support/edit" class="btn-filled-green">
               <EditpinIcon />
               <span>{{ $t('edit') }}</span>
             </router-link>
@@ -56,7 +52,15 @@
             <div class="section-title-bar">
               <span>{{ section.titles }}</span>
             </div>
-            <div class="contact-info-row">
+            <div
+              v-if="
+                section?.supportContacts?.length > 0 ||
+                section.supportContacts?.length > 0 ||
+                section.supportContacts?.length > 0 ||
+                section.supportContacts?.length > 0
+              "
+              class="contact-info-row"
+            >
               <div v-if="section.supportContacts?.length" class="contact-item">
                 <PhoneIcon />
                 <div class="contact-info">
@@ -98,7 +102,7 @@
           <SupportEmptyDataIcon />
           <h5>{{ $t('no_contact_details') }}</h5>
           <p>{{ $t('no_contact_details_description') }}</p>
-          <router-link :to="`/${countryCode}/support/add`" class="btn btn-primary">
+          <router-link to="/support/add" class="btn btn-primary">
             {{ $t('add_support') }}
           </router-link>
         </div>
@@ -113,7 +117,7 @@
           <SupportEmptyDataIcon />
           <h5>{{ $t('no_contact_details') }}</h5>
           <p>{{ $t('no_contact_details_description') }}</p>
-          <router-link :to="`/${countryCode}/support/add`" class="btn btn-primary">
+          <router-link to="/support/add" class="btn btn-primary">
             {{ $t('add_support') }}
           </router-link>
         </div>

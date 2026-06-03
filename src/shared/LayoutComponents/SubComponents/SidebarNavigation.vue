@@ -140,17 +140,7 @@
     },
   ];
 
-  const countryCode = computed(() => (route.params?.country_code as string) || '');
-
-  const menu = computed<MenuSection[]>(() =>
-    baseMenu.map((group) => ({
-      ...group,
-      items: group.items.map((item) => ({
-        ...item,
-        link: countryCode.value ? `/${countryCode.value}${item.link}` : item.link,
-      })),
-    })),
-  );
+  const menu = computed<MenuSection[]>(() => baseMenu);
 
   const { user } = useUserStore();
   //logout
@@ -159,7 +149,7 @@
 
   const logout = () => {
     userStore.logout();
-    router.push('/eg/login');
+    router.push('/login');
   };
 
   const isDropMenuOpen = ref(false);

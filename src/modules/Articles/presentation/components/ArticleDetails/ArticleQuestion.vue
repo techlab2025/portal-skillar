@@ -103,7 +103,7 @@ const updateData = () => {
             </div>
             <div class="btn-add-question">
                 <router-link
-:to="`/${route.params.country_code}/questions/add?article_id=${route.params.id}`"
+:to="`/questions/add?article_id=${route.params.id}`"
                     title="add new question" class="btn btn-add">
                     <svg
 width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"

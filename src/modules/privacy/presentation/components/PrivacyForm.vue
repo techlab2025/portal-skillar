@@ -5,6 +5,7 @@
   import AddPrivacyParams from '../../core/params/add.privacy.params';
   import Privecyicon from '@/shared/icons/privecyicon.vue';
   import TranslationParams from '@/modules/about/core/params/translation.params';
+  import { useRouter } from 'vue-router';
 
   const emit = defineEmits(['update:data']);
 
@@ -26,7 +27,7 @@
   onMounted(() => {
     updateData();
   });
-
+  const router = useRouter();
   const SubmitData = async () => {
     loading.value = true;
     try {
@@ -40,6 +41,7 @@
       );
     } finally {
       loading.value = false;
+      router.push({ name: 'Privacy' });
     }
   };
 
@@ -120,14 +122,22 @@
 <style scoped lang="scss">
   .loader {
     width: 35px;
-    height: 35px;  
+    height: 35px;
     border-radius: 50%;
     border: 8px solid;
     border-color: #000 #0000;
     animation: l1 1s infinite;
   }
-  @keyframes l1 {to{transform: rotate(.5turn)}}
-  @keyframes l7 {to{transform: rotate(.5turn)}}
+  @keyframes l1 {
+    to {
+      transform: rotate(0.5turn);
+    }
+  }
+  @keyframes l7 {
+    to {
+      transform: rotate(0.5turn);
+    }
+  }
   .field {
     &.disabled {
       cursor: not-allowed;
