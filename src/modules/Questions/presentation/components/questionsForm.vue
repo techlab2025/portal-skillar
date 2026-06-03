@@ -62,7 +62,6 @@
       });
     }
 
-    console.log(params, 'params');
     emit('updateData', params);
   };
 
@@ -116,6 +115,7 @@
       AnswerData.value = newVal;
     }
   });
+
 </script>
 
 <template>

@@ -158,6 +158,7 @@
               name="descreption"
               @input="updateData"
             ></textarea>
+            
           </div>
         </div>
       </AccordionContent>
