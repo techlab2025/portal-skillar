@@ -27,7 +27,7 @@
     try {
       // console.log(params.value, "params.value")
       await controller.update(params.value, undefined);
-        router.push({ name: 'About' });
+      router.push({ name: 'About' });
     } finally {
       loading.value = false;
     }
@@ -38,7 +38,7 @@
   };
 
   onMounted(async () => {
-    await controller.fetchOne(new ShowAboutParams(1));
+    await controller.fetchOne(new ShowAboutParams(2));
   });
 </script>
 
@@ -78,16 +78,24 @@
   //   margin: 0 auto;
   // }
 
-    .loader {
+  .loader {
     width: 35px;
-    height: 35px;  
+    height: 35px;
     border-radius: 50%;
     border: 8px solid;
     border-color: #000 #0000;
     animation: l1 1s infinite;
   }
-  @keyframes l1 {to{transform: rotate(.5turn)}}
-  @keyframes l7 {to{transform: rotate(.5turn)}}
+  @keyframes l1 {
+    to {
+      transform: rotate(0.5turn);
+    }
+  }
+  @keyframes l7 {
+    to {
+      transform: rotate(0.5turn);
+    }
+  }
   .actions {
     margin-top: 24px;
     display: flex;

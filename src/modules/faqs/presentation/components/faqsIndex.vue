@@ -40,7 +40,7 @@
   };
 
   const editFaq = (id: number) => {
-    router.push(`/${countryCode.value}/faqs/${id}/edit`);
+    router.push(`faqs/${id}/edit`);
   };
 
   const deleteFaq = async (id: number) => {
@@ -62,7 +62,7 @@
       </div>
       <div class="header-actions">
         <!-- v-if="hasData"  -->
-        <router-link :to="`/faqs/add`" class="btn-filled-green">
+        <router-link :to="`faqs/add`" class="btn-filled-green">
           + {{ $t('add_faq') }}
         </router-link>
       </div>
