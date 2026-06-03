@@ -3,6 +3,8 @@ import ExplanationModel from './explanation.model';
 import DocumentModel from './document.model';
 import SubjectModel from '@/modules/Subjects/core/models/subject.model';
 import ArticleSubjectModel from './Subject.model';
+import AnalysisReportModel from './analysis.report.model';
+import ArticleCardModel from './article.card';
 export default class ArticalDetailsModel {
   public readonly id: number;
   public readonly question_description: string;
@@ -15,6 +17,8 @@ export default class ArticalDetailsModel {
   public readonly number_of_questions: number;
   public readonly Description: string;
   public readonly subject: SubjectModel;
+  public readonly analysisReport: AnalysisReportModel[];
+  public readonly articlecard: ArticleCardModel[];
 
 
   constructor(data: {
@@ -29,6 +33,8 @@ export default class ArticalDetailsModel {
     number_of_questions: number;
     Description: string;
     subject: SubjectModel;
+    analysisReport: AnalysisReportModel[];
+    articlecard: ArticleCardModel[];
   }) {
     this.id = data.id;
     this.question = data.question;
@@ -41,6 +47,8 @@ export default class ArticalDetailsModel {
     this.number_of_questions = data.number_of_questions;
     this.Description = data.Description;
     this.subject = data.subject;
+    this.analysisReport = data.analysisReport;
+    this.articlecard = data.articlecard;
   }
 
   static fromJson(json: any): ArticalDetailsModel {
@@ -66,7 +74,13 @@ export default class ArticalDetailsModel {
       Description: json.description ?? '',
       subject: json.subject != null
     ? ArticleSubjectModel.fromJson(json.subject)
-    : null
+    : null,
+    analysisReport: json.analysis_report != null
+    ? json.analysis_report.map((report: any) => AnalysisReportModel.fromJson(report))
+    : [],
+      articlecard: json.article_card != null
+      ? json.article_card.map((card: any) => ArticleCardModel.fromJson(card))
+      : [],
     });
   }
 
@@ -88,5 +102,23 @@ export default class ArticalDetailsModel {
     number_of_questions: 555,
     Description: 'Description 1',
     subject: SubjectModel.example,
+    analysisReport: [
+      {
+        id: 1,
+        title: 'Analysis Report 1',
+        count: 1,
+        percentage: 1,
+        imageUrl: 'https://example.com/image.jpg',
+      },
+    ],
+    articlecard: [
+      {
+        id: 1,
+        title: 'Article Card 1',
+        count: 25,
+        percentage: 1,
+        image: 'https://example.com/image.jpg',
+      },
+    ],
   });
 }

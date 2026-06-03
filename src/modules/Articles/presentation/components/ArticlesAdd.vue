@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import AppButton from '@/shared/HelpersComponents/AppButton.vue';
 import IconAccept from '@/shared/icons/IconAccept.vue';
 import { useRoute } from 'vue-router';
 import type AddEmployeeParams from '../../core/params/add.Artical.params';
 import ArticleController from '../controllers/Article.controller';
 import ArticleForm from './ArticleForm.vue';
+import LoadingIcon from '@/assets/images/loading.webp';
 
 const controller = ArticleController.getInstance();
 const route = useRoute();
@@ -44,13 +44,32 @@ const updateData = (updatedParams: AddEmployeeParams) => {
     <ArticleForm :form-key="formKey" :loading="loading" @update-data="updateData" />
   
     <div class="actions" :class="{ disabled: loading }">
-      <AppButton  title="Save Article" size="sm" icon="right" type="submit" class="save-emp" @click="saveArticle">
+      <!-- <AppButton  title="Save Article" size="sm" icon="right" type="submit" class="save-emp"  :class="{ disabled: loading }" @click="saveArticle">
         <template #icon>
-          <span v-if="loading" class="loader"></span>
+   
+           <img
+          v-if="loading"
+          :src="LoadingIcon"
+          class="loader-skills"
+          alt="loading"
+          width="30"
+          height="30"
+        />
           <IconAccept v-else />
         </template>
-        <span v-if="!loading">{{ $t(`Save Article`) }}</span>
-      </AppButton>
+        <span v-if="!loading" >{{ $t(`Save Article`) }}</span>
+      </AppButton> -->
+       <button class="save-btn" :class="{ disabled: loading }" @click="saveArticle">
+        <img
+          v-if="loading"
+          :src="LoadingIcon"
+          class="loader-skills"
+          alt="loading"
+          width="30"
+          height="30"
+        /> 
+        <span v-else> {{ $t('Save Article') }} <IconAccept /> </span>
+      </button>
       <button class="btn btn-draft" >{{ $t(`Save As draft`) }}</button>
       <button class="btn btn-cancel" >{{ $t(`cancel`) }}</button>
 
@@ -64,7 +83,8 @@ const updateData = (updatedParams: AddEmployeeParams) => {
 </template>
 
 <style scoped lang="scss">
-
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins/flex' as *;
   .loader {
     width: 30px;
     height: 30px;
@@ -112,8 +132,13 @@ const updateData = (updatedParams: AddEmployeeParams) => {
   }
 }
 
-.save-emp {
+.save-btn {
   width: 60%;
+  background-color: var(--primary-green);
+  color: white;
+  @include flex(wrap ,row,center,center);
+  border-radius: 50px;
+  border: none;
 }
 
 .actions {

@@ -115,7 +115,7 @@
           alt="loading"
           width="30"
           height="30"
-        />
+        /> 
         <span v-else> {{ $t('save') }} <IconAccept /> </span>
       </button>
     </div>
