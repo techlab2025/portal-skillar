@@ -19,11 +19,11 @@ const { artical } = defineProps<{
 
 const route = useRoute();
 
-  const controller = ArticleController.getInstance();
+const controller = ArticleController.getInstance();
 const deleteArticle = async (id: number) => {
     await controller.delete(new DeleteArticlesParams(id));
-      router.push(`/${route.params.country_code}/articles`);
-  };
+    router.push(`/${route.params.country_code}/articles`);
+};
 
 </script>
 <template>
@@ -35,9 +35,7 @@ const deleteArticle = async (id: number) => {
             </div>
             <div class="buttons">
 
-                <router-link
-:to="`/articles/edit/${route.params.id}`" title="edit"
-                    class="btn btn-edit">
+                <router-link :to="`/articles/edit/${route.params.id}`" title="edit" class="btn btn-edit">
                     <ArticlePencil />
                     {{ $t('Edit') }}
                 </router-link>
@@ -47,11 +45,11 @@ const deleteArticle = async (id: number) => {
                 </div>
 
                 <DeleteDialog @delete="deleteArticle(artical.id!)">
-                  <template #Dialog>
-                    <button class="btn-delet" title="Delete">
-                       <DeletIArticle />
-                    </button>
-                  </template>
+                    <template #Dialog>
+                        <button class="btn-delet" title="Delete">
+                            <DeletIArticle />
+                        </button>
+                    </template>
                 </DeleteDialog>
                 <!-- <router-link
 :to="`/${route.params.country_code}/articles/edit/${route.params.id}`" title="edit"
@@ -81,7 +79,7 @@ const deleteArticle = async (id: number) => {
                     <h5 class="title">{{ artical?.question }}</h5>
                 </div>
                 <div class="head">
-                    <p class="description">{{ artical?.Description  || $t('N/A')}}</p>
+                    <p class="description">{{ artical?.Description || $t('N/A') }}</p>
                 </div>
                 <div class="head">
                     <h6 class="question">
@@ -115,20 +113,20 @@ const deleteArticle = async (id: number) => {
                         <p>{{ artical?.subject.title }}</p>
                     </div>
                 </div> -->
-                <div class="source" >
+                <div class="source">
                     <div class="title">
                         <h6>{{ $t('artical source') }}</h6>
                     </div>
-                    <div class="artical_document" >
+                    <div class="artical_document">
                         <h6>{{ $t('Documents') }} :</h6>
-                        <p >
-                            {{ artical?.document.map((doc: any) => doc?.document_title).join(', ') }}
+                        <p>
+                            {{artical?.document.map((doc: any) => doc?.document_title).join(', ')}}
                         </p>
                         <Articlearrow class="arrow-icon" />
                     </div>
                     <div class="artical_document">
                         <h6>{{ $t('Source') }} :</h6>
-                        <p>{{ artical?.document.map((doc: any) => doc?.text).join(', ') }}</p>
+                        <p>{{artical?.document.map((doc: any) => doc?.text).join(', ')}}</p>
                     </div>
                 </div>
             </div>
@@ -139,6 +137,4 @@ const deleteArticle = async (id: number) => {
 <style scoped lang="scss">
 @use '../../../../../styles/variables' as *;
 @use '../../../../../styles/mixins/flex' as *;
-
-
 </style>

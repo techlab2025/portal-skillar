@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import AppButton from '@/shared/HelpersComponents/AppButton.vue';
 import IconAccept from '@/shared/icons/IconAccept.vue';
 import ArticleController from '../controllers/Article.controller';
 import EditArticlesParams from '../../core/params/edit.Articles.params';
 import ShowArticlesParams from '../../core/params/show.Articles.params';
-
+import LoadingIcon from '@/assets/images/loading.webp';
 import ArticleForm from './ArticleForm.vue';
 import type AddArticlesParams from '../../core/params/add.Artical.params.ts';
 
@@ -57,13 +56,24 @@ onMounted(async () => {
     <ArticleForm :loading="loading" :article="controller.itemData.value!" :form-key="formKey" @update-data="updateData" />
 
     <div class="actions" :class="{ disabled: loading }">
-      <AppButton  title="Save Article" size="sm" icon="right" type="submit" class="save-emp" @click="saveArticle">
+      <!-- <AppButton  title="Save Article" size="sm" icon="right" type="submit" class="save-emp" @click="saveArticle">
         <template #icon>
           <span v-if="loading" class="loader"></span>
           <IconAccept v-else />
         </template>
         <span v-if="!loading">{{ $t(`Save Article`) }}</span>
-      </AppButton>
+      </AppButton> -->
+        <button class="save-btn" :class="{ disabled: loading }" @click="saveArticle">
+        <img
+          v-if="loading"
+          :src="LoadingIcon"
+          class="loader-skills"
+          alt="loading"
+          width="30"
+          height="30"
+        /> 
+        <span v-else> {{ $t('Save Article') }} <IconAccept /> </span>
+      </button>
     </div>
 
     <!-- Error Display -->
@@ -74,12 +84,23 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins/flex' as *;
 // .employee-edit-page {
 //   padding: 24px;
 //   max-width: 1000px;
 //   margin: 0 auto;
 // }
 
+.save-btn {
+  width: 100%;
+  background-color: var(--primary-green);
+  color: white;
+  @include flex(wrap ,row,center,center);
+  border-radius: 50px;
+  border: none;
+  padding: 10px 20px;
+}
 .loader {
     width: 30px;
     height: 30px;
