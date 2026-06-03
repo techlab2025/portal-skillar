@@ -25,7 +25,6 @@
 
   const emit = defineEmits(['updateData']);
   const updateData = () => {
-    console.log(file.value, 'file.value');
     emit('updateData', {
       isClarification: isClarification.value,
       data: new QuestionClarificationParams({

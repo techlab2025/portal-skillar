@@ -62,6 +62,7 @@
       });
     }
 
+    console.log(params, 'params');
     emit('updateData', params);
   };
 
