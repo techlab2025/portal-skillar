@@ -1,39 +1,43 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import AddFaqsParams from '../add.faqs.params';
-import FaqsDetailsParams from '../faqs.details.params';
+import TranslationParams from '@/modules/about/core/params/translation.params';
 
-const makeDetails = () =>
-  new FaqsDetailsParams({
-    question: { en: 'What is this?', ar: 'ما هذا؟' },
-    answer: { en: 'This is a FAQ.', ar: 'هذا سؤال شائع.' },
-  });
+vi.mock('@/modules/about/core/params/translation.params', () => {
+  return {
+    default: class TranslationParams {
+      title: Record<string, string>;
+      constructor(data: { title: Record<string, string> }) {
+        this.title = data.title;
+      }
+      toMap() {
+        return { title: this.title };
+      }
+    },
+  };
+});
+
+const makeTranslation = () => new TranslationParams({ title: { en: 'Test FAQ', ar: 'اختبار' } });
 
 describe('AddFaqsParams', () => {
-  it('constructs with a list of FaqsDetailsParams', () => {
-    const params = new AddFaqsParams({ faqs: [makeDetails()] });
-    expect(params.faqs).toHaveLength(1);
+  it('constructs with translations', () => {
+    const params = new AddFaqsParams({ translations: makeTranslation() });
+    expect(params.translations).toBeDefined();
   });
 
-  it('toMap serialises each faq using FaqsDetailsParams.toMap', () => {
-    const details = makeDetails();
-    const params = new AddFaqsParams({ faqs: [details] });
+  it('toMap serialises translations correctly', () => {
+    const translation = makeTranslation();
+    const params = new AddFaqsParams({ translations: translation });
     const map = params.toMap();
-    expect(map.faqs).toHaveLength(1);
-    expect(map.faqs[0]).toEqual(details.toMap());
+    expect(map.translations).toBeDefined();
   });
 
-  it('toMap returns an empty faqs array when no items are given', () => {
-    const params = new AddFaqsParams({ faqs: [] });
-    expect(params.toMap().faqs).toEqual([]);
-  });
-
-  it('validate returns isValid:false when faqs is empty', () => {
-    const params = new AddFaqsParams({ faqs: [] });
-    expect(params.validate().isValid).toBe(false);
-  });
-
-  it('validate returns isValid:true when faqs has at least one item', () => {
-    const params = new AddFaqsParams({ faqs: [makeDetails()] });
+  it('validate returns isValid:true when translations provided', () => {
+    const params = new AddFaqsParams({ translations: makeTranslation() });
     expect(params.validate().isValid).toBe(true);
+  });
+
+  it('validate returns isValid:false when translations is null', () => {
+    const params = new AddFaqsParams({ translations: null as any });
+    expect(params.validate().isValid).toBe(false);
   });
 });

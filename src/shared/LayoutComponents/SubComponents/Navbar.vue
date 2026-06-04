@@ -120,7 +120,7 @@
       top: calc(100% + 8px);
       left: 0;
       right: 0;
-      background: #fff;
+      background: var(--BgWhite);
       border: 1px solid #e2e8f0;
       border-radius: 8px;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
@@ -138,7 +138,7 @@
 
         &.is-active,
         &:hover {
-          background: #f1f5f9;
+          background: var(--bg-sidebar-hover);
         }
       }
     }

@@ -1,19 +1,19 @@
 import { describe, it, expect } from 'vitest';
-import { EmployeeEndpoints } from './employee.api.endpoints';
+import { QuestionEndpoints } from './question.api.endpoints';
 
-describe('EmployeeEndpoints', () => {
+describe('QuestionEndpoints', () => {
   it('should have the correct prefix', () => {
-    const endpoints = new EmployeeEndpoints();
+    const endpoints = new QuestionEndpoints();
     // @ts-expect-error - prefix is protected
     expect(endpoints.prefix).toBe('dashboard/');
   });
 
   it('should have the correct endpoint URLs', () => {
-    const endpoints = new EmployeeEndpoints();
-    expect(endpoints.index).toContain('fetch_employees');
-    expect(endpoints.show).toContain('show_employee');
-    expect(endpoints.store).toContain('store_employee');
-    expect(endpoints.update).toContain('update_employee');
-    expect(endpoints.delete).toContain('delete_employee');
+    const endpoints = new QuestionEndpoints();
+    expect(endpoints.index).toContain('fetch_questions');
+    expect(endpoints.show).toContain('show_question');
+    expect(endpoints.store).toContain('store_question');
+    expect(endpoints.update).toContain('update_question');
+    expect(endpoints.delete).toContain('delete_question');
   });
 });

@@ -12,6 +12,10 @@ vi.mock('primevue/dialog', () => ({
   },
 }));
 
+vi.mock('vue-router', () => ({
+  useRoute: () => ({ params: { id: '1' } }),
+}));
+
 vi.mock('@/shared/icons/RenameIcon.vue', () => ({
   default: { name: 'RenameIcon', template: '<span />' },
 }));

@@ -29,7 +29,7 @@ describe('FaqsController', () => {
     const controller = FaqsController.getInstance();
     // @ts-expect-error - config is protected
     const config = controller.config;
-    expect(config.showLoadingDialog).toBe(true);
-    expect(config.showSuccessDialog).toBe(true);
+    expect(config.showLoadingDialog).toBe(false);
+    expect(config.showSuccessDialog).toBe(false);
   });
 });

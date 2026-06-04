@@ -1,13 +1,19 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { createPinia, setActivePinia } from 'pinia';
-import employeeRepository from '../employee.repository';
+import questionsRepository from '../question.repository';
 
-describe('employee.repository', () => {
+describe('questionsRepository', () => {
   beforeEach(() => {
     setActivePinia(createPinia());
   });
 
   it('should be defined', () => {
-    expect(employeeRepository).toBeDefined();
+    expect(questionsRepository).toBeDefined();
+  });
+
+  it('should return a singleton instance', () => {
+    const a = questionsRepository.getInstance();
+    const b = questionsRepository.getInstance();
+    expect(a).toBe(b);
   });
 });

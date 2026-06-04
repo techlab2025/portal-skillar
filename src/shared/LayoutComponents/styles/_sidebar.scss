@@ -148,7 +148,7 @@
       right: 50px;
       top: 90px;
       width: 240px;
-      background: #16181f;
+      background: var(--SidebarBg);
       border-radius: 18px;
       overflow: hidden;
       border: 0.5px solid rgba(255, 255, 255, 0.07);
@@ -183,15 +183,15 @@
             width: 11px;
             height: 11px;
             border-radius: 50%;
-            background: #1d9e75;
-            border: 2px solid #16181f;
+            background: var(--btn-green);
+            border: 2px solid var(--SidebarBg);
           }
         }
 
         .name {
           font-size: 14px;
           font-weight: 500;
-          color: #f2f2f2;
+          color: var(--SidebarTextColor);
           margin: 0 0 5px;
         }
 
@@ -200,7 +200,7 @@
           align-items: center;
           gap: 4px;
           background: $PrimaryColor-alpha-20;
-          color: #4ecda4;
+          color: var(--PrimaryColor);
           font-size: 10.5px;
           padding: 3px 8px;
           border-radius: 99px;
@@ -270,7 +270,7 @@
           color: $danger-color;
 
           &:hover {
-            background: rgba(224, 112, 96, 0.1);
+            background: var(--PrimaryColor-alpha-8);
           }
         }
       }

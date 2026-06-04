@@ -21,6 +21,7 @@ vi.mock('vue-router', () => ({
 // Create a stable mock instance with reactive refs
 const mockInstance = {
   fetchList: vi.fn(),
+  fetchOne: vi.fn(),
   update: vi.fn(),
   listState: ref(null),
   errorMessage: ref(''),
