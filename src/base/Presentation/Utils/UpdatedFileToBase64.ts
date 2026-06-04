@@ -1,27 +1,18 @@
-async function toBase64(input: any) {
-  if (typeof input === 'string' && input.startsWith('data:')) {
-    return input;
+async function urlToBase64(url: string): Promise<string> {
+  if (!url.startsWith('blob:') && !url.startsWith('data:')) {
+    return url;
   }
 
-  // URL string → fetch → base64
-  if (typeof input === 'string') {
-    const res = await fetch(input);
-    if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
-    const blob = await res.blob();
-    return blobToBase64(blob);
-  }
+  const response = await fetch(url);
+  const blob = await response.blob();
 
-  // File or Blob
-  return blobToBase64(input);
-}
-
-function blobToBase64(blob: any) {
-  return new Promise((resolve, reject) => {
+  return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result);
+
+    reader.onloadend = () => resolve(reader.result as string);
     reader.onerror = reject;
+
     reader.readAsDataURL(blob);
   });
 }
-
-export { toBase64 };
+export { urlToBase64 };

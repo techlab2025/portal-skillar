@@ -71,8 +71,8 @@
         title: newValue?.documents?.title,
         source: newValue?.source,
       });
-      description.value = newValue.clarification ? newValue.clarification! : '';
-      file.value = newValue.attachments?.map((a) => a.file).filter(Boolean) as string[];
+      description.value = newValue?.clarification ? newValue.clarification! : '';
+      file.value = newValue?.attachments?.map((a) => a.file).filter(Boolean) as string[];
       isClarification.value = neIsClarification || !!newValue;
       updateData();
     },
