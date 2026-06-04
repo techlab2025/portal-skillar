@@ -149,31 +149,32 @@ import { CustomToast } from './CustomTosat';
 
   const draftRef = localStorage.getItem('article-draft') ? CustomToast() : null;
 
-  onMounted(() => {
-  const draft = localStorage.getItem('article-draft');
+//   onMounted(() => {
+//   const draft = localStorage.getItem('article-draft');
 
-  if (!draft) return;
+//   if (!draft) return;
 
-  const data = JSON.parse(draft);
+//   const data = JSON.parse(draft);
 
-  QuestionDescription.value = data.question_description ?? '';
-  question.value = data.question ?? '';
-  articleSource.value = data.documents?.text ?? '';
+//   QuestionDescription.value = data.question_description ?? '';
+//   question.value = data.question ?? '';
+//   articleSource.value = data.documents?.text ?? '';
 
-  UploadedImage.value =
-    data.attachments?.map((item: any) => item.file) ?? [];
+//   UploadedImage.value =
+//     data.attachments?.map((item: any) => item.file) ?? [];
 
-  descriptionArticle.value =
-    data.explanation?.explanation ?? '';
+//   descriptionArticle.value =
+//     data.explanation?.explanation ?? '';
 
-  explanationAttachments.value =
-    data.explanation?.attachments?.map(
-      (item: any) => item.file,
-    ) ?? [];
+//   explanationAttachments.value =
+//     data.explanation?.attachments?.map(
+//       (item: any) => item.file,
+//     ) ?? [];
 
-  updateData();
-});
-  watch(draftRef!, (newVal) => {
+//   updateData();
+// });
+  
+watch(draftRef!, (newVal) => {
   if (!newVal) return;
 
   ArticleDraftData.value = newVal;
@@ -190,13 +191,13 @@ import { CustomToast } from './CustomTosat';
     };
   }
 
-  if (newVal.documents?.id) {
-    SelectedDocument.value = {
-      document_id: newVal.documents.id,
-      title: newVal.documents?.title,
-    };
-  }
-  // console.log('draft', newVal.documents);
+  if (newVal.documents?.document_id) {
+  SelectedDocument.value = {
+    id: newVal.documents.document_id,
+    title: newVal.documents.document_title,
+  };
+}
+  console.log('draft', newVal.documents);
   UploadedImage.value =
     newVal.attachments?.map((item: any) => item.file) ?? [];
 
@@ -309,9 +310,9 @@ import { CustomToast } from './CustomTosat';
                   <UpdatedCustomInputSelect
                     id="question-sequence"
                     v-model="SelectedQuestionSequence"
-                    :label="`question sequence`"
+                    :label="`subject`"
                     :static-options="subjectOptions"
-                    placeholder="Question sequence"
+                    placeholder="select subject"
                     @update:model-value="handelSubjectUpdate"
                   />
                 </div>

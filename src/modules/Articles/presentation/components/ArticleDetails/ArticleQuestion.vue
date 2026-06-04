@@ -31,7 +31,7 @@
     }),
     new TitleInterface({
       id: ArticleDifficultyEnum.medium,
-      title: t($FontFamily),
+      title: t('medium'),
     }),
     new TitleInterface({
       id: ArticleDifficultyEnum.hard,
