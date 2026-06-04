@@ -25,12 +25,14 @@
     emit('updateData', {
       isSolutionHints: isSolutionSteps.value,
       data: new SolutionStepsParams({
-        image: file.value?.map(
-          (f: any) =>
-            new AttachmentsParams({
-              file: f,
-            }),
-        ),
+        image: Array.isArray(file.value)
+          ? file.value?.map(
+              (f: any) =>
+                new AttachmentsParams({
+                  file: f,
+                }),
+            )
+          : [],
         explanation: description.value,
       }),
     });
@@ -50,7 +52,9 @@
       isSolutionSteps.value = newIsSolution || !!newSolutionHinrdata;
       description.value = newSolutionHinrdata?.hint;
       file.value = newSolutionHinrdata?.attachments[0]?.file;
+      updateData();
     },
+    { immediate: true, deep: true },
   );
 
   watch(
@@ -62,7 +66,7 @@
       file.value = draftData?.solutionHint?.image?.map((f) => f.file as string) ?? [];
       updateData();
     },
-    { immediate: true, deep: true },
+    // { immediate: true, deep: true },
   );
   const accordionTransition = {
     enterFromClass: 'accordion-enter-from',
@@ -137,19 +141,18 @@
               v-model="description"
               name="descreption"
               @input="updateData"
-                            placeholder="type hints for solution text"
-
+              placeholder="type hints for solution text"
             ></textarea>
 
             <div class="preview-container">
               <div v-if="file?.length" class="preview-grid">
-                <div v-for="(src, idx) in file" :key="idx" class="preview-item">
-                  <img :src="src" class="preview-thumb" alt="attachment" />
+                <div class="preview-item">
+                  <img :src="file" class="preview-thumb" alt="attachment" />
                   <button
                     type="button"
                     class="remove-btn"
                     title="Remove"
-                    @click.stop="removeFilePreview(idx as number)"
+                    @click.stop="removeFilePreview(0 as number)"
                   >
                     ✕
                   </button>

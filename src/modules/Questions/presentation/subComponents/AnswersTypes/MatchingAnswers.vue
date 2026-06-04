@@ -60,6 +60,7 @@
       if (newvalue) {
         Answers.value = newvalue;
       }
+      UpdateData();
     },
     {
       deep: true,

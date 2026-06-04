@@ -88,6 +88,7 @@
     Answers.value[index]!.is_right_answer = true;
     UpdateData();
   };
+
   watch(
     () => questionData,
     (newvalue) => {
@@ -97,6 +98,7 @@
           image: item.image?.[0]?.file || '',
         }));
       }
+      UpdateData();
     },
     {
       deep: true,

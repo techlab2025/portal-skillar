@@ -24,12 +24,14 @@
     emit('updateData', {
       isSolutionSteps: isSolutionSteps.value,
       data: new SolutionStepsParams({
-        image: file.value?.map(
-          (f: any) =>
-            new AttachmentsParams({
-              file: f,
-            }),
-        ),
+        image: Array.isArray(file.value)
+          ? file.value?.map(
+              (f: any) =>
+                new AttachmentsParams({
+                  file: f,
+                }),
+            )
+          : [],
         explanation: description.value,
       }),
     });
@@ -50,14 +52,16 @@
       isSolutionSteps.value = newIsSolution || !!newSolutionStepsdata;
       description.value = newSolutionStepsdata?.step;
       file.value = newSolutionStepsdata?.attachments?.[0]?.file;
+      updateData();
     },
+    // { immediate: true, deep: true },
   );
 
   watch(
     () => draftData,
     () => {
       if (route.params.id) return;
-      isSolutionSteps.value = !!draftData?.isSolutionSteps;
+      isSolutionSteps.value = draftData?.isSolutionSteps ? draftData?.isSolutionSteps : false;
       description.value = draftData?.solutionSteps?.explanation ?? '';
       file.value = draftData?.solutionSteps?.image?.map((f) => f.file as string) ?? [];
       updateData();
@@ -142,13 +146,13 @@
 
             <div class="preview-container">
               <div v-if="file?.length" class="preview-grid">
-                <div v-for="(src, idx) in file" :key="idx" class="preview-item">
-                  <img :src="src" class="preview-thumb" alt="attachment" />
+                <div class="preview-item">
+                  <img :src="file" class="preview-thumb" alt="attachment" />
                   <button
                     type="button"
                     class="remove-btn"
                     title="Remove"
-                    @click.stop="removeFilePreview(idx as number)"
+                    @click.stop="removeFilePreview(0 as number)"
                   >
                     ✕
                   </button>

@@ -93,6 +93,7 @@
           is_right_answer: item.is_right_answer,
         }));
       }
+      UpdateData();
     },
     { immediate: true, deep: true },
   );

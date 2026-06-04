@@ -63,16 +63,21 @@
   };
   const DocumentSource = ref<QuestionDocumentModel | null>(null);
 
-  watch([() => ClarificationData, () => isclarification], ([newValue, neIsClarification]) => {
-    DocumentSource.value = new QuestionDocumentModel({
-      id: newValue?.documents?.id,
-      title: newValue?.documents?.title,
-      source: newValue?.source,
-    });
-    description.value = newValue.clarification!;
-    file.value = newValue.attachments?.map((a) => a.file).filter(Boolean) as string[];
-    isClarification.value = neIsClarification || !!newValue;
-  });
+  watch(
+    [() => ClarificationData, () => isclarification],
+    ([newValue, neIsClarification]) => {
+      DocumentSource.value = new QuestionDocumentModel({
+        id: newValue?.documents?.id,
+        title: newValue?.documents?.title,
+        source: newValue?.source,
+      });
+      description.value = newValue.clarification ? newValue.clarification! : '';
+      file.value = newValue.attachments?.map((a) => a.file).filter(Boolean) as string[];
+      isClarification.value = neIsClarification || !!newValue;
+      updateData();
+    },
+    // { immediate: true, deep: true },
+  );
 
   watch(
     () => draftData,
@@ -168,13 +173,13 @@
 
             <div class="preview-container">
               <div v-if="file?.length" class="preview-grid">
-                <div v-for="(src, idx) in file" :key="idx" class="preview-item">
-                  <img :src="src" class="preview-thumb" alt="attachment" />
+                <div class="preview-item">
+                  <img :src="file" class="preview-thumb" alt="attachment" />
                   <button
                     type="button"
                     class="remove-btn"
                     title="Remove"
-                    @click.stop="removeFilePreview(idx as number)"
+                    @click.stop="removeFilePreview(0 as number)"
                   >
                     ✕
                   </button>

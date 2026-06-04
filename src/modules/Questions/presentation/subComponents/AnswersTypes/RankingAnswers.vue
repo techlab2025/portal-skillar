@@ -77,6 +77,7 @@
           answer: item.title ?? '',
           rank: item.rank ?? 0,
         }));
+        UpdateData();
       }
     },
     {
