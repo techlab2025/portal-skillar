@@ -305,7 +305,9 @@
     </div>
   </div>
 </template>
-<style scoped lang="scss">
+<style scoped lang="scss"> 
+  @use '../../../../styles/variables' as *;
+  @use '../../../../styles/mixins/flex' as *;
   .skill-percentage {
     display: flex;
     flex-direction: row;

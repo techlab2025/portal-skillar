@@ -286,7 +286,7 @@
           width: 100%;
           border-radius: 12px 12px 0 0;
           padding: 10px;
-          color: $StandardBlack000;
+          color: #000000;
 
           @include flex-row(nowrap, space-between, center);
         }
