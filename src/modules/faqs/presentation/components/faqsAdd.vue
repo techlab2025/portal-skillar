@@ -41,7 +41,7 @@
     <FaqsForm :loading="loading" @update-data="updateData" />
 
     <div class="form-actions" :class="{ disabled: loading }">
-      <button class="btn btn-primary" type="button" @click="save">
+      <button class="btn btn-primary btn-save" type="button" @click="save">
         <span v-if="loading" class="loader"></span>
         <span v-else>{{ $t('save') }}</span>
       </button>

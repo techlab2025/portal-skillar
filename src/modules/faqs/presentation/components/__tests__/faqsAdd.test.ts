@@ -74,6 +74,6 @@ describe('faqsAdd', () => {
 
     await wrapper.find('.btn-cancel').trigger('click');
 
-    expect(pushMock).toHaveBeenCalledWith('/eg/faqs');
+    expect(pushMock).toHaveBeenCalledWith({ name: 'Faqs' });
   });
 });

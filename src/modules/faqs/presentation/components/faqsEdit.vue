@@ -52,7 +52,7 @@
     <!-- <FaqsForm v-if="isLoaded" :faq="currentFaq.data!" @update-data="updateData" /> -->
     <FaqsForm v-if="isLoaded" :faq="currentFaq!" :loading="loading" @update-data="updateData" />
     <div v-if="isLoaded" class="form-actions" :class="{ disabled: loading }">
-      <button class="btn btn-primary" type="button" @click="saveChange">
+      <button class="btn btn-primary btn-save" type="button" @click="saveChange">
         <span v-if="loading" class="loader"></span>
         <span v-else>{{ $t('save_change') }}</span>
       </button>

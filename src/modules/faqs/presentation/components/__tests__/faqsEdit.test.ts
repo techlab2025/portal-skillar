@@ -4,7 +4,6 @@ import { createPinia, setActivePinia } from 'pinia';
 import { ref } from 'vue';
 import faqsEdit from '../faqsEdit.vue';
 import FaqsController from '../../controllers/faqs.controller';
-import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 import FaqsModel from '../../../core/models/faqs.model';
 
 // Mock vue-router
@@ -24,6 +23,7 @@ const mockInstance = {
   fetchOne: vi.fn(),
   update: vi.fn(),
   listState: ref(null),
+  itemState: ref({ data: {} }),
   errorMessage: ref(''),
 };
 
@@ -41,6 +41,7 @@ describe('faqsEdit', () => {
     setActivePinia(createPinia());
     vi.clearAllMocks();
     mockInstance.listState.value = null;
+    mockInstance.itemState.value = { data: {} };
     mockInstance.errorMessage.value = '';
   });
 
@@ -58,23 +59,23 @@ describe('faqsEdit', () => {
   it('renders and fetches FAQ on mount', async () => {
     const controller = FaqsController.getInstance();
     const mockFaq = new FaqsModel({ id: 1, question: { en: 'q' }, answer: { en: 'a' } });
-    vi.mocked(controller.fetchList).mockImplementation(() => {
-      controller.listState.value = new DataSuccess({ data: [mockFaq] });
+    vi.mocked(controller.fetchOne).mockImplementation(() => {
+      controller.itemState.value = { data: mockFaq };
       return Promise.resolve();
     });
 
     const wrapper = mount(faqsEdit, mountOptions);
     await flushPromises();
 
-    expect(controller.fetchList).toHaveBeenCalled();
+    expect(controller.fetchOne).toHaveBeenCalled();
     expect(wrapper.find('.faqs-title').text()).toBe('faqs');
   });
 
   it('calls controller.update when save is clicked', async () => {
     const controller = FaqsController.getInstance();
     const mockFaq = new FaqsModel({ id: 1, question: { en: 'q' }, answer: { en: 'a' } });
-    vi.mocked(controller.fetchList).mockImplementation(() => {
-      controller.listState.value = new DataSuccess({ data: [mockFaq] });
+    vi.mocked(controller.fetchOne).mockImplementation(() => {
+      controller.itemState.value = { data: mockFaq };
       return Promise.resolve();
     });
 
@@ -89,13 +90,13 @@ describe('faqsEdit', () => {
     await wrapper.find('.btn-save').trigger('click');
 
     expect(controller.update).toHaveBeenCalled();
-    expect(pushMock).toHaveBeenCalledWith('/eg/faqs');
+    expect(pushMock).toHaveBeenCalledWith('/faqs');
   });
 
   it('redirects to list when cancel is clicked', async () => {
     const controller = FaqsController.getInstance();
-    vi.mocked(controller.fetchList).mockImplementation(() => {
-      controller.listState.value = new DataSuccess({ data: [] });
+    vi.mocked(controller.fetchOne).mockImplementation(() => {
+      controller.itemState.value = { data: new FaqsModel({ id: 1 }) };
       return Promise.resolve();
     });
 
@@ -104,6 +105,6 @@ describe('faqsEdit', () => {
 
     await wrapper.find('.btn-cancel').trigger('click');
 
-    expect(pushMock).toHaveBeenCalledWith('/eg/faqs');
+    expect(pushMock).toHaveBeenCalledWith('/faqs');
   });
 });

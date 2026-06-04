@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { createPinia, setActivePinia } from 'pinia';
 import { mount } from '@vue/test-utils';
 import ChooseCountry from '../ChooseCountry.vue';
 import CountryController from '@/modules/country/presentation/controllers/country.controller';
@@ -32,6 +33,7 @@ describe('ChooseCountry.vue', () => {
   let mockFetchList: any;
 
   beforeEach(() => {
+    setActivePinia(createPinia());
     vi.clearAllMocks();
     mockFetchList = vi.fn();
     (CountryController.getInstance as any).mockReturnValue({
