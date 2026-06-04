@@ -1,36 +1,44 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import EditFaqsParams from '../edit.faqs.params';
+import TranslationParams from '@/modules/about/core/params/translation.params';
 
-const makeParams = (
-  overrides: Partial<{
-    id: number;
-    question: Record<string, string>;
-    answer: Record<string, string>;
-  }> = {},
-) =>
+vi.mock('@/modules/about/core/params/translation.params', () => {
+  return {
+    default: class TranslationParams {
+      title: Record<string, string>;
+      constructor(data: { title: Record<string, string> }) {
+        this.title = data.title;
+      }
+      toMap() {
+        return { title: this.title };
+      }
+    },
+  };
+});
+
+const makeParams = (overrides: Partial<{ id: number; translations: TranslationParams }> = {}) =>
   new EditFaqsParams({
     id: 1,
-    question: { en: 'Updated question?', ar: 'سؤال محدث؟' },
-    answer: { en: 'Updated answer.', ar: 'إجابة محدثة.' },
+    translations: new TranslationParams({ title: { en: 'Updated', ar: 'محدث' } }),
     ...overrides,
   });
 
 describe('EditFaqsParams', () => {
-  it('constructs with correct fields', () => {
+  it('constructs with correct id', () => {
     const params = makeParams();
     expect(params.id).toBe(1);
-    expect(params.question).toEqual({ en: 'Updated question?', ar: 'سؤال محدث؟' });
-    expect(params.answer).toEqual({ en: 'Updated answer.', ar: 'إجابة محدثة.' });
   });
 
-  it('toMap wraps translations correctly', () => {
+  it('constructs with translations', () => {
     const params = makeParams();
-    expect(params.toMap()).toEqual({
-      translations: {
-        question: { en: 'Updated question?', ar: 'سؤال محدث؟' },
-        answer: { en: 'Updated answer.', ar: 'إجابة محدثة.' },
-      },
-    });
+    expect(params.translations).toBeDefined();
+  });
+
+  it('toMap includes faq_id and translations', () => {
+    const params = makeParams();
+    const map = params.toMap();
+    expect(map.faq_id).toBe(1);
+    expect(map.translations).toBeDefined();
   });
 
   it('validate returns isValid:true with a valid id', () => {

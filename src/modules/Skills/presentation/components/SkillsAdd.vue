@@ -53,7 +53,7 @@
           {{ $t('save') }}
         </span>
       </button>
-      <button @click="BackToIndex" class="btn btn-cancel">{{ $t(`cancel`) }}</button>
+      <button class="btn btn-cancel" @click="BackToIndex">{{ $t(`cancel`) }}</button>
     </div>
     <!-- <div class="actions" :class="{ disabled: loading }">
       <button  class="btn btn-primary w-full" type="submit" @click="saveDocument">
@@ -76,14 +76,16 @@
     height: 35px;
     border-radius: 50%;
     border: 8px solid;
-    border-color: #000 #0000;
+    border-color: $BorderColor;
     animation: l1 1s infinite;
   }
+
   @keyframes l1 {
     to {
       transform: rotate(0.5turn);
     }
   }
+
   @keyframes l7 {
     to {
       transform: rotate(0.5turn);
@@ -96,9 +98,11 @@
     gap: 10px;
     justify-content: flex-end;
     width: 100%;
+
     button {
       width: 50%;
     }
+
     &.disabled {
       cursor: not-allowed;
       pointer-events: none;

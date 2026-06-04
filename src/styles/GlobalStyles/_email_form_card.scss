@@ -50,7 +50,7 @@
       h3 {
         font-size: $MdSize;
         font-weight: $BaseFontWeightBold;
-        font-family: 'bold';
+        font-family: $FontFamily;
         color: var(--gray-900);
         margin: 0;
         letter-spacing: -0.01em;
@@ -60,7 +60,7 @@
         margin-top: 2px;
         font-size: $SmSize;
         font-weight: $BaseFontMediumWeight;
-        font-family: 'medium';
+        font-family: $FontFamily;
         color: var(--gray-400);
         margin-bottom: 0;
       }

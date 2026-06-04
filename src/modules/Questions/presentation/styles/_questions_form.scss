@@ -5,16 +5,21 @@
 .questions-details-form-card {
   .form-header {
     padding-left: 0 !important;
+
     .header-text {
       h3 {
         color: $PrimaryColorHover;
         font-size: $XlSize;
         font-weight: $BaseFontSemiBoldWeight;
+
         @include flex-row(nowrap, center, center);
+
         gap: $XsSize2;
+
         span {
           padding-top: 2px;
         }
+
         svg {
           width: 24px;
           height: 21px;
@@ -25,6 +30,7 @@
 
   .form-fields {
     padding: 0 !important;
+
     @include grid(
       2,
       $XlSize,
@@ -35,6 +41,7 @@
 
     .field-group {
       @include flex-column(nowrap, flex-start, flex-start);
+
       gap: 6px;
 
       &.disabled {
@@ -49,10 +56,12 @@
 
       .gender-group {
         @include flex-row(nowrap, flex-start, center);
+
         gap: $XlSize3;
 
         .input-field {
           @include flex-row(nowrap, flex-start, center);
+
           gap: $XsSize4;
           padding: 14px !important;
 
@@ -75,7 +84,9 @@
 
         .add-imaegs-data {
           @include flex-column(nowrap, center, center);
+
           gap: $XsSize5;
+
           .first-text {
             color: $Gray-5;
             font-size: $XsSize;
@@ -98,6 +109,7 @@
       .input-label {
         font-size: $MdSize !important;
       }
+
       .field-label {
         width: fit-content;
         text-align: start;
@@ -133,13 +145,17 @@
 
   .all_tabs {
     @include flex-row(nowrap, space-between, center);
+
     flex-direction: row !important;
+
     @media (max-width: 1000px) {
       flex-wrap: wrap !important;
     }
+
     gap: $MdSize;
     margin-bottom: $XlSize2;
     width: 100% !important;
+
     .tab-item {
       background-color: var(--bg-main);
       color: var(--table-data-color);
@@ -150,13 +166,16 @@
       display: flex;
       gap: $XsSize4;
       cursor: pointer;
+
       input[type='radio'] {
         accent-color: white;
       }
+
       @media (max-width: 1000px) {
         width: fit-content !important;
       }
     }
+
     .tab-item.active {
       background-color: var(--PrimaryColor-alpha-10);
       color: var(--primary-green);
@@ -165,11 +184,13 @@
       width: 100%;
       border-radius: $XlSize4;
       cursor: pointer;
+
       input[type='radio'] {
         background-color: green;
         accent-color: green;
       }
     }
+
     .p-radiobutton-box {
       background: none !important;
     }

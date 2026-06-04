@@ -8,6 +8,7 @@
   .timeline-form-content {
     gap: $XsSize3;
     margin-block: $XsSize3 !important;
+
     @include flex-row(nowrap, space-between, center);
 
     // @media (max-width: 767px) {
@@ -29,7 +30,7 @@
         font-size: $MdSize;
         font-weight: $BaseFontSemiBoldWeight;
         text-transform: capitalize !important;
-        font-family: 'Demi';
+        font-family: $FontFamily;
       }
 
       .field-input {
@@ -41,6 +42,7 @@
 
   .ranking-section {
     width: 20%;
+
     label {
       color: $StandardBlack;
       font-size: $MdSize;
@@ -54,8 +56,9 @@
     input {
       background-color: white !important;
       width: 100%;
-      border: none;
+
       @include flex-row(nowrap, space-between, center);
+
       gap: $XsSize3;
       border: 1px solid $BorderColor;
       border-radius: $XlSize4;
@@ -72,6 +75,7 @@
 
   .add-icon {
     @include flex-row(nowrap, flex-start, center);
+
     margin-block: 10px;
     cursor: pointer;
 

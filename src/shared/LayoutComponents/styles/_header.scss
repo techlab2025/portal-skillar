@@ -151,9 +151,7 @@
         width: 220px;
         background: var(--BgWhite);
         border-radius: 16px;
-        box-shadow:
-          rgba(136, 165, 191, 0.48) 6px 2px 16px 0,
-          rgba(255, 255, 255, 0.8) -6px -2px 16px 0;
+        box-shadow: var(--shadow-lg);
         padding: 12px;
         z-index: 1000;
         /* Header */
@@ -200,7 +198,7 @@
             transition: 0.3s;
 
             &:hover {
-              background: #fff1f1;
+              background: var(--gray-50);
               color: var(--btn-red);
 
               svg path {

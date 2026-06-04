@@ -103,7 +103,7 @@
 
       .section-title-bar {
         padding: 16px 20px;
-        border-bottom: 1px dashed #e5e7eb;
+        border-bottom: 1px dashed $Gray-200-std;
 
         .section-title {
           width: 180px;
@@ -155,7 +155,7 @@
   .skeleton {
     position: relative;
     overflow: hidden;
-    background: #e5e7eb;
+    background: $Gray-200-std;
     border-radius: 8px;
 
     &::after {

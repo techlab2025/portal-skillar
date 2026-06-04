@@ -9,6 +9,7 @@
   margin-bottom: $XlSize2;
 
   @include flex(row, wrap, space-between, start);
+
   width: 100%;
   gap: $XlSize;
 
@@ -19,6 +20,7 @@
 
 .info {
   @include flex(row, center, start);
+
   gap: $MdSize;
   min-width: 0;
 
@@ -55,15 +57,18 @@
 
     .approved-case-info {
       @include flex(row, nowrap, center, start);
+
       gap: $MdSize;
       width: 100%;
 
       h4 {
         @include flex(row, nowrap, center, center);
+
         font-size: $SmSize;
         font-family: 'Light';
         color: var(--gray-7);
         gap: $XsSize4;
+
         span {
           color: var(--gray-text);
         }

@@ -7,12 +7,17 @@
 
   .matching-section {
     width: 100%;
+
     @include flex-column(nowrap, flex-start, stretch);
+
     gap: 10px;
   }
+
   .timeline-content {
     @include flex-row(nowrap, space-between, center);
+
     width: 100%;
+
     .timeline-form-content {
       width: 100%;
       gap: 15px !important;
@@ -20,14 +25,15 @@
       // @include flex-column(nowrap, space-between, center);
       display: grid;
       grid-template-columns: 95% 5%;
-      gap: 10px;
       align-items: end;
-      margin-block: 10px;
+
       &.similar {
         grid-template-columns: 95% 5%;
       }
+
       .matching-section {
         width: 100%;
+
         label {
           color: $StandardBlack;
           font-size: $MdSize;
@@ -41,8 +47,9 @@
         input {
           background-color: white !important;
           width: 100%;
-          border: none;
+
           @include flex-row(nowrap, space-between, center);
+
           gap: $XsSize3;
           border: 1px solid $BorderColor;
           border-radius: $XlSize4;
@@ -60,6 +67,7 @@
 
   .add-icon {
     @include flex-row(nowrap, flex-start, center);
+
     margin-block: 10px;
     cursor: pointer;
 

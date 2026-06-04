@@ -9,15 +9,18 @@
 
   .buttons {
     @include flex(row, nowrap, start, center);
+
     gap: $XsSize2;
   }
+
   .form-header {
     .btn-action {
       background-color: var(--input-border-color);
-      color: rgba(26, 26, 26, 1);
+      color: $PrimaryColor;
       border: none;
       border-radius: $XlSize4;
     }
+
     .btn-delet {
       width: 40px;
       height: 40px;
@@ -28,17 +31,19 @@
       align-items: center;
       border: 1px solid var(--input-border-color);
     }
+
     .btn-edit {
-      background: white;
+      background: $bg-sidebar;
       border: 1px solid var(--primary-green);
       color: var(--primary-green);
       border-radius: $XlSize4;
+
       &:hover {
-        background-color: var(--primary-green) !important;
+        background-color: $GraySoft !important;
         color: white !important;
 
         :deep(svg) {
-          color: white;
+          color: $StandardBlack;
         }
 
         :deep(path) {
@@ -49,10 +54,11 @@
 
     .header-text {
       @include flex(row, nowrap, start, center);
+
       gap: $XsSize3;
 
       h6 {
-        font-family: 'medium';
+        font-family: $FontFamily;
         font-size: $XlSize;
         color: var(--title-color);
         font-weight: $BaseFontSemiBoldWeight;
@@ -73,29 +79,31 @@
 
       .details {
         @include flex(row, nowrap, start, center);
+
         gap: $XlSize2;
       }
 
       .head {
         @include flex(row, nowrap, start, center);
+
         gap: $XsSize4;
 
         h6 {
           color: var(--bread-crumb-color-span);
-          font-family: 'medium';
+          font-family: $FontFamily;
           font-size: $SmSize;
           font-weight: $BaseFontMediumWeight;
         }
 
         p {
-          font-family: 'medium';
+          font-family: $FontFamily;
           font-size: $SmSize;
           font-weight: $BaseFontMediumWeight;
           color: var(--blue-opacit);
         }
 
         .title {
-          font-family: 'bold';
+          font-family: $FontFamily;
           font-size: $XlSize2;
           font-weight: $BaseFontWeightBold;
           color: var(--table-header-color);
@@ -103,7 +111,7 @@
         }
 
         .description {
-          font-family: 'medium';
+          font-family: $FontFamily;
           font-size: $MdSize;
           font-weight: $BaseFontMediumWeight;
           color: var(--table-data-color);
@@ -112,6 +120,7 @@
 
         .question {
           @include flex(row, nowrap, start, center);
+
           gap: $XsSize4;
         }
 
@@ -120,7 +129,7 @@
           background-color: var(--PrimaryColor-alpha-10);
           padding: $XsSize5 $XsSize4;
           border-radius: $XsSize4;
-          font-family: 'bold';
+          font-family: $FontFamily;
           font-size: $MdSize;
           font-weight: $BaseFontWeightBold;
         }
@@ -135,7 +144,7 @@
 
       .title {
         h6 {
-          font-family: 'medium';
+          font-family: $FontFamily;
           font-size: $XlSize;
           color: var(--bread-crumb-color-span);
           font-weight: $BaseFontMediumWeight;
@@ -146,8 +155,7 @@
         @include flex(row, nowrap, space-between, center);
 
         .sub_subject {
-          color: var(--primary-green);
-          font-family: 'bold';
+          font-family: $FontFamily;
           font-size: $SmSize;
           color: var(--primary-green);
           font-weight: $BaseFontWeightBold;
@@ -161,7 +169,7 @@
             margin: $XsSize2 0;
 
             p {
-              font-family: 'medium';
+              font-family: $FontFamily;
               font-size: $XsSize;
               color: var(--table-data-color);
               font-weight: $BaseFontWeight;
@@ -186,7 +194,7 @@
           margin-bottom: $XsSize4;
 
           h6 {
-            font-family: 'medium';
+            font-family: $FontFamily;
             font-size: $SmSize;
             color: var(--bread-crumb-color-span);
             font-weight: $BaseFontSemiBoldWeight;
@@ -195,6 +203,7 @@
 
         .artical_document {
           @include flex(row, nowrap, start, center);
+
           position: relative;
           margin-bottom: $XsSize3;
           padding: 0 var(--xs-size);
@@ -208,14 +217,14 @@
           }
 
           h6 {
-            font-family: 'medium';
+            font-family: $FontFamily;
             font-size: $XsSize;
             color: var(--bread-crumb-color-span);
             font-weight: $BaseFontMediumWeight;
           }
 
           p {
-            font-family: 'medium';
+            font-family: $FontFamily;
             font-size: $XsSize;
             color: var(--table-data-color);
             font-weight: $BaseFontSemiBoldWeight;

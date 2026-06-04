@@ -1,52 +1,46 @@
 import { describe, it, expect } from 'vitest';
-import EmployeeModel from '../employee.model';
+import questionsModel from '../questions.model';
+import { QuestionGeneratedByEnum } from '../../constant/generatedby.enum';
+import { QuestionTypeEnum } from '../../constant/question.type.enum';
+import { QuestionDifficultyEnum } from '../../constant/question.difficulty.enum';
+import { QuestionStatusEnum } from '../../constant/question.status.enum';
 
-describe('EmployeeModel', () => {
+describe('questionsModel', () => {
   const mockJson = {
-    id: 1,
-    name: 'Jane Doe',
-    email: 'jane@example.com',
-    phone: '987654321',
-    isSuperadmin: 1,
-    role_id: 2,
-    status: 1,
-    subjects: 'Science',
-    image: 'img.jpg',
+    question_id: 1,
+    question: 'What is the capital of Egypt?',
+    generated_by: QuestionGeneratedByEnum.manual,
+    question_type: QuestionTypeEnum.mcq,
+    difficulty_level: QuestionDifficultyEnum.easy,
+    review_status: QuestionStatusEnum.not_Reviewd,
   };
 
   it('should create an instance correctly from constructor', () => {
-    const data = {
+    const model = new questionsModel({
       id: 1,
-      name: 'John Doe',
-      email: 'john@example.com',
-      phone: '123456789',
-      image: 'img.jpg',
-      isSuperadmin: false,
-      role_id: 1,
-      status: 1,
-      subjects: 'Math',
-    };
-    const model = new EmployeeModel(data);
-
-    expect(model.name).toBe('John Doe');
-    expect(model.isSuperadmin).toBe(false);
+      title: 'What is Vue?',
+      generatedBy: QuestionGeneratedByEnum.manual,
+      questionType: QuestionTypeEnum.mcq,
+      difficulty: QuestionDifficultyEnum.easy,
+      status: QuestionStatusEnum.not_Reviewd,
+    });
+    expect(model.title).toBe('What is Vue?');
+    expect(model.generatedBy).toBe(QuestionGeneratedByEnum.manual);
   });
 
   it('should create an instance correctly from fromJson', () => {
-    const model = EmployeeModel.fromJson(mockJson);
-
+    const model = questionsModel.fromJson(mockJson);
     expect(model.id).toBe(1);
-    expect(model.name).toBe('Jane Doe');
-    expect(model.isSuperadmin).toBe(true);
-    expect(model.status).toBe(1);
+    expect(model.title).toBe('What is the capital of Egypt?');
+    expect(model.generatedBy).toBe(QuestionGeneratedByEnum.manual);
   });
 
   it('should throw error if json is null in fromJson', () => {
-    expect(() => EmployeeModel.fromJson(null)).toThrow();
+    expect(() => questionsModel.fromJson(null)).toThrow();
   });
 
   it('should have a valid example', () => {
-    expect(EmployeeModel.example).toBeInstanceOf(EmployeeModel);
-    expect(EmployeeModel.example.name).toBe('John Doe');
+    expect(questionsModel.example).toBeInstanceOf(questionsModel);
+    expect(questionsModel.example.title).toBeTruthy();
   });
 });

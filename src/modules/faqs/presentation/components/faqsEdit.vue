@@ -52,7 +52,7 @@
     <!-- <FaqsForm v-if="isLoaded" :faq="currentFaq.data!" @update-data="updateData" /> -->
     <FaqsForm v-if="isLoaded" :faq="currentFaq!" :loading="loading" @update-data="updateData" />
     <div v-if="isLoaded" class="form-actions" :class="{ disabled: loading }">
-      <button class="btn btn-primary" type="button" @click="saveChange">
+      <button class="btn btn-primary btn-save" type="button" @click="saveChange">
         <span v-if="loading" class="loader"></span>
         <span v-else>{{ $t('save_change') }}</span>
       </button>
@@ -68,14 +68,25 @@
 <style scoped lang="scss">
   .loader {
     width: 35px;
-    height: 35px;  
+    height: 35px;
     border-radius: 50%;
     border: 8px solid;
-    border-color: #000 #0000;
+    border-color: $BorderColor;
     animation: l1 1s infinite;
   }
-  @keyframes l1 {to{transform: rotate(.5turn)}}
-  @keyframes l7 {to{transform: rotate(.5turn)}}
+
+  @keyframes l1 {
+    to {
+      transform: rotate(0.5turn);
+    }
+  }
+
+  @keyframes l7 {
+    to {
+      transform: rotate(0.5turn);
+    }
+  }
+
   .form-actions {
     &.disabled {
       cursor: not-allowed;

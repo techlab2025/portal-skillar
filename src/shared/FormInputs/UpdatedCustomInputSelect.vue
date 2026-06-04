@@ -326,6 +326,7 @@
     z-index: 9999;
     cursor: pointer;
   }
+
   .add-dialog {
     width: 20px;
     height: 20px;

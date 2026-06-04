@@ -4,7 +4,7 @@
 
 :root {
   /* ── Primary ───────────────────────────────────────────────── */
-  --PrimaryColor: #4faf7c;
+  --PrimaryColor: $PrimaryColor;
   --PrimaryColor-hover: #24385c;
   --PrimaryColor-active: #4338ca;
   --PrimaryColor-light: #eef2ff;
@@ -36,8 +36,8 @@
   --light-green-bg: #f1f8f1;
   --btn-red: rgba(214, 69, 69, 1);
   --color-gray-soft-1: rgba(48, 48, 48, 1);
-  --btn-gold: rgba(217, 145, 0, 1);
-  --btn-easy: rgba(255, 247, 230, 1);
+  --btn-gold: $in-active-color;
+  --btn-easy: $GraySoft;
 
   /* ── Secondary ─────────────────────────────────────────────── */
   --SecondaryColor: #f8fafc;
@@ -85,7 +85,7 @@
   --gray-900: #0f172a;
   --gray-950: #020617;
   --second-text: #8a8a8a;
-  --border-color: #e6e6e6;
+  --border-color: $BorderColor;
 
   /* ── Legacy alias (backward compat) ────────────────────────── */
   --header-page-color: #0f172a;
@@ -101,9 +101,9 @@
   --Gray-4: #cbd5e1;
   --Gray-2: #f1f5f9;
   --Gray-3: #64748b;
-  --gray-5: #5d5d5d;
-  --Gray-6: #4b4b4b;
-  --gray-7: #303030;
+  --gray-5: $color-dark-gray;
+  --Gray-6: $Gray-500-std;
+  --gray-7: $gray-7;
   --breadcrumb-separator: #a5a5a5;
   --GrayText-1: #475569;
   --GrayText: #475569;
@@ -120,7 +120,7 @@
   --medium-color: #f59e0b;
   --high-color: #dc2626;
   --icon-bg: #f1f5f9;
-  --breadcrump-bg: linear-gradient(to right, #4faf7c, #1e293b);
+  --breadcrump-bg: linear-gradient(to right, $PrimaryColor, #1e293b);
   --breadcrump-icon-color: white;
   --breadcrump-text-color: black;
   --sidebar-bg: #0f172a;
@@ -135,11 +135,11 @@
   /* Status Colors */
   --bg-waiting: #eaf4ff;
   --border-waiting: #bfd9ff;
-  --bg-drafting: #e6e6e6;
+  --bg-drafting: $BorderColor;
   --border-drafting: #d2d2d2;
   --bg-rejected: #ffeceb;
   --border-rejected: #f5c2c0;
-  --bg-approved: #e9f9ee;
+  --bg-approved: $BgApproved;
   --border-approved: #b7e9c9;
   --blue-opacity-50: rgba(29, 78, 216, 1);
 
@@ -244,15 +244,15 @@
 
   /* ── Additional standard colors for UI consistency ────────── */
   --standard-white: #ffffff;
-  --standard-black: #121212;
+  --standard-black: $StandardBlack;
   --gray-50-std: #f9fafb;
   --gray-100-std: #f3f4f6;
-  --gray-200-std: #e5e7eb;
+  --gray-200-std: $Gray-200-std;
   --gray-400-std: #9ca3af;
   --gray-500-std: #6b7280;
   --gray-700-std: #374151;
   --gray-900-std: #111827;
-  --color-dark-gray: #5d5d5d;
+  --color-dark-gray: $color-dark-gray;
   --color-light-gray: #f5f5f5;
   --color-placeholder: #c4c9d0;
   --color-border-light: #aab0b8;
@@ -272,7 +272,7 @@
   /* ── Additional Semantic ───────────────────────────────────── */
   --danger-alt: #d64545;
   --success-alt: #22c55e;
-  --gray-soft: #fafafa;
+  --gray-soft: $GraySoft;
   --gray-soft-alpha-50: rgba(250, 250, 250, 0.5);
   --black-soft: #1a1a1a;
   --gray-light-border: #d2d5da;
@@ -283,7 +283,7 @@
   --danger-light-alt: #fff0f3;
   --danger-border-light: #fecaca;
   --in-active-color: #d99100;
-  --badge-bg: #4faf7c0f;
+  --badge-bg: $PrimaryColor0f;
   --sidebar-auth-bg: #24385c;
   --caution-bg: #fff7e6;
 }

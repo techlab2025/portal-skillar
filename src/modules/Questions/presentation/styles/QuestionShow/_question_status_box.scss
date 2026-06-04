@@ -25,6 +25,7 @@
 
   .status-item {
     @include flex(column, nowrap, center, center);
+
     gap: $XsSize5;
 
     &:nth-child(1),

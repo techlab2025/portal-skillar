@@ -47,10 +47,10 @@
     }
   });
 
-  const isInputEmpty = computed(() => durationValue.value < 0 || pricingValue.value < 0); 
+  const isInputEmpty = computed(() => durationValue.value < 0 || pricingValue.value < 0);
 
   function resetForm() {
-    durationValue.value = 0 ;
+    durationValue.value = 0;
     pricingValue.value = 0;
     isEdit.value = false;
     editId.value = null;
@@ -68,7 +68,7 @@
       await educationPricingController.update(
         new EditEducationSubjectPricingParams({
           pricingId: editId.value,
-          duration: durationValue.value ,
+          duration: durationValue.value,
           durationType: DurationTypeEnum.MONTH,
           price: pricingValue.value,
         }),
@@ -169,7 +169,7 @@
             @keydown.esc="dialogVisible = false"
             @keydown.enter="!isInputEmpty && handleSave()"
           />
-          <span class="error-message-inputs" v-if="durationValue < 0">
+          <span v-if="durationValue < 0" class="error-message-inputs">
             {{ $t('duration must be greater than 0') }}
           </span>
         </div>
@@ -185,7 +185,7 @@
             @keydown.esc="dialogVisible = false"
             @keydown.enter="!isInputEmpty && handleSave()"
           />
-          <span class="error-message-inputs" v-if="pricingValue < 0">
+          <span v-if="pricingValue < 0" class="error-message-inputs">
             {{ $t('pricing must be greater than 0') }}
           </span>
         </div>
@@ -207,15 +207,17 @@
 </template>
 
 <style scoped>
-.error-message-inputs{
-  color: red;
-  font-family: "medium";
-}
+  .error-message-inputs {
+    color: red;
+    font-family: $FontFamily;
+  }
+
   .dialog-content {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
   }
+
   .document-type-row {
     display: flex;
     align-items: center;
@@ -224,26 +226,31 @@
     border-radius: 8px;
     background-color: var(--color-light-gray);
   }
+
   .item-title {
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
+
   .item-small-title {
     font-size: 0.7rem;
     color: var(--bread-crumb-color-span);
   }
+
   .item-main-title {
     font-size: 0.9rem;
     font-weight: 600;
     color: black;
   }
+
   .item-actions {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
   }
+
   .field-input {
     background-color: var(--bg-main);
     border-radius: 30px;
@@ -253,21 +260,25 @@
       color: var(--bread-crumb-color-span);
     }
   }
+
   .dialog-inputs {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     gap: 5px;
+
     .field-group {
       &:first-child {
         width: 60%;
       }
+
       &:last-child {
         width: 40%;
       }
     }
   }
+
   .dialog-footer {
     display: flex;
     gap: 0.5rem;

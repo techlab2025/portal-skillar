@@ -56,7 +56,7 @@
   .node-name {
     color: var(--table-data-color) !important;
     font-weight: $BaseFontSemiBoldWeight;
-    font-family: 'medium';
+    font-family: $FontFamily;
     font-size: $MdSize;
     flex: 1;
     overflow: hidden;

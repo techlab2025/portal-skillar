@@ -150,7 +150,7 @@
     gap: 8px;
     color: var(--table-data-color);
     font-weight: $BaseFontSemiBoldWeight;
-    font-family: 'medium';
+    font-family: $FontFamily;
     font-size: $MdSize;
     direction: rtl;
   }
@@ -246,7 +246,7 @@
   .child-name {
     color: var(--table-data-color) !important;
     font-weight: $BaseFontSemiBoldWeight !important;
-    font-family: 'medium' !important;
+    font-family: $FontFamily !important;
     font-size: $SmSize !important;
     text-align: right;
   }
