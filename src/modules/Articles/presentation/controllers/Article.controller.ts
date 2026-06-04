@@ -10,7 +10,7 @@ import ArticleRepository from '../../data/repositories/Artical.repository';
 import type ArticalDetailsModel from '../../core/models/artical.details.model';
 
 export default class ArticleController extends BaseController<ArticalDetailsModel, ArticleModel[]> {
-  private static instance: ArticleController;
+  private static instance: ArticleController; 
 
   protected get repository() {
     return ArticleRepository.getInstance();

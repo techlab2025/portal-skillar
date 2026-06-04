@@ -20,6 +20,7 @@
   import type StageModel from '@/modules/Stages/core/models/stage.model';
   import flattenSubjectBranchTree from '@/modules/Questions/core/SubjectTreeSelectHelper';
   import FullSubjectTreeController from '@/modules/Questions/presentation/controllers/FullSubjectTree/full.subject.tree.controller';
+import { CustomToast } from './CustomTosat';
 
   const SelectedQuestionSequence = ref<TitleInterface<number> | null>(null);
 
@@ -28,6 +29,7 @@
   const props = defineProps<{
     loading?: boolean;
     article?: ArticalDetailsModel;
+    draftData?: AddArticlesParams;
   }>();
   const isSolutionSteps = ref(true);
   const isSolutionHint = ref(true);
@@ -143,6 +145,72 @@
     updateData();
   };
 
+   const ArticleDraftData = ref<AddArticlesParams>();
+
+  const draftRef = localStorage.getItem('article-draft') ? CustomToast() : null;
+
+  onMounted(() => {
+  const draft = localStorage.getItem('article-draft');
+
+  if (!draft) return;
+
+  const data = JSON.parse(draft);
+
+  QuestionDescription.value = data.question_description ?? '';
+  question.value = data.question ?? '';
+  articleSource.value = data.documents?.text ?? '';
+
+  UploadedImage.value =
+    data.attachments?.map((item: any) => item.file) ?? [];
+
+  descriptionArticle.value =
+    data.explanation?.explanation ?? '';
+
+  explanationAttachments.value =
+    data.explanation?.attachments?.map(
+      (item: any) => item.file,
+    ) ?? [];
+
+  updateData();
+});
+  watch(draftRef!, (newVal) => {
+  if (!newVal) return;
+
+  ArticleDraftData.value = newVal;
+
+  QuestionDescription.value = newVal.question_description ?? '';
+  question.value = newVal.question ?? '';
+
+  articleSource.value = newVal.documents?.text ?? '';
+
+  if (newVal.e_c_subject_id) {
+    SelectedQuestionSequence.value = {
+      id: newVal.e_c_subject_id, 
+      title: '',
+    };
+  }
+
+  if (newVal.documents?.id) {
+    SelectedDocument.value = {
+      document_id: newVal.documents.id,
+      title: newVal.documents?.title,
+    };
+  }
+  // console.log('draft', newVal.documents);
+  UploadedImage.value =
+    newVal.attachments?.map((item: any) => item.file) ?? [];
+
+  descriptionArticle.value =
+    newVal.explanation?.explanation ?? '';
+
+  explanationAttachments.value =
+    newVal.explanation?.attachments?.map(
+      (item: any) => item.file,
+    ) ?? [];
+
+  updateData();
+});
+    
   // const BasicData = ref<AddArticlesParams>();
   // const GetAllBasicData = (data: AddArticlesParams) => {
   //   BasicData.value = data;
