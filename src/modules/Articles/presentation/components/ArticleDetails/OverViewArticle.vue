@@ -11,6 +11,8 @@ import DeleteDialog from '@/shared/HelpersComponents/dialog/DeleteDialog.vue';
 import DeleteArticlesParams from '@/modules/Articles/core/params/delet.Articles.params';
 import ArticleController from '../../controllers/Article.controller';
 import { useRouter } from 'vue-router';
+import Articlesubject from '@/shared/icons/articlesubject.vue';
+import type ArticleSubjectModel from '@/modules/Articles/core/models/Subject.model';
 
 const router = useRouter();
 const { artical } = defineProps<{
@@ -24,7 +26,11 @@ const deleteArticle = async (id: number) => {
     await controller.delete(new DeleteArticlesParams(id));
     router.push(`/${route.params.country_code}/articles`);
 };
-
+// delet arrow from article subject and show only title 
+const deleteArrow = (subject: ArticleSubjectModel) => {
+  const subjects = subject?.full_title?.split(/\s*->\s*/g);
+  return subjects?.map((subject) => subject.trim());
+}
 </script>
 <template>
     <div class="All_over_view">
@@ -79,7 +85,7 @@ const deleteArticle = async (id: number) => {
                     <h5 class="title">{{ artical?.question }}</h5>
                 </div>
                 <div class="head">
-                    <p class="description">{{ artical?.Description || $t('N/A') }}</p>
+                    <p class="description">{{ artical?.question_description || $t('N/A') }}</p>
                 </div>
                 <div class="head">
                     <h6 class="question">
@@ -92,27 +98,25 @@ const deleteArticle = async (id: number) => {
                 <div class="title">
                     <h6>{{ $t('Subjects') }} :</h6>
                 </div>
-                <!-- <div class="Subjects"  >
+                <div class="Subjects"  >
                     <div class="contant">
-                        <div class="govermental">
+                        <!-- {{ deleteArrow(artical?.subject)}} -->
+                        <!-- {{ deleteArrow(artical?.subject)}} -->
+                        <div v-for="(subject, index) in deleteArrow(artical?.subject)" :key="index" class="govermental" >
+                            <p>{{ subject }}</p> 
+                            <Articlearrow  v-if="index < deleteArrow(artical?.subject).length - 1" class="arrow-icon" />
+                        </div>
+                        <!-- <div class="govermental">
                             <p>{{ artical?.subject.title }}</p>
                             <Articlearrow class="arrow-icon" />
-                        </div>
-                        <div class="govermental">
+                        </div> -->
+                        <!-- <div class="govermental">
                             <p>{{ artical?.subject.title }}</p>
-                            <Articlearrow class="arrow-icon" />
-                        </div>
-                        <div class="govermental">
-                            <p>{{ artical?.subject.title }}</p>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="arrow">
-                        <Articlesubject />
-                    </div>
-                    <div class="sub_subject">
-                        <p>{{ artical?.subject.title }}</p>
-                    </div>
-                </div> -->
+                    <div class="arrow"><Articlesubject /> </div>
+                    <div class="sub_subject"><p>{{ artical?.e_c_subject?.title }}</p></div>
+                </div>
                 <div class="source">
                     <div class="title">
                         <h6>{{ $t('artical source') }}</h6>

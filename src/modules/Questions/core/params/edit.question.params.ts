@@ -109,7 +109,7 @@ export default class EditquestionsParams implements Params {
       is_question_clarification: this.isQuestionClarification,
       explanation: this.questionClarification?.toMap(),
       is_solution_steps: this.isSolutionSteps,
-      answer_steps: this.solutionSteps?.toMap(),
+      answer_step: this.solutionSteps?.toMap(),
       is_solution_hint: this.isSolutionHint,
       answer_hint: this.solutionHint?.toMap(),
       correct_status: this.answerEvaluation,

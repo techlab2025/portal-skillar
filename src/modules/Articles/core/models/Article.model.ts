@@ -1,3 +1,4 @@
+import type TitleInterface from '@/base/Data/Models/titleInterface';
 import { ArticleGeneratedByEnum } from '../constant/Article.generatedby.enum';
 import { ArticleStatusEnum } from '../constant/Article.status.enum';
 import { ArticleTypeEnum } from '../constant/Article.type.enum';
@@ -11,6 +12,7 @@ export default class ArticleModel {
   public readonly noOfQs: number;
   public readonly status: ArticleStatusEnum;
   public readonly articleType?: ArticleTypeEnum;
+  public readonly e_c_subject: TitleInterface<number>;
 
   constructor(data: {
     id?: number;
@@ -20,6 +22,7 @@ export default class ArticleModel {
     noOfQs?: number;
     status?: ArticleStatusEnum;
     articleType?: ArticleTypeEnum;
+    e_c_subject?: TitleInterface<number>;
   }) {
     this.id = data.id;
     this.articleTitle = data.articleTitle ?? '';
@@ -28,6 +31,7 @@ export default class ArticleModel {
     this.noOfQs = data.noOfQs ?? 5555;
     this.status = data.status ?? ArticleStatusEnum.not_Reviewd;
     this.articleType = data.articleType ?? ArticleTypeEnum.mcq;
+    this.e_c_subject = data.e_c_subject;
 
     Object.freeze(this);
   }
@@ -38,13 +42,14 @@ export default class ArticleModel {
     return new ArticleModel({
   id: json.question_id,
   articleTitle: json.question, 
-  subject: json.e_c_subject
-    ? ArticleSubjectModel.fromJson(json.e_c_subject)
+  subject: json.e_c_branch
+    ? ArticleSubjectModel.fromJson(json.e_c_branch)
     : null,
-  generatedBy: json.generated_by,
+  generatedBy: json.from_source_type,
   noOfQs: json.number_of_questions,
   status: json.status,
   articleType: json.question_type,
+  e_c_subject: json.e_c_subject,
 });
   }
 
@@ -52,10 +57,14 @@ export default class ArticleModel {
     id: 1,
     articleTitle: 'What is the capital of Egypt?',
     subject: ArticleSubjectModel.example,
-    generatedBy: ArticleGeneratedByEnum.manual,
+    generatedBy: ArticleGeneratedByEnum.ai,
     noOfQs: 10,
     status: ArticleStatusEnum.not_Reviewd,
     articleType: ArticleTypeEnum.mcq,
+    e_c_subject: {
+      title: 'Math',
+      id: 1,
+    },
   });
 }
 

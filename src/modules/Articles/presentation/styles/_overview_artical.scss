@@ -70,6 +70,7 @@
       background-color: var(--bg-header);
       border-radius: $XlSize;
       padding: $MdSize;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.06);
 
       .details {
         @include flex(row, nowrap, start, center);
@@ -132,6 +133,7 @@
       background-color: var(--bg-header);
       border-radius: $XlSize;
       padding: $MdSize;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.06);
 
       .title {
         h6 {
@@ -143,7 +145,8 @@
       }
 
       .Subjects {
-        @include flex(row, nowrap, space-between, center);
+        @include flex(row, nowrap, left, center);
+        gap: $XlSize;
 
         .sub_subject {
           color: var(--primary-green);
@@ -170,7 +173,7 @@
             .arrow-icon {
               position: absolute;
               top: 130%;
-              left: -7%;
+              left: -35%;
               transform: translate(-50%, -50%);
               z-index: 1;
             }

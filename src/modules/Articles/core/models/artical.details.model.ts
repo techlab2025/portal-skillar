@@ -1,7 +1,6 @@
 import TitleInterface from '@/base/Data/Models/titleInterface';
 import ExplanationModel from './explanation.model';
 import DocumentModel from './document.model';
-import SubjectModel from '@/modules/Subjects/core/models/subject.model';
 import ArticleSubjectModel from './Subject.model';
 import AnalysisReportModel from './analysis.report.model';
 import ArticleCardModel from './article.card';
@@ -16,7 +15,7 @@ export default class ArticalDetailsModel {
   public readonly created_by: TitleInterface<string>; 
   public readonly number_of_questions: number;
   public readonly Description: string;
-  public readonly subject: SubjectModel;
+  public readonly subject: ArticleSubjectModel;
   public readonly analysisReport: AnalysisReportModel[];
   public readonly articlecard: ArticleCardModel[];
 
@@ -32,7 +31,7 @@ export default class ArticalDetailsModel {
     created_by: TitleInterface<string>;
     number_of_questions: number;
     Description: string;
-    subject: SubjectModel;
+    subject: ArticleSubjectModel;
     analysisReport: AnalysisReportModel[];
     articlecard: ArticleCardModel[];
   }) {
@@ -72,9 +71,9 @@ export default class ArticalDetailsModel {
       }),
       number_of_questions: json.number_of_questions ?? 0,
       Description: json.description ?? '',
-      subject: json.subject != null
-    ? ArticleSubjectModel.fromJson(json.subject)
-    : null,
+      subject: json.e_c_branch != null
+    ? ArticleSubjectModel.fromJson(json.e_c_branch)
+    : ArticleSubjectModel.example,
     analysisReport: json.analysis_report != null
     ? json.analysis_report.map((report: any) => AnalysisReportModel.fromJson(report))
     : [],
@@ -101,7 +100,7 @@ export default class ArticalDetailsModel {
     }),
     number_of_questions: 555,
     Description: 'Description 1',
-    subject: SubjectModel.example,
+    subject: ArticleSubjectModel.example,
     analysisReport: [
       {
         id: 1,
@@ -113,11 +112,11 @@ export default class ArticalDetailsModel {
     ],
     articlecard: [
       {
-        id: 1,
-        title: 'Article Card 1',
-        count: 25,
+        id: 2,
+        title: 'Analysis Report 2',
+        count: 12,
         percentage: 1,
-        image: 'https://example.com/image.jpg',
+        imageUrl: 'https://example.com/image.jpg',
       },
     ],
   });

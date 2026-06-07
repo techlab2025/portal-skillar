@@ -2,11 +2,15 @@
 @use '../../../../styles/mixins/flex' as *;
 
 .subject-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+  @include flex(row, nowrap, center, center);
+  gap: $XlSize;
   font-size: 13px;
   line-height: 1.5;
+
+  .parent-subject-curriculum{
+    @include flex(column ,nowrap,  center, start); 
+    gap: $XsSize3;
+  }
 
   .subject-curriculum {
     color: var(--gray-5, #888);
