@@ -222,7 +222,7 @@ const getSubjectPath = (item: questionsModel) => {
                 {{ GetQusetionType(item.questionType!) }}
               </div>
             </template>
-            
+                    
             <template #cell-subjects="{ item }">
               <div class="subject-cell">
                 <div class="parent-subject-curriculum" > 
