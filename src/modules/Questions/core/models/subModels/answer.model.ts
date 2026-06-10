@@ -19,7 +19,7 @@ export default class AnswerModel {
     match?: string;
     rank?: number;
     similar?: string;
-    EvaluationType?: AnswerEvaluationTypeEnum;
+    EvaluationType?: AnswerEvaluationTypeEnum; 
   }) {
     this.id = data.id;
     this.answer = data.answer || '';
