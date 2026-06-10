@@ -118,6 +118,8 @@
       const result = await fullSubjectTreeController.fetchList(fullSubjectTreeParams);
       AllSubjectTree.value = result.data!;
     }
+    // handelSubjectUpdate();
+    SelectedTopic.value = [];
     updateData();
   };
 
@@ -146,7 +148,7 @@
     }) as TitleInterface<number>[];
   });
 
-  const handelSubjectUpdate = async (selected: TitleInterface<number> | undefined) => {
+  const handelSubjectUpdate = async (selected?: TitleInterface<number> | undefined) => {
     SelectedQuestionSequence.value = selected!;
     await topicsControoller.fetchList(
       new IndexEducationSubjectTopicParams({ SubjectId: selected?.id as number }),
