@@ -127,7 +127,7 @@
     });
   });
 
-  const topicsControoller = EducationTopicsController.getInstance();
+  const topicsControoller = EducationTopicsController.getInstance(); 
   const topicsOptions = computed<TitleInterface<number>[]>(() => {
     return topicsControoller.listData.value?.map((item) => {
       return new TitleInterface<number>({
