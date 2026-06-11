@@ -25,6 +25,8 @@ export default class ShowQuestionsModel {
   public readonly questionImage?: AttachmentModel[];
 
   public readonly status?: QuestionStatusEnum;
+  public readonly from_source_type?: QuestionGeneratedByEnum;
+  public readonly review_status?: QuestionStatusEnum;
   public readonly generatedBy?: QuestionGeneratedByEnum;
   public readonly createdAt?: string;
   public readonly approvedBy?: string;
@@ -55,6 +57,7 @@ export default class ShowQuestionsModel {
   public readonly question_id?: number;
   public readonly questions?: ShowQuestionsModel[];
    public readonly attachments?: string[];
+
   
   
 
@@ -66,6 +69,8 @@ export default class ShowQuestionsModel {
     questionType?: QuestionTypeEnum;
     difficulty?: QuestionDifficultyEnum;
     status?: QuestionStatusEnum;
+    from_source_type?: QuestionGeneratedByEnum;
+    review_status?: QuestionStatusEnum;
     topics?: TitleInterface<number>[];
     questionTitle?: string;
     questionImage?: AttachmentModel[];
@@ -101,6 +106,8 @@ export default class ShowQuestionsModel {
     this.questionType = data.questionType;
     this.difficulty = data.difficulty;
     this.status = data.status;
+    this.review_status = data.review_status;
+    this.from_source_type = data.from_source_type;
     this.createdAt = data.createdAt;
     this.approvedBy = data.approvedBy;
     this.questionTitle = data.questionTitle;
@@ -145,6 +152,8 @@ export default class ShowQuestionsModel {
       questionType: json.question_type,
       difficulty: json.difficulty_level,
       status: json.status,
+      from_source_type: json.from_source_type,
+      review_status: json.review_status,
       createdAt: json.created_at,
       approvedBy: json.approved_by,
       questionTitle: json.question,

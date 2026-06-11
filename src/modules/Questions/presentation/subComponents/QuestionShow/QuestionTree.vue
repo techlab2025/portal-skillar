@@ -59,7 +59,7 @@ const { questionData } = defineProps<{ questionData: ShowQuestionsModel }>();
       <h4>Documents</h4>
 
       <div class="document">
-        <h5>
+        <h5 >
           {{ questionData.questionDocuments![0]?.title }}
         </h5>
 
@@ -85,3 +85,29 @@ const { questionData } = defineProps<{ questionData: ShowQuestionsModel }>();
     </div>
   </div>
 </template>
+
+<style  scoped>
+.document{
+  position: relative;
+  h5{
+    padding: 0   1rem ;
+  }
+   p{
+    padding: 0   1.5rem ;
+  }
+  .arrow-next{
+    position: absolute;
+    left: 5px;
+    top: 55%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-main-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+}
+</style> 

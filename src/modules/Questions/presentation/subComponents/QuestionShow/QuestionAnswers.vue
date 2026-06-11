@@ -6,10 +6,10 @@ const { answers } = defineProps<{ answers: AnswerModel[] }>();
 <template>
   <div class="question-answers-wrapper">
     <div class="question-answers-list">
-      <div v-for="answer in answers" :key="answer?.id" class="question-answer-item"
+      <div v-for="(answer,index) in answers" :key="answer?.id" class="question-answer-item"
         :class="{ correct: answer?.is_right_answer }">
         <div class="answer-content">
-          <label> Answers No : {{ answer?.id }}</label>
+          <label> Answers No : {{ index +1 }}</label>
           <h2 class="answer">{{ answer?.answer }}</h2>
         </div>
         <div class="answer-image">

@@ -8,6 +8,8 @@ import { useFormsStore } from '@/stores/formsStore';
 import type questionsModel from '../../core/models/questions.model';
 import questionsRepository from '../../data/repositories/question.repository';
 import type ShowQuestionsModel from '../../core/models/show.questions.model';
+import type AddquestionsParams from '../../core/params/add.question.params';
+import { dialogManager } from '@/base/Presentation/Dialogs/dialog.manager';
 
 export default class questionsController extends BaseController<
   ShowQuestionsModel,
@@ -42,8 +44,13 @@ export default class questionsController extends BaseController<
     return questionsController.instance;
   }
 
-  async create(params: Params, options?: ApiCallOptions, formKey?: string) {
+  async create(params: AddquestionsParams, options?: ApiCallOptions, formKey?: string) {
     const FormStore = useFormsStore();
+    
+    if(params.answers?.filter((answer) => answer.isCorrect).length === 0){
+      dialogManager.toastWarning("one or more answers should be correct");
+      return;
+    }
 
     const result = await super.create(params, { ...options, useJson: true });
     if (result instanceof DataSuccess) {

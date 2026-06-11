@@ -121,7 +121,7 @@
       deep: true,
       immediate: true,
     },
-  );
+  ); 
 </script>
 
 <template>

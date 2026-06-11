@@ -15,6 +15,7 @@ export default class AnswersParams implements Params {
   public static readonly validation = new ClassValidation().setRules({
     title: { required: true },
     answerEvaluation: { required: true },
+    // isCorrect: { required: true },
   });
 
   constructor(data: {

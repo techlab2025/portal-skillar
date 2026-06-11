@@ -3,10 +3,14 @@
   import { QuestionStatusEnum } from '@/modules/Questions/core/constant/question.status.enum';
   import EditIcon from '@/shared/icons/Privacy/EditIcon.vue';
   import type ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
+  import { useRouter } from 'vue-router';
   const props = defineProps<{ questionData: ShowQuestionsModel }>();
+  const router = useRouter();
 
-  const getStatusText = (status: QuestionStatusEnum) => {
-    switch (status) {
+  const id = router.currentRoute.value.params.id;
+
+  const getStatusText = (review_status: QuestionStatusEnum) => {
+    switch (review_status) {
       case QuestionStatusEnum.under_review:
         return 'Under Review';
       case QuestionStatusEnum.not_Reviewd:
@@ -20,8 +24,8 @@
     }
   };
 
-  const getStatusDescription = (status: QuestionStatusEnum) => {
-    switch (status) {
+  const getStatusDescription = (review_status: QuestionStatusEnum) => {
+    switch (review_status) {
       case QuestionStatusEnum.under_review:
         return 'complete all details of the question and the available procedures to can publish it';
       case QuestionStatusEnum.not_Reviewd:
@@ -37,13 +41,14 @@
 </script>
 
 <template>
+  <!-- {{ id }} -->
   <div class="action-row-wrapper">
     <div class="info">
       <img :src="FaqImg" alt="question image" />
       <div class="name">
-        <h3>{{ getStatusText(questionData?.status!) }} Question</h3>
-        <p>{{ getStatusDescription(questionData?.status!) }}</p>
-        <div v-if="questionData?.status === QuestionStatusEnum.approved" class="approved-case-info">
+        <h3>{{ getStatusText(questionData?.review_status!) }} Question</h3>
+        <p>{{ getStatusDescription(questionData?.review_status!) }}</p>
+        <div v-if="questionData?.review_status === QuestionStatusEnum.approved" class="approved-case-info">
           <h4>
             <span>Approved by :</span>
             {{ questionData.approvedBy }}
@@ -57,7 +62,7 @@
       </div>
     </div>
     <div class="question-actions">
-      <button class="btn btn-primary"><EditIcon /> {{ $t('edit') }}</button>
+      <button class="btn btn-primary" @click="router.push({ name: 'QuestionEdit', params: { id } })"><EditIcon /> {{ $t('edit') }}</button>
       <button class="action-btn delete" title="Delete">
         <svg
           width="15"
