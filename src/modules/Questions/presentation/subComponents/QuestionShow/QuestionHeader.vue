@@ -56,7 +56,7 @@
 
           <h4>
             <span>Approved at :</span>
-            {{ questionData.createdAt }}
+            {{ questionData.createdAt }} 
           </h4>
         </div>
       </div>
