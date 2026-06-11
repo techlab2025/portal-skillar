@@ -8,13 +8,12 @@
   .timeline-form-content {
     gap: $XsSize3;
     margin-block: $XsSize3 !important;
-    @include flex-row(nowrap, space-between, center);
 
+    @include flex-row(nowrap, space-between, center);
     // @media (max-width: 767px) {
     //   grid-template-columns: 1fr;
     //   gap: 0px;
     // }
-
     .timeline-content {
       @include flex-row(nowrap, center, center);
     }
@@ -41,6 +40,7 @@
 
   .ranking-section {
     width: 20%;
+
     label {
       color: $StandardBlack;
       font-size: $MdSize;
@@ -54,8 +54,9 @@
     input {
       background-color: white !important;
       width: 100%;
-      border: none;
+
       @include flex-row(nowrap, space-between, center);
+
       gap: $XsSize3;
       border: 1px solid $BorderColor;
       border-radius: $XlSize4;
@@ -72,6 +73,7 @@
 
   .add-icon {
     @include flex-row(nowrap, flex-start, center);
+
     margin-block: 10px;
     cursor: pointer;
 

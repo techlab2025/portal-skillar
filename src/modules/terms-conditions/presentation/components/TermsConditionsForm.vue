@@ -133,16 +133,19 @@
     border-color: #000 #0000;
     animation: l1 1s infinite;
   }
+
   @keyframes l1 {
     to {
       transform: rotate(0.5turn);
     }
   }
+
   @keyframes l7 {
     to {
       transform: rotate(0.5turn);
     }
   }
+
   .field {
     &.disabled {
       cursor: not-allowed;

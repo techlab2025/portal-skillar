@@ -11,6 +11,7 @@
   .section {
     padding: $MdSize;
     border-bottom: $BaseBorderWidth solid var(--border-color);
+
     &:last-child {
       border-bottom: none;
     }
@@ -24,8 +25,8 @@
 
   .subject-box {
     @include flex-row();
-    gap: calc($XlSize3 + 20px);
 
+    gap: calc($XlSize3 + 20px);
     // @media (max-width: 768px) {
     //   flex-direction: column;
     // }
@@ -34,6 +35,7 @@
   .subject-info,
   .sequence-list {
     @include flex(column, nowrap, center, start);
+
     gap: $XsSize2;
   }
 
@@ -55,6 +57,7 @@
 
   .language {
     @include flex(row, nowrap, center, center);
+
     gap: $XsSize2;
     font-size: $SmSize;
     color: var(--PrimaryColor);
@@ -63,6 +66,7 @@
 
   .document {
     @include flex-column();
+
     gap: $XsSize4;
 
     h5 {
@@ -78,6 +82,7 @@
 
   .skills {
     @include flex-column();
+
     gap: $XsSize3;
     margin: 0;
     padding: 0;
@@ -85,6 +90,7 @@
 
     li {
       @include flex(row, nowrap, start, center);
+
       gap: $XsSize2;
       font-size: $MdSize;
       color: var(--Gray-6);

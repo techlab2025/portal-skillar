@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
 import { createI18n } from 'vue-i18n';
-import EmployeeForm from '../EmployeeForm.vue';
+import questionsForm from '../questionsForm.vue';
 
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en: {} } });
 
@@ -36,26 +36,14 @@ vi.mock('primevue/config', () => ({
   }),
 }));
 
-// Mock Controller if it exists in the same directory (simplified)
-// This is to avoid issues with controllers that might have side effects
-// vi.mock('../controllers/employee.controller', () => ({
-//   default: {
-//     getInstance: () => ({
-//       listState: { value: {} },
-//       fetchList: vi.fn(),
-//       pagination: { value: {} }
-//     })
-//   }
-// }))
-
-describe('EmployeeForm', () => {
+describe('questionsForm', () => {
   beforeEach(() => {
     setActivePinia(createPinia());
     vi.clearAllMocks();
   });
 
   it('renders without crashing', () => {
-    const wrapper = mount(EmployeeForm, {
+    const wrapper = mount(questionsForm, {
       global: {
         plugins: [i18n],
         stubs: {
@@ -64,26 +52,9 @@ describe('EmployeeForm', () => {
           TransitionGroup: true,
           'router-link': true,
           'router-view': true,
-          // PrimeVue
-          DataTable: true,
-          Column: true,
-          Button: true,
-          InputText: true,
-          InputSwitch: true,
-          RadioButton: true,
-          Dialog: true,
-          Toast: true,
-          Select: true,
-          MultiSelect: true,
-          Dropdown: true,
-          FileUpload: true,
-          Card: true,
-          Accordion: true,
-          AccordionTab: true,
-          Tree: true,
-          Breadcrumb: true,
-          HandleFilesUpload: true,
-          UplaodImageInput: true,
+          BasicQuestionDataForm: true,
+          QuestionAnswersDataForm: true,
+          FolderIcon: true,
         },
         mocks: {
           $t: (msg: string) => msg,

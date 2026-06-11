@@ -12,9 +12,12 @@
 
   .question-info-categories {
     @include flex-row(wrap, flex-start, center);
+
     gap: $MdSize;
+
     .question-info-item {
       @include flex-row(center, center);
+
       gap: $SmSize;
       background-color: var(--gray-soft);
       padding: $XsSize2 $XsSize;

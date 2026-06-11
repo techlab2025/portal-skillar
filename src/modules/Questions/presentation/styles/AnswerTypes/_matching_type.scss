@@ -7,15 +7,19 @@
 
   .timeline-content {
     @include flex-row(nowrap, space-between, center);
+
     width: 100%;
+
     .timeline-form-content {
       width: 100%;
       gap: $XsSize3;
       margin-block: $XsSize3 !important;
+
       @include flex-row(nowrap, space-between, center);
 
       .match-icon-container {
         margin-top: 10px;
+
         svg {
           width: 24px;
           height: 24px;
@@ -24,6 +28,7 @@
 
       .matching-section {
         width: 35%;
+
         label {
           color: $StandardBlack;
           font-size: $MdSize;
@@ -37,8 +42,9 @@
         input {
           background-color: white !important;
           width: 100%;
-          border: none;
+
           @include flex-row(nowrap, space-between, center);
+
           gap: $XsSize3;
           border: 1px solid $BorderColor;
           border-radius: $XlSize4;
@@ -56,6 +62,7 @@
 
   .add-icon {
     @include flex-row(nowrap, flex-start, center);
+
     margin-block: 10px;
     cursor: pointer;
 

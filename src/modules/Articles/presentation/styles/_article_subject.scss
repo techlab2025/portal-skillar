@@ -3,12 +3,14 @@
 
 .subject-cell {
   @include flex(row, nowrap, center, center);
+
   gap: $XlSize;
   font-size: 13px;
   line-height: 1.5;
 
-  .parent-subject-curriculum{
-    @include flex(column ,nowrap,  center, start); 
+  .parent-subject-curriculum {
+    @include flex(column, nowrap, center, start);
+
     gap: $XsSize3;
   }
 

@@ -3,6 +3,7 @@
 
 .questions-page {
   @include flex-column(nowrap, flex-start, flex-start);
+
   gap: $XlSize2;
 
   .index-header {

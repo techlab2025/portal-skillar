@@ -115,7 +115,7 @@
           alt="loading"
           width="30"
           height="30"
-        /> 
+        />
         <span v-else> {{ $t('save') }} <IconAccept /> </span>
       </button>
     </div>
@@ -130,8 +130,10 @@
       opacity: 0.5;
     }
   }
+
   .save-btn {
     margin-top: 40px;
+
     &.disabled {
       cursor: not-allowed;
       pointer-events: none;

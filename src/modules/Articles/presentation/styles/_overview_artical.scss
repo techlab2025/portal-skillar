@@ -9,8 +9,10 @@
 
   .buttons {
     @include flex(row, nowrap, start, center);
+
     gap: $XsSize2;
   }
+
   .form-header {
     .btn-action {
       background-color: var(--input-border-color);
@@ -18,6 +20,7 @@
       border: none;
       border-radius: $XlSize4;
     }
+
     .btn-delet {
       width: 40px;
       height: 40px;
@@ -28,11 +31,13 @@
       align-items: center;
       border: 1px solid var(--input-border-color);
     }
+
     .btn-edit {
       background: white;
       border: 1px solid var(--primary-green);
       color: var(--primary-green);
       border-radius: $XlSize4;
+
       &:hover {
         background-color: var(--primary-green) !important;
         color: white !important;
@@ -49,6 +54,7 @@
 
     .header-text {
       @include flex(row, nowrap, start, center);
+
       gap: $XsSize3;
 
       h6 {
@@ -70,15 +76,17 @@
       background-color: var(--bg-header);
       border-radius: $XlSize;
       padding: $MdSize;
-      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.06);
 
       .details {
         @include flex(row, nowrap, start, center);
+
         gap: $XlSize2;
       }
 
       .head {
         @include flex(row, nowrap, start, center);
+
         gap: $XsSize4;
 
         h6 {
@@ -113,6 +121,7 @@
 
         .question {
           @include flex(row, nowrap, start, center);
+
           gap: $XsSize4;
         }
 
@@ -133,7 +142,7 @@
       background-color: var(--bg-header);
       border-radius: $XlSize;
       padding: $MdSize;
-      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.06);
 
       .title {
         h6 {
@@ -146,10 +155,10 @@
 
       .Subjects {
         @include flex(row, nowrap, left, center);
+
         gap: $XlSize;
 
         .sub_subject {
-          color: var(--primary-green);
           font-family: 'bold';
           font-size: $SmSize;
           color: var(--primary-green);
@@ -198,6 +207,7 @@
 
         .artical_document {
           @include flex(row, nowrap, start, center);
+
           position: relative;
           margin-bottom: $XsSize3;
           padding: 0 var(--xs-size);

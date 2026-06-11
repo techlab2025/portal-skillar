@@ -73,11 +73,13 @@
     border-color: #000 #0000;
     animation: l1 1s infinite;
   }
+
   @keyframes l1 {
     to {
       transform: rotate(0.5turn);
     }
   }
+
   @keyframes l7 {
     to {
       transform: rotate(0.5turn);
@@ -88,6 +90,7 @@
     margin-top: 24px;
     display: flex;
     justify-content: flex-end;
+
     &.disabled {
       cursor: not-allowed;
       pointer-events: none;

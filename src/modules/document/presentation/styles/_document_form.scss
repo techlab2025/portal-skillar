@@ -8,13 +8,14 @@
 /* ── Form Card ─────────────────────────────────────────────── */
 .document-form-card {
   background: var(--bg-main);
-  overflow: hidden; 
+  overflow: hidden;
   position: relative;
   font-family: 'Medium';
 
-  .ref-number-group{
-    justify-content: end
+  .ref-number-group {
+    justify-content: end;
   }
+
   .document-form-header {
     @include flex-row(nowrap, flex-start, flex-start);
 
@@ -108,7 +109,8 @@
     display: grid;
     grid-template-columns: repeat(2, 1rf);
     gap: 20px;
-       &.disabled {
+
+    &.disabled {
       opacity: 0.5;
       pointer-events: none;
       cursor: not-allowed;

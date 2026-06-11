@@ -175,8 +175,8 @@
 
       <div class="dialog-inputs">
         <div class="field-group select-group">
-           <span class="error-message-inputs">  {{ selectedSkill }}</span>
-        
+          <span class="error-message-inputs"> {{ selectedSkill }}</span>
+
           <UpdatedCustomInputSelect
             id="skills"
             :label="`skills`"
@@ -203,17 +203,18 @@
             class="field-input"
             @keydown.esc="dialogVisible = false"
             @keydown.enter="!isInputEmpty && handleSave()"
-          /> 
+          />
           <!-- <span class="error-message-inputs" v-if="percentageValue < 0 || percentageValue > 100   || typeof percentageValue === 'string' ">  
             {{ $t('percentage must be between 0 and 100') }} 
           </span> -->
-          <span class="error-message-inputs" v-if="
-    percentageValue !== null &&
-    (percentageValue < 0 ||
-      percentageValue > 100 ||
-      typeof percentageValue === 'string')
-  ">  
-            {{ $t('percentage must be between 0 and 100') }} 
+          <span
+            v-if="
+              percentageValue !== null &&
+              (percentageValue < 0 || percentageValue > 100 || typeof percentageValue === 'string')
+            "
+            class="error-message-inputs"
+          >
+            {{ $t('percentage must be between 0 and 100') }}
           </span>
         </div>
       </div>
@@ -234,15 +235,17 @@
 </template>
 
 <style scoped lang="scss">
-  .error-message-inputs{
+  .error-message-inputs {
     color: red;
-    font-family: "medium";
+    font-family: 'medium';
   }
+
   .dialog-content {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
   }
+
   .document-type-row {
     display: flex;
     align-items: center;
@@ -251,26 +254,31 @@
     border-radius: 8px;
     background-color: var(--color-light-gray);
   }
+
   .item-title {
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
+
   .item-small-title {
     font-size: 0.7rem;
     color: var(--bread-crumb-color-span);
   }
+
   .item-main-title {
     font-size: 0.9rem;
     font-weight: 600;
     color: black;
   }
+
   .item-actions {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
   }
+
   .field-input {
     background-color: var(--bg-main);
     border-radius: 30px;
@@ -280,21 +288,25 @@
       color: var(--bread-crumb-color-span);
     }
   }
+
   .dialog-inputs {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     gap: 15px;
+
     .field-group {
       &:first-child {
         width: 60%;
       }
+
       &:last-child {
         width: 40%;
       }
     }
   }
+
   .dialog-footer {
     display: flex;
     gap: 0.5rem;

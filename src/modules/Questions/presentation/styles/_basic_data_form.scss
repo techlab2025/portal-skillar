@@ -7,14 +7,18 @@
 
   .toggll-container {
     @include flex-row(nowrap, flex-start, center);
+
     gap: $XsSize4;
+
     .title {
       color: $PrimaryColor;
       font-size: $MdSize2;
       font-weight: $BaseFontSemiBoldWeight;
     }
+
     svg {
       transition: all 0.3s ease-in-out;
+
       &.rotate-180 {
         transform: rotate(180deg);
       }
@@ -41,10 +45,12 @@
         font-weight: $BaseFontSemiBoldWeight;
         text-transform: capitalize !important;
       }
+
       .input-wrap {
         input {
           font-size: $MdSize;
           font-weight: $BaseFontSemiBoldWeight;
+
           &::placeholder {
             color: $SecondText;
             font-size: $MdSize;
@@ -54,6 +60,7 @@
         }
       }
     }
+
     .image-input {
       .upload-label {
         width: fit-content;
@@ -66,6 +73,7 @@
       }
     }
   }
+
   .new-form-group {
     .input-label {
       width: fit-content;

@@ -100,7 +100,8 @@
     align-items: center;
     width: 100%;
     gap: 20px;
-        &.disabled {
+
+    &.disabled {
       opacity: 0.5;
       pointer-events: none;
       cursor: not-allowed;

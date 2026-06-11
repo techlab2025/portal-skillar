@@ -119,7 +119,7 @@
       AllSubjectTree.value = result.data!;
     }
     // handelSubjectUpdate();
-    SelectedTopic.value = []; 
+    SelectedTopic.value = [];
     updateData();
   };
 
@@ -129,7 +129,7 @@
     });
   });
 
-  const topicsControoller = EducationTopicsController.getInstance(); 
+  const topicsControoller = EducationTopicsController.getInstance();
   const topicsOptions = computed<TitleInterface<number>[]>(() => {
     return topicsControoller.listData.value?.map((item) => {
       return new TitleInterface<number>({
@@ -249,7 +249,7 @@
           @update:model-value="handleBranchChange($event)"
         />
       </div>
-      <div class="input"> 
+      <div class="input">
         <UpdatedCustomInputSelect
           id="question-sequence"
           v-model="SelectedQuestionSequence"
@@ -327,7 +327,6 @@
       width: 20%;
       padding: 10px;
       border: 1px solid #e6e6e6;
-      border-radius: 4px;
       background-color: white;
       color: black;
       border-radius: 10px;

@@ -108,6 +108,7 @@
 
   .article-clarification-header {
     @include flex-row(nowrap, space-between, center);
+
     gap: 10px;
     width: 100%;
     color: $PrimaryColor;
@@ -120,6 +121,7 @@
 
   .input-wrapper {
     @include flex-column(nowrap, flex-start, stretch);
+
     gap: 5px;
     width: 100%;
     padding: 0 !important;
@@ -136,19 +138,18 @@
         border-radius: 12px 12px 0 0;
         padding: 10px;
         color: #000000;
+
         @include flex-row(nowrap, space-between, center);
       }
 
       textarea {
         background-color: white !important;
         padding: 10px;
-        border: 1px solid #848484;
         width: 100%;
         border: none;
 
         &:active,
         &:focus {
-          border: none;
           outline: none;
           box-shadow: none;
           border: none;
@@ -166,6 +167,7 @@
 
     .upload-attachment-container {
       @include flex-row(nowrap, flex-start, center);
+
       gap: 10px;
 
       .upload-attachment {
@@ -177,6 +179,7 @@
 
 .article-solution-steps-header-explain {
   @include flex-row(nowrap, space-between, center);
+
   gap: 10px;
   width: 100%;
   color: $PrimaryColor;
