@@ -358,6 +358,7 @@ export default abstract class BaseController<T, TList = T[]> {
       return;
     }
     try {
+      document.querySelector('#app')?.classList.add('loading');
       const result = await this.repository.create(
         params,
         this.mergeOptions(options),
@@ -374,6 +375,8 @@ export default abstract class BaseController<T, TList = T[]> {
       return failed;
     } finally {
       this.hideLoadingDialog();
+
+      document.querySelector('#app')?.classList.remove('loading');
     }
   }
 
@@ -396,6 +399,7 @@ export default abstract class BaseController<T, TList = T[]> {
     }
 
     try {
+      document.querySelector('#app')?.classList.add('loading');
       const result = await this.repository.update(
         params,
         this.mergeOptions(options),
@@ -411,6 +415,8 @@ export default abstract class BaseController<T, TList = T[]> {
       return failed;
     } finally {
       this.hideLoadingDialog();
+
+      document.querySelector('#app')?.classList.remove('loading');
     }
   }
 
@@ -432,6 +438,7 @@ export default abstract class BaseController<T, TList = T[]> {
       return;
     }
     try {
+      document.querySelector('#app')?.classList.add('loading');
       const result = await this.repository.delete(params, this.mergeOptions(options));
 
       // Reset item state on successful delete
@@ -449,6 +456,8 @@ export default abstract class BaseController<T, TList = T[]> {
       return new DataFailed<void>({ error });
     } finally {
       this.hideLoadingDialog();
+
+      document.querySelector('#app')?.classList.remove('loading');
     }
   }
 

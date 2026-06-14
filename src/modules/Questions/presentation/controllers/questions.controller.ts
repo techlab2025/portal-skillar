@@ -47,10 +47,27 @@ export default class questionsController extends BaseController<
 
   async create(params: AddquestionsParams, options?: ApiCallOptions, formKey?: string) {
     const FormStore = useFormsStore();
-    
-    if( (params.questionType === QuestionTypeEnum.mcq && params.answers?.filter((answer) => answer.isCorrect).length === 0) || 
-  (params.questionType === QuestionTypeEnum.true_false && params.answers?.filter((answer) => answer.isCorrect).length === 0)){
-      dialogManager.toastWarning("one or more answers should be correct");
+
+    if (
+      (params.questionType === QuestionTypeEnum.mcq &&
+        params.answers?.filter((answer) => answer.isCorrect).length === 0) ||
+      (params.questionType === QuestionTypeEnum.true_false &&
+        params.answers?.filter((answer) => answer.isCorrect).length === 0)
+    ) {
+      dialogManager.toastWarning('one or more answers should be correct');
+      return;
+    }
+    if (
+      // check if float make warning it must be integer
+      params.questionType === QuestionTypeEnum.ranking &&
+      params.answers?.some((answer) => answer.rank && Number(answer.rank) % 1 !== 0)
+    ) {
+      dialogManager.toastWarning('rank should be an integer');
+      return;
+    }
+    console.log(params.answers, 'params.answers');
+    if (params.questionType === QuestionTypeEnum.true_false && params.answers?.length! > 2) {
+      dialogManager.toastWarning('answers count should be 2');
       return;
     }
 
@@ -64,8 +81,30 @@ export default class questionsController extends BaseController<
     return result;
   }
 
-  async update(params: Params, options?: ApiCallOptions, formKey?: string) {
+  async update(params: AddquestionsParams, options?: ApiCallOptions, formKey?: string) {
     const FormStore = useFormsStore();
+    if (
+      (params.questionType === QuestionTypeEnum.mcq &&
+        params.answers?.filter((answer) => answer.isCorrect).length === 0) ||
+      (params.questionType === QuestionTypeEnum.true_false &&
+        params.answers?.filter((answer) => answer.isCorrect).length === 0)
+    ) {
+      dialogManager.toastWarning('one or more answers should be correct');
+      return;
+    }
+    if (
+      // check if float make warning it must be integer
+      params.questionType === QuestionTypeEnum.ranking &&
+      params.answers?.some((answer) => answer.rank && Number(answer.rank) % 1 !== 0)
+    ) {
+      dialogManager.toastWarning('rank should be an integer');
+      return;
+    }
+    console.log(params.answers, 'params.answers');
+    if (params.questionType === QuestionTypeEnum.true_false && params.answers?.length! > 2) {
+      dialogManager.toastWarning('answers count should be 2');
+      return;
+    }
 
     const result = await super.update(params, options);
     if (result instanceof DataSuccess) {
@@ -74,6 +113,19 @@ export default class questionsController extends BaseController<
         FormStore.clearFormData(formKey);
       }
     }
+    return result;
+  }
+
+  async delete(params: Params) {
+    const result = await super.delete(params);
+    dialogManager.toastSuccess('Question deleted successfully');
+    return result;
+  }
+
+  async updateReviewStatus(params: Params) {
+    const result = await this.repository.updateReviewStatus(params);
+    dialogManager.toastSuccess('Review status updated successfully');
+
     return result;
   }
 }

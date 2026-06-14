@@ -21,6 +21,7 @@
   import { QuestionStatusEnum } from '../../core/constant/question.status.enum';
   import type questionsModel from '../../core/models/questions.model';
   import IndexQuestionsParams from '../../core/params/index.question.params';
+  import { QuestionStatusRejectAbroveEnum } from '../../core/constant/question.status.reject.abrove.enum';
 
   // Controller instance
   const controller = questionsController.getInstance();
@@ -52,7 +53,6 @@
         pageNumber: page,
         perPage: perPage.value,
         withPage: 1,
-        
       }),
     );
   };
@@ -146,14 +146,12 @@
 
   const GetQuestionStatus = (val: QuestionStatusEnum) => {
     switch (val) {
-      case QuestionStatusEnum.approved:
+      case QuestionStatusRejectAbroveEnum.APPROVED:
         return 'Approved';
-      case QuestionStatusEnum.not_Reviewd:
-        return 'Not Reviewed';
-      case QuestionStatusEnum.rejected:
+      case QuestionStatusRejectAbroveEnum.PENDING:
+        return 'Pending';
+      case QuestionStatusRejectAbroveEnum.REJECTED:
         return 'Rejected';
-      case QuestionStatusEnum.under_review:
-        return 'Under Review';
     }
   };
 </script>

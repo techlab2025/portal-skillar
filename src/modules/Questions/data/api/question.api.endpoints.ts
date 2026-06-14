@@ -8,4 +8,5 @@ export class QuestionEndpoints extends BaseEndpoints {
   readonly store = this.url('store_question');
   readonly update = this.url('update_question');
   readonly delete = this.url('delete_question');
+  readonly updateReviewStatus = this.url('update_question_review_status');
 }

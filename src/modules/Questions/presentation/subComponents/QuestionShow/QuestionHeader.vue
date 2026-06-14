@@ -3,7 +3,9 @@
   import { QuestionStatusEnum } from '@/modules/Questions/core/constant/question.status.enum';
   import EditIcon from '@/shared/icons/Privacy/EditIcon.vue';
   import type ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
-  import { useRouter } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
+  import questionsController from '../../controllers/questions.controller';
+  import DeletequestionsParams from '@/modules/Questions/core/params/delete.question.params';
   const props = defineProps<{ questionData: ShowQuestionsModel }>();
   const router = useRouter();
 
@@ -38,6 +40,14 @@
         return 'Unknown';
     }
   };
+
+  const Controller = questionsController.getInstance();
+  const route = useRoute();
+  const DeleteQuestion = async () => {
+    const deleteParams = new DeletequestionsParams(Number(route.params.id));
+    await Controller.delete(deleteParams);
+    router.push({ name: 'Questions' });
+  };
 </script>
 
 <template>
@@ -48,7 +58,10 @@
       <div class="name">
         <h3>{{ getStatusText(questionData?.review_status!) }} Question</h3>
         <p>{{ getStatusDescription(questionData?.review_status!) }}</p>
-        <div v-if="questionData?.review_status === QuestionStatusEnum.approved" class="approved-case-info">
+        <div
+          v-if="questionData?.review_status === QuestionStatusEnum.approved"
+          class="approved-case-info"
+        >
           <h4>
             <span>Approved by :</span>
             {{ questionData.approvedBy }}
@@ -56,14 +69,19 @@
 
           <h4>
             <span>Approved at :</span>
-            {{ questionData.createdAt }} 
+            {{ questionData.createdAt }}
           </h4>
         </div>
       </div>
     </div>
     <div class="question-actions">
-      <button class="btn btn-primary" @click="router.push({ name: 'QuestionEdit', params: { id } })"><EditIcon /> {{ $t('edit') }}</button>
-      <button class="action-btn delete" title="Delete">
+      <button
+        class="btn btn-primary"
+        @click="router.push({ name: 'QuestionEdit', params: { id } })"
+      >
+        <EditIcon /> {{ $t('edit') }}
+      </button>
+      <button class="action-btn delete" title="Delete" @click="DeleteQuestion">
         <svg
           width="15"
           height="15"

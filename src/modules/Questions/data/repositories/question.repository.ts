@@ -6,6 +6,8 @@ import { QuestionTypeEnum } from '../../core/constant/question.type.enum';
 import { QuestionStatusEnum } from '../../core/constant/question.status.enum';
 import { QuestionGeneratedByEnum } from '../../core/constant/generatedby.enum';
 import ShowQuestionsModel from '../../core/models/show.questions.model';
+import type { DataState } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
+import type Params from '@/base/Core/Params/params';
 
 export default class questionsRepository extends BaseRepository<
   ShowQuestionsModel,
@@ -83,5 +85,12 @@ export default class questionsRepository extends BaseRepository<
       } catch {}
       return acc;
     }, []);
+  }
+
+  updateReviewStatus(params: Params): Promise<DataState<ShowQuestionsModel>> {
+    return this.executeCustom(
+      () => this.apiService.updateReviewStatus(params),
+      (data) => this.parseItem(data),
+    );
   }
 }

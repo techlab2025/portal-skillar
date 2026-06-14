@@ -14,6 +14,11 @@
     <ToastContainer position="top-right" />
     <RouterView />
     <Toast />
+    <div id="global-loader">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
 </template>
 

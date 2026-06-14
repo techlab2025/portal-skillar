@@ -40,6 +40,8 @@
         });
       }),
     );
+        console.log(Answers.value, 'Answers.xvalue');
+
   };
 
   onMounted(() => {

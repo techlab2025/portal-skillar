@@ -6,6 +6,7 @@
   import AnswerModel from '@/modules/Questions/core/models/subModels/answer.model';
   import AnswersParams from '@/modules/Questions/core/params/subParams/answers.params';
   import AttachmentsParams from '@/modules/Questions/core/params/subParams/attachments.params';
+  import DeletIcon from '@/shared/icons/DropListIcons/DeletIcon.vue';
 
   const emit = defineEmits(['update:data']);
   const { questionData, draftData } = defineProps<{
@@ -112,6 +113,10 @@
       }
     },
   );
+  const DeleteItem = (index: number) => {
+    Answers.value.splice(index, 1);
+    UpdateData();
+  };
 </script>
 
 <template>
@@ -154,7 +159,8 @@
             </div>
           </div>
 
-            <label class="is-correct-section" :for="`is-correct-${index}`">{{ $t('correct answer') }}
+          <label class="is-correct-section" :for="`is-correct-${index}`"
+            >{{ $t('correct answer') }}
             <Checkbox
               :binary="true"
               :model-value="item.is_right_answer"
@@ -163,7 +169,12 @@
               :value="item.is_right_answer"
               @change="setCorrect(index)"
             />
-            </label>
+          </label>
+          <div v-if="Answers.length > 2" class="delete-icon-container">
+            <button type="button" class="delete-btn" @click="DeleteItem(index)">
+              <DeletIcon />
+            </button>
+          </div>
         </div>
       </div>
     </div>

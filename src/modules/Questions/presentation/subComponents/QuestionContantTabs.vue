@@ -76,7 +76,14 @@
         title: DifficultLevels.value.find((item) => item.id === newData.difficulty)
           ?.title as string,
       });
-      SelectedTopic.value = newData.topics!;
+      console.log(newData.topics, 'newData.topics');
+      SelectedTopic.value = newData.topics!.map(
+        (item) =>
+          new TitleInterface<number>({
+            id: item.id!,
+            title: item.title!,
+          }),
+      );
       SelectedSkill.value = newData.skills!.map(
         (item) =>
           new TitleInterface<number>({
@@ -119,7 +126,9 @@
       AllSubjectTree.value = result.data!;
     }
     // handelSubjectUpdate();
-    SelectedTopic.value = [];
+    if (!selectedBranchTitle.value?.id) {
+      SelectedTopic.value = [];
+    }
     updateData();
   };
 
@@ -224,7 +233,7 @@
   watch(topicsOptions, (options) => {
     if (route.params.id) return;
     if (!draftData?.topics?.length || !options?.length) return;
-    SelectedTopic.value = draftData.topics.map(
+    SelectedTopic.value = draftData?.topics.map(
       (item) =>
         new TitleInterface<number>({
           id: item.id || 0,
@@ -259,6 +268,7 @@
           @update:model-value="handelSubjectUpdate"
         />
       </div>
+      <!-- {{ SelectedTopic }} -->
       <div class="input">
         <UpdatedCustomInputSelect
           id="topics"

@@ -1,6 +1,7 @@
 import BaseApiService from '@/base/Data/ApiService/baseApiService';
-import type { ApiEndpoints } from '@/base/Data/ApiService/baseApiService';
+import type { ApiEndpoints, ApiResponse } from '@/base/Data/ApiService/baseApiService';
 import { QuestionEndpoints } from './question.api.endpoints';
+import type Params from '@/base/Core/Params/params';
 
 export default class QuestionApiService extends BaseApiService {
   private static instance: QuestionApiService;
@@ -25,5 +26,9 @@ export default class QuestionApiService extends BaseApiService {
       update: this.questionEndpoints.update,
       delete: this.questionEndpoints.delete,
     };
+  }
+
+  updateReviewStatus(params: Params): Promise<ApiResponse> {
+    return this.customPost(this.questionEndpoints.updateReviewStatus || '', params);
   }
 }
