@@ -11,6 +11,7 @@ import type ShowQuestionsModel from '../../core/models/show.questions.model';
 import type AddquestionsParams from '../../core/params/add.question.params';
 import { dialogManager } from '@/base/Presentation/Dialogs/dialog.manager';
 import { QuestionTypeEnum } from '../../core/constant/question.type.enum';
+import { AnswerEvaluationTypeEnum } from '../../core/constant/answer.evaluation.type.enum';
 
 export default class questionsController extends BaseController<
   ShowQuestionsModel,
@@ -69,6 +70,21 @@ export default class questionsController extends BaseController<
       dialogManager.toastWarning('answers count should be 2');
       return;
     }
+    if (params.answers && params.answers.length < 2) {
+      dialogManager.toastWarning('answers count should be more than 2');
+      return;
+    }
+
+    if (
+      params.questionType === QuestionTypeEnum.complate &&
+      params.answerEvaluation === AnswerEvaluationTypeEnum.similar &&
+      (!params.similarPrecentage ||
+        Number(params.similarPrecentage) <= 1 ||
+        Number(params.similarPrecentage) > 100)
+    ) {
+      dialogManager.toastWarning('similar precentage should be between 1 and 100');
+      return;
+    }
 
     const result = await super.create(params, { ...options, useJson: true });
     if (result instanceof DataSuccess) {
@@ -102,6 +118,20 @@ export default class questionsController extends BaseController<
     console.log(params.answers, 'params.answers');
     if (params.questionType === QuestionTypeEnum.true_false && params.answers?.length! > 2) {
       dialogManager.toastWarning('answers count should be 2');
+      return;
+    }
+    if (params.answers && params.answers.length < 2) {
+      dialogManager.toastWarning('answers count should be more than 2');
+      return;
+    }
+    if (
+      params.questionType === QuestionTypeEnum.complate &&
+      params.answerEvaluation === AnswerEvaluationTypeEnum.similar &&
+      (!params.similarPrecentage ||
+        Number(params.similarPrecentage) <= 1 ||
+        Number(params.similarPrecentage) > 100)
+    ) {
+      dialogManager.toastWarning('similar precentage should be between 1 and 100');
       return;
     }
 

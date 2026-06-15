@@ -44,6 +44,7 @@ export default class AddquestionsParams implements Params {
     difficultyLevel: { required: false },
     skills: { required: true },
     questionSource: { required: true },
+    
   });
 
   constructor(data: {
