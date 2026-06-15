@@ -38,7 +38,7 @@ export default class EditquestionsParams implements Params {
 
   public static readonly validation = new ClassValidation().setRules({
     title: { required: true },
-    image: { required: true },
+    // image: { required: true },
     questionType: { required: true },
     subjectId: { required: true },
     topics: { required: true },

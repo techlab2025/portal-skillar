@@ -8,7 +8,7 @@ export default class SolutionStepsParams implements Params {
 
   public static readonly validation = new ClassValidation().setRules({
     explanation: { required: true },
-    image: { required: true },
+    // image: { required: true },
   });
 
   constructor(data: { explanation?: string; image?: AttachmentsParams[] }) {
