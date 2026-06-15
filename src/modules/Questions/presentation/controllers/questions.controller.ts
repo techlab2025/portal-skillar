@@ -65,7 +65,6 @@ export default class questionsController extends BaseController<
       dialogManager.toastWarning('rank should be an integer');
       return;
     }
-    console.log(params.answers, 'params.answers');
     if (params.questionType === QuestionTypeEnum.true_false && params.answers?.length! > 2) {
       dialogManager.toastWarning('answers count should be 2');
       return;

@@ -88,11 +88,12 @@
     () => questionData,
     (newValue) => {
       if (newValue && newValue.length > 0) {
-        Answers.value = newValue.map((item) => ({
-          answer: item.answer,
-          image: item.image ?? null,
-          is_right_answer: item.is_right_answer,
-        }));
+   Answers.value = newValue.map((item) => ({
+  answer: item.answer,
+  image:
+    item.image?.filter((img) => img.file?.trim()) ?? [],
+  is_right_answer: item.is_right_answer,
+}));
       }
       UpdateData();
     },

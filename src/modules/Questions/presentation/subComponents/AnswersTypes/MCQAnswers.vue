@@ -95,7 +95,7 @@
       if (newvalue && newvalue.length > 0) {
         Answers.value = newvalue.map((item) => ({
           ...item,
-          image: item.image?.[0]?.file || '',
+          image: item.image?.[0]?.file ,
         }));
       }
       UpdateData();
