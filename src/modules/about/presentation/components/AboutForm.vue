@@ -34,7 +34,13 @@
   const title = ref<Record<string, string>>({});
   const image = ref<string | null>(null);
 
-  const socialMediaList = ref<SocialModel[]>([{ link: '', icon: '' }]);
+  type SocialMediaEntry = {
+    id?: number;
+    link: string;
+    icon: string;
+  };
+
+  const socialMediaList = ref<SocialMediaEntry[]>([{ link: '', icon: '' }]);
 
   // ─── Watchers ─────────────────────────────────────────────────────────────────
 
@@ -50,10 +56,49 @@
 
   const controller = AboutController.getInstance();
 
-  const deleteSocialLink = async (id: number) => {
+  const syncSocialMediaFromAbout = (aboutData: AboutModel) => {
+    socialMediaList.value = aboutData.socialMedia?.length
+      ? aboutData.socialMedia.map((item: SocialModel) => ({
+          id: item.id,
+          link: item.link ?? '',
+          icon: item.icon ?? '',
+        }))
+      : [{ link: '', icon: '' }];
+  };
+
+  const syncFormFromAbout = (aboutData: AboutModel) => {
+    description.value = aboutData.translations.description || {};
+    title.value = aboutData.translations.title || {};
+    image.value = aboutData.images || null;
+    syncSocialMediaFromAbout(aboutData);
+  };
+
+  const removeLocalSocialMediaEntry = (index: number) => {
+    if (socialMediaList.value.length === 1) {
+      socialMediaList.value = [{ link: '', icon: '' }];
+      updateData();
+      return;
+    }
+
+    socialMediaList.value.splice(index, 1);
+    updateData();
+  };
+
+  const deleteSocialLink = async (index: number, id?: number) => {
+    if (!id) {
+      removeLocalSocialMediaEntry(index);
+      return;
+    }
+
     await controller.deleteSocialLink(new DeleteSocialLinkParams(id));
-    // await controller.fetchList();
-    await controller.fetchOne(new ShowAboutParams(1));
+
+    const aboutId = Number(about?.id || route.params.id || 1);
+    await controller.fetchOne(new ShowAboutParams(aboutId));
+
+    if (controller.itemData.value) {
+      syncFormFromAbout(controller.itemData.value);
+      updateData();
+    }
   };
 
   // const _removeSocialMediaEntry = (index: number) => {
@@ -66,6 +111,7 @@
 
   const resetSocialMedia = () => {
     socialMediaList.value = [{ link: '', icon: '' }];
+    updateData();
   };
   const uploadKey = ref(0);
   const resetGeneralInputs = () => {
@@ -112,25 +158,18 @@
   const handleImageChange = (file: Array<{ base64: string }>) => {
     image.value = file[0]?.base64 ?? null;
     updateData();
-  }
+  };
+
+  const handleSocialImageChange = (index: number, file: Array<{ base64: string }>) => {
+    socialMediaList.value[index].icon = file[0]?.base64 ?? '';
+    updateData();
+  };
 
   watch(
     () => about,
     (newAbout) => {
       if (newAbout) {
-        description.value = newAbout.translations.description || {};
-        title.value = newAbout.translations.title || {};
-        image.value = newAbout.images || null;
-        socialMediaList.value = newAbout.socialMedia;
-
-        // Populate social media if provided by the model
-        if (newAbout.socialMedia?.length) {
-          socialMediaList.value = newAbout.socialMedia.map((item) => ({
-            id: item.id,
-            link: item.link ?? '',
-            icon: item.icon ?? '',
-          }));
-        }
+        syncFormFromAbout(newAbout);
         // Initialize parent params with loaded data
         updateData();
       }
@@ -238,37 +277,47 @@
             @input="updateData"
           />
 
-          <select v-model="entry.icon" class="sm-select" @change="updateData">
-            <option value="" disabled>Select Social Media Icon</option>
-            <option value="facebook">Facebook</option>
-            <option value="instagram">Instagram</option>
-            <option value="twitter">Twitter / X</option>
-            <option value="linkedin">LinkedIn</option>
-            <option value="youtube">YouTube</option>
-            <option value="tiktok">TikTok</option>
-            <option value="snapchat">Snapchat</option>
-            <option value="pinterest">Pinterest</option>
-            <option value="whatsapp">WhatsApp</option>
-            <option value="telegram">Telegram</option>
-          </select>
-          <button
-            v-if="index === socialMediaList.length - 1"
-            type="button"
-            class="sm-add-btn"
-            title="Add another link"
-            @click="addSocialMediaEntry"
-          >
-            <span>+</span>
-          </button>
-          <button
-            v-else
-            type="button"
-            class="sm-remove-btn"
-            title="Remove this link"
-            @click="deleteSocialLink(entry?.id!)"
-          >
-            <span>×</span>
-          </button>
+          <div class="field-group col-span-2" :class="{ disabled: loading }">
+            <HandleFilesUpload
+              :key="index"
+              label="upload image"
+              accept="image/*"
+              :multiple="false"
+              :index="index + 2"
+              :file="entry.icon || undefined"
+              :have-content="true"
+              class="image-input"
+              @change="handleSocialImageChange(index, $event)"
+            >
+              <template #content>
+                <div class="add-imaegs-data">
+                  <UplaodImageInput />
+                  <p class="first-text"><span>Click to upload</span> or drag and drop</p>
+                  <p class="second-text">JPG, JPEG, PNG less than 1MB</p>
+                </div>
+              </template>
+            </HandleFilesUpload>
+          </div>
+
+          <div class="btns">
+            <button
+              v-if="index === socialMediaList.length - 1"
+              type="button"
+              class="sm-add-btn"
+              title="Add another link"
+              @click="addSocialMediaEntry"
+            >
+              <span>+</span>
+            </button>
+            <button
+              type="button"
+              class="sm-remove-btn"
+              title="Remove this link"
+              @click="deleteSocialLink(index, entry.id)"
+            >
+              <span>×</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -276,6 +325,22 @@
 </template>
 
 <style scoped lang="scss">
+  .social-media-row {
+    &:last-child {
+      .btns {
+        margin-left: 6px;
+        button {
+          width: 20px !important;
+          height: 20px !important;
+        }
+      }
+    }
+  }
+  .btns {
+    display: flex;
+    gap: 8px;
+    flex-direction: row-reverse;
+  }
   .field-group {
     &.disabled {
       cursor: not-allowed;
