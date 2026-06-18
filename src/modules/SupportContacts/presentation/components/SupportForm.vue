@@ -6,11 +6,14 @@
   import ContactsParams from '../../core/params/contacts.paras';
   import TranslationParams from '@/modules/about/core/params/translation.params';
   import type SupportContactsModel from '../../core/models/support.contatcts.model';
+  import type ContactsModel from '../../core/models/contatcts.model';
   import DeleteIcon from '@/shared/icons/Support/DeleteIcon.vue';
   import { dialogManager } from '@/base/Presentation/Dialogs/dialog.manager';
   import DeleteSectionIcon from '@/shared/icons/Support/DeleteSectionIcon.vue';
   import SupportContactsController from '../controllers/support.controller';
   import DeleteSupportContactParams from '../../core/params/delete.support.contacts.params';
+  import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
+  import IndexSupportContactsParams from '../../core/params/index.about.params';
 
   const { t } = useI18n();
 
@@ -31,7 +34,7 @@
   };
 
   type SectionState = {
-    id: number;
+    id?: number;
     title: Record<string, string>;
     phonenumbers: string[];
     whatsAppNumebrs: string[];
@@ -51,7 +54,6 @@
   }>();
 
   const createSection = (): SectionState => ({
-    id: 0,
     title: {},
     phonenumbers: [],
     whatsAppNumebrs: [],
@@ -87,11 +89,47 @@
   };
 
   const controller = SupportContactsController.getInstance();
-  const removeSection = async (index: number) => {
+
+  const getContactValues = (contacts: ContactsModel[], key: string) =>
+    contacts.filter((contact) => contact.key === key).map((contact) => contact.value);
+
+  const syncSectionsFromModels = (supportSections: SupportContactsModel[]) => {
+    sections.value = supportSections.length
+      ? supportSections.map((section) => ({
+          id: section.id,
+          title: typeof section.titles === 'object' ? section.titles : {},
+          phonenumbers: getContactValues(section.supportContacts, 'phonenumbers'),
+          whatsAppNumebrs: getContactValues(section.supportContacts, 'whatsapp_numbers'),
+          emails: getContactValues(section.supportContacts, 'emails'),
+          telegramNumbers: getContactValues(section.supportContacts, 'telegram_numbers'),
+          inputs: { phone: '', whatsApp: '', email: '', telegram: '' },
+        }))
+      : [createSection()];
+  };
+
+  const removeLocalSection = (index: number) => {
     if (sections.value.length === 1) return;
-    await controller.delete(new DeleteSupportContactParams(index));
     sections.value.splice(index, 1);
     emitData();
+  };
+
+  const removeSection = async (index: number, id?: number) => {
+    if (!id) {
+      removeLocalSection(index);
+      return;
+    }
+
+    await controller.delete(new DeleteSupportContactParams(id));
+    const result = await controller.fetchList(
+      new IndexSupportContactsParams('', 1, 10, true),
+      undefined,
+      true,
+    );
+
+    if (result instanceof DataSuccess && Array.isArray(result.data)) {
+      syncSectionsFromModels(result.data);
+      emitData();
+    }
   };
 
   const addChip = (arr: string[], inputKey: keyof SectionInputs, section: SectionState) => {
@@ -120,32 +158,7 @@
 
   onMounted(() => {
     if (props.initialSections?.length) {
-      sections.value = props.initialSections.map((s: any) => ({
-        id: s.id!,
-        title: s.titles ?? {},
-        phonenumbers: [
-          ...(s.supportContacts
-            .filter((el: any) => el.key == 'phonenumbers')
-            .map((item: any) => item.value) ?? []),
-        ],
-        whatsAppNumebrs: [
-          ...(s.supportContacts
-            .filter((el: any) => el.key == 'whatsapp_numbers')
-            .map((item: any) => item.value) ?? []),
-        ],
-        emails: [
-          ...(s.supportContacts
-            .filter((el: any) => el.key == 'emails')
-            .map((item: any) => item.value) ?? []),
-        ],
-        telegramNumbers: [
-          ...(s.supportContacts
-            .filter((el: any) => el.key == 'telegram_numbers')
-            .map((item: any) => item.value) ?? []),
-        ],
-
-        inputs: { phone: '', whatsApp: '', email: '', telegram: '' },
-      }));
+      syncSectionsFromModels(props.initialSections);
     }
     emitData();
   });
@@ -171,7 +184,7 @@
             v-if="sections.length > 1"
             type="button"
             class="delete-section-btn"
-            @click="removeSection(section.id)"
+            @click="removeSection(sIdx, section.id)"
           >
             <DeleteSectionIcon />
           </button>
