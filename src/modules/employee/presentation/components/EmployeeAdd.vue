@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import EmployeeController from '../controllers/employee.controller';
   import EmployeeForm from './EmployeeForm.vue';
   import type AddEmployeeParams from '../../core/params/add.employee.params';
@@ -34,6 +34,23 @@
   const updateData = (updatedParams: AddEmployeeParams) => {
     params.value = updatedParams;
   };
+
+  const router = useRouter();
+  const SaveDraft = () => {
+    loading.value = true;
+    try {
+      if (!params.value) {
+        console.error('No employee parameters to save');
+        return;
+      }
+      localStorage.setItem(`employee-draft`, JSON.stringify(params.value));
+      router.push({ name: 'Employees' });
+    } catch (error) {
+      console.error('Error saving employee:', error);
+    } finally {
+      loading.value = false;
+    }
+  };
 </script>
 
 <template>
@@ -46,28 +63,14 @@
     />
 
     <div class="actions">
-      <!-- <AppButton
-        title="Save Employee"
-        :loading="loading"
-        size="sm"
-        icon="right"
-        type="submit"
-        class="save-emp"
-        :class="{ disabled: loading }"
-        @click="saveEmployee"
-      >
-        Save Employee
-        <template #icon>
-          <IconAccept />
-        </template>
-      </AppButton> -->
+    
       <button class="btn btn-primary w-full" type="submit" @click="saveEmployee">
         <span v-if="loading" class="loader"></span>
         <span v-else>
           {{ $t('save_employee') }}
         </span>
       </button>
-      <button class="btn btn-draft">{{ $t(`Save As draft`) }}</button>
+      <button class="btn btn-draft" @click="SaveDraft">{{ $t(`Save As draft`) }}</button>
       <button class="btn btn-cancel">{{ $t(`cancel`) }}</button>
     </div>
 

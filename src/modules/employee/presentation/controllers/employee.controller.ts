@@ -7,6 +7,7 @@ import type Params from '@/base/Core/Params/params';
 import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 import router from '@/router';
 import { useFormsStore } from '@/stores/formsStore';
+import type EditEmployeeParams from '../../core/params/edit.employee.params';
 
 export default class EmployeeController extends BaseController<EmployeeModel, EmployeeModel[]> {
   private static instance: EmployeeController;
@@ -51,7 +52,7 @@ export default class EmployeeController extends BaseController<EmployeeModel, Em
     return result;
   }
 
-  async update(params: Params, options?: ApiCallOptions, formKey?: string) {
+  async update(params: EditEmployeeParams, options?: ApiCallOptions, formKey?: string) {
     const FormStore = useFormsStore();
 
     const result = await super.update(params, options);

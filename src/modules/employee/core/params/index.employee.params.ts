@@ -1,16 +1,24 @@
 import IndexParams from '@/base/Core/Params/indexParams';
+import type { EmployeeStatusEnm } from '../constant/employee.status.enum';
 
 export default class IndexEmployeeParams extends IndexParams {
-  constructor(
-    word: string = '',
-    pageNumber: number = 1,
-    perPage: number = 10,
-    withPage: number = 1,
-  ) {
-    super(word, pageNumber, perPage, withPage);
+  public status?: EmployeeStatusEnm;
+  constructor(data: {
+    word: string;
+    pageNumber: number;
+    perPage: number;
+    withPage: number;
+    status: EmployeeStatusEnm;
+  }) {
+    super(data.word, data.pageNumber, data.perPage, data.withPage);
+    this.status = data.status;
   }
 
   toMap(): Record<string, string | number | number[] | null> {
-    return super.toMap();
+    const map = super.toMap();
+    if (this.status != null) {
+      map['status'] = this.status;
+    }
+    return map;
   }
 }

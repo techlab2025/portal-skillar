@@ -483,5 +483,6 @@
   "update_question": "Update Question",
   "save_question": "Save Question",
   "no_education_classifications_yet": "No Education Classifications Yet",
-  "you_havent_added_any_education_classifications_yet": "You Haven’t Added Any Education Classifications Yet. Start Now To Organize Your Learning Structure And Content"
+  "you_havent_added_any_education_classifications_yet": "You Haven’t Added Any Education Classifications Yet. Start Now To Organize Your Learning Structure And Content",
+  "update_employee": "Update Employee"
 }

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-  import { onMounted, ref, watch } from 'vue';
-  import { onBeforeRouteLeave, useRoute } from 'vue-router';
-  import { useFormsStore } from '@/stores/formsStore';
+  import { ref, watch } from 'vue';
+  import { useRoute } from 'vue-router';
   import type EmployeeModel from '../../core/models/employee.model';
   import AddEmployeeParams from '../../core/params/add.employee.params';
   import EditEmployeeParams from '../../core/params/edit.employee.params';
@@ -12,24 +11,15 @@
   import RadioButton from 'primevue/radiobutton';
   import { GenderENum } from '../../core/constant/gender.enum';
   import { EmployeeStatusEnm } from '../../core/constant/employee.status.enum';
+  import { CustomToast } from '@/modules/Questions/presentation/subComponents/CustomTosat';
 
   const emit = defineEmits(['updateData']);
 
-  const { employee, formKey, loading } = defineProps<{
+  const props = defineProps<{
     employee?: EmployeeModel;
-    formKey?: string;
     loading?: boolean;
   }>();
 
-  const FormStore = useFormsStore();
-  onBeforeRouteLeave((to, from) => {
-    const savedData = FormStore.getFormData(formKey!);
-    if (savedData && to.path !== from.path) {
-      FormStore.showReturnWarning(formKey!);
-    }
-  });
-
-  // Form state
   const name = ref<string>('');
   const email = ref<string>('');
   const phone = ref<string>('');
@@ -43,25 +33,6 @@
   const employeeId = ref('');
   const UploadedImage = ref<string[]>([]);
   const checked = ref(false); //employee status
-
-  watch(
-    () => employee,
-    (newEmployee) => {
-      if (newEmployee) {
-        name.value = newEmployee.firstname;
-        email.value = newEmployee.email;
-        phone.value = newEmployee.phone;
-        image.value = newEmployee.image;
-        isSuperadmin.value = newEmployee.isSuperadmin;
-        employeeType.value = newEmployee.status;
-        gender.value = newEmployee.gender;
-        lastName.value = newEmployee.lastname;
-        employeeId.value = newEmployee.employeeId;
-        // Password is not populated for security/editing purposes
-      }
-    },
-    { immediate: true },
-  );
 
   const route = useRoute();
 
@@ -78,8 +49,6 @@
       password: password.value,
     };
 
-    FormStore.setFormData(formKey!, data);
-
     let params: any;
     if (route.params.id) {
       params = new EditEmployeeParams({
@@ -91,6 +60,27 @@
     }
     emit('updateData', params);
   };
+
+  watch(
+    () => props.employee,
+    (newEmployee) => {
+      if (newEmployee) {
+        name.value = newEmployee.firstname;
+        email.value = newEmployee.email;
+        phone.value = newEmployee.phone;
+        image.value = newEmployee.image;
+        isSuperadmin.value = newEmployee.isSuperadmin;
+        employeeType.value = newEmployee.status;
+        gender.value = newEmployee.gender;
+        lastName.value = newEmployee.lastname;
+        employeeId.value = newEmployee.employeeId;
+        checked.value = Boolean(newEmployee.status);
+        UploadedImage.value = newEmployee.image ? [newEmployee.image] : [];
+        updateData();
+      }
+    },
+    { immediate: true },
+  );
 
   const resetForm = () => {
     name.value = '';
@@ -104,32 +94,37 @@
     gender.value = 1;
     lastName.value = '';
     employeeId.value = '';
+    UploadedImage.value = [];
+    checked.value = false;
+    updateData();
   };
-
-  onMounted(() => {
-    const saved = FormStore.getFormData(formKey!);
-    if (saved) {
-      name.value = saved.name;
-      email.value = saved.email;
-      phone.value = saved.phone;
-      password.value = saved.password;
-      image.value = saved.image;
-      isSuperadmin.value = saved.isSuperadmin;
-      role_id.value = saved.role_id;
-      employeeType.value = saved.employeeType;
-      gender.value = saved.gender;
-      lastName.value = saved.lastName;
-      employeeId.value = saved.employeeId;
-      updateData();
-    } else if (!employee) {
-      resetForm();
-    }
-  });
 
   const handleImageChange = (file: any) => {
     UploadedImage.value = file[0]?.base64;
     updateData();
   };
+
+  const draftRef =
+    !route.params.id && localStorage.getItem('employee-draft')
+      ? CustomToast<AddEmployeeParams>('employee-draft')
+      : null;
+
+  watch(draftRef!, (newVal) => {
+    if (newVal) {
+      console.log(newVal, 'newValnewVal');
+      name.value = newVal.firstname;
+      email.value = newVal.email;
+      phone.value = newVal.phone;
+      image.value = newVal.image;
+      gender.value = newVal.gender;
+      lastName.value = newVal.lastname;
+      checked.value = Boolean(newVal.employeeStatus);
+      UploadedImage.value = newVal.image ? [newVal.image] : [];
+      password.value = newVal.password;
+      employeeId.value = newVal.EmployeeRef;
+      updateData();
+    }
+  });
 </script>
 
 <template>
@@ -156,7 +151,7 @@
           </div>
         </div>
       </div>
-      <span v-if="route.params.id" class="edit-badge">Editing</span>
+      <!-- <span v-if="route.params.id" class="edit-badge">Editing</span> -->
     </header>
 
     <div class="employee-details-form">
@@ -165,7 +160,7 @@
     </div>
 
     <div class="form-fields">
-      <div class="field-group" :class="{ disabled: loading }">
+      <div class="field-group" :class="{ disabled: props.loading }">
         <label class="field-label" for="name">{{ $t(`First Name`) }}</label>
         <div class="input-wrap">
           <input
@@ -178,7 +173,7 @@
           />
         </div>
       </div>
-      <div class="field-group" :class="{ disabled: loading }">
+      <div class="field-group" :class="{ disabled: props.loading }">
         <label class="field-label" for="name">{{ $t(`Last Name`) }}</label>
         <div class="input-wrap">
           <input
@@ -191,7 +186,7 @@
           />
         </div>
       </div>
-      <div class="field-group" :class="{ disabled: loading }">
+      <div class="field-group" :class="{ disabled: props.loading }">
         <label class="field-label" for="password">{{ $t(`password`) }}</label>
         <div class="input-wrap">
           <input
@@ -205,7 +200,7 @@
         </div>
       </div>
 
-      <div class="field-group col-span-1" :class="{ disabled: loading }">
+      <div class="field-group col-span-1" :class="{ disabled: props.loading }">
         <label class="field-label" for="email">{{ $t(`Email`) }}</label>
         <div class="input-wrap">
           <input
@@ -218,7 +213,7 @@
           />
         </div>
       </div>
-      <div class="field-group" :class="{ disabled: loading }">
+      <div class="field-group" :class="{ disabled: props.loading }">
         <label class="field-label" for="employeeId">{{ $t('employee_ref_number') }}</label>
         <div class="input-wrap">
           <input
@@ -231,7 +226,7 @@
           />
         </div>
       </div>
-      <div class="field-group" :class="{ disabled: loading }">
+      <div class="field-group" :class="{ disabled: props.loading }">
         <label class="field-label" for="phone">{{ $t(`Phone`) }}</label>
         <div class="input-wrap">
           <input
@@ -245,12 +240,18 @@
         </div>
       </div>
 
-      <div class="field-group" :class="{ disabled: loading }">
+      <div class="field-group" :class="{ disabled: props.loading }">
         <label class="field-label" for="phone">{{ $t(`Gender`) }}</label>
 
         <div class="gender-group">
           <div class="input-field">
-            <RadioButton v-model="gender" input-id="male" name="gender" :value="GenderENum.male" />
+            <RadioButton
+              v-model="gender"
+              input-id="male"
+              name="gender"
+              :value="GenderENum.male"
+              @change="updateData"
+            />
             <label for="male">{{ $t('male') }}</label>
           </div>
 
@@ -260,13 +261,14 @@
               input-id="female"
               name="gender"
               :value="GenderENum.female"
+              @change="updateData"
             />
             <label for="female">{{ $t('female') }}</label>
           </div>
         </div>
       </div>
 
-      <div class="field-group col-span-2" :class="{ disabled: loading }">
+      <div class="field-group col-span-2" :class="{ disabled: props.loading }">
         <HandleFilesUpload
           :label="`upload image`"
           accept="image/*"
@@ -275,6 +277,7 @@
           :file="UploadedImage"
           :have-content="true"
           :class="`image-input`"
+          :max-files="1"
           @change="handleImageChange"
         >
           <template #content>

@@ -1,11 +1,10 @@
 import { useToast } from 'primevue';
 import { ref } from 'vue';
-import type AddquestionsParams from '../../core/params/add.question.params';
 
-export const CustomToast = () => {
-  const formData = ref<AddquestionsParams | null>(null);
+export const CustomToast = <T>(draftType: string) => {
+  const formData = ref<T | null>(null);
 
-  if (!localStorage.getItem('question-draft')) return formData;
+  if (!localStorage.getItem(draftType)) return formData;
 
   const toast = useToast();
   toast.add({
@@ -34,12 +33,12 @@ export const CustomToast = () => {
       ClearDatabutton.className = 'return-btn';
 
       SaveDatabutton.onclick = () => {
-        formData.value = JSON.parse(localStorage.getItem('question-draft') || '{}');
+        formData.value = JSON.parse(localStorage.getItem(draftType) || '{}');
         toast.removeAllGroups();
       };
 
       ClearDatabutton.onclick = () => {
-        localStorage.removeItem('question-draft');
+        localStorage.removeItem(draftType);
         toast.removeAllGroups();
       };
 

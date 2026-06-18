@@ -18,6 +18,7 @@
    * Update employee
    */
   const saveEmployee = async () => {
+    console.log(params.value, 'params');
     if (!params.value) {
       console.error('No employee parameters to save');
       return;
@@ -30,6 +31,7 @@
 
   const updateData = (updatedParams: EditEmployeeParams) => {
     params.value = updatedParams;
+    console.log(params.value, 'updatedParams');
   };
 
   onMounted(async () => {
@@ -43,23 +45,10 @@
       :employee="controller.itemData.value!"
       :form-key="formKey"
       :loading="loading"
-      @update-data="updateData"
+      @updateData="updateData"
     />
 
     <div class="actions" :class="{ disabled: loading }">
-      <!-- <AppButton
-        title="Update Employee"
-        :loading="loading"
-        size="sm"
-        icon="right"
-        type="submit"
-        @click="saveEmployee"
-      >
-        Update Employee
-        <template #icon>
-          <IconAccept />
-        </template>
-      </AppButton> -->
       <button class="btn btn-primary w-full" type="submit" @click="saveEmployee">
         <span v-if="loading" class="loader"></span>
         <span v-else>

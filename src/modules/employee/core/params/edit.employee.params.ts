@@ -2,6 +2,7 @@ import type Params from '@/base/Core/Params/params';
 import { ClassValidation } from '@/base/Presentation/Utils/classValidation';
 import type { GenderENum } from '../constant/gender.enum';
 import type { EmployeeStatusEnm } from '../constant/employee.status.enum';
+import isBase64 from '@/base/Presentation/Utils/is_base64';
 
 /**
  * Parameters for editing an employee
@@ -19,15 +20,10 @@ export default class EditEmployeeParams implements Params {
   public password: string;
 
   public static readonly validation = new ClassValidation().setRules({
-    id: { required: true },
-    name: { required: true, minLength: 2, maxLength: 100 },
+    firstname: { required: true },
     email: { required: true },
     phone: { required: true },
     password: { required: false },
-    image: { required: false },
-    isSuperadmin: { required: true },
-    EmployeeId: { required: true },
-    employeeType: { required: true },
   });
 
   constructor(data: {
@@ -61,7 +57,9 @@ export default class EditEmployeeParams implements Params {
       last_name: this.lastname,
       email: this.email,
       phone: this.phone,
-      image: this.image,
+      ...(isBase64(this.image) && {
+        image: this.image,
+      }),
       employee_ref: this.EmployeeRef,
       gender: this.gender,
       status: this.employeeStatus,

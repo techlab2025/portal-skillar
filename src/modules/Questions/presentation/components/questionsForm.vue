@@ -109,9 +109,10 @@
   );
   const QuestionDraftData = ref<AddquestionsParams>();
 
-  // const draftRef = localStorage.getItem('question-draft') ? CustomToast() : null;
   const draftRef =
-    !route.params.id && localStorage.getItem('question-draft') ? CustomToast() : null;
+    !route.params.id && localStorage.getItem('question-draft')
+      ? CustomToast<AddquestionsParams>('question-draft')
+      : null;
 
   watch(draftRef!, (newVal) => {
     if (newVal) {
