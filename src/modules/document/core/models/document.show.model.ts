@@ -107,7 +107,10 @@ export default class DocumentShowModel {
 
   static example: DocumentShowModel = new DocumentShowModel({
     id: 1,
-    translations: { title: { ar: 'title', en: 'title' } },
+    translations: {
+      title: { ar: 'title', en: 'title' },
+      description: { ar: 'description', en: 'description' },
+    },
     title: { ar: 'title', en: 'title' },
     RefNumber: '100',
 

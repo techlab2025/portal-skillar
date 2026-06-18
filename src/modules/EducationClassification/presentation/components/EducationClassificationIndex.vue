@@ -40,7 +40,11 @@
   const perPage = ref(10);
   const word = ref('');
 
-  const fetchEducationClassifications = async (page: number = 1, word: string = '') => {
+  const fetchEducationClassifications = async (
+    page: number = 1,
+    word: string = '',
+    order: number = 1,
+  ) => {
     await controller.fetchList(
       new IndexEducationClassificationParams({
         word: word,
@@ -48,6 +52,7 @@
         perPage: perPage.value,
         withPage: 1,
         date: '',
+        order: order,
       }),
     );
   };
@@ -77,6 +82,7 @@
     await fetchEducationClassifications(
       route.query.page ? Number(route.query.page) : 1,
       word.value,
+      1,
     );
   });
 
@@ -112,7 +118,6 @@
     },
   ];
   const DeleteItems = async () => {
-    console.log(SelectedRow.value);
     SelectedRow.value.forEach((item) => {
       deleteEducationClassification(item.id);
     });
