@@ -11015,11 +11015,11 @@ body::-webkit-scrollbar-thumb:hover {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: var(--xs-size-5) var(--xs-size-3);
+  padding: var(--xs-size) var(--xs-size-3);
   border-radius: var(--xs-size-3);
 }
 .question-answers-wrapper .question-answers-list .question-answer-item.correct {
-  background-color: var(--success-light);
+  background-color: var(--bg-approved);
 }
 .question-answers-wrapper .question-answers-list .question-answer-item.correct .answer-content .answer {
   color: var(--success);
@@ -11267,6 +11267,109 @@ body::-webkit-scrollbar-thumb:hover {
    MAIN STYLESHEET — Organized Import Hub
    ============================================================================= */
 /* ── Core ──────────────────────────────────────────────────────── */
+.question-review-reject-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: start;
+  gap: var(--xl-size-1);
+  width: 100%;
+  padding: var(--xl-size-1) 0;
+}
+.question-review-reject-wrapper .card-content {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  background-color: var(--bg-rejected);
+  padding: var(--md-size);
+  border-radius: var(--md-size);
+  padding: var(--md-size);
+  width: 100%;
+  gap: var(--sm-size);
+}
+.question-review-reject-wrapper .question-review-reject-header {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: start;
+  gap: var(--xs-size-2);
+}
+.question-review-reject-wrapper .question-review-reject-header h2 {
+  color: var(--danger-alt);
+  font-size: var(--md-size-2);
+  font-family: "Medium";
+}
+.question-review-reject-wrapper .question-review-reject-header p {
+  color: var(--gray-7);
+  font-size: var(--sm-size);
+  font-family: "Medium";
+}
+.question-review-reject-wrapper .question-review-reject-body {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: end;
+  align-items: center;
+  gap: var(--xs-size-2);
+}
+.question-review-reject-wrapper .reject-item {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: start;
+  align-items: center;
+  gap: var(--xs-size-2);
+  padding: var(--xs-size);
+  border-radius: var(--xl-size-base);
+}
+.question-review-reject-wrapper .reject-item h4 {
+  color: var(--gray-text);
+  font-size: var(--sm-size);
+  font-family: "Light";
+}
+.question-review-reject-wrapper .reject-item p {
+  color: var(--gray-7);
+  word-break: break-all;
+  font-family: "Light";
+}
+.question-review-reject-wrapper .actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  gap: var(--xs-size-2);
+}
+.question-review-reject-wrapper .actions .btn {
+  cursor: pointer;
+  width: 100%;
+}
+.question-review-reject-wrapper .actions .btn-edit {
+  background: white;
+  border: 1px solid var(--primary-green);
+  color: var(--primary-green);
+  border-radius: var(--xl-size-3);
+}
+.question-review-reject-wrapper .actions .btn-edit:hover {
+  background-color: var(--primary-green) !important;
+  color: white !important;
+}
+.question-review-reject-wrapper .actions .btn-edit:hover :deep(svg) {
+  color: white;
+}
+.question-review-reject-wrapper .actions .btn-edit:hover :deep(path) {
+  stroke: white;
+}
+
+/* =============================================================================
+   MAIN STYLESHEET — Organized Import Hub
+   ============================================================================= */
+/* ── Core ──────────────────────────────────────────────────────── */
 .question-tree-card {
   background: var(--gray-soft);
   border-radius: var(--xl-size-1);
@@ -11292,6 +11395,14 @@ body::-webkit-scrollbar-thumb:hover {
   justify-content: flex-start;
   align-items: stretch;
   gap: calc(var(--xl-size-2) + 20px);
+}
+.question-tree-card .subject-box .subject-cycle {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--xl-size-base);
 }
 .question-tree-card .subject-info,
 .question-tree-card .sequence-list {
@@ -11341,12 +11452,10 @@ body::-webkit-scrollbar-thumb:hover {
   color: var(--second-text);
 }
 .question-tree-card .skills {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--xs-size-3);
+  width: 100%;
   margin: 0;
   padding: 0;
   list-style: none;

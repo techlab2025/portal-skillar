@@ -14,6 +14,8 @@
   import QuestionTree from '../subComponents/QuestionShow/QuestionTree.vue';
   import ShowquestionsParams from '../../core/params/show.question.params';
   import { useRoute } from 'vue-router';
+  import { QuestionStatusEnum } from '@/modules/Questions/core/constant/question.status.enum';
+  import QuestionRejectActions from '../subComponents/QuestionShow/QuestionRejectActions.vue';
   const route = useRoute();
   const controller = questionsController.getInstance();
   const showState = computed(() => controller.itemState.value);
@@ -52,8 +54,11 @@
         />
       </div>
 
-      <QuestionReviewProcedures />
-      
+      <QuestionReviewProcedures
+        v-if="showState?.data?.review_status === QuestionStatusEnum.approved"
+        :question-data="showState?.data"
+      />
+      <QuestionRejectActions v-if="showState.data?.review_status === QuestionStatusEnum.rejected" />
     </div>
 
     <div class="side-content">
