@@ -328,6 +328,9 @@
       filter
       :loading="loading"
       :empty-message="message"
+      :pt="{
+        overlay: { class: 'custom-select-overlay' },
+      }"
     />
 
     <input :id="id" type="text" class="hidden w-full" :value="normalizedValue" />
@@ -343,11 +346,13 @@
       v-model:visible="DialogVisable"
       modal
       :dismissable-mask="true"
-      :style="{ width: '50rem' }"
+      :style="{ width: '60rem' }"
     >
       <slot name="Dialog"></slot>
     </Dialog>
+    
   </div>
+  <slot v-else name="CreatedDialog"></slot>
 </template>
 
 <style scoped lang="scss">
@@ -382,6 +387,19 @@
 
     &:focus {
       border: 1px solid #d9dbe9 !important;
+    }
+  }
+</style>
+
+<style lang="scss">
+  .custom-select-overlay {
+    max-width: min(90vw, 500px) !important;
+
+    .p-select-option-label,
+    .p-multiselect-option-label {
+      white-space: normal;
+      word-break: break-word;
+      line-height: 1.4;
     }
   }
 </style>
