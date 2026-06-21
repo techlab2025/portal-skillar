@@ -339,11 +339,10 @@
   <slot v-else name="content"> </slot>
   <div v-if="isDialog">
     <Dialog
+      v-model:visible="DialogVisable"
       :pt="{
         root: 'custom-select-dialog',
       }"
-      @hide="closeDailog"
-      v-model:visible="DialogVisable"
       modal
       :dismissable-mask="true"
       :style="{ width: '60rem' }"
