@@ -220,7 +220,7 @@ export default class ShowQuestionsModel {
     generatedBy: QuestionGeneratedByEnum.manual,
     questionType: QuestionTypeEnum.mcq,
     difficulty: QuestionDifficultyEnum.easy,
-    status: QuestionStatusEnum.approved,
+    status: QuestionStatusEnum.APPROVED,
     createdAt: '2022-01-01',
     approvedBy: 'Mohamed Abdelmoneam',
     questionTitle: 'Question Title',

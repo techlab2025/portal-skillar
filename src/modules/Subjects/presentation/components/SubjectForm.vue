@@ -6,13 +6,13 @@
   import TitleInterface from '@/base/Data/Models/titleInterface';
   import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
   import { EducationType } from '../../core/constants/educationtype.enum';
-  import type SubjectModel from '../../core/models/subject.model';
   import AddSubjectParams from '../../core/params/add.subject.params';
+  import type EducationClassificationSubjectModel from '@/shared/GeneralModels/education.classification.subject.model';
 
   const emit = defineEmits(['updateData']);
 
   const { subject, formKey, loading } = defineProps<{
-    subject?: SubjectModel;
+    subject?: EducationClassificationSubjectModel;
     formKey?: string;
     loading?: boolean;
   }>();
@@ -38,7 +38,7 @@
     () => subject,
     (newSubject) => {
       if (newSubject) {
-        title.value = newSubject.title;
+        title.value = newSubject.title!;
       }
     },
     { immediate: true },

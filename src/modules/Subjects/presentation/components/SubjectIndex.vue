@@ -1,133 +1,133 @@
 <script setup lang="ts">
-  import { onMounted, ref, computed } from 'vue';
-  import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
-  import AppTable, { type TableHeader } from '@/shared/HelpersComponents/AppTable.vue';
-  import Pagination from '@/shared/HelpersComponents/Pagination.vue';
-  import { useRoute, useRouter } from 'vue-router';
-  import { debounce } from '@/base/Presentation/Utils/debouced';
-  import { useFormsStore } from '@/stores/formsStore';
-  import DeleteDialog from '@/shared/HelpersComponents/dialog/DeleteDialog.vue';
-  import SubjectController from '../controllers/subject.controller';
-  import IndexSubjectParams from '../../core/params/index.subject.params';
-  import DeleteSubjectParams from '../../core/params/delete.subject.params';
-  import type StageModel from '@/modules/Stages/core/models/stage.model';
-import DropList from '@/shared/HelpersComponents/DropList.vue';
-import DeletIcon from '@/shared/icons/DropListIcons/DeletIcon.vue';
-import { useI18n } from 'vue-i18n';
-import EditIcon from '@/shared/icons/Privacy/EditIcon.vue';
-import ShowIcon from '@/shared/icons/ShowIcon.vue';
+//   import { onMounted, ref, computed } from 'vue';
+//   import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
+//   import AppTable, { type TableHeader } from '@/shared/HelpersComponents/AppTable.vue';
+//   import Pagination from '@/shared/HelpersComponents/Pagination.vue';
+//   import { useRoute, useRouter } from 'vue-router';
+//   import { debounce } from '@/base/Presentation/Utils/debouced';
+//   // import { useFormsStore } from '@/stores/formsStore';
+//   // import DeleteDialog from '@/shared/HelpersComponents/dialog/DeleteDialog.vue';
+//   import SubjectController from '../controllers/subject.controller';
+//   import IndexSubjectParams from '../../core/params/index.subject.params';
+//   import DeleteSubjectParams from '../../core/params/delete.subject.params';
+//   // import type StageModel from '@/modules/Stages/core/models/stage.model';
+// // import DropList from '@/shared/HelpersComponents/DropList.vue';
+// import DeletIcon from '@/shared/icons/DropListIcons/DeletIcon.vue';
+// import { useI18n } from 'vue-i18n';
+// import EditIcon from '@/shared/icons/Privacy/EditIcon.vue';
+// import ShowIcon from '@/shared/icons/ShowIcon.vue';
 
   // Controller instance
-  const controller = SubjectController.getInstance();
-  const state = computed(() => controller.listState.value);
-  const router = useRouter();
-  const route = useRoute();
+  // const controller = SubjectController.getInstance();
+  // const state = computed(() => controller.listState.value);
+  // const router = useRouter();
+  // const route = useRoute();
 
-  // Table headers
-  const headers: TableHeader[] = [
-    { key: 'title', label: 'Title', width: '90%', sortable: true },
+  // // Table headers
+  // const headers: TableHeader[] = [
+  //   { key: 'title', label: 'Title', width: '90%', sortable: true },
 
 
-  ];
+  // ];
 
-  // Pagination state
-  const perPage = ref(10);
-  const word = ref('');
+  // // Pagination state
+  // const perPage = ref(10);
+  // const word = ref('');
 
-  const fetchSubjects = async (page: number = 1, word: string = '') => {
-    await controller.fetchList(
-      new IndexSubjectParams(
-        word,
-        route.query.page ? Number(route.query.page) : page,
-        perPage.value,
-      ),
-    );
-  };
+  // const fetchSubjects = async (page: number = 1, word: string = '') => {
+  //   await controller.fetchList(
+  //     new IndexSubjectParams(
+  //       word,
+  //       route.query.page ? Number(route.query.page) : page,
+  //       perPage.value,
+  //     ),
+  //   );
+  // };
 
-  const Search = debounce(() => {
-    router.push({
-      query: {
-        ...route.query,
-        page: Number(route.query.page ?? 1),
-        word: word.value || undefined,
-      },
-    });
+  // const Search = debounce(() => {
+  //   router.push({
+  //     query: {
+  //       ...route.query,
+  //       page: Number(route.query.page ?? 1),
+  //       word: word.value || undefined,
+  //     },
+  //   });
 
-    fetchSubjects(1, word.value);
-  });
+  //   fetchSubjects(1, word.value);
+  // });
 
-  const onPageChange = (page: number) => {
-    fetchSubjects(page);
-    router.push({
-      query: {
-        ...route.query,
-        page: String(page),
-        word: word.value,
-      },
-    });
-  };
+  // const onPageChange = (page: number) => {
+  //   fetchSubjects(page);
+  //   router.push({
+  //     query: {
+  //       ...route.query,
+  //       page: String(page),
+  //       word: word.value,
+  //     },
+  //   });
+  // };
 
-  const onPerPageChange = (count: number) => {
-    perPage.value = count;
-    fetchSubjects(1);
-  };
+  // const onPerPageChange = (count: number) => {
+  //   perPage.value = count;
+  //   fetchSubjects(1);
+  // };
 
-  // Fetch emails on component mount
-  onMounted(async () => {
-    if (route.query.word) {
-      word.value = String(route.query.word);
-    }
+  // // Fetch emails on component mount
+  // onMounted(async () => {
+  //   if (route.query.word) {
+  //     word.value = String(route.query.word);
+  //   }
 
-    await fetchSubjects(route.query.page ? Number(route.query.page) : 1, word.value);
-  });
+  //   await fetchSubjects(route.query.page ? Number(route.query.page) : 1, word.value);
+  // });
 
-  const deleteSubject = async (id: number) => {
-    await controller.delete(new DeleteSubjectParams(id));
-    await fetchSubjects();
-  };
+  // const deleteSubject = async (id: number) => {
+  //   await controller.delete(new DeleteSubjectParams(id));
+  //   await fetchSubjects();
+  // };
 
-  const FormStore = useFormsStore();
-  const formRoute = computed(() => '/subjects/add');
+  // const FormStore = useFormsStore();
+  // const formRoute = computed(() => '/subjects/add');
 
-  const isDraft = computed(() => {
-    const data = FormStore?.formData[formRoute.value] ?? {};
-    return Object.keys(data).length === 0 || Object.values(data).every((v) => v == null);
-  });
-  const SelectedRow = ref<StageModel[]>([]);
-  const setSelectef = (items: StageModel[]) => {
-    SelectedRow.value = items;
-  };
+  // const isDraft = computed(() => {
+  //   const data = FormStore?.formData[formRoute.value] ?? {};
+  //   return Object.keys(data).length === 0 || Object.values(data).every((v) => v == null);
+  // });
+  // const SelectedRow = ref<StageModel[]>([]);
+  // const setSelectef = (items: StageModel[]) => {
+  //   SelectedRow.value = items;
+  // };
 
-  const deleteSelected = () => {
-    SelectedRow.value.forEach((item) => {
-      deleteSubject(item.id!);
-    });
-  };
-const {t} = useI18n();
-  const actionList = (id: number, deleteSubject: (id: number) => void) => [
-    {
-      text: t('rename'),
-      icon: EditIcon ,
-      // action: () => {
-      //   router.push({ path: `/subjects/edit/${id}` });
-      // },
-    },
-    {
-      text: t('delete'),
-      icon: DeletIcon,
-      action: () => deleteSubject(id),
-    },
-        {
-      text: t('show_questions'),
-      icon: ShowIcon,
-      action: () => router.push( `/questions?subjectId=${id}`) ,
-    },
-  ];
-</script>
+  // const deleteSelected = () => {
+  //   SelectedRow.value.forEach((item) => {
+  //     deleteSubject(item.id!);
+  //   });
+  // };
+// const {t} = useI18n();
+  // const actionList = (id: number, deleteSubject: (id: number) => void) => [
+  //   {
+  //     text: t('rename'),
+  //     icon: EditIcon ,
+  //     // action: () => {
+  //     //   router.push({ path: `/subjects/edit/${id}` });
+  //     // },
+  //   },
+  //   {
+  //     text: t('delete'),
+  //     icon: DeletIcon,
+  //     action: () => deleteSubject(id),
+  //   },
+  //       {
+  //     text: t('show_questions'),
+  //     icon: ShowIcon,
+  //     action: () => router.push( `/questions?subjectId=${id}`) ,
+  //   },
+  // ];
+</script> 
 
-<template>
+<!-- <template> -->
   <!-- {{state -->
-  <div class="subject-page">
+  <!-- <div class="subject-page">
     <div class="index-header">
       <div class="toolbar">
         <div class="search-field">
@@ -157,7 +157,6 @@ const {t} = useI18n();
 
     </div>
 
-    <!-- ═══ Table ═══ -->
     <DataStatusBuilder :controller="state" :on-retry="async () => await fetchSubjects()">
       <template #success="{ data }">
         <div class="table-frame">
@@ -248,4 +247,4 @@ const {t} = useI18n();
       </template>
     </DataStatusBuilder>
   </div>
-</template>
+</template> -->

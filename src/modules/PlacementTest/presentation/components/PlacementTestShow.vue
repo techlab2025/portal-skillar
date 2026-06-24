@@ -1,9 +1,10 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-  import EmployeeController from '../controllers/employee.controller';
-  import EmployeeForm from './EmployeeForm.vue';
-  import type AddEmployeeParams from '../../core/params/add.employee.params.ts';
+  // import type AddEmployeeParams from '../../core/params/add.employee.params.ts';
+import { EmployeeController } from '@/modules/employee/index.ts';
+import EmployeeForm from '@/modules/employee/presentation/components/EmployeeForm.vue';
+import type { AddEmployeeParams } from '@/modules/employee';
 
   const controller = EmployeeController.getInstance();
   const route = useRoute();

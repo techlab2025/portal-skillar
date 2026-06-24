@@ -1,7 +1,7 @@
 import type Params from '@/base/Core/Params/params';
 import { ClassValidation } from '@/base/Presentation/Utils/classValidation';
-import type { GenderENum } from '../constant/gender.enum';
-import type { EmployeeStatusEnm } from '../constant/employee.status.enum';
+import type { EmployeeStatusEnm } from '@/modules/employee/core/constant/employee.status.enum';
+import type { GenderENum } from '@/modules/employee/core/constant/gender.enum';
 import isBase64 from '@/base/Presentation/Utils/is_base64';
 
 /**

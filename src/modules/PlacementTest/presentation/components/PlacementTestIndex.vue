@@ -1,164 +1,166 @@
 <script setup lang="ts">
-  import { onMounted, ref, computed } from 'vue';
-  import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
-  import AppTable, { type TableHeader } from '@/shared/HelpersComponents/AppTable.vue';
-  import Pagination from '@/shared/HelpersComponents/Pagination.vue';
-  import { useRoute, useRouter } from 'vue-router';
-  import { debounce } from '@/base/Presentation/Utils/debouced';
-  import EmployeeController from '../controllers/employee.controller';
-  import IndexEmployeeParams from '../../core/params/index.employee.params';
-  import DeleteEmployeeParams from '../../core/params/delete.employee.params';
-  import type EmployeeModel from '../../core/models/employee.model';
-  import DeleteDialog from '@/shared/HelpersComponents/dialog/DeleteDialog.vue';
-  import { useFormsStore } from '@/stores/formsStore';
-  import IndexPluseIcon from '@/shared/icons/IndexPluseIcon.vue';
-  import * as XLSX from 'xlsx';
-  import { saveAs } from 'file-saver';
-  import ExportExcelIcon from '@/shared/icons/ExportExcelIcon.vue';
-  import IndexSearchIcon from '@/shared/icons/IndexSearchIcon.vue';
-  import { EmployeeStatusEnm } from '../../core/constant/employee.status.enum';
-  import { useI18n } from 'vue-i18n';
-  import FilterDialog from '@/shared/HelpersComponents/FilterDialog/FilterDialog.vue';
-  import TableSkelaton from '@/shared/HelpersComponents/TableSkelaton.vue';
-  import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
-  import TitleInterface from '@/base/Data/Models/titleInterface';
-import PlacementTestController from '../controllers/placement.test.controller';
+  // import { onMounted, ref, computed } from 'vue';
+  // import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
+  // import AppTable, { type TableHeader } from '@/shared/HelpersComponents/AppTable.vue';
+  // import Pagination from '@/shared/HelpersComponents/Pagination.vue';
+  // import { useRoute, useRouter } from 'vue-router';
+  // import { debounce } from '@/base/Presentation/Utils/debouced';
+  // // import EmployeeController from '../controllers/employee.controller';
+  // // import IndexEmployeeParams from '../../core/params/index.employee.params';
+  // import DeleteEmployeeParams from '../../core/params/delete.employee.params';
+  // // import type EmployeeModel from '../../core/models/employee.model';
+  // import DeleteDialog from '@/shared/HelpersComponents/dialog/DeleteDialog.vue';
+  // import { useFormsStore } from '@/stores/formsStore';
+  // import IndexPluseIcon from '@/shared/icons/IndexPluseIcon.vue';
+  // import * as XLSX from 'xlsx';
+  // import { saveAs } from 'file-saver';
+  // import ExportExcelIcon from '@/shared/icons/ExportExcelIcon.vue';
+  // import IndexSearchIcon from '@/shared/icons/IndexSearchIcon.vue';
+  // // import { EmployeeStatusEnm } from '../../core/constant/employee.status.enum';
+  // import { useI18n } from 'vue-i18n';
+  // import FilterDialog from '@/shared/HelpersComponents/FilterDialog/FilterDialog.vue';
+  // import TableSkelaton from '@/shared/HelpersComponents/TableSkelaton.vue';
+  // import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
+  // import TitleInterface from '@/base/Data/Models/titleInterface';
+  // import PlacementTestController from '../controllers/placement.test.controller';
+  // import { IndexEmployeeParams } from '@/modules/employee';
+  // import type { EmployeeStatusEnm } from '@/modules/employee/core/constant/employee.status.enum';
 
-  // Controller instance
-  const controller = PlacementTestController.getInstance();
-  const state = computed(() => controller.listState.value);
-  const router = useRouter();
-  const route = useRoute();
+  // // Controller instance
+  // const controller = PlacementTestController.getInstance();
+  // const state = computed(() => controller.listState.value);
+  // const router = useRouter();
+  // const route = useRoute();
 
-  const FormStore = useFormsStore();
-  const formRoute = computed(() => '/employees/add');
+  // const FormStore = useFormsStore();
+  // const formRoute = computed(() => '/employees/add');
 
-  // Table headers
-  const headers: TableHeader[] = [
-    { key: 'firstname', label: 'Employee name', width: '30%', sortable: true },
-    { key: 'email', label: 'Email', width: '30%' },
-    { key: 'phone', label: 'Phone', width: '15%' },
-    { key: 'status', label: 'Status', width: '15%' },
-  ];
+  // // Table headers
+  // const headers: TableHeader[] = [
+  //   { key: 'firstname', label: 'Employee name', width: '30%', sortable: true },
+  //   { key: 'email', label: 'Email', width: '30%' },
+  //   { key: 'phone', label: 'Phone', width: '15%' },
+  //   { key: 'status', label: 'Status', width: '15%' },
+  // ];
 
-  // Pagination state
-  const perPage = ref(10);
-  const word = ref('');
+  // // Pagination state
+  // const perPage = ref(10);
+  // const word = ref('');
 
-  const fetchEmployees = async (page: number = 1, wordStr: string = '') => {
-    await controller.fetchList(
-      new IndexEmployeeParams({
-        word: wordStr || word.value,
-        pageNumber: page,
-        perPage: perPage.value,
-        withPage: 1,
-        status: selectedStatus.value?.id as EmployeeStatusEnm,
-      }),
-    );
-  };
+  // const fetchEmployees = async (page: number = 1, wordStr: string = '') => {
+  //   await controller.fetchList(
+  //     new IndexEmployeeParams({
+  //       word: wordStr || word.value,
+  //       pageNumber: page,
+  //       perPage: perPage.value,
+  //       withPage: 1,
+  //       status: selectedStatus.value?.id as EmployeeStatusEnm,
+  //     }),
+  //   );
+  // };
 
-  const Search = debounce(() => {
-    router.push({
-      query: {
-        ...route.query,
-        page: 1,
-        word: word.value || undefined,
-      },
-    });
-    fetchEmployees(1, word.value);
-  });
+  // const Search = debounce(() => {
+  //   router.push({
+  //     query: {
+  //       ...route.query,
+  //       page: 1,
+  //       word: word.value || undefined,
+  //     },
+  //   });
+  //   fetchEmployees(1, word.value);
+  // });
 
-  const onPageChange = (page: number) => {
-    fetchEmployees(page);
-    router.push({
-      query: {
-        ...route.query,
-        page: String(page),
-        word: word.value,
-      },
-    });
-  };
+  // const onPageChange = (page: number) => {
+  //   fetchEmployees(page);
+  //   router.push({
+  //     query: {
+  //       ...route.query,
+  //       page: String(page),
+  //       word: word.value,
+  //     },
+  //   });
+  // };
 
-  const onPerPageChange = (count: number) => {
-    perPage.value = count;
-    fetchEmployees(1);
-  };
+  // const onPerPageChange = (count: number) => {
+  //   perPage.value = count;
+  //   fetchEmployees(1);
+  // };
 
-  onMounted(async () => {
-    if (route.query.word) {
-      word.value = String(route.query.word);
-    }
-    await fetchEmployees(route.query.page ? Number(route.query.page) : 1, word.value);
-  });
+  // onMounted(async () => {
+  //   if (route.query.word) {
+  //     word.value = String(route.query.word);
+  //   }
+  //   await fetchEmployees(route.query.page ? Number(route.query.page) : 1, word.value);
+  // });
 
-  const deleteEmployee = async (id: number) => {
-    await controller.delete(new DeleteEmployeeParams(id));
-    await fetchEmployees();
-  };
+  // const deleteEmployee = async (id: number) => {
+  //   await controller.delete(new DeleteEmployeeParams(id));
+  //   await fetchEmployees();
+  // };
 
-  const isDraft = computed(() => {
-    const data = FormStore?.formData[formRoute.value] ?? {};
-    return Object.keys(data).length === 0 || Object.values(data).every((v) => v == null);
-  });
+  // const isDraft = computed(() => {
+  //   const data = FormStore?.formData[formRoute.value] ?? {};
+  //   return Object.keys(data).length === 0 || Object.values(data).every((v) => v == null);
+  // });
 
-  const exportExcel = () => {
-    if (!state.value.data || state.value.data.length === 0) {
-      alert('No data available to export');
-      return;
-    }
-    const worksheetData = (state.value.data as any).map((item: Record<string, unknown>) => {
-      return {
-        name: item.name || 'N/A',
-        email: item.email || null,
-        phone: item.phone || null,
-        password: '',
-      };
-    });
-    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Invoices');
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(data, 'Employees.xlsx');
-  };
+  // const exportExcel = () => {
+  //   if (!state.value.data || state.value.data.length === 0) {
+  //     alert('No data available to export');
+  //     return;
+  //   }
+  //   const worksheetData = (state.value.data as any).map((item: Record<string, unknown>) => {
+  //     return {
+  //       name: item.name || 'N/A',
+  //       email: item.email || null,
+  //       phone: item.phone || null,
+  //       password: '',
+  //     };
+  //   });
+  //   const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+  //   const workbook = XLSX.utils.book_new();
+  //   XLSX.utils.book_append_sheet(workbook, worksheet, 'Invoices');
+  //   const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  //   const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
+  //   saveAs(data, 'Employees.xlsx');
+  // };
 
-  const { t } = useI18n();
-  const GetEmployeeStatus = (status: number) => {
-    switch (Number(status)) {
-      case EmployeeStatusEnm.active:
-        return t('active');
-        break;
-      case EmployeeStatusEnm.disavtive:
-        return t('inactive');
-        break;
-    }
-  };
+  // const { t } = useI18n();
+  // const GetEmployeeStatus = (status: number) => {
+  //   switch (Number(status)) {
+  //     case EmployeeStatusEnm.active:
+  //       return t('active');
+  //       break;
+  //     case EmployeeStatusEnm.disavtive:
+  //       return t('inactive');
+  //       break;
+  //   }
+  // };
 
-  const FilterDialogShow = ref<boolean>(false);
-  const ApplayFilter = () => {
-    FilterDialogShow.value = false;
-    fetchEmployees();
-  };
-  const CloseFiletrDialog = () => {
-    FilterDialogShow.value = false;
-  };
-  const employeeTypeOptions = ref<TitleInterface<number>[]>([
-    new TitleInterface({
-      id: EmployeeStatusEnm.active,
-      title: 'active',
-    }),
-    new TitleInterface({
-      id: EmployeeStatusEnm.disavtive,
-      title: 'inactive',
-    }),
-  ]);
-  const selectedStatus = ref<TitleInterface<number>>();
-  const UpdateStatus = (status: TitleInterface<number>) => {
-    selectedStatus.value = status;
-  };
+  // const FilterDialogShow = ref<boolean>(false);
+  // const ApplayFilter = () => {
+  //   FilterDialogShow.value = false;
+  //   fetchEmployees();
+  // };
+  // const CloseFiletrDialog = () => {
+  //   FilterDialogShow.value = false;
+  // };
+  // const employeeTypeOptions = ref<TitleInterface<number>[]>([
+  //   new TitleInterface({
+  //     id: EmployeeStatusEnm.active,
+  //     title: 'active',
+  //   }),
+  //   new TitleInterface({
+  //     id: EmployeeStatusEnm.disavtive,
+  //     title: 'inactive',
+  //   }),
+  // ]);
+  // const selectedStatus = ref<TitleInterface<number>>();
+  // const UpdateStatus = (status: TitleInterface<number>) => {
+  //   selectedStatus.value = status;
+  // };
 </script>
 
-<template>
+<!-- <template>
   <div class="employee-page">
     <div class="index-header">
       <div class="search-field">
@@ -330,4 +332,4 @@ import PlacementTestController from '../controllers/placement.test.controller';
       </template>
     </DataStatusBuilder>
   </div>
-</template>
+</template> -->

@@ -9,7 +9,7 @@ export default class questionsModel {
   public readonly title: string;
   public readonly generatedBy: QuestionGeneratedByEnum;
   public readonly questionType: QuestionTypeEnum;
-  public readonly difficulty: QuestionDifficultyEnum; 
+  public readonly difficulty: QuestionDifficultyEnum;
   public readonly status: QuestionStatusEnum;
   public readonly subjects?: TitleInterface<number>;
   public readonly noOfQs?: number;
@@ -35,14 +35,14 @@ export default class questionsModel {
     this.subjects = data.subjects;
     this.noOfQs = data.noOfQs;
     this.e_c_branch = data.e_c_branch;
-    Object.freeze(this); 
+    Object.freeze(this);
   }
 
   static fromJson(json: any): questionsModel {
     if (!json) {
       throw new Error('Cannot create questionsModel from null or undefined');
     }
- 
+
     return new questionsModel({
       id: json.question_id,
       title: json.question,
@@ -62,7 +62,7 @@ export default class questionsModel {
     generatedBy: QuestionGeneratedByEnum.manual,
     questionType: QuestionTypeEnum.mcq,
     difficulty: QuestionDifficultyEnum.easy,
-    status: QuestionStatusEnum.not_Reviewd,
+    status: QuestionStatusEnum.PENDING,
     subjects: {
       id: 1,
       title: 'Mathematics',
