@@ -21,6 +21,7 @@
   import FullSubjectTreeController from '@/modules/Questions/presentation/controllers/FullSubjectTree/full.subject.tree.controller';
   import { CustomToast } from './CustomToast';
   import type ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
+  import GetFullNameOfbranch from '@/shared/GeneralMethods/CreateBranchSubjectTree';
 
   const SelectedQuestionSequence = ref<TitleInterface<number> | null>(null);
 
@@ -36,6 +37,7 @@
   const isExplain = ref(false);
   const UploadedImage = ref<string[]>([]);
   const explanationAttachments = ref<string[]>([]);
+  const explanationAttachmentsChanged = ref(false);
 
   // Document dependencies
   const indexDocumentParams = new IndexDocumentParams();
@@ -58,36 +60,17 @@
     SelectedQuestionSequence.value = selected!;
     updateData();
   };
-  onMounted(async () => {
+  const FetchBranches = async () => {
     const result = await fullSubjectTreeController.fetchList();
     AllSubjectTree.value = result.data!;
+    const fullname = new GetFullNameOfbranch();
+    console.log(fullname.getLastBranchFullTitles(AllSubjectTree.value));
+  };
+  onMounted(async () => {
+    FetchBranches();
+
     // console.log('AllSubjectTree.value', AllSubjectTree.value);
   });
-
-  watch(
-    () => props.article,
-    (newValue) => {
-      if (newValue) {
-        QuestionDescription.value = newValue.question_description ?? '';
-        question.value = newValue.question ?? '';
-        SelectedQuestionSequence.value = newValue.e_c_subject ?? null;
-        const selectedDoc = newValue.document?.find((doc: any) => doc.document_id);
-        if (selectedDoc) {
-          SelectedDocument.value = {
-            id: selectedDoc.document_id,
-            title: selectedDoc.document_title,
-          };
-          articleSource.value = selectedDoc?.text;
-        }
-        descriptionArticle.value = newValue.explanation?.explanation ?? '';
-        isExplain.value = Boolean(descriptionArticle.value?.length > 0);
-        explanationAttachments.value =
-          newValue?.explanation?.attachments?.map((item: any) => item.file) ?? [];
-        UploadedImage.value = newValue?.attachments?.map((item: any) => item.file) ?? [];
-      }
-    },
-    { immediate: true },
-  );
   const updateData = () => {
     let params: any;
     if (route?.params?.id) {
@@ -105,10 +88,11 @@
         },
         explanation: {
           explanation: descriptionArticle.value,
-          attachments:
-            explanationAttachments.value.map(
-              (file) => new AttachmentsParams({ alt: 'img', file }),
-            ) || [],
+          attachments: explanationAttachmentsChanged.value
+            ? explanationAttachments.value.map(
+                (file) => new AttachmentsParams({ alt: 'img', file }),
+              )
+            : undefined,
         },
       });
     } else {
@@ -134,14 +118,41 @@
     }
     emit('updateData', params);
   };
+  watch(
+    () => props.article,
+    (newValue) => {
+      if (newValue) {
+        QuestionDescription.value = newValue.question_description ?? '';
+        question.value = newValue.question ?? '';
+        SelectedQuestionSequence.value = newValue.e_c_subject ?? null;
+        const selectedDoc = newValue.document?.find((doc: any) => doc.document_id);
+        if (selectedDoc) {
+          SelectedDocument.value = {
+            id: selectedDoc.document_id,
+            title: selectedDoc.document_title,
+          };
+          articleSource.value = selectedDoc?.text;
+        }
+        descriptionArticle.value = newValue.explanation?.explanation ?? '';
+        isExplain.value = Boolean(descriptionArticle.value?.length > 0);
+        explanationAttachments.value =
+          newValue?.explanation?.attachments?.map((item: any) => item.file) ?? [];
+        explanationAttachmentsChanged.value = false;
+        UploadedImage.value = newValue?.attachments?.map((item: any) => item.file) ?? [];
+      }
+      updateData();
+    },
+    { immediate: true },
+  );
 
   // const handleImageChange = (file: any) => {
-  //   UploadedImage.value = file[0]?.base64 ? [file[0].base64] : [];
+  //   UploadedImage.value = file?.[0]?.base64 ? [file[0].base64] : [];
   //   updateData();
   // };
 
   const handleExplanationAttachments = (file: any) => {
     explanationAttachments.value = file[0]?.base64 ? [file[0].base64] : [];
+    explanationAttachmentsChanged.value = true;
     updateData();
   };
 
@@ -257,8 +268,8 @@
                   />
                 </div>
               </div>
-              <div class="input">
-                <div class="input">
+              <div class="field-group control-full-with">
+                <div class="input-wrapp">
                   <UpdatedCustomInputSelect
                     id="question-sequence"
                     v-model="SelectedQuestionSequence"
@@ -266,11 +277,9 @@
                     :static-options="subjectOptions"
                     placeholder="select subject"
                     @update:model-value="handelSubjectUpdate"
+                    @reload="FetchBranches"
                   />
                 </div>
-                <!-- <UpdatedCustomInputSelect id="doc-subject" v-model="SelectedSubject" :label="`subject`"
-                  :params="indexDocumentTypeParams" :controller="documentTypeController" placeholder="select subject"
-                  @update:model-value="updateData" /> -->
               </div>
             </div>
           </div>
@@ -411,6 +420,10 @@
 <style scoped lang="scss">
   @use '../../../../styles/variables' as *;
   @use '../../../../styles/mixins/flex' as *;
+
+  .control-full-with {
+    width: 100%;
+  }
 
   .image-input {
     :deep(.upload-area) {

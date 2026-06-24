@@ -10,7 +10,12 @@
   import SubjectController from '../controllers/subject.controller';
   import IndexSubjectParams from '../../core/params/index.subject.params';
   import DeleteSubjectParams from '../../core/params/delete.subject.params';
-  import type SubjectModel from '../../core/models/subject.model';
+  import type StageModel from '@/modules/Stages/core/models/stage.model';
+import DropList from '@/shared/HelpersComponents/DropList.vue';
+import DeletIcon from '@/shared/icons/DropListIcons/DeletIcon.vue';
+import { useI18n } from 'vue-i18n';
+import EditIcon from '@/shared/icons/Privacy/EditIcon.vue';
+import ShowIcon from '@/shared/icons/ShowIcon.vue';
 
   // Controller instance
   const controller = SubjectController.getInstance();
@@ -20,8 +25,9 @@
 
   // Table headers
   const headers: TableHeader[] = [
-    { key: 'title', label: 'Title', width: '50%', sortable: true },
-    { key: 'Stage', label: 'Stage', width: '50%' },
+    { key: 'title', label: 'Title', width: '90%', sortable: true },
+
+
   ];
 
   // Pagination state
@@ -36,7 +42,6 @@
         perPage.value,
       ),
     );
-    console.log(state, 'state');
   };
 
   const Search = debounce(() => {
@@ -76,7 +81,7 @@
     await fetchSubjects(route.query.page ? Number(route.query.page) : 1, word.value);
   });
 
-  const deleteCountry = async (id: number) => {
+  const deleteSubject = async (id: number) => {
     await controller.delete(new DeleteSubjectParams(id));
     await fetchSubjects();
   };
@@ -88,20 +93,41 @@
     const data = FormStore?.formData[formRoute.value] ?? {};
     return Object.keys(data).length === 0 || Object.values(data).every((v) => v == null);
   });
-  const SelectedRow = ref<SubjectModel[]>([]);
-  const setSelectef = (items: SubjectModel[]) => {
+  const SelectedRow = ref<StageModel[]>([]);
+  const setSelectef = (items: StageModel[]) => {
     SelectedRow.value = items;
   };
 
   const deleteSelected = () => {
     SelectedRow.value.forEach((item) => {
-      deleteCountry(item.id!);
+      deleteSubject(item.id!);
     });
   };
+const {t} = useI18n();
+  const actionList = (id: number, deleteSubject: (id: number) => void) => [
+    {
+      text: t('rename'),
+      icon: EditIcon ,
+      // action: () => {
+      //   router.push({ path: `/subjects/edit/${id}` });
+      // },
+    },
+    {
+      text: t('delete'),
+      icon: DeletIcon,
+      action: () => deleteSubject(id),
+    },
+        {
+      text: t('show_questions'),
+      icon: ShowIcon,
+      action: () => router.push( `/questions?subjectId=${id}`) ,
+    },
+  ];
 </script>
 
 <template>
-  <div class="email-page">
+  <!-- {{state -->
+  <div class="subject-page">
     <div class="index-header">
       <div class="toolbar">
         <div class="search-field">
@@ -128,25 +154,7 @@
           />
         </div>
       </div>
-      <div class="flex gap-10">
-        <router-link :to="formRoute" class="btn-add">
-          <span>{{ isDraft ? 'Add Subject' : 'Continue Adding' }}</span>
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-          >
-            <path d="M12 5v14M5 12h14" />
-          </svg>
-        </router-link>
-        <button v-if="SelectedRow.length > 0" class="btn-add" @click="deleteSelected">
-          <span>delete</span>
-        </button>
-      </div>
+
     </div>
 
     <!-- ═══ Table ═══ -->
@@ -155,28 +163,20 @@
         <div class="table-frame">
           <AppTable
             :headers="headers"
-            :items="data as SubjectModel[]"
+            :items="data as StageModel[]"
             selectable
             show-index
             hoverable
             striped
             @selection-change="setSelectef"
           >
-            <template #cell-name="{ item }">
+            <template #cell-title="{ item }">
               {{ item.title }}
-            </template>
-
-            <template #cell-Stage="{ item }">
-              {{ item.Stage.title }}
             </template>
 
             <template #actions="{ item }">
               <div class="row-actions">
-                <router-link
-                  class="action-btn edit"
-                  :to="`/stages/edit/${item.id}`"
-                  title="Edit"
-                >
+                <router-link class="action-btn edit" :to="`/stages/edit/${item.id}`" title="Edit">
                   <svg
                     width="15"
                     height="15"
@@ -191,26 +191,17 @@
                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                   </svg>
                 </router-link>
-                <DeleteDialog @delete="deleteCountry(item.id!)">
-                  <template #Dialog>
-                    <button class="action-btn delete" title="Delete">
-                      <svg
-                        width="15"
-                        height="15"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="M3 6h18" />
-                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                      </svg>
-                    </button>
-                  </template>
-                </DeleteDialog>
+                <DropList
+                  :action-list="actionList(item.id, deleteEducationClassification)"
+                  :delete-dialog-title="
+                    $t('are_you_sure_you_want_to_remove_this_education_classification')
+                  "
+                  :delete-dialog-message="
+                    $t(
+                      'Deleting_this_classification_will_remove_all_related_data_including_any_configurations_and_tree_structures_This_action_is_irreversible_and_the_classification_must_be_created_again_if_needed',
+                    )
+                  "
+                />
               </div>
             </template>
           </AppTable>

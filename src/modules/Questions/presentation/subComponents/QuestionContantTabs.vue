@@ -18,6 +18,7 @@
   import flattenSubjectBranchTree from '@/modules/Questions/core/SubjectTreeSelectHelper';
   import EducationTopicsController from '@/modules/EducationClassification/presentation/controllers/EducationTopics/education.topics.controller';
   import IndexEducationSubjectTopicParams from '@/modules/EducationClassification/core/params/EducationTopic/index.education.subject.topic.params';
+  import RemoveItemIcon from '@/shared/icons/Question/RemoveItem.vue';
   import { useRoute } from 'vue-router';
 
   const indexDocumentTypeParams = new IndexDocumentTypeParams();
@@ -33,6 +34,8 @@
   const SelectedDifficultyLevel = ref<TitleInterface<number> | null>(null);
   const SelectedSkill = ref<TitleInterface<number>[] | null>(null);
   const selectedBranchTitle = ref<TitleInterface<number>>();
+
+  const subjectDialog = ref(false);
 
   const DifficultLevels = ref<TitleInterface<number>[]>([
     {
@@ -242,6 +245,11 @@
     );
     updateData();
   });
+
+  const handleRemoveSkill = (index: number) => {
+    SelectedSkill.value?.splice(index, 1);
+    updateData();
+  };
 </script>
 
 <template>
@@ -250,12 +258,15 @@
       <div class="input">
         <UpdatedCustomInputSelect
           id="doc-branch"
-          :label="`subject name`"
+          v-model:dialog-visible="subjectDialog"
+          :label="`Subject`"
           :static-options="branchOptions"
           :model-value="selectedBranchTitle"
-          :placeholder="$t('Enter subject name')"
+          :placeholder="$t('Select Subject')"
           :reload="true"
+          :is-dialog="true"
           @update:model-value="handleBranchChange($event)"
+          @close="subjectDialog = false"
         />
       </div>
       <div class="input">
@@ -302,7 +313,9 @@
         placeholder="Subject Type"
         @update:model-value="updateData"
       />
+
       <div v-for="(skill, index) in SelectedSkill" :key="index" class="skill-percentage">
+        <RemoveItemIcon class="remove-skill-item" @click="handleRemoveSkill(index)" />
         <label :for="`skill-percentage-${index}`">
           {{ skill.title }}
         </label>
@@ -329,17 +342,21 @@
     & label {
       width: 80%;
       border: 1px solid #e6e6e6;
-      padding: 10px;
-      border-radius: 10px;
+      padding: 12px 9px;
+      border-radius: 50px;
+    }
+
+    & .remove-skill-item {
+      cursor: pointer;
     }
 
     & input {
       width: 20%;
-      padding: 10px;
+      padding: 12px 9px;
       border: 1px solid #e6e6e6;
       background-color: white;
       color: black;
-      border-radius: 10px;
+      border-radius: 50px;
 
       &:focus {
         outline: none;

@@ -182,14 +182,18 @@ export default abstract class BaseApiService extends ServicesInterface {
       enableRetry: isAutoRetry,
       usePost: options?.usePost ?? true,
     });
-    return this.call({
+    const data = this.call({
       url,
       type: mergedOptions?.usePost ? CrudType.POST : CrudType.GET,
       params,
       ...mergedOptions,
     });
+    console.log(data, 'data');
+    return data;
   }
+  // document.querySelector('#app')?.classList.add('loading');
 
+  // document.querySelector('#app')?.classList.remove('loading');
   /**
    * Fetch single item (POST request with Params in body).
    * The ID should be included in the Params.
@@ -229,12 +233,15 @@ export default abstract class BaseApiService extends ServicesInterface {
       enableRetry: isAutoRetry,
     });
 
-    return this.call({
+    // document.querySelector('#app')?.classList.add('loading');
+    const data = this.call({
       url,
       type: mergedOptions.useJson ? CrudType.POST : CrudType.FormData,
       params,
       ...mergedOptions,
     });
+    // document.querySelector('#app')?.classList.remove('loading');
+    return data;
   }
 
   /**
@@ -259,13 +266,16 @@ export default abstract class BaseApiService extends ServicesInterface {
     } else if (mergedOptions.useJson) {
       method = CrudType.PATCH;
     }
-
-    return this.call({
+    // document.querySelector('#app')?.classList.add('loading');
+    const data = this.call({
       url,
       type: mergedOptions?.usePost ? CrudType.POST : method,
       params,
       ...mergedOptions,
     });
+    // document.querySelector('#app')?.classList.remove('loading');
+
+    return data;
   }
 
   /**
@@ -278,13 +288,16 @@ export default abstract class BaseApiService extends ServicesInterface {
       ...options,
       usePost: options?.usePost ?? true,
     });
-
-    return this.call({
+    // document.querySelector('#app')?.classList.add('loading');
+    const data = this.call({
       url,
       type: mergedOptions?.usePost ? CrudType.POST : CrudType.DELETE,
       params,
       ...mergedOptions,
     });
+
+    // document.querySelector('#app')?.classList.remove('loading');
+    return data;
   }
 
   // =========================================================================
@@ -303,17 +316,22 @@ export default abstract class BaseApiService extends ServicesInterface {
       ...options,
       enableRetry: isAutoRetry,
     });
+    document.querySelector('#app')?.classList.add('loading');
 
-    return this.call({
-      url: config.url,
-      type: config.method,
-      params: config.params,
-      details: config.queryParams,
-      headers: config.headers,
-      showErrorDialog: mergedOptions.showErrorDialog,
-      showLoadingDialog: mergedOptions.showLoadingDialog,
-      ...mergedOptions,
-    }) as Promise<ApiResponse<T>>;
+    try {
+      return (await this.call({
+        url: config.url,
+        type: config.method,
+        params: config.params,
+        details: config.queryParams,
+        headers: config.headers,
+        showErrorDialog: mergedOptions.showErrorDialog,
+        showLoadingDialog: mergedOptions.showLoadingDialog,
+        ...mergedOptions,
+      })) as ApiResponse<T>;
+    } finally {
+      document.querySelector('#app')?.classList.remove('loading');
+    }
   }
 
   /**

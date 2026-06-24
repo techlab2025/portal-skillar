@@ -9,13 +9,13 @@
 
   import ValidationService from '@/base/Presentation/Utils/validationService';
 
-  import IconBackStage from '@/shared/icons/IconBackStage.vue';
-
   import PlusIcon from '@/shared/icons/PlusIcon.vue';
 
   import type TitleInterface from '@/base/Data/Models/titleInterface';
 
   import type BaseController from '@/base/Presentation/Controller/baseController';
+  import Dialog from 'primevue/dialog';
+  import ReloadIcon from '../icons/CustomSelect/ReloadIcon.vue';
 
   export type ComponentType = 'select' | 'multiselect';
 
@@ -53,11 +53,18 @@
     hascontent?: boolean;
 
     hasHeader?: boolean;
-
+    isDialog?: boolean;
+    dialogVisible?: boolean;
     onclick?: () => void;
   }
 
-  const emit = defineEmits(['update:modelValue', 'update:slot']);
+  const emit = defineEmits([
+    'update:modelValue',
+    'update:slot',
+    'close',
+    'update:dialogVisible',
+    'reload',
+  ]);
 
   const props = withDefaults(defineProps<Props>(), {
     type: 1,
@@ -263,7 +270,22 @@
     await fetchOptions();
 
     normalizedValue.value = isMultiselect.value ? [] : null;
+    emit('reload');
   }
+  const DialogVisable = computed({
+    get() {
+      return props.dialogVisible;
+    },
+    set(val) {
+      emit('update:dialogVisible', val);
+      if (!val) {
+        reloadData();
+      }
+    },
+  });
+  // const closeDailog = () => {
+  //   emit('close', false);
+  // };
 </script>
 
 <template>
@@ -279,7 +301,7 @@
         >
           <span v-if="optional" class="optional-text">({{ $t('optional') }})</span>
 
-          <IconBackStage />
+          <ReloadIcon />
         </span>
       </div>
 
@@ -313,15 +335,39 @@
       filter
       :loading="loading"
       :empty-message="message"
+      :pt="{
+        overlay: { class: 'custom-select-overlay' },
+      }"
     />
 
     <input :id="id" type="text" class="hidden w-full" :value="normalizedValue" />
   </slot>
 
   <slot v-else name="content"> </slot>
+  <div v-if="isDialog">
+    <Dialog
+      v-model:visible="DialogVisable"
+      :pt="{
+        root: 'custom-select-dialog',
+      }"
+      modal
+      :dismissable-mask="true"
+      :style="{ width: '60rem' }"
+    >
+      <slot name="Dialog"></slot>
+    </Dialog>
+  </div>
+  <slot v-else name="CreatedDialog"></slot>
 </template>
 
 <style scoped lang="scss">
+  .dialog {
+    background-color: white !important;
+  }
+  .flex {
+    display: flex;
+    gap: 10px;
+  }
   .reload-icon {
     z-index: 9999;
     cursor: pointer;
@@ -346,6 +392,19 @@
 
     &:focus {
       border: 1px solid #d9dbe9 !important;
+    }
+  }
+</style>
+
+<style lang="scss">
+  .custom-select-overlay {
+    max-width: min(90vw, 500px) !important;
+
+    .p-select-option-label,
+    .p-multiselect-option-label {
+      white-space: normal;
+      word-break: break-word;
+      line-height: 1.4;
     }
   }
 </style>

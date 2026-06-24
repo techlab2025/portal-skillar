@@ -4,7 +4,7 @@
   import CopyIcon from '@/shared/icons/CopyIcon.vue';
   import ArticlePencil from '@/shared/icons/ArticlePencil.vue';
   import Articlearrow from '@/shared/icons/articlearrow.vue';
-  import AchiveIcon from '@/shared/icons/AchiveIcon.vue';
+  // import AchiveIcon from '@/shared/icons/AchiveIcon.vue';
   import DeletIArticle from '@/shared/icons/DeletIArticle.vue';
   import DeleteDialog from '@/shared/HelpersComponents/dialog/DeleteDialog.vue';
   import DeleteArticlesParams from '@/modules/Articles/core/params/delet.Articles.params';
@@ -23,7 +23,7 @@
   const controller = ArticleController.getInstance();
   const deleteArticle = async (id: number) => {
     await controller.delete(new DeleteArticlesParams(id));
-    router.push(`/${route.params.country_code}/articles`);
+    router.push(`/articles`);
   };
   // delet arrow from article subject and show only title
   // const deleteArrow = (subject: ArticleSubjectModel) => {
@@ -48,12 +48,12 @@
           <ArticlePencil />
           {{ $t('Edit') }}
         </router-link>
-        <div class="btn btn-action">
+        <!-- <div class="btn btn-action">
           <AchiveIcon />
           {{ $t('Archive ') }}
-        </div>
+        </div> -->
 
-        <DeleteDialog @delete="deleteArticle(artical.id!)">
+        <DeleteDialog @delete="deleteArticle(artical.question_id!)">
           <template #Dialog>
             <button class="btn-delet" title="Delete">
               <DeletIArticle />

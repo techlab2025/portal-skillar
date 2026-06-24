@@ -28,8 +28,11 @@
   import StageTreeSkeleton from './StageTreeSkeleton.vue';
 
   const route = useRoute();
+  const { EducationClassificationId } = defineProps<{
+    EducationClassificationId?: number;
+  }>();
   const { locale } = useI18n();
-  const classificationId = Number(route.params.id);
+  const classificationId = Number(route.params.id || EducationClassificationId);
   const controller = EducationStageController.getInstance();
   const configController = EducationConfigurationController.getInstance();
   const MaxNumberOfBranches = ref();
@@ -147,7 +150,7 @@
   onMounted(async () => {
     const configResult = await configController.fetchList(
       new FetchEducationStageParams({
-        classification_id: Number(route.params.id),
+        classification_id: classificationId,
       }),
     );
     MaxNumberOfBranches.value = configResult.data?.[0]?.numberOfBranches;

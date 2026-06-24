@@ -52,6 +52,7 @@
         pageNumber: page,
         perPage: perPage.value,
         withPage: 1,
+        ...(route.query.subjectId ? { subjectId: Number(route.query.subjectId) } : {}),
       }),
     );
   };
@@ -217,10 +218,9 @@
               <div
                 class="status"
                 :class="{
-                  'status-approved': item.status === QuestionStatusEnum.approved,
-                  'status-not-reviewed': item.status === QuestionStatusEnum.not_Reviewd,
-                  'status-rejected': item.status === QuestionStatusEnum.rejected,
-                  'status-under-review': item.status === QuestionStatusEnum.under_review,
+                  'status-approved': item.status === QuestionStatusEnum.APPROVED,
+                  'status-not-reviewed': item.status === QuestionStatusEnum.PENDING,
+                  'status-rejected': item.status === QuestionStatusEnum.REJECTED,
                 }"
               >
                 {{ GetQuestionStatus(item.status) }}
