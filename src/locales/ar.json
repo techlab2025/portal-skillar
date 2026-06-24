@@ -115,5 +115,11 @@
   "easy": "سهل",
   "medium": "متوسط",
   "hard": "صعب",
-  "select_difficulty": "اختر درجة الصعوبة"
+  "select_difficulty": "اختر درجة الصعوبة",
+  "education_classification": "التصنيف التعليمي",
+  "branch": "الفرع",
+  "subject": "المادة",
+  "select_classification": "اختر التصنيف",
+  "select_branch": "اختر الفرع",
+  "select_subject": "اختر المادة"
 }

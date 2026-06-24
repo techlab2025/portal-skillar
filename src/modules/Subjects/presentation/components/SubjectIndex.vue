@@ -2,26 +2,44 @@
   import { onMounted, ref, computed } from 'vue';
   import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
   import AppTable, { type TableHeader } from '@/shared/HelpersComponents/AppTable.vue';
-  import Pagination from '@/shared/HelpersComponents/Pagination.vue';
-  import { useRoute, useRouter } from 'vue-router';
+  import { useRoute } from 'vue-router';
   import SubjectController from '../controllers/subject.controller';
   import IndexSubjectParams from '../../core/params/index.subject.params';
   import { getFullTitlesFromEducationResponse } from '@/shared/GeneralMethods/CreateBranchSubjectTree';
   import type TitleInterface from '@/base/Data/Models/titleInterface';
   import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
 
+  type EducationTreeNode = {
+    id?: number;
+    title?: string;
+    full_title?: string;
+    e_c_branch_id?: number;
+    e_c_subject_id?: number;
+    branches?: EducationTreeNode[];
+    subjects?: EducationTreeNode[];
+    children?: EducationTreeNode[];
+  };
+
+  type FilterNodeType = 'classification' | 'branch' | 'subject';
+
+  type EducationFilterOption = TitleInterface<number> & {
+    node: EducationTreeNode;
+    nodeType: FilterNodeType;
+  };
+
   const subjectcontroller = SubjectController.getInstance();
   const state = computed(() => subjectcontroller.listState.value);
-  const router = useRouter();
   const route = useRoute();
+  const cacheKey = 'subjects_full_education_classification_tree';
 
-  // Table headers
   const headers: TableHeader[] = [{ key: 'title', label: 'name', width: '90%', sortable: true }];
 
-  // Pagination state
   const perPage = ref(10);
   const word = ref('');
   const TableTitle = ref<TitleInterface<number>[]>([]);
+  const educationTree = ref<EducationTreeNode[]>([]);
+  const filterLevels = ref<EducationFilterOption[][]>([]);
+  const selectedFilters = ref<(EducationFilterOption | null)[]>([]);
 
   const fetchSubjects = async (page: number = 1, word: string = '') => {
     await subjectcontroller.fetchList(
@@ -29,33 +47,126 @@
         word,
         route.query.page ? Number(route.query.page) : page,
         perPage.value,
+        0,
       ),
     );
   };
 
-  const onPageChange = (page: number) => {
-    fetchSubjects(page);
-    router.push({
-      query: {
-        ...route.query,
-        page: String(page),
-        word: word.value,
-      },
-    });
+  const getNodeId = (node: EducationTreeNode): number => {
+    return node.e_c_subject_id ?? node.e_c_branch_id ?? node.id ?? 0;
   };
 
-  const onPerPageChange = (count: number) => {
-    perPage.value = count;
-    fetchSubjects(1);
+  const getChildNodes = (node: EducationTreeNode): EducationTreeNode[] => {
+    return [...(node.branches ?? []), ...(node.children ?? []), ...(node.subjects ?? [])];
   };
 
-  // Fetch emails on component mount
+  const getNodeType = (node: EducationTreeNode, fallback: FilterNodeType): FilterNodeType => {
+    if (node.e_c_subject_id) return 'subject';
+    if (node.e_c_branch_id) return 'branch';
+    return fallback;
+  };
+
+  const toFilterOption = (
+    node: EducationTreeNode,
+    fallbackType: FilterNodeType,
+  ): EducationFilterOption => {
+    return {
+      id: getNodeId(node),
+      title: node.title ?? node.full_title ?? '',
+      full_title: node.full_title,
+      node,
+      nodeType: getNodeType(node, fallbackType),
+    };
+  };
+
+  const getClassificationOptions = (tree: EducationTreeNode[]): EducationFilterOption[] => {
+    return tree.map((node) => toFilterOption(node, 'classification')).filter((item) => item.id);
+  };
+
+  const getNextOptions = (node: EducationTreeNode): EducationFilterOption[] => {
+    return getChildNodes(node)
+      .map((child) => toFilterOption(child, getNodeType(child, 'branch')))
+      .filter((item) => item.id);
+  };
+
+  const getTableSource = (node?: EducationTreeNode): EducationTreeNode[] => {
+    if (!node) return educationTree.value;
+    if (node.e_c_subject_id) return [{ branches: [{ subjects: [node] }] }];
+    if (node.e_c_branch_id) return [{ branches: [node] }];
+    return [node];
+  };
+
+  const updateTableFromNode = (node?: EducationTreeNode) => {
+    TableTitle.value = getFullTitlesFromEducationResponse(getTableSource(node));
+  };
+
+  const syncTreeFromState = () => {
+    const data = state.value.data ?? [];
+    educationTree.value = data as unknown as EducationTreeNode[];
+    sessionStorage.setItem(cacheKey, JSON.stringify(data));
+    filterLevels.value = [getClassificationOptions(educationTree.value)];
+    selectedFilters.value = [null];
+    updateTableFromNode();
+  };
+
+  const loadCachedTree = () => {
+    const cachedTree = sessionStorage.getItem(cacheKey);
+    if (!cachedTree) return;
+
+    try {
+      const parsedTree = JSON.parse(cachedTree) as EducationTreeNode[];
+      educationTree.value = parsedTree;
+      filterLevels.value = [getClassificationOptions(parsedTree)];
+      selectedFilters.value = [null];
+      updateTableFromNode();
+    } catch {
+      sessionStorage.removeItem(cacheKey);
+    }
+  };
+
+  const updateSelectedFilter = (levelIndex: number, option: EducationFilterOption | null) => {
+    selectedFilters.value = selectedFilters.value.slice(0, levelIndex + 1);
+    selectedFilters.value[levelIndex] = option;
+    filterLevels.value = filterLevels.value.slice(0, levelIndex + 1);
+
+    if (!option) {
+      const previousOption = selectedFilters.value[levelIndex - 1];
+      updateTableFromNode(previousOption?.node);
+      return;
+    }
+
+    updateTableFromNode(option.node);
+
+    const nextOptions = getNextOptions(option.node);
+    if (nextOptions.length > 0) {
+      filterLevels.value.push(nextOptions);
+      selectedFilters.value.push(null);
+    }
+  };
+
+  const getFilterLabel = (levelIndex: number) => {
+    if (levelIndex === 0) return 'education_classification';
+
+    const options = filterLevels.value[levelIndex] ?? [];
+    return options.some((option) => option.nodeType === 'subject') ? 'subject' : 'branch';
+  };
+
+  const getFilterPlaceholder = (levelIndex: number) => {
+    if (levelIndex === 0) return 'select_classification';
+
+    const options = filterLevels.value[levelIndex] ?? [];
+    return options.some((option) => option.nodeType === 'subject')
+      ? 'select_subject'
+      : 'select_branch';
+  };
+
   onMounted(async () => {
     if (route.query.word) {
       word.value = String(route.query.word);
     }
+    loadCachedTree();
     await fetchSubjects(route.query.page ? Number(route.query.page) : 1, word.value);
-    TableTitle.value = state.value.data ? getFullTitlesFromEducationResponse(state.value.data) : [];
+    syncTreeFromState();
   });
 
   const formRoute = computed(() => '/subjects/add');
@@ -64,47 +175,24 @@
   const setSelectef = (items: TitleInterface<number>[]) => {
     SelectedRow.value = items;
   };
-
-  const SelctedFilter = ref<TitleInterface<number>>();
-  const UpdateSelctFIlter = () => {};
-  const SubjectParams = ref<IndexSubjectParams>(new IndexSubjectParams(''));
 </script>
 
 <template>
   <div class="subject-page">
     <div class="index-header">
       <div class="toolbar">
-        <!-- <div class="search-field">
-          <span class="search-icon">
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.35-4.35" />
-            </svg>
-          </span>
-          <input
-            v-model="word"
-            placeholder="Search by country name or code…"
-            class="search-input"
-            type="text"
-            @input="Search"
-          />
-        </div> -->
         <UpdatedCustomInputSelect
-          id="classification-filter"
-          v-model="SelctedFilter"
-          :label="`classification`"
-          :controller="subjectcontroller"
-          :params="SubjectParams"
-          placeholder="select subject"
-          @update:model-value="UpdateSelctFIlter"
+          v-for="(options, index) in filterLevels"
+          :id="`education-filter-${index}`"
+          :key="index"
+          v-model="selectedFilters[index]"
+          :label="getFilterLabel(index)"
+          :static-options="options"
+          :placeholder="$t(getFilterPlaceholder(index))"
+          :reload="false"
+          @update:model-value="
+            (option: EducationFilterOption | null) => updateSelectedFilter(index, option)
+          "
         />
       </div>
     </div>
@@ -122,7 +210,7 @@
             @selection-change="setSelectef"
           >
             <template #cell-title="{ item }">
-              <span class="subject-title-cell">{{ item.title }}</span>
+              <span class="subject-title-cell">{{ item.title || item.stage_title }}</span>
             </template>
 
             <template #actions="{ item }">
@@ -146,12 +234,6 @@
             </template>
           </AppTable>
         </div>
-
-        <Pagination
-          :pagination="subjectcontroller.pagination.value"
-          @change-page="onPageChange"
-          @count-per-page="onPerPageChange"
-        />
       </template>
       <template #empty>
         <div class="empty-state">
