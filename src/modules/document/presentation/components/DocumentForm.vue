@@ -18,24 +18,26 @@
   import type StageModel from '@/modules/Stages/core/models/stage.model'; // import type BranchesModel from '@/modules/Stages/core/models/branches.model';
   import type DocumentShowModel from '../../core/models/document.show.model';
   import flattenBranchTree from '@/modules/document/core/TreeSelectHelper';
+  import type { FieldError } from '@/base/Presentation/Utils/classValidation';
   // import NewIcon from '@/shared/icons/CustomSelect/NewIcon.vue';
 
   const emit = defineEmits(['updateData']);
 
-  const { document, formKey, loading } = defineProps<{
+  const props = defineProps<{
     document?: DocumentShowModel;
     formKey?: string;
     loading?: boolean;
+    errors?: FieldError[];
   }>();
   const tag = ref<string>('');
   const tags = ref<string[]>([]);
   const FormStore = useFormsStore();
 
   onBeforeRouteLeave((to, from) => {
-    const savedData = formKey ? FormStore.getFormData(formKey) : null;
+    const savedData = props.formKey ? FormStore.getFormData(props.formKey) : null;
 
-    if (savedData && to.path !== from.path && formKey) {
-      FormStore.showReturnWarning(formKey);
+    if (savedData && to.path !== from.path && props.formKey) {
+      FormStore.showReturnWarning(props.formKey);
     }
   });
 
@@ -50,12 +52,15 @@
   const stageController = StageController.getInstance();
   const UploadedImage = ref<string>();
   const UploadedFiles = ref<string>();
+
+  const getError = (field: string) => props.errors?.find((error) => error.field === field)?.message;
   const FetchStages = async () => {
     await stageController.fetchList(indexDocumentTypeParams);
     allStages.value = (stageController.listData.value ?? []) as StageModel[];
   };
   onMounted(async () => {
-    FetchStages();
+    await FetchStages();
+    updateData();
   });
 
   const branchOptions = computed<TitleInterface<number>[]>(() => {
@@ -64,7 +69,7 @@
 
   const selectedBranchTitle = ref<TitleInterface<number>>();
   watch(
-    () => document,
+    () => props.document,
     (newDoc) => {
       if (newDoc) {
         title.value = newDoc.translations.title;
@@ -107,7 +112,7 @@
       documentTypeId: selectedDocumentType.value?.id || 0,
       stage_id: selectedBranchTitle.value?.subtitle || 0,
       subjects: selectedBranchTitle.value?.id || 0,
-      files: UploadedFiles.value!,
+      files: UploadedFiles.value || '',
       images: UploadedImage.value || '',
       refNumber: RefrenceNumber.value,
       tags: tags.value,
@@ -118,16 +123,8 @@
 
   const handleBranchChange = (selected: TitleInterface<number> | undefined) => {
     selectedBranchTitle.value = selected;
-    console.log(selected, 'selected');
     updateData();
-  }; // const handleImageChange = (files: UploadedFile[]) => {
-  //   UploadedImage.value = files?.[0]?.base64;
-  //   updateData();
-  // };
-  // const handleFilsChange = (files: UploadedFile[]) => {
-  //   UploadedFiles.value = files?.[0]?.base64;
-  //   updateData();
-  // };
+  };
 
   const handleImageChange = (files: UploadedFile[]) => {
     if (files.length === 0) {
@@ -173,7 +170,7 @@
       </div>
     </div>
 
-    <div class="form-fields" :class="{ disabled: loading }">
+    <div class="form-fields" :class="{ disabled: props.loading }">
       <div class="field-group">
         <MultiLangInput
           :field-key="`title`"
@@ -186,11 +183,15 @@
             updateData();
           "
         />
+
+        <p v-if="getError('title')" class="error-message">
+          {{ getError('title') }}
+        </p>
       </div>
 
       <div
         class="field-group col-span-1 ref-number-group"
-        :class="{ 'disabled-input': document?.RefNumber }"
+        :class="{ 'disabled-input': props.document?.RefNumber }"
       >
         <label class="field-label" for="doc-ref">{{ $t('Reference_Number') }}</label>
 
@@ -204,6 +205,9 @@
             @input="updateData"
           />
         </div>
+        <p v-if="getError('RefranceNumebr')" class="error-message">
+          {{ getError('RefranceNumebr') }}
+        </p>
       </div>
 
       <div class="field-group select-group col-span-2">
@@ -221,6 +225,10 @@
             updateData();
           "
         />
+
+        <p v-if="getError('documentTypeId')" class="error-message">
+          {{ getError('documentTypeId') }}
+        </p>
         <!-- @close="DocumentTypeDialog = false"
           :isDialog="true"
           v-model:dialogVisible="DocumentTypeDialog"
@@ -245,6 +253,10 @@
           @update:model-value="handleBranchChange($event)"
           @reload="FetchStages"
         />
+
+        <p v-if="getError('subjects') || getError('stage_id')" class="error-message">
+          {{ getError('subjects') || getError('stage_id') }}
+        </p>
       </div>
 
       <div class="field-group col-span-2">
@@ -259,6 +271,10 @@
             updateData();
           "
         />
+
+        <p v-if="getError('description')" class="error-message">
+          {{ getError('description') }}
+        </p>
       </div>
 
       <div class="field-group tags-group col-span-2">
@@ -309,6 +325,10 @@
             </div>
           </template>
         </HandleFilesUpload>
+
+        <p v-if="getError('images')" class="error-message">
+          {{ getError('images') }}
+        </p>
       </div>
 
       <div class="field-group col-span-2">
@@ -336,6 +356,10 @@
             </div>
           </template>
         </HandleFilesUpload>
+
+        <p v-if="getError('files')" class="error-message">
+          {{ getError('files') }}
+        </p>
       </div>
     </div>
   </div>
@@ -348,5 +372,12 @@
   }
   .add-dialog {
     cursor: pointer;
+  }
+
+  .error-message {
+    color: var(--danger);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
   }
 </style>
