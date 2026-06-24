@@ -1,3 +1,5 @@
+name:
+  SkillerAi 
 services:
   eduhub-exams:
     build:
