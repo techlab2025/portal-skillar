@@ -1,9 +1,7 @@
 import type Params from "@/base/Core/Params/params";
 import { ClassValidation } from "@/base/Presentation/Utils/classValidation";
 
-/**
- * Parameters for adding a new country
- */
+
 export default class AddSubjectParams implements Params {
   public title: string;
   public StageId: number;

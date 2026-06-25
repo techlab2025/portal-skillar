@@ -9,11 +9,6 @@ import { useFormsStore } from '@/stores/formsStore';
 import type StageModel from '../../core/models/stage.model';
 import StageRepository from '../../data/repositories/stage.repository';
 
-/**
- * Country Controller for managing countries
- *
- * This controller provides methods for CRUD operations on countries.
- */
 export default class StageController extends BaseController<StageModel, StageModel[]> {
   private static instance: StageController;
 

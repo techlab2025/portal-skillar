@@ -315,3 +315,8 @@ body {
 .custom-select-dialog {
   background-color: white !important;
 }
+.subject-page {
+  .p-select-label.p-placeholder {
+    color: var(--PrimaryColor) !important;
+  }
+}

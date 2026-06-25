@@ -1,5 +1,5 @@
-import type Params from "@/base/Core/Params/params";
-import { ClassValidation } from "@/base/Presentation/Utils/classValidation";
+import type Params from '@/base/Core/Params/params';
+import { ClassValidation } from '@/base/Presentation/Utils/classValidation';
 
 /**
  * Parameters for creating/updating employee email
@@ -11,13 +11,13 @@ export default class DeleteSubjectParams implements Params {
     id: { required: true, minLength: 1 },
   });
 
-  constructor(id: number) {
-    this.id = id;
+  constructor(data: { id: number }) {
+    this.id = data.id;
   }
 
   toMap(): { [p: string]: any } {
     const map: { [key: string]: any } = {
-      id: this.id,
+      education_classification_subject_id: this.id,
     };
 
     return map;

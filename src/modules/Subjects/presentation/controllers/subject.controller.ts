@@ -32,4 +32,6 @@ export default class SubjectController extends BaseController<StageModel, StageM
     }
     return SubjectController.instance;
   }
+
 }
+ 

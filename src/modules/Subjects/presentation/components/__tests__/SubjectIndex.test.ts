@@ -100,9 +100,15 @@ describe('SubjectIndex.vue', () => {
         DataStatusBuilder: { template: '<div><slot name="success" /><slot name="empty" /></div>' },
         AppTable: { template: '<div class="app-table-stub" />', props: ['headers', 'items'] },
         UpdatedCustomInputSelect: {
-          template:
-            '<div class="education-filter" :data-label="label" :data-placeholder="placeholder" />',
+          template: `<button
+            class="education-filter"
+            :data-label="label"
+            :data-placeholder="placeholder"
+            :data-selected="modelValue?.title ?? ''"
+            @click="$emit('update:modelValue', staticOptions[0] ?? null)"
+          />`,
           props: ['modelValue', 'label', 'staticOptions', 'placeholder', 'reload'],
+          emits: ['update:modelValue'],
         },
         DeleteDialog: true,
         'router-link': { template: '<a><slot /></a>', props: ['to'] },
@@ -123,6 +129,23 @@ describe('SubjectIndex.vue', () => {
     expect(wrapper.findAll('.education-filter')).toHaveLength(1);
     expect(filter.exists()).toBe(true);
     expect(filter.attributes('data-label')).toBe('education_classification');
+  });
+
+  it('shows the selected path inside the select placeholder', async () => {
+    const wrapper = mount(SubjectIndex, mountOptions);
+    await flushPromises();
+
+    await wrapper.find('.education-filter').trigger('click');
+
+    expect(wrapper.find('.education-filter').attributes('data-placeholder')).toBe(
+      'New EducationClassification',
+    );
+
+    await wrapper.find('.education-filter').trigger('click');
+
+    expect(wrapper.find('.education-filter').attributes('data-placeholder')).toBe(
+      'New EducationClassification -> branch 1',
+    );
   });
 
   it('calls fetchList on mount without pagination and caches the tree', async () => {

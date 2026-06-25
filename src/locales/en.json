@@ -491,5 +491,8 @@
   "subject": "Subject",
   "select_classification": "Select classification",
   "select_branch": "Select branch",
-  "select_subject": "Select subject"
+  "select_subject": "Select subject",
+  "show_question": "Show Question",
+  "are_you_sure_you_want_to_remove_this_subject": "Are you sure you want to remove this subject?",
+  "Deleting_this_subject_will_remove_all_related_data_including_any_configurations_and_tree_structures_This_action_is_irreversible_and_the_subject_must_be_created_again_if_needed": "Deleting this subject will remove all related data including any configurations and tree structures. This action is irreversible and the subject must be created again if needed"
 }

@@ -2,12 +2,17 @@
   import { onMounted, ref, computed } from 'vue';
   import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
   import AppTable, { type TableHeader } from '@/shared/HelpersComponents/AppTable.vue';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import SubjectController from '../controllers/subject.controller';
   import IndexSubjectParams from '../../core/params/index.subject.params';
   import { getFullTitlesFromEducationResponse } from '@/shared/GeneralMethods/CreateBranchSubjectTree';
   import type TitleInterface from '@/base/Data/Models/titleInterface';
   import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
+  import DropList from '@/shared/HelpersComponents/DropList.vue';
+  import EditIcon from '@/shared/icons/Privacy/EditIcon.vue';
+  import { useI18n } from 'vue-i18n';
+  import DeleteSubjectParams from '../../core/params/delete.subject.params';
+  import ShowIcon from '@/shared/icons/ShowIcon.vue';
 
   type EducationTreeNode = {
     id?: number;
@@ -135,12 +140,12 @@
     }
   };
 
-  const getSelectedPathTitle = () => {
+  const selectedPathTitle = computed(() => {
     return selectedPath.value
       .map((option) => option.rawTitle)
       .filter(Boolean)
       .join(' -> ');
-  };
+  });
 
   const updateSelectedFilter = (option: EducationFilterOption | null) => {
     if (!option) {
@@ -152,10 +157,7 @@
     }
 
     selectedPath.value = [...selectedPath.value, option];
-    selectedFilter.value = {
-      ...option,
-      title: getSelectedPathTitle(),
-    };
+    selectedFilter.value = null;
     updateTableFromNode(option.node);
     currentFilterOptions.value = getNextOptions(option);
   };
@@ -195,20 +197,42 @@
   const setSelectef = (items: TitleInterface<number>[]) => {
     SelectedRow.value = items;
   };
+  const deleteSubject = async (id: number) => {
+    await subjectcontroller.delete(new DeleteSubjectParams({ id: id }));
+    await fetchSubjects();
+    syncTreeFromState();
+  };
+
+  const { t } = useI18n();
+  const router = useRouter();
+  const actionList = (id: number, deleteSubject: (id: number) => void) => [
+    {
+      text: t('delete'),
+      icon: EditIcon,
+      action: () => {
+        deleteSubject(id);
+      },
+    },
+    {
+      text: t('show_question'),
+      icon: ShowIcon,
+      action: () => router.push(`/Questions?subjectId=${id}`),
+    },
+  ];
+  
 </script>
 
 <template>
   <div class="subject-page">
     <div class="index-header">
       <div class="toolbar">
-        {{ selectedFilter }}
         <UpdatedCustomInputSelect
           id="education-filter"
           v-model="selectedFilter"
           :label="getFilterLabel()"
           :static-options="currentFilterOptions"
-          :placeholder="$t(getFilterPlaceholder())"
-          :reload="false"
+          :placeholder="selectedPathTitle || $t(getFilterPlaceholder())"
+          :reload="true"
           @update:model-value="
             (option: EducationFilterOption | null) => updateSelectedFilter(option)
           "
@@ -229,26 +253,20 @@
             @selection-change="setSelectef"
           >
             <template #cell-title="{ item }">
-              <span class="subject-title-cell">{{ item.title || item.stage_title }}</span>
+              <span class="subject-title-cell">{{ item.title }}</span>
             </template>
 
             <template #actions="{ item }">
               <div class="row-actions">
-                <router-link class="action-btn edit" :to="`/subjects/edit/${item.id}`" title="Edit">
-                  <svg
-                    width="15"
-                    height="15"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                  </svg>
-                </router-link>
+                <DropList
+                  :action-list="actionList(item.id, deleteSubject)"
+                  :delete-dialog-title="$t('are_you_sure_you_want_to_remove_this_subject')"
+                  :delete-dialog-message="
+                    $t(
+                      'Deleting_this_subject_will_remove_all_related_data_including_any_configurations_and_tree_structures_This_action_is_irreversible_and_the_subject_must_be_created_again_if_needed',
+                    )
+                  "
+                />
               </div>
             </template>
           </AppTable>
@@ -268,8 +286,8 @@
             <rect x="2" y="4" width="20" height="16" rx="2" />
             <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
           </svg>
-          <h3>No emails yet</h3>
-          <p>Add the first employee email to get started</p>
+          <h3>{{ $t('no_subjects') }}</h3>
+          <p>{{ $t('add_the_first_subject_to_get_started') }}</p>
           <router-link :to="formRoute" class="btn-add empty-cta">
             <svg
               width="18"
@@ -282,10 +300,16 @@
             >
               <path d="M12 5v14M5 12h14" />
             </svg>
-            <span>Add Email</span>
+            <span>{{ $t('add_email') }}</span>
           </router-link>
         </div>
       </template>
     </DataStatusBuilder>
   </div>
 </template>
+
+<style scoped>
+  .p-select-label.p-placeholder {
+    color: var(--primary-color) !important;
+  }
+</style>

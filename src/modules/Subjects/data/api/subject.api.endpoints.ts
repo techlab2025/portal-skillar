@@ -7,5 +7,5 @@ export class SubjectEndpoints extends BaseEndpoints {
   readonly show = this.url('show_subject');
   readonly store = this.url('store_subject');
   readonly update = this.url('update_subject');
-  readonly delete = this.url('delete_subject');
+  readonly delete = this.url('delete_education_classification_subject');
 }
