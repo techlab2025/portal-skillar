@@ -2,11 +2,11 @@
   import { computed } from 'vue';
   import { useI18n } from 'vue-i18n';
   import type ShowPlcaementTestModel from '@/modules/PlacementTest/core/models/show.placement.test.model';
-import IconClock from '@/shared/icons/iconClock.vue';
-import IconFlag from '@/shared/icons/IconFlag.vue';
-import IconExam from '@/shared/icons/iconExam.vue';
-import IconDurion from '@/shared/icons/iconDurion.vue';
-import Iconalert from '@/shared/icons/Iconalert.vue';
+  import IconClock from '@/shared/icons/iconClock.vue';
+  import IconFlag from '@/shared/icons/IconFlag.vue';
+  import IconExam from '@/shared/icons/iconExam.vue';
+  import IconDurion from '@/shared/icons/iconDurion.vue';
+  import Iconalert from '@/shared/icons/Iconalert.vue';
 
   const props = defineProps<{
     placementTest: ShowPlcaementTestModel;
@@ -28,7 +28,7 @@ import Iconalert from '@/shared/icons/Iconalert.vue';
     {
       key: 'exam',
       label: t('placement_test.exam_time'),
-      value: props.placementTest.timeAnalysis?.examTime,
+      value: `  ${props.placementTest.timeAnalysis?.examTime} ${t('min')}`,
     },
     {
       key: 'actual',
@@ -50,7 +50,7 @@ import Iconalert from '@/shared/icons/Iconalert.vue';
 
     <div class="time-analysis-card__grid">
       <article v-for="item in timeItems" :key="item.key" class="time-analysis-card__item">
-        <span >
+        <span>
           <IconClock v-if="item.key === 'start'" />
           <IconFlag v-else-if="item.key === 'end'" />
           <IconExam v-else-if="item.key === 'exam'" />
@@ -59,7 +59,7 @@ import Iconalert from '@/shared/icons/Iconalert.vue';
 
         <div>
           <span class="time-analysis-card__label">{{ item.label }}</span>
-          <strong>{{ item.value || '--' }}</strong>
+          <strong>{{ item.value || '--' }} </strong>
         </div>
       </article>
     </div>
@@ -67,7 +67,7 @@ import Iconalert from '@/shared/icons/Iconalert.vue';
     <div class="time-analysis-card__passed">
       <div>
         <span>{{ t('placement_test.time_passed') }}</span>
-        <strong>{{  props.placementTest.timeAnalysis?.timePassed }} {{ t('min') }}</strong>
+        <strong>{{ props.placementTest.timeAnalysis?.timePassed }} {{ t('min') }}</strong>
       </div>
       <Iconalert />
     </div>

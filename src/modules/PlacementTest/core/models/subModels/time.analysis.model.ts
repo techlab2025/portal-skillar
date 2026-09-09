@@ -21,6 +21,7 @@ export default class TimeAnalysisModel {
   }
 
   static fromJson(json: any): TimeAnalysisModel {
+    console.log('TimeAnalysisModel.fromJson called with json:', json);
     if (!json) {
       throw new Error('Cannot create TimeAnalysisModel from null or undefined');
     }
@@ -29,7 +30,7 @@ export default class TimeAnalysisModel {
       endTime: json.end_time,
       actualDuration: json.actual_duration,
       timePassed: json.time_passed,
-      examTime: json.exam_time,
+      examTime: json.minute_count,
     });
   }
 
