@@ -3,13 +3,13 @@
   import { useI18n } from 'vue-i18n';
   import { QuestionDifficultyEnum } from '@/modules/Questions/core/constant/question.difficulty.enum';
   import { QuestionTypeEnum } from '@/modules/Questions/core/constant/question.type.enum';
-  import type ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
+  // import type ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
   import PlacementQuestionAnswerDetails from './PlacementQuestionAnswerDetails.vue';
+  import type QuestionAnswerAnalysisModel from '@/modules/PlacementTest/core/models/subModels/question.answer.analysis.model.ts';
 
   defineProps<{
-    question: ShowQuestionsModel;
+    question: QuestionAnswerAnalysisModel;
     number: number;
-    duration?: number;
   }>();
 
   const { t } = useI18n();
@@ -47,28 +47,28 @@
   <article
     class="question-analysis-card"
     :class="{
-      'question-analysis-card--correct': question.correctStatus === 1,
-      'question-analysis-card--wrong': question.correctStatus === 0,
+      'question-analysis-card--correct': question.question?.correctStatus === 1,
+      'question-analysis-card--wrong': question.question?.correctStatus === 0,
     }"
   >
     <span class="question-analysis-card__number">{{ number }}</span>
 
     <div class="question-analysis-card__content">
       <div class="question-analysis-card__meta">
-        <span>{{ getQuestionType(question.questionType) }}</span>
-        <span>{{ getDifficulty(question.difficulty) }}</span>
+        <span>{{ getQuestionType(question.question?.questionType) }}</span>
+        <span>{{ getDifficulty(question.question?.difficulty) }}</span>
       </div>
-      <strong>{{ question.questionTitle ?? question.question ?? '—' }}</strong>
+      <strong>{{ question.question?.question ?? '—' }}</strong>
     </div>
 
     <div class="question-analysis-card__metric">
       <span>{{ t('placement_test.question_time') }}</span>
-      <strong>{{ formatDuration(duration) }}</strong>
+      <strong>{{ formatDuration(question.questionAnswerDuration) }}</strong>
     </div>
 
     <div class="question-analysis-card__metric">
       <span>{{ t('placement_test.hesitation') }}</span>
-      <strong>{{ question.note ?? '—' }}</strong>
+      <strong>{{ question.hesitation ?? '—' }}</strong>
     </div>
 
     <button
@@ -86,7 +86,7 @@
     <PlacementQuestionAnswerDetails
       v-if="expanded"
       class="question-analysis-card__details"
-      :question="question"
+      :question="question.question!"
     />
   </article>
 </template>

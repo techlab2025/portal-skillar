@@ -40,38 +40,11 @@
     </h2>
 
     <div class="questions-analysis__list">
-      <template v-for="(question, index) in placementTest.quesions" :key="question.id ?? index">
-        <article v-if="question.questions?.length" class="questions-analysis__article-group">
-          <h3>
-            <span>{{ index + 1 }}</span>
-            {{ t('placement_test.article_question') }}
-          </h3>
-
-          <div class="questions-analysis__article-info">
-            <small>{{ t('placement_test.article_id') }}: {{ question.id ?? '—' }}</small>
-            <strong>{{ question.questionTitle ?? question.question ?? '—' }}</strong>
-            <p>{{ question.question_description ?? '—' }}</p>
-            <span>
-              {{ t('placement_test.number_questions') }}:
-              <b>{{ question.number_of_questions ?? question.questions.length }}</b>
-            </span>
-          </div>
-
-          <PlacementQuestionAnalysisCard
-            v-for="(childQuestion, childIndex) in question.questions"
-            :key="childQuestion.id ?? childIndex"
-            :question="childQuestion"
-            :number="childIndex + 1"
-            :duration="getDuration(childQuestion, childIndex)"
-          />
-        </article>
-
-        <PlacementQuestionAnalysisCard
-          v-else
-          :question="question"
-          :number="index + 1"
-          :duration="getDuration(question, index)"
-        />
+      <template
+        v-for="(question, index) in placementTest.questionAnswerAnalysis"
+        :key="question.id ?? index"
+      >
+        <PlacementQuestionAnalysisCard :question="question!" :number="index + 1" />
       </template>
 
       <p v-if="!placementTest.quesions?.length" class="questions-analysis__empty">
