@@ -22,6 +22,14 @@
 
   const numberOfQuestions = ref<number>(props.placement?.numberOfQuestions ?? 0);
   const time = ref<number>(props.placement?.time ?? 0);
+  const prerequisitesTouched = ref(false);
+  const prerequisitesReady = computed(() => numberOfQuestions.value > 0 && time.value > 0);
+  const showPrerequisiteError = computed(
+    () => prerequisitesTouched.value && !prerequisitesReady.value,
+  );
+  const touchPrerequisites = () => {
+    prerequisitesTouched.value = true;
+  };
 
   // const difficulties = ref<{ easy: number; medium: number; hard: number }>({
   //   easy: 0,
@@ -133,12 +141,22 @@
     <div class="form-fields">
       <div class="input-wrap">
         <label>Number Of Questions</label>
-        <input v-model.number="numberOfQuestions" type="number" class="field-input" />
+        <input
+          v-model.number="numberOfQuestions"
+          type="number"
+          class="field-input"
+          @input="touchPrerequisites"
+        />
       </div>
 
       <div class="input-wrap">
         <label>Placement Time (Minutes)</label>
-        <input v-model.number="time" type="number" class="field-input" />
+        <input
+          v-model.number="time"
+          type="number"
+          class="field-input"
+          @input="touchPrerequisites"
+        />
       </div>
     </div>
 
@@ -149,6 +167,8 @@
       :calculated-questions="calculatedQuestions"
       :total-percentage="totalPercentage"
       :placement="props.placement"
+      :prerequisites-ready="prerequisitesReady"
+      :show-prerequisite-error="showPrerequisiteError"
     />
 
     <div class="summary">

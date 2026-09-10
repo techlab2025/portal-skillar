@@ -91,10 +91,14 @@
     }
     emit('updateData', params);
   };
+  const MAX_QUESTION_IMAGES = 10;
   const UploadedImage = ref<string[]>([]);
 
-  const handleImageChange = (file: any) => {
-    UploadedImage.value = file[0]?.base64 ? [file[0].base64] : [];
+  const handleImageChange = (files: Array<{ base64?: string; url?: string }>) => {
+    UploadedImage.value = files
+      .map((file) => file.base64 || file.url)
+      .filter((file): file is string => Boolean(file))
+      .slice(0, MAX_QUESTION_IMAGES);
     updateData();
   };
 
@@ -280,12 +284,12 @@
             <HandleFilesUpload
               :label="``"
               accept="image/*"
-              :multiple="false"
+              multiple
               :index="1"
               :file="UploadedImage"
               :have-content="true"
               :class="`image-input`"
-              :max-files="3"
+              :max-files="MAX_QUESTION_IMAGES"
               preview-class-name="border-image-preview"
               @change="handleImageChange"
             >
