@@ -30,12 +30,13 @@
         </div>
       </div>
       <div class="card-action">
+        <!-- {{ student }} -->
         <ExportPlacmentIcon class="card-icon" />
         <router-link
           v-if="student.id"
           :to="{
             name: 'Student Details',
-            params: { studentId: student.id },
+            params: { id: student.id },
           }"
           class="card-icon-link"
           :title="$t('placement_test.open_profile')"
