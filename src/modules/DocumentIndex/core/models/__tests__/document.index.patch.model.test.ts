@@ -6,6 +6,7 @@ describe('DocumentIndexPatchModel', () => {
   it('maps the fetch_document_index_patch response', () => {
     const model = DocumentIndexPatchModel.fromJson({
       id: 12,
+      question_batch_id: 42,
       document_id: 17,
       employee: { id: 4, name: 'Indexing Employee' },
       transaction_id: 'TXN-012',
@@ -34,7 +35,7 @@ describe('DocumentIndexPatchModel', () => {
     });
 
     expect(model).toEqual({
-      id: 12,
+      id: 42,
       transactionId: 'TXN-012',
       documentId: 17,
       educationType: 'Governmental',

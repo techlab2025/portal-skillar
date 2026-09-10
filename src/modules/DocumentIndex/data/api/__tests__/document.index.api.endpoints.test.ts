@@ -6,6 +6,7 @@ describe('DocumentIndexEndpoints', () => {
     const endpoints = new DocumentIndexEndpoints();
     expect(endpoints.indexPatches).toContain('dashboard/fetch_document_transactions');
     expect(endpoints.createIndex).toContain('dashboard/start_document_index');
+    expect(endpoints.cancelGeneration).toContain('dashboard/cancel_generate_questions');
     expect(endpoints.refreshIndexStatus).toContain('dashboard/refresh_document_index_status');
     expect(endpoints.updateIndex).toContain('dashboard/update_document_index');
     expect(endpoints.fetchIndex).toContain('dashboard/fetch_document_index');

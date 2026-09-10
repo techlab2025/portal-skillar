@@ -2,6 +2,7 @@
   import { onMounted, ref, computed } from 'vue';
   import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
   import AppTable, { type TableHeader } from '@/shared/HelpersComponents/AppTable.vue';
+  import DropList from '@/shared/HelpersComponents/DropList.vue';
   import Pagination from '@/shared/HelpersComponents/Pagination.vue';
   import { useRoute, useRouter } from 'vue-router';
   import { debounce } from '@/base/Presentation/Utils/debouced';
@@ -9,7 +10,6 @@
   import IndexEmployeeParams from '../../core/params/index.employee.params';
   import DeleteEmployeeParams from '../../core/params/delete.employee.params';
   import type EmployeeModel from '../../core/models/employee.model';
-  import DeleteDialog from '@/shared/HelpersComponents/dialog/DeleteDialog.vue';
   import { useFormsStore } from '@/stores/formsStore';
   import IndexPluseIcon from '@/shared/icons/IndexPluseIcon.vue';
   import * as XLSX from 'xlsx';
@@ -22,12 +22,16 @@
   import TableSkelaton from '@/shared/HelpersComponents/TableSkelaton.vue';
   import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
   import TitleInterface from '@/base/Data/Models/titleInterface';
+  import ShowIcon from '@/shared/icons/ShowIcon.vue';
+  import EditIcon from '@/shared/icons/DropListIcons/EditIcon.vue';
+  import DeleteIcon from '@/shared/icons/DropListIcons/DeletIcon.vue';
 
   // Controller instance
   const controller = EmployeeController.getInstance();
   const state = computed(() => controller.listState.value);
   const router = useRouter();
   const route = useRoute();
+  const { t } = useI18n();
 
   const FormStore = useFormsStore();
   const formRoute = computed(() => '/employees/add');
@@ -95,6 +99,30 @@
     await fetchEmployees();
   };
 
+  const actionList = (employee: EmployeeModel) => {
+    if (!employee.id) return [];
+
+    const employeeId = employee.id;
+    return [
+      {
+        text: t('view'),
+        icon: ShowIcon,
+        link: `/employees/${employeeId}`,
+      },
+      {
+        text: t('edit'),
+        icon: EditIcon,
+        link: `/employees/edit/${employeeId}`,
+      },
+      {
+        text: t('delete'),
+        icon: DeleteIcon,
+        action: () => deleteEmployee(employeeId),
+        danger: true,
+      },
+    ];
+  };
+
   const isDraft = computed(() => {
     const data = FormStore?.formData[formRoute.value] ?? {};
     return Object.keys(data).length === 0 || Object.values(data).every((v) => v == null);
@@ -105,7 +133,7 @@
       alert('No data available to export');
       return;
     }
-    const worksheetData = (state.value.data as any).map((item: Record<string, unknown>) => {
+    const worksheetData = state.value.data.map((item) => {
       return {
         name: item.name || 'N/A',
         email: item.email || null,
@@ -121,7 +149,6 @@
     saveAs(data, 'Employees.xlsx');
   };
 
-  const { t } = useI18n();
   const GetEmployeeStatus = (status: number) => {
     switch (Number(status)) {
       case EmployeeStatusEnm.active:
@@ -232,71 +259,11 @@
 
             <template #actions="{ item }">
               <div class="row-actions">
-                <!-- <router-link
-                  class="action-btn permissions"
-                  :to="{
-                    name: 'Employee Permissions',
-                    params: { id: item.id },
-                    query: { name: item.firstname },
-                  }"
-                  :title="$t('permission.manage')"
-                  :aria-label="$t('permission.manage_for', { employee: item.firstname })"
-                >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
-                    <path d="M9 12l2 2 4-4" />
-                  </svg>
-                </router-link> -->
-                <router-link
-                  class="action-btn edit"
-                  :to="`/employees/edit/${item.id}`"
-                  title="Edit"
-                >
-                  <svg
-                    width="15"
-                    height="15"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                  </svg>
-                </router-link>
-
-                <DeleteDialog @delete="deleteEmployee(item.id!)">
-                  <template #Dialog>
-                    <button class="action-btn delete" title="Delete">
-                      <svg
-                        width="15"
-                        height="15"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="M3 6h18" />
-                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                      </svg>
-                    </button>
-                  </template>
-                </DeleteDialog>
+                <DropList
+                  :action-list="actionList(item)"
+                  :delete-dialog-title="$t('employee_show.delete_title')"
+                  :delete-dialog-message="$t('employee_show.delete_message')"
+                />
               </div>
             </template>
           </AppTable>

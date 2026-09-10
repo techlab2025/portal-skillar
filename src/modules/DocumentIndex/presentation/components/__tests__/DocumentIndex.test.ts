@@ -353,7 +353,7 @@ describe('DocumentIndex', () => {
     expect(params.toMap()).toMatchObject({ e_c_subject_id: 308 });
   });
 
-  it('keeps progress available only while start_document_index is pending', async () => {
+  it('keeps progress available with the batch id returned by start_document_index', async () => {
     documentListData.value = [
       {
         id: 17,
@@ -398,9 +398,11 @@ describe('DocumentIndex', () => {
     resolveStart?.(new DataSuccess({ data: 12 }));
     await flushPromises();
 
-    expect(progressController.generationDialogVisible.value).toBe(false);
-    expect(progressController.hasActiveIndexing.value).toBe(false);
+    expect(progressController.generationDialogVisible.value).toBe(true);
+    expect(progressController.hasActiveIndexing.value).toBe(true);
+    expect(progressController.activeQuestionBatchId.value).toBe(12);
     expect(fetchDocuments).toHaveBeenCalledTimes(2);
+    progressController.reset();
     wrapper.unmount();
   });
 
@@ -437,9 +439,11 @@ describe('DocumentIndex', () => {
     resolveStart?.(new DataSuccess({ data: 12 }));
     await flushPromises();
 
-    expect(progressController.generationDialogVisible.value).toBe(false);
+    expect(progressController.generationDialogVisible.value).toBe(true);
     expect(progressController.startingDocumentId.value).toBeUndefined();
+    expect(progressController.activeQuestionBatchId.value).toBe(12);
     expect(fetchDocuments).toHaveBeenCalledTimes(2);
+    progressController.reset();
     wrapper.unmount();
   });
 

@@ -63,6 +63,7 @@
         <UpdatedCustomInputSelect
           id="doc-subject"
           v-model="SelectedSubject as TitleInterface<number>"
+          :required="true"
           :label="`Document Source`"
           :params="indexDocumentParams"
           :controller="documentController"

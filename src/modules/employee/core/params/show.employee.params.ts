@@ -15,7 +15,7 @@ export default class ShowEmployeeParams implements Params {
     this.id = id;
   }
 
-  toMap(): { [p: string]: any } {
+  toMap(): Record<string, number> {
     return {
       employee_id: this.id,
     };

@@ -272,6 +272,11 @@
       cursor: pointer;
       font-family: 'Medium';
       font-weight: 600;
+
+      &:disabled {
+        cursor: wait;
+        opacity: 0.65;
+      }
     }
   }
 

@@ -17,6 +17,7 @@ const listState = ref(
   new DataSuccess({
     data: [
       DocumentIndexPatchModel.fromJson({
+        question_batch_id: 41,
         document_id: 11,
         transaction_id: 'TXN-001',
         education_type: { title: 'Governmental' },
@@ -191,12 +192,7 @@ describe('DocumentIndexPatchIndex', () => {
     expect(wrapper.text()).toContain('document_index.status_failed');
     expect(
       wrapper.findAll('.document-index-patch-page__applied').map((cell) => cell.text()),
-    ).toEqual([
-      'document_index.no',
-      'document_index.no',
-      'document_index.yes',
-      'document_index.no',
-    ]);
+    ).toEqual(['-', '-', 'document_index.yes', '-']);
     expect(wrapper.find('[data-transaction-id="TXN-001"]').text()).toBe(
       'document_index.view_progress',
     );
@@ -221,6 +217,7 @@ describe('DocumentIndexPatchIndex', () => {
     await wrapper.find('[data-transaction-id="TXN-001"] .drop-list-stub').trigger('click');
 
     expect(openProgress).toHaveBeenCalledOnce();
+    expect(openProgress).toHaveBeenCalledWith(41);
   });
 
   it('fetches the document index details before opening the completed transaction', async () => {
