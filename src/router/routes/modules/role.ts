@@ -6,7 +6,15 @@ export const roleRoutes: RouteRecordRaw[] = [
     path: 'roles',
     name: 'Roles',
     component: () => import('@/views/Role/IndexRole.vue'),
-    meta: { breadcrumb: 'Roles and permission ', icon: EmployeeIcon },
+    meta: {
+      breadcrumb: 'Roles and permission ',
+      icon: EmployeeIcon,
+      headerAction: {
+        icon: 'plus',
+        label: 'role.add',
+        to: '/roles/add',
+      },
+    },
   },
   {
     path: 'roles/add',

@@ -45,7 +45,8 @@ const global = {
     DataStatusBuilder: StatusStub,
     Pagination: true,
     TableSkelaton: true,
-    EditeIcon: true,
+    ShowIcon: true,
+    EditIcon: true,
     DeleteIcon: true,
     IndexSearchIcon: true,
     IndexPluseIcon: true,
@@ -71,14 +72,23 @@ describe('RoleIndex', () => {
     fetchList.mockResolvedValue(new DataSuccess({ data: [role] }));
   });
 
-  it('loads and displays roles with edit and delete actions', async () => {
+  it('loads roles and provides view, edit, and delete actions through the shared menu', async () => {
     const wrapper = mount(RoleIndex, { global });
     await flushPromises();
 
     expect(fetchList).toHaveBeenCalledOnce();
     expect(wrapper.text()).toContain('Content Manager');
-    expect(wrapper.find('.role-row-actions a').exists()).toBe(true);
-    expect(wrapper.find('.role-row-actions button').exists()).toBe(true);
+    const actions = wrapper.getComponent({ name: 'DropList' }).props('actionList');
+
+    expect(actions.map((action: { text: string }) => action.text)).toEqual([
+      'role.actions.view',
+      'role.actions.edit',
+      'role.actions.delete',
+    ]);
+    expect(actions[0].link).toBe('/roles/7');
+    expect(actions[1].link).toBe('/roles/7/edit');
+    expect(actions[2].skipDeleteConfirmation).toBe(true);
+    expect(actions[2].danger).toBe(true);
   });
 
   it('shows the exact backend message when deletion fails', async () => {
@@ -89,7 +99,9 @@ describe('RoleIndex', () => {
     const wrapper = mount(RoleIndex, { global });
     await flushPromises();
 
-    await wrapper.get('.role-row-actions button').trigger('click');
+    const deleteAction = wrapper.getComponent({ name: 'DropList' }).props('actionList')[2];
+    deleteAction.action();
+    await wrapper.vm.$nextTick();
     expect(wrapper.get('.variant').text()).toBe('delete-confirm');
 
     await wrapper.get('.confirm').trigger('click');

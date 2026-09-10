@@ -143,4 +143,23 @@ describe('PermissionSelector', () => {
     await group.get('.permission-group__toggle').trigger('click');
     expect(groupBody.attributes('style')).toContain('display: none');
   });
+
+  it('renders every section expanded without editing controls in read-only mode', () => {
+    const wrapper = mount(PermissionSelector, {
+      props: { permissions: ['ADM01'], readOnly: true },
+      global: { plugins: [i18n] },
+    });
+
+    wrapper.findAll('.permission-groups').forEach((sectionBody) => {
+      expect(sectionBody.attributes('style') ?? '').not.toContain('display: none');
+    });
+    expect(wrapper.find('.permission-module__check input').exists()).toBe(false);
+    expect(
+      wrapper
+        .find('.permission-group__bulk-actions button:not(.permission-group__chevron)')
+        .exists(),
+    ).toBe(false);
+    expect(wrapper.find('.permission-pill').attributes('disabled')).toBeDefined();
+    expect(wrapper.findAll('.permission-pill--selected')).toHaveLength(1);
+  });
 });

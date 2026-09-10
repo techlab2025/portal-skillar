@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import RoleForm from '@/modules/Role/presentation/components/RoleForm.vue';
+  import RoleShow from '@/modules/Role/presentation/components/RoleShow.vue';
 </script>
 
 <template>
-  <RoleForm mode="show" />
+  <RoleShow />
 </template>

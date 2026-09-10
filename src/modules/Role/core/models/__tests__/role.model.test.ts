@@ -52,4 +52,24 @@ describe('RoleModel', () => {
       permissionsCount: 15,
     });
   });
+
+  it('maps the show_role response with display-name translations and permission objects', () => {
+    const role = RoleModel.fromJson({
+      role_id: 12,
+      display_name: [
+        { locale: 'en', display_name: 'Content Manager' },
+        { locale: 'ar', display_name: 'مدير المحتوى' },
+      ],
+      permissions: [{ code: 'ADM01' }, { permission: 'ADM02' }],
+    });
+
+    expect(role).toMatchObject({
+      id: 12,
+      title: 'Content Manager',
+      roleName: 'Content Manager',
+      translations: { en: 'Content Manager', ar: 'مدير المحتوى' },
+      permissions: ['ADM01', 'ADM02'],
+      permissionsCount: 2,
+    });
+  });
 });

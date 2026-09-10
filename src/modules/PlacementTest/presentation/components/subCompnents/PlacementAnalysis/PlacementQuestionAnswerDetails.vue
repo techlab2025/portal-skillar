@@ -169,9 +169,11 @@
       h3 {
         margin: 0;
         padding: 14px;
-        color: var(--gray-900);
-        font-size: var(--sm-size);
-        border-bottom: 1px dashed var(--border-weak);
+        color: var(--table-header-color);
+        border-bottom: 1.8px dashed var(--border-color);
+        font-family: 'Medium';
+        font-weight: 600;
+        font-size: 1rem;
       }
     }
 
@@ -193,35 +195,62 @@
 
         &::before {
           position: absolute;
-          top: -16px;
-          bottom: -16px;
-          inset-inline-start: 94px;
+          inset-block: -8px;
+          inset-inline-start: 43px;
+          width: 1px;
           content: '';
-          border-inline-start: 1px solid var(--border-weak);
+          background: var(--border-color);
+        }
+
+        &:first-of-type::before {
+          inset-block-start: 50%;
+        }
+
+        &:last-of-type::before {
+          inset-block-end: 50%;
+        }
+
+        &:only-of-type::before {
+          display: none;
         }
 
         time {
-          padding: 7px 8px;
-          color: var(--gray-600);
-          font-size: var(--xs-size);
+          position: relative;
+          z-index: 1;
+          padding: 7px 10px;
+          color: var(--gray-5);
           text-align: center;
-          background: var(--gray-200);
-          border-radius: var(--radius-full);
+          background: var(--border-color);
+          border-radius: 10px;
+          font-weight: 500;
+          font-family: 'Medium';
+          font-size: 12px;
         }
 
         span {
           z-index: 1;
           display: flex;
           flex-direction: column;
-          gap: 3px;
+          // gap: 3px;
           padding-inline-start: 10px;
           background: var(--bg-card);
 
+          strong {
+            color: var(--gray-text);
+            font-size: 14px;
+          }
+
+          small {
+            color: var(--Gray-6);
+            font-size: 12px;
+          }
+
           strong,
           small {
-            color: var(--gray-600);
-            font-size: var(--xs-size-2);
+            // color: var(--gray-600);
+            // font-size: var(--xs-size-2);
             font-weight: 500;
+            font-family: 'Medium';
           }
         }
       }

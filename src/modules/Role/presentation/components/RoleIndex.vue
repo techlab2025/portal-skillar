@@ -7,14 +7,15 @@
   import Pagination from '@/shared/HelpersComponents/Pagination.vue';
   import TableSkelaton from '@/shared/HelpersComponents/TableSkelaton.vue';
   import IndexSearchIcon from '@/shared/icons/IndexSearchIcon.vue';
-  import IndexPluseIcon from '@/shared/icons/IndexPluseIcon.vue';
+  import DropList from '@/shared/HelpersComponents/DropList.vue';
+  import ShowIcon from '@/shared/icons/ShowIcon.vue';
+  import EditIcon from '@/shared/icons/DropListIcons/EditIcon.vue';
+  import DeleteIcon from '@/shared/icons/DropListIcons/DeletIcon.vue';
   import { debounce } from '@/base/Presentation/Utils/debouced';
   import RoleController from '../controllers/role.controller';
   import IndexRoleParams from '../../core/params/index.role.params';
   import DeleteRoleParams from '../../core/params/delete.role.params';
   import type RoleModel from '../../core/models/role.model';
-  import EditeIcon from '@/shared/icons/DocaumentType/EditeIcon.vue';
-  import DeleteIcon from '@/shared/icons/DocaumentType/DeleteIcon.vue';
   import RoleFeedbackDialog from './RoleFeedbackDialog.vue';
 
   const { t } = useI18n();
@@ -73,6 +74,26 @@
     deleteDialogVisible.value = true;
   };
 
+  const actionList = (role: RoleModel) => [
+    {
+      text: t('role.actions.view'),
+      icon: ShowIcon,
+      link: `/roles/${role.id}`,
+    },
+    {
+      text: t('role.actions.edit'),
+      icon: EditIcon,
+      link: `/roles/${role.id}/edit`,
+    },
+    {
+      text: t('role.actions.delete'),
+      icon: DeleteIcon,
+      action: () => requestDelete([role]),
+      skipDeleteConfirmation: true,
+      danger: true,
+    },
+  ];
+
   const confirmDelete = async () => {
     if (deleteLoading.value || pendingDeleteRoles.value.length === 0) return;
 
@@ -104,17 +125,6 @@
 
 <template>
   <main class="role-index-page">
-    <header class="role-index-page__titlebar">
-      <div>
-        <h1>{{ $t('role.title_plural') }}</h1>
-        <p>{{ $t('role.index_description') }}</p>
-      </div>
-      <router-link class="btn btn-primary role-index-page__add" :to="{ name: 'Add Role' }">
-        <IndexPluseIcon />
-        <span>{{ $t('role.add') }}</span>
-      </router-link>
-    </header>
-
     <section class="role-index-page__content" :aria-label="$t('role.title_plural')">
       <div class="role-index-page__toolbar">
         <label class="search-field" for="role-search">
@@ -147,16 +157,7 @@
             >
               <template #actions="{ item }">
                 <div class="role-row-actions">
-                  <router-link :to="{ name: 'Edit Role', params: { id: item.id } }">
-                    <EditeIcon />
-                  </router-link>
-                  <button
-                    type="button"
-                    :aria-label="$t('role.actions.delete')"
-                    @click="requestDelete([item])"
-                  >
-                    <DeleteIcon />
-                  </button>
+                  <DropList :action-list="actionList(item)" />
                 </div>
               </template>
             </AppTable>
@@ -236,41 +237,16 @@
       font-weight: 700;
     }
   }
+
   .role-index-page {
     display: grid;
     gap: var(--xl-size-base);
   }
 
-  .role-index-page__titlebar,
   .role-index-page__toolbar,
   .role-row-actions {
     display: flex;
     align-items: center;
-  }
-
-  .role-index-page__titlebar {
-    justify-content: space-between;
-    gap: var(--sm-size);
-    padding: var(--sm-size) var(--xl-size-base);
-    border-radius: var(--radius-lg);
-    background: var(--bg-section);
-
-    h1 {
-      margin: 0;
-      color: var(--gray-900);
-      font-size: var(--xl-size-base);
-    }
-
-    p {
-      margin: var(--xs-size-4) 0 0;
-      color: var(--gray-500);
-      font-size: var(--xs-size);
-    }
-  }
-
-  .role-index-page__add {
-    gap: var(--xs-size-4);
-    border-radius: var(--radius-full);
   }
 
   .role-index-page__content {
@@ -307,18 +283,6 @@
 
   .role-row-actions {
     justify-content: flex-end;
-    gap: var(--xs-size);
-
-    a,
-    button {
-      color: var(--PrimaryColor);
-      font-size: var(--xs-size);
-      font-weight: 600;
-    }
-
-    button {
-      color: var(--danger-color);
-    }
   }
 
   .role-index-page__empty {
@@ -339,13 +303,11 @@
   }
 
   @media (max-width: 700px) {
-    .role-index-page__titlebar,
     .role-index-page__toolbar {
       align-items: stretch;
       flex-direction: column;
     }
 
-    .role-index-page__add,
     .role-index-page__filter,
     .role-index-page__toolbar .search-field {
       justify-content: center;

@@ -93,14 +93,24 @@
     }));
   };
 
-  const props = withDefaults(defineProps<{ permissions?: string[]; disabled?: boolean }>(), {
-    permissions: () => [],
-    disabled: false,
-  });
+  const props = withDefaults(
+    defineProps<{ permissions?: string[]; disabled?: boolean; readOnly?: boolean }>(),
+    {
+      permissions: () => [],
+      disabled: false,
+      readOnly: false,
+    },
+  );
   const emit = defineEmits<{ 'update:permissions': [value: PermissionCode[]] }>();
   const permissionModules = ref(createPermissionSections());
-  const activeModuleCode = ref<PermissionSectionCode | null>(
-    permissionModules.value[0]?.code ?? null,
+  const expandedModuleCodes = ref<Set<PermissionSectionCode>>(
+    new Set(
+      props.readOnly
+        ? permissionModules.value.map(({ code }) => code)
+        : permissionModules.value[0]
+          ? [permissionModules.value[0].code]
+          : [],
+    ),
   );
   const collapsedGroups = ref(new Set<string>());
 
@@ -160,13 +170,25 @@
     next.has(code) ? next.delete(code) : next.add(code);
     collapsedGroups.value = next;
   };
+  const isModuleExpanded = (code: PermissionSectionCode) => expandedModuleCodes.value.has(code);
   const toggleModuleCollapsed = (code: PermissionSectionCode) => {
-    activeModuleCode.value = activeModuleCode.value === code ? null : code;
+    if (!props.readOnly) {
+      expandedModuleCodes.value = isModuleExpanded(code) ? new Set() : new Set([code]);
+      return;
+    }
+
+    const next = new Set(expandedModuleCodes.value);
+    next.has(code) ? next.delete(code) : next.add(code);
+    expandedModuleCodes.value = next;
   };
 </script>
 
 <template>
-  <section class="permission-configurator" :aria-label="$t('permission.configure')">
+  <section
+    class="permission-configurator"
+    :aria-label="$t('permission.configure')"
+    :aria-readonly="readOnly"
+  >
     <header class="permission-configurator__heading">
       <div class="permission-configurator__title-row">
         <h2>{{ $t('permission.configure') }}</h2>
@@ -184,7 +206,7 @@
         <header class="permission-module__header">
           <div class="permission-module__title">
             <span class="permission-module__number">{{ moduleIndex + 1 }}</span>
-            <label class="permission-module__check">
+            <label v-if="!readOnly" class="permission-module__check">
               <input
                 type="checkbox"
                 :checked="isModuleFullyChecked(module)"
@@ -194,12 +216,13 @@
               />
               <span>{{ $t(module.labelKey) }}</span>
             </label>
+            <span v-else class="permission-module__label">{{ $t(module.labelKey) }}</span>
           </div>
           <button
             type="button"
             class="permission-module__chevron"
             :aria-label="$t('permission.toggle_group')"
-            :aria-expanded="activeModuleCode === module.code"
+            :aria-expanded="isModuleExpanded(module.code)"
             :aria-controls="`permission-section-${module.code}`"
             @click="toggleModuleCollapsed(module.code)"
           >
@@ -208,7 +231,7 @@
         </header>
 
         <div
-          v-show="activeModuleCode === module.code"
+          v-show="isModuleExpanded(module.code)"
           :id="`permission-section-${module.code}`"
           class="permission-groups"
           role="region"
@@ -242,10 +265,20 @@
                 </small>
               </button>
               <div class="permission-group__bulk-actions">
-                <button type="button" :disabled="disabled" @click="setGroup(group, true)">
+                <button
+                  v-if="!readOnly"
+                  type="button"
+                  :disabled="disabled"
+                  @click="setGroup(group, true)"
+                >
                   {{ $t('permission.select_all') }}
                 </button>
-                <button type="button" :disabled="disabled" @click="setGroup(group, false)">
+                <button
+                  v-if="!readOnly"
+                  type="button"
+                  :disabled="disabled"
+                  @click="setGroup(group, false)"
+                >
                   {{ $t('permission.clear_all') }}
                 </button>
                 <button
@@ -277,7 +310,7 @@
                 type="button"
                 class="permission-pill"
                 :class="{ 'permission-pill--selected': permission.checked }"
-                :disabled="disabled"
+                :disabled="disabled || readOnly"
                 :data-permission-code="permission.code"
                 role="checkbox"
                 :aria-checked="permission.checked"
@@ -402,22 +435,23 @@
     line-height: 1;
   }
 
-  .permission-module__check {
+  .permission-module__check,
+  .permission-module__label {
     position: relative;
     font-family: var(--permission-heading-font);
     font-size: 20px;
     font-weight: 600;
     line-height: 1;
+  }
 
-    input {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0 0 0 0);
-      clip-path: inset(50%);
-      white-space: nowrap;
-    }
+  .permission-module__check input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .permission-module__chevron,
