@@ -207,11 +207,22 @@
           ],
         },
         {
+          link: '/placement-configuration',
+          name: 'Placement configuration',
+          icon: SettingIcon,
+          permissions: [
+            PermissionsEnum.PLACEMENT_CONFIG_ALL,
+            PermissionsEnum.PLACEMENT_CONFIG_FETCH,
+            PermissionsEnum.PLACEMENT_CONFIG_UPDATE,
+          ],
+        },
+        {
           link: '/placement-test',
           name: 'Placement Test',
           icon: SettingIcon,
           permissions: [PermissionsEnum.PLACEMENT_TEST_ALL, PermissionsEnum.PLACEMENT_TEST_FETCH],
         },
+
         {
           link: '/highlight-badges',
           name: 'highlight_badges',

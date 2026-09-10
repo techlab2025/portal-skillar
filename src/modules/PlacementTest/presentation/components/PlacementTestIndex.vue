@@ -97,17 +97,25 @@
   // const CloseFiletrDialog = () => {
   //   FilterDialogShow.value = false;
   // };
-  const GetPlasmentStatus = (status: number): string => {
-    if (status === PlacementTestEnum.completed) {
-      return 'Completed';
+  const getPlacementStatus = (status: PlacementTestEnum): string => {
+    switch (status) {
+      case PlacementTestEnum.PENDING:
+        return 'pending';
+      case PlacementTestEnum.APPROVED:
+        return 'approved';
+      case PlacementTestEnum.REJECTED:
+        return 'rejected';
+      case PlacementTestEnum.FINISHED:
+        return 'finished';
+      default:
+        return 'unknown';
     }
-    if (status === PlacementTestEnum.inprogress) {
-      return 'In Progress';
-    }
-    if (status === PlacementTestEnum.rejected) {
-      return 'Rejected';
-    }
-    return '';
+  };
+
+  const getResultClass = (result: number): string => {
+    if (result >= 90) return '--high';
+    if (result >= 50) return '--medium';
+    return '--low';
   };
 
   const getSubjectPath = (item: EducationClassificationSubjectModel) => {
@@ -164,7 +172,9 @@
             show-index
           >
             <template #cell-status="{ value }">
-              <span class="" :class="GetPlasmentStatus(value)">{{ GetPlasmentStatus(value) }}</span>
+              <span class="" :class="getPlacementStatus(value)">{{
+                getPlacementStatus(value)
+              }}</span>
             </template>
             <template #cell-in_plan="{ value }">
               <span class="" :class="value ? 'text-success' : 'text-danger'">{{
@@ -172,7 +182,9 @@
               }}</span>
             </template>
             <template #cell-result="{ value }">
-              <span class="">{{ value }} </span>
+              <span class="placement-test-result" :class="getResultClass(value)">
+                {{ value ?? 0 }} </span
+              >/ 100
             </template>
             <template #cell-student="{ value }">
               <div class="student-container">
@@ -289,5 +301,24 @@
     justify-content: center;
     align-items: center;
     padding: 2rem;
+  }
+
+  .placement-test-result {
+    --placement-test-result-blue: #2f7bff;
+
+    font-weight: 700;
+    font-size: 18px;
+
+    &.--low {
+      color: var(--btn-red);
+    }
+
+    &.--medium {
+      color: var(--btn-gold);
+    }
+
+    &.--high {
+      color: var(--placement-test-result-blue);
+    }
   }
 </style>

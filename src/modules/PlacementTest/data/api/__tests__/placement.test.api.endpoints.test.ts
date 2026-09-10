@@ -7,4 +7,10 @@ describe('PlacementTestEndpoints', () => {
       'dashboard/show_placement_test_student',
     );
   });
+
+  it('contains the placement answer history endpoint', () => {
+    expect(new PlacementTestEndpoints().fetchAnswerHistory).toContain(
+      'dashboard/fetch_placement_test_answer_history',
+    );
+  });
 });

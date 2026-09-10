@@ -1,12 +1,43 @@
 <script setup lang="ts">
+  import { computed, onMounted, ref } from 'vue';
   import { useI18n } from 'vue-i18n';
+  import { useRoute } from 'vue-router';
+  import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
   import type ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
+  import type PlacementAnswerHistoryModel from '@/modules/PlacementTest/core/models/placement.answer.history.model';
+  import FetchPlacementTestAnswerHistoryParams from '@/modules/PlacementTest/core/params/fetch.placement.test.answer.history.params';
+  import PlacementTestController from '@/modules/PlacementTest/presentation/controllers/placement.test.controller';
 
-  defineProps<{
+  const { question } = defineProps<{
     question: ShowQuestionsModel;
   }>();
 
   const { t } = useI18n();
+  const route = useRoute();
+  const controller = PlacementTestController.getInstance();
+  const answerHistory = ref<PlacementAnswerHistoryModel>();
+  const isHistoryLoading = ref(false);
+  const historyLogs = computed(() => answerHistory.value?.historyLog ?? []);
+
+  async function fetchAnswerHistory() {
+    const placementTestId = Number(route.params.id);
+    const studentExamAnswerId = question.student_exam_answer_id;
+
+    if (!Number.isInteger(placementTestId) || placementTestId <= 0 || !studentExamAnswerId) return;
+
+    isHistoryLoading.value = true;
+    try {
+      const result = await controller.fetchAnswerHistory(
+        new FetchPlacementTestAnswerHistoryParams(placementTestId, studentExamAnswerId),
+      );
+
+      if (result instanceof DataSuccess) answerHistory.value = result.data ?? undefined;
+    } finally {
+      isHistoryLoading.value = false;
+    }
+  }
+
+  onMounted(fetchAnswerHistory);
 </script>
 
 <template>
@@ -44,15 +75,17 @@
     <aside class="question-answer-details__history">
       <h3>{{ t('placement_test.history_log') }}</h3>
       <div class="question-answer-details__history-list">
-        <div v-for="(log, index) in question.questionLogHistory" :key="index">
-          <time>{{ log.time ?? log.date ?? '—' }}</time>
+        <div v-for="log in historyLogs" :key="log.id">
+          <time>{{ log.selectedAtFormatted ?? log.selectedAt ?? '—' }}</time>
           <span>
-            <strong>{{ log.status ?? '—' }}</strong>
-            <small v-if="log.createdBy">{{ log.createdBy }}</small>
+            <strong>{{ log.action ?? '—' }}</strong>
+            <small v-if="log.answer?.title ?? log.answerText">
+              {{ log.answer?.title ?? log.answerText }}
+            </small>
           </span>
         </div>
 
-        <p v-if="!question.questionLogHistory?.length" class="question-answer-details__empty">
+        <p v-if="!isHistoryLoading && !historyLogs.length" class="question-answer-details__empty">
           {{ t('placement_test.no_history_data') }}
         </p>
       </div>

@@ -247,6 +247,9 @@ export const PermissionsEnum = {
   ROLE_CREATE: 'ROL03',
   ROLE_UPDATE: 'ROL04',
   ROLE_DELETE: 'ROL05',
+  PLACEMENT_CONFIG_ALL: 'PC00',
+  PLACEMENT_CONFIG_FETCH: 'PC01',
+  PLACEMENT_CONFIG_UPDATE: 'PC02',
 } as const;
 
 export type PermissionCode = (typeof PermissionsEnum)[keyof typeof PermissionsEnum];

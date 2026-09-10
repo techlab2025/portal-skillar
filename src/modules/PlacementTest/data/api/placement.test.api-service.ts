@@ -29,4 +29,8 @@ export default class PlacementApiService extends BaseApiService {
   showStudentProfile(params: Params, options?: ApiCallOptions): Promise<ApiResponse> {
     return this.customPost(this.placementTestEndpoints.showStudentProfile, params, options);
   }
+
+  fetchAnswerHistory(params: Params, options?: ApiCallOptions): Promise<ApiResponse> {
+    return this.customPost(this.placementTestEndpoints.fetchAnswerHistory, params, options);
+  }
 }

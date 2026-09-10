@@ -12,6 +12,7 @@ import type Params from '@/base/Core/Params/params';
 import type { ApiCallOptions } from '@/base/Data/ApiService/baseApiService';
 import { ref, type Ref } from 'vue';
 import type PlacementStudentProfileModel from '../../core/models/placement.student.profile.model';
+import type PlacementAnswerHistoryModel from '../../core/models/placement.answer.history.model';
 
 export default class PlacementTestController extends BaseController<
   ShowPlcaementTestModel,
@@ -73,6 +74,15 @@ export default class PlacementTestController extends BaseController<
     const result = await this.repository.showStudentProfile(params, options);
     this.studentProfileState.value = result;
 
+    if (result.hasError) this.handleErrorResponse(result);
+    return result;
+  }
+
+  async fetchAnswerHistory(
+    params: Params,
+    options?: ApiCallOptions,
+  ): Promise<DataState<PlacementAnswerHistoryModel>> {
+    const result = await this.repository.fetchAnswerHistory(params, options);
     if (result.hasError) this.handleErrorResponse(result);
     return result;
   }

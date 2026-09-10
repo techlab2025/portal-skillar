@@ -3,6 +3,8 @@ import { env } from '@/base/Core/Config';
 import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 import PlcaementTestModel from '../../../core/models/placement.test.model';
 import PlacementStudentProfileModel from '../../../core/models/placement.student.profile.model';
+import PlacementAnswerHistoryModel from '../../../core/models/placement.answer.history.model';
+import FetchPlacementTestAnswerHistoryParams from '../../../core/params/fetch.placement.test.answer.history.params';
 import ShowPlacementStudentParams from '../../../core/params/show.placement.student.params';
 import PlacementTestRepository from '../placement.test.repository';
 
@@ -79,6 +81,31 @@ describe('PlacementTestRepository', () => {
             },
           },
         }),
+        fetchAnswerHistory: vi.fn().mockResolvedValue({
+          statusCode: 200,
+          data: {
+            status: true,
+            message: 'Answer history fetched successfully',
+            data: {
+              student_exam_answer_id: 532,
+              placement_test_id: 80,
+              history_log: [
+                {
+                  id: 171,
+                  action: 'select',
+                  answer_id: { id: 2098, title: '1015' },
+                  answer_text: '1015',
+                  attachments: [],
+                  visit_number: 1,
+                  duration_seconds: 2,
+                  answer_changes_count: 1,
+                  selected_at: '2026-09-09T09:50:33.000000Z',
+                  selected_at_formatted: '09:50:33',
+                },
+              ],
+            },
+          },
+        }),
       },
     );
     env.override({ useStaticData: false });
@@ -110,6 +137,19 @@ describe('PlacementTestRepository', () => {
     if (result instanceof DataSuccess) {
       expect(result.data).toBeInstanceOf(PlacementStudentProfileModel);
       expect(result.data?.placementTest.student?.id).toBe(7);
+    }
+  });
+
+  it('parses answer history through the placement repository', async () => {
+    const result = await repository.fetchAnswerHistory(
+      new FetchPlacementTestAnswerHistoryParams(80, 532),
+    );
+
+    expect(result).toBeInstanceOf(DataSuccess);
+    if (result instanceof DataSuccess) {
+      expect(result.data).toBeInstanceOf(PlacementAnswerHistoryModel);
+      expect(result.data?.historyLog[0]?.answer?.title).toBe('1015');
+      expect(result.data?.historyLog[0]?.selectedAtFormatted).toBe('09:50:33');
     }
   });
 });

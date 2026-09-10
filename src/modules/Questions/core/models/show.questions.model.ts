@@ -63,6 +63,7 @@ export default class ShowQuestionsModel {
   public readonly note?: string;
 
   public readonly can_delete?: boolean;
+  public readonly student_exam_answer_id?: number;
 
 
 
@@ -107,6 +108,7 @@ export default class ShowQuestionsModel {
     correctStatus?: number;
     note?: string;
     can_delete?: boolean;
+    student_exam_answer_id?: number;
   }) {
     this.id = data.id;
     this.generatedBy = data.generatedBy;
@@ -148,6 +150,7 @@ export default class ShowQuestionsModel {
     this.correctStatus = data.correctStatus;
     this.note = data.note;
     this.can_delete = data.can_delete;
+    this.student_exam_answer_id = data.student_exam_answer_id;
 
 
     Object.freeze(this);
@@ -224,6 +227,7 @@ export default class ShowQuestionsModel {
       correctStatus: json.correct_status,
       note:json.note,
       can_delete:json.can_delete,
+      student_exam_answer_id: json.student_exam_answer_id,
     });
   }
 

@@ -1,25 +1,13 @@
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n';
-  import type ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
   import type ShowPlcaementTestModel from '@/modules/PlacementTest/core/models/show.placement.test.model';
   import PlacementQuestionAnalysisCard from './PlacementQuestionAnalysisCard.vue';
 
-  const props = defineProps<{
+  const { placementTest } = defineProps<{
     placementTest: ShowPlcaementTestModel;
   }>();
 
   const { t } = useI18n();
-
-  function getDuration(question: ShowQuestionsModel, index: number): number | undefined {
-    const questionId = question.id ?? question.question_id;
-    const matchingAnalysis = props.placementTest.questionAnswerAnalysis?.find(
-      (item) => item.question?.id === questionId,
-    );
-    return (
-      matchingAnalysis?.questionAnswerDuration ??
-      props.placementTest.questionAnswerAnalysis?.[index]?.questionAnswerDuration
-    );
-  }
 </script>
 
 <template>

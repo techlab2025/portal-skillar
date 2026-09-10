@@ -607,7 +607,7 @@
     }
 
     .p-dialog-content {
-      height: 100%;
+      // height: 100%;
       padding: 0 10px 18px !important;
       overflow-y: auto;
       scrollbar-width: none;
@@ -707,14 +707,14 @@
     :deep(.p-inputtext) {
       width: 100%;
       min-width: 0;
-      height: 34px;
-      padding-inline: 12px 2px;
+      // height: 34px;
+      padding-inline: 16px 2px;
       color: var(--gray-text);
       background: var(--standard-white);
       border: 1px solid var(--input-border-color);
       border-inline-end: 0;
-      border-radius: var(--radius-full) 0 0 var(--radius-full) !important;
-      font-size: 10px !important;
+      // border-radius: var(--radius-full) 0 0 var(--radius-full) !important;
+      // font-size: 10px !important;
     }
 
     :deep(.p-datepicker-dropdown) {
@@ -736,11 +736,11 @@
 
     .btn {
       width: 100%;
-      height: 30px;
+      // height: 30px;
       margin: 0 !important;
       border-radius: var(--radius-full);
       font-family: var(--font-family);
-      font-size: 10px;
+      // font-size: 10px;
       font-weight: 500;
     }
 

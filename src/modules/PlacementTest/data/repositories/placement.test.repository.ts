@@ -8,6 +8,7 @@ import type Params from '@/base/Core/Params/params';
 import type { ApiCallOptions } from '@/base/Data/ApiService/baseApiService';
 
 import PlacementStudentProfileModel from '../../core/models/placement.student.profile.model';
+import PlacementAnswerHistoryModel from '../../core/models/placement.answer.history.model';
 import PlcaementTestModel from '../../core/models/placement.test.model';
 import ShowPlcaementTestModel from '../../core/models/show.placement.test.model';
 import PlacementApiService from '../api/placement.test.api-service';
@@ -72,6 +73,20 @@ export default class PlacementTestRepository extends BaseRepository<
     return this.executeCustom(
       () => this.apiService.showStudentProfile(params, options),
       (data) => PlacementStudentProfileModel.fromJson(data),
+    );
+  }
+
+  async fetchAnswerHistory(
+    params: Params,
+    options?: ApiCallOptions,
+  ): Promise<DataState<PlacementAnswerHistoryModel>> {
+    if (options?.useStaticData ?? env.useStaticData) {
+      return new DataSuccess({ data: PlacementAnswerHistoryModel.example });
+    }
+
+    return this.executeCustom(
+      () => this.apiService.fetchAnswerHistory(params, options),
+      (data) => PlacementAnswerHistoryModel.fromJson(data),
     );
   }
 }

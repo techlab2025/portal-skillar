@@ -34,7 +34,7 @@
         <router-link
           v-if="student.id"
           :to="{
-            name: 'Placement Test Student Profile',
+            name: 'Student Details',
             params: { studentId: student.id },
           }"
           class="card-icon-link"

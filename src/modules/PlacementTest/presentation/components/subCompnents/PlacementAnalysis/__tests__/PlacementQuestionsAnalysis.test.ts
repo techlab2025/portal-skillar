@@ -4,22 +4,34 @@ import { describe, expect, it } from 'vitest';
 import en from '@/locales/en.json';
 import ShowQuestionsModel from '@/modules/Questions/core/models/show.questions.model';
 import ShowPlcaementTestModel from '@/modules/PlacementTest/core/models/show.placement.test.model';
+import QuestionAnswerAnalysisModel from '@/modules/PlacementTest/core/models/subModels/question.answer.analysis.model';
 import PlacementQuestionsAnalysis from '../PlacementQuestionsAnalysis.vue';
 
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en } });
 
 describe('PlacementQuestionsAnalysis', () => {
-  it('renders regular and article questions', () => {
-    const childQuestion = new ShowQuestionsModel({ id: 3, questionTitle: 'Nested question' });
+  it('renders questions from the answer analysis response', () => {
     const placementTest = new ShowPlcaementTestModel({
+      questionAnswerAnalysis: [
+        new QuestionAnswerAnalysisModel({
+          question: new ShowQuestionsModel({
+            id: 1,
+            question: 'Regular question',
+          }),
+          questionAnswerDuration: 12,
+        }),
+        new QuestionAnswerAnalysisModel({
+          question: new ShowQuestionsModel({
+            id: 2,
+            question: 'Second question',
+          }),
+          questionAnswerDuration: 20,
+        }),
+      ],
       quesions: [
-        new ShowQuestionsModel({ id: 1, questionTitle: 'Regular question' }),
         new ShowQuestionsModel({
           id: 2,
-          questionTitle: 'Tourism Article',
-          question_description: 'Article description',
-          number_of_questions: 1,
-          questions: [childQuestion],
+          questionTitle: 'Second question',
         }),
       ],
     });
@@ -30,8 +42,7 @@ describe('PlacementQuestionsAnalysis', () => {
     });
 
     expect(wrapper.text()).toContain('Regular question');
-    expect(wrapper.text()).toContain('Article Question');
-    expect(wrapper.text()).toContain('Tourism Article');
-    expect(wrapper.text()).toContain('Nested question');
+    expect(wrapper.text()).toContain('Second question');
+    expect(wrapper.text()).toContain('12 s');
   });
 });
