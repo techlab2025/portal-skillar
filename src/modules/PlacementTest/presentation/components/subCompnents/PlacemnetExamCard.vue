@@ -110,8 +110,9 @@
 
     &__date {
       flex: 0 0 auto;
-      color: var(--gray-700);
-      font-size: var(--xs-size);
+      color: rgba(75, 75, 75, 1);
+      font-size: 1rem;
+      font-family: "demi";
       font-weight: 500;
     }
   }

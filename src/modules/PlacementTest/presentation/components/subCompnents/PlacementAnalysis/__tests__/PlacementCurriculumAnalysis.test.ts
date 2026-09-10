@@ -17,7 +17,10 @@ describe('PlacementCurriculumAnalysis', () => {
           id: 1,
           correctStatus: 1,
           subjectTree: new TitleInterface({ id: 1, full_title: 'Unit 1 / Chapter 1' }),
-          topics: [new TitleInterface({ id: 11, title: 'Strong Topic' })],
+          topics: [
+            new TitleInterface({ id: 11, title: 'Strong Topic' }),
+            new TitleInterface({ id: 12, title: 'Second Strong Topic' }),
+          ],
         }),
         new ShowQuestionsModel({
           id: 2,
@@ -34,7 +37,9 @@ describe('PlacementCurriculumAnalysis', () => {
     });
 
     expect(wrapper.text()).toContain('Strong Topic');
+    expect(wrapper.text()).toContain('Second Strong Topic');
     expect(wrapper.text()).toContain('Weak Topic');
+    expect(wrapper.findAll('.curriculum-analysis__topic')).toHaveLength(3);
     await wrapper.get('[data-filter="weak"]').trigger('click');
     expect(wrapper.text()).not.toContain('Strong Topic');
     expect(wrapper.text()).toContain('Weak Topic');

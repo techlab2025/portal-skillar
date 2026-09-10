@@ -285,7 +285,7 @@
               :file="UploadedImage"
               :have-content="true"
               :class="`image-input`"
-              :max-files="1"
+              :max-files="3"
               preview-class-name="border-image-preview"
               @change="handleImageChange"
             >

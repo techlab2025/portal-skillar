@@ -136,4 +136,11 @@ export default class EducationClassificationController extends BaseController<
     const result = await this.repository.toggleStatus(params);
     return result;
   }
+  async delete(params: Params, options?: ApiCallOptions) {
+    const result = await super.delete(params, options);
+    if (result?.error?.title) {
+      dialogManager.toastError(result?.error?.title);
+    }
+    return result;
+  }
 }
