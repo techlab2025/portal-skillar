@@ -26,7 +26,7 @@
 <template>
   <div class="feature-header-container">
     <img class="header-img" :src="FeatureHeader" alt="" aria-hidden="true" />
-    <div class="content">
+    <div class="feature-header__content">
       <p class="title">
         {{ items[items.length - 1]?.label }}
       </p>

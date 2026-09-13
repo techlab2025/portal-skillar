@@ -7,7 +7,7 @@ export const employeeRoutes: RouteRecordRaw[] = [
     name: 'Employees',
     component: () => import('@/views/Employee/IndexEmployee.vue'),
     meta: {
-      breadcrumb: 'Employees',
+      breadcrumb: 'Employees List',
       icon: EmployeeIcon,
     },
   },
@@ -39,17 +39,6 @@ export const employeeRoutes: RouteRecordRaw[] = [
     props: true,
     meta: {
       breadcrumb: 'Edit Employee',
-      icon: EmployeeIcon,
-      parent: 'Employees',
-    },
-  },
-  {
-    path: 'employees/:id',
-    name: 'Employee Details',
-    component: () => import('@/views/Employee/ShowEmployee.vue'),
-    props: true,
-    meta: {
-      breadcrumb: 'Employee Details',
       icon: EmployeeIcon,
       parent: 'Employees',
     },

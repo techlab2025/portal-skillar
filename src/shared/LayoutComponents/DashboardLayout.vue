@@ -53,6 +53,7 @@
       <div class="main-content">
         <FeatureHeader>
           <template #actions>
+            <div id="feature-header-page-actions" class="feature-header__page-actions"></div>
             <button
               v-if="headerAction"
               class="btn btn-primary feature-header__action"

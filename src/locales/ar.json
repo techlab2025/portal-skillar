@@ -83,6 +83,11 @@
     "created_at": "تاريخ الإنشاء",
     "created_by": "أنشئ بواسطة"
   },
+  "Employees List": "قائمة الموظفين",
+  "Employee Details": "تفاصيل الموظف",
+  "employee_export": "تصدير",
+  "add_employee": "إضافة موظف",
+  "edit_employee": "تعديل الموظف",
   "employee_details": {
     "view": "عرض",
     "view_employee": "عرض تفاصيل {name}",

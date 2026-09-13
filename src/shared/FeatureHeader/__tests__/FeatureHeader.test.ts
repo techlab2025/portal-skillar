@@ -53,6 +53,13 @@ describe('FeatureHeader.vue', () => {
     });
   });
 
+  it('uses an isolated content class that cannot inherit the page layout height', () => {
+    const wrapper = mountHeader();
+
+    expect(wrapper.find('.feature-header__content').exists()).toBe(true);
+    expect(wrapper.find('.feature-header-container > .content').exists()).toBe(false);
+  });
+
   it.each([
     ['en', 'Notification Plan Details'],
     ['ar', 'تفاصيل خطة الإشعارات'],

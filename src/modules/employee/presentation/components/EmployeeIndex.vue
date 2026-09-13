@@ -1,5 +1,6 @@
 <script setup lang="ts">
-  import { onMounted, ref, computed } from 'vue';
+  import { computed, onMounted, ref } from 'vue';
+  import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
   import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
   import AppTable, { type TableHeader } from '@/shared/HelpersComponents/AppTable.vue';
   import DropList from '@/shared/HelpersComponents/DropList.vue';
@@ -9,6 +10,8 @@
   import EmployeeController from '../controllers/employee.controller';
   import IndexEmployeeParams from '../../core/params/index.employee.params';
   import DeleteEmployeeParams from '../../core/params/delete.employee.params';
+  import EditEmployeeParams from '../../core/params/edit.employee.params';
+  import ShowEmployeeParams from '../../core/params/show.employee.params';
   import type EmployeeModel from '../../core/models/employee.model';
   import { useFormsStore } from '@/stores/formsStore';
   import IndexPluseIcon from '@/shared/icons/IndexPluseIcon.vue';
@@ -26,8 +29,14 @@
   import ShowIcon from '@/shared/icons/ShowIcon.vue';
   import EditIcon from '@/shared/icons/DropListIcons/EditIcon.vue';
   import DeleteIcon from '@/shared/icons/DropListIcons/DeletIcon.vue';
-import { IndexRoleParams, RoleController } from '@/modules/Role';
-import SubjectController from '@/modules/Subjects/presentation/controllers/subject.controller';
+  import DeleteIllustration from '@/shared/icons/DeleteDialogIcons/DeleteIcon.vue';
+  import ReloadIcon from '@/shared/icons/CustomSelect/ReloadIcon.vue';
+  import warningImage from '@/assets/images/PLan/PlanDeleteWarning.gif';
+  import { IndexRoleParams, RoleController } from '@/modules/Role';
+  import IndexSubjectParams from '@/modules/Subjects/core/params/index.subject.params';
+  import SubjectController from '@/modules/Subjects/presentation/controllers/subject.controller';
+  import type StageModel from '@/modules/Stages/core/models/stage.model';
+  import flattenBranchTree from '@/modules/document/core/TreeSelectHelper';
 
   // Controller instance
   const controller = EmployeeController.getInstance();
@@ -40,6 +49,7 @@ import SubjectController from '@/modules/Subjects/presentation/controllers/subje
 
   const FormStore = useFormsStore();
   const formRoute = computed(() => '/employees/add');
+  const featureHeaderActionsTarget = ref<HTMLElement | null>(null);
 
   // Pagination state
   const perPage = ref(10);
@@ -55,7 +65,6 @@ import SubjectController from '@/modules/Subjects/presentation/controllers/subje
   const appliedStatuses = ref<EmployeeStatusEnm[]>([]);
   const subjectOptions = ref<TitleInterface<number>[]>([]);
   const indexRoleParams = new IndexRoleParams('', 1, 100, 0);
-
 
   const headers = computed<TableHeader[]>(() => [
     { key: 'firstname', label: t('employee_table.employee_name'), width: '20%', sortable: true },
@@ -131,6 +140,9 @@ import SubjectController from '@/modules/Subjects/presentation/controllers/subje
   };
 
   onMounted(async () => {
+    featureHeaderActionsTarget.value = document.querySelector<HTMLElement>(
+      '#feature-header-page-actions',
+    );
     if (route.query.word) {
       word.value = String(route.query.word);
     }
@@ -168,6 +180,7 @@ import SubjectController from '@/modules/Subjects/presentation/controllers/subje
         result = await controller.delete(new DeleteEmployeeParams(employee.id));
       } else {
         if (Number(current.data.status) !== EmployeeStatusEnm.active) return;
+        if (current.data.gender == null) return;
         result = await controller.update(
           new EditEmployeeParams({
             id: employee.id,
@@ -214,7 +227,7 @@ import SubjectController from '@/modules/Subjects/presentation/controllers/subje
       {
         text: t('delete'),
         icon: DeleteIcon,
-        action: () => deleteEmployee(employeeId),
+        action: () => openEmployeeDialog(employee),
         danger: true,
       },
     ];
@@ -317,14 +330,25 @@ import SubjectController from '@/modules/Subjects/presentation/controllers/subje
         />
       </div>
       <div class="btns-container">
-        <button class="btn btn-secondary" @click="exportExcel">
-          <ExportExcelIcon />
-          <span>{{ $t('export') }}</span>
-        </button>
-        <router-link :to="formRoute" class="btn btn-primary btn-add">
-          <IndexPluseIcon />
-          <span>{{ isDraft ? 'Add Employee' : 'Continue Adding' }}</span>
-        </router-link>
+        <Teleport
+          :to="featureHeaderActionsTarget ?? 'body'"
+          :disabled="!featureHeaderActionsTarget"
+        >
+          <div class="employee-feature-header-actions">
+            <button
+              class="btn btn-secondary feature-header__action feature-header__action--secondary"
+              type="button"
+              @click="exportExcel"
+            >
+              <ExportExcelIcon aria-hidden="true" />
+              <span>{{ $t('employee_export') }}</span>
+            </button>
+            <router-link :to="formRoute" class="btn btn-primary btn-add feature-header__action">
+              <IndexPluseIcon aria-hidden="true" />
+              <span>{{ $t(isDraft ? 'add_employee' : 'continue_adding') }}</span>
+            </router-link>
+          </div>
+        </Teleport>
         <FilterDialog
           v-model="FilterDialogShow"
           dialog-class="employee-filter-dialog"

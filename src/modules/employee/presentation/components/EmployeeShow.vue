@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, onMounted } from 'vue';
+  import { computed, onMounted, ref } from 'vue';
   import { useI18n } from 'vue-i18n';
   import { useRoute, useRouter } from 'vue-router';
   import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
@@ -22,6 +22,7 @@
   const employee = computed(() => controller.itemData.value);
   const itemState = computed(() => controller.itemState.value);
   const employeeId = computed(() => Number(route.params.id));
+  const featureHeaderActionsTarget = ref<HTMLElement | null>(null);
 
   const fetchEmployee = () => controller.fetchOne(new ShowEmployeeParams(employeeId.value));
   const retryEmployee = async () => {
@@ -179,10 +180,31 @@
   });
   const scopeArrow = computed(() => (locale.value.startsWith('ar') ? '←' : '→'));
 
-  onMounted(fetchEmployee);
+  onMounted(() => {
+    featureHeaderActionsTarget.value = document.querySelector<HTMLElement>(
+      '#feature-header-page-actions',
+    );
+    void fetchEmployee();
+  });
 </script>
 
 <template>
+  <Teleport
+    v-if="employee?.id"
+    :to="featureHeaderActionsTarget ?? 'body'"
+    :disabled="!featureHeaderActionsTarget"
+  >
+    <div class="employee-feature-header-actions">
+      <router-link
+        :to="`/employees/edit/${employee.id}`"
+        class="btn btn-primary feature-header__action"
+      >
+        <EditIcon aria-hidden="true" />
+        <span>{{ $t('edit_employee') }}</span>
+      </router-link>
+    </div>
+  </Teleport>
+
   <DataStatusBuilder :controller="itemState" :on-retry="retryEmployee" use-skeleton>
     <template #loader>
       <div class="employee-show-skeleton" aria-hidden="true">

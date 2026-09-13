@@ -65,6 +65,7 @@ describe('DashboardLayout.vue', () => {
     const wrapper = mountLayout();
     const action = wrapper.get('.feature-header__action');
 
+    expect(wrapper.find('#feature-header-page-actions').exists()).toBe(true);
     expect(action.text()).toBe('Add Notification Plan');
     expect(wrapper.find('teleport-stub').exists()).toBe(false);
     await action.trigger('click');
