@@ -1,101 +1,107 @@
 <script setup lang="ts">
-  import { onMounted, ref, watch } from 'vue';
-  import { useRoute } from 'vue-router';
-  // import { useFormsStore } from '@/stores/formsStore';
+import { onMounted, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
-  import type SkillModel from '../../core/models/skills.model';
-  import TranslationParams from '@/modules/about/core/params/translation.params';
-  import EditSkillsParams from '../../core/params/edit.skills.params';
-  import AddSkillsParams from '../../core/params/add.skills.params';
-  import MultiLangInput from '@/shared/MultiLangInput.vue';
+import type SkillModel from '../../core/models/skills.model';
+import TranslationParams from '@/modules/about/core/params/translation.params';
+import EditSkillsParams from '../../core/params/edit.skills.params';
+import AddSkillsParams from '../../core/params/add.skills.params';
+import MultiLangInput from '@/shared/MultiLangInput.vue';
 
-  const emit = defineEmits(['updateData']);
+const emit = defineEmits(['updateData']);
 
-  const { skill, loading } = defineProps<{
-    skill?: SkillModel;
-    formKey?: string;
-    loading?: boolean;
-  }>();
+const { skill, loading } = defineProps<{
+  skill?: SkillModel;
+  formKey?: string;
+  loading?: boolean;
+}>();
 
-  // const FormStore = useFormsStore();
-  // onBeforeRouteLeave((to, from) => {
-  //   const savedData = FormStore.getFormData(formKey!);
-  //   if (savedData && to.path !== from.path) {
-  //     FormStore.showReturnWarning(formKey!);
-  //   }
-  // });
+const route = useRoute();
 
-  // Form state
-  const translations = ref<Record<string, string>>({});
+// Form state
+const translations = ref<Record<string, string>>({});
 
-  watch(
-    () => skill,
-    (newskill) => {
-      if (newskill) {
-        // Record<string, string> | Array<Record<string, string>>
-        const raw: any = newskill.title;
-        if (Array.isArray(raw)) {
-          translations.value = raw.reduce(
-            (acc: Record<string, string>, item: Record<string, string>) => {
-              if (item?.locale) {
-                acc[item.locale] = item.title ?? '';
-              }
-              return acc;
-            },
-            {},
-          );
-        } else {
-          translations.value = raw;
-        }
-      }
-    },
-    { immediate: true },
-  );
+/**
+ * Prepare params and send them to parent
+ */
+const updateData = () => {
+  const data = {
+    translations: new TranslationParams({
+      title: translations.value,
+    }),
+  };
 
-  const route = useRoute();
+  let params: EditSkillsParams | AddSkillsParams;
 
-  const updateData = () => {
-    const data = {
-      translations: new TranslationParams({
-        title: translations.value,
-      }),
-    };
+  if (route.params.id) {
+    params = new EditSkillsParams({
+      id: Number(route.params.id),
+      ...data,
+    });
+  } else {
+    params = new AddSkillsParams(data);
+  }
 
-    // FormStore.setFormData(formKey!, data);
+  emit('updateData', params);
+};
 
-    let params: any;
-    if (route.params.id) {
-      params = new EditSkillsParams({
-        id: Number(route.params.id),
-        ...data,
-      });
-    } else {
-      params = new AddSkillsParams(data);
+/**
+ * Watch skill data coming from controller
+ */
+watch(
+  () => skill,
+  (newSkill) => {
+    if (!newSkill) {
+      return;
     }
 
-    emit('updateData', params);
-  };
+    const raw: any = newSkill.title;
 
-  const resetForm = () => {
-    translations.value = {};
-  };
+    if (Array.isArray(raw)) {
+      translations.value = raw.reduce(
+        (
+          acc: Record<string, string>,
+          item: Record<string, string>,
+        ) => {
+          if (item?.locale) {
+            acc[item.locale] = item.title ?? '';
+          }
 
-  onMounted(() => {
-    // const saved = FormStore.getFormData(formKey!);
-    // if (saved) {
-    //   translations.value = saved.translations;
+          return acc;
+        },
+        {},
+      );
+    } else {
+      translations.value = raw ?? {};
+    }
 
-    //   updateData();
-    // } else if (!skill) {
-    resetForm();
-    // }
-  });
-
-  const updateTranslations = (newTranslations: Record<string, string>) => {
-    // console.log(newTranslations, 'newTranslations');
-    translations.value = newTranslations;
+    // Important:
+    // Initialize parent params after the skill is loaded
     updateData();
-  };
+  },
+  { immediate: true },
+);
+
+/**
+ * Reset form
+ */
+const resetForm = () => {
+  translations.value = {};
+};
+
+/**
+ * Update translations
+ */
+const updateTranslations = (
+  newTranslations: Record<string, string>,
+) => {
+  translations.value = newTranslations;
+  updateData();
+};
+
+onMounted(() => {
+  resetForm();
+});
 </script>
 
 <template>

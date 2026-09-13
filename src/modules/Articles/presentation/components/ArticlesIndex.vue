@@ -207,7 +207,7 @@
         </button> -->
         <router-link :to="formRoute" class="btn btn-primary btn-add">
           <IndexPluseIcon />
-          <span>{{ isDraft ? 'new artical' : 'continue adding' }}</span>
+          <span>{{ isDraft ? 'new article' : 'continue adding' }}</span>
         </router-link>
         <FilterDialog v-model="FilterDialogShow">
           <template #content>

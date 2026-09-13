@@ -367,7 +367,7 @@
             <div class="form-group">
               <div class="field-group" data-required-field="question">
                 <label class="field-label" for="article-title">
-                  {{ $t('title of artical')
+                  {{ $t('title of article')
                   }}<span class="required-marker" aria-hidden="true">*</span>
                 </label>
                 <div class="input-wrap">
