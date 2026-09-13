@@ -21,4 +21,19 @@ describe('QuestionApiService', () => {
       enableRetry: false,
     });
   });
+
+  it('posts the archive toggle without automatic retries', async () => {
+    const service = QuestionApiService.getInstance();
+    const response = { data: {}, statusCode: 200 };
+    const customPostSpy = vi.spyOn(service, 'customPost').mockResolvedValue(response);
+    const params = createParams();
+
+    await service.toggleArchive(params);
+
+    expect(customPostSpy).toHaveBeenCalledWith(
+      expect.stringContaining('fetch_togle_archive'),
+      params,
+      { enableRetry: false },
+    );
+  });
 });

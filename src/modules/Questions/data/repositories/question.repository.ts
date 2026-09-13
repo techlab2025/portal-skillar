@@ -95,6 +95,13 @@ export default class questionsRepository extends BaseRepository<
     );
   }
 
+  toggleArchive(params: Params): Promise<DataState<boolean>> {
+    return this.executeCustom(
+      () => this.apiService.toggleArchive(params),
+      () => true,
+    );
+  }
+
   async QuestionHistory(params: Params): Promise<DataState<QuestionHistoryModel[]>> {
     return this.executeCustom(
       () => this.apiService.QuestionHistory(params),

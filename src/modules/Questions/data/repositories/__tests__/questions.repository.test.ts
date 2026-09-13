@@ -44,4 +44,20 @@ describe('questionsRepository', () => {
     expect(result.data).toBe(true);
     expect(result.error).toBeNull();
   });
+
+  it('returns success when the archive-toggle endpoint succeeds', async () => {
+    vi.spyOn(QuestionApiService.getInstance(), 'toggleArchive').mockResolvedValue({
+      statusCode: 200,
+      data: {
+        data: { question_id: 10 },
+        message: 'Question archive status updated successfully',
+      },
+    });
+
+    const result = await questionsRepository.getInstance().toggleArchive(createParams());
+
+    expect(result).toBeInstanceOf(DataSuccess);
+    expect(result.data).toBe(true);
+    expect(result.error).toBeNull();
+  });
 });

@@ -4,10 +4,12 @@ import { createPinia, setActivePinia } from 'pinia';
 import { createI18n } from 'vue-i18n';
 import { QuestionStatusEnum } from '../../../core/constant/question.status.enum';
 import { QuestionTypeEnum } from '../../../core/constant/question.type.enum';
+import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 import questionsIndex from '../questionsIndex.vue';
 
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en: {} } });
 const fetchListMock = vi.hoisted(() => vi.fn());
+const toggleArchiveMock = vi.hoisted(() => vi.fn());
 
 // Mock dependencies
 vi.mock('vue-router', () => ({
@@ -33,6 +35,7 @@ vi.mock('../../controllers/questions.controller', () => ({
     getInstance: () => ({
       listState: { value: {} },
       fetchList: fetchListMock,
+      toggleArchive: toggleArchiveMock,
       pagination: { value: {} },
     }),
   },
@@ -150,11 +153,30 @@ describe('questionsIndex.vue', () => {
     ]);
   });
 
-  it('shows only the view action for an approved question', () => {
+  it('shows the view and archive-toggle actions for an approved question', () => {
     const wrapper = mountWithTableItem(QuestionStatusEnum.APPROVED);
     const actions = wrapper.findComponent({ name: 'DropList' }).props('actionList');
 
-    expect(actions.map((action: { text: string }) => action.text)).toEqual(['show_question']);
+    expect(actions.map((action: { text: string }) => action.text)).toEqual([
+      'show_question',
+      'un_archive',
+    ]);
+    expect(actions[1].toggleValue).toBe(false);
+  });
+
+  it('toggles archive through the controller and refreshes the current page', async () => {
+    toggleArchiveMock.mockResolvedValue(new DataSuccess({ data: true }));
+    const wrapper = mountWithTableItem(QuestionStatusEnum.APPROVED);
+    await flushPromises();
+    fetchListMock.mockClear();
+
+    const actions = wrapper.findComponent({ name: 'DropList' }).props('actionList');
+    await actions[1].action();
+
+    expect(toggleArchiveMock).toHaveBeenCalledOnce();
+    expect(toggleArchiveMock.mock.calls[0]?.[0].toMap()).toEqual({ question_id: 10 });
+    expect(fetchListMock).toHaveBeenCalledOnce();
+    expect(fetchListMock.mock.calls[0]?.[0].pageNumber).toBe(1);
   });
 
   it('hides the selection checkbox for approved questions', () => {

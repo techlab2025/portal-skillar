@@ -640,9 +640,9 @@
   },
   "cancel_question_dialog": {
     "title": "are you sure you want to cancel the edit",
-    "description": "canceling will discard all the changes you have made",
-    "confirm": "Yes, Discard Changes",
-    "cancel": "Cancel"
+    "description": "your progress will be lost",
+    "confirm": "Yes, Cancel & delete",
+    "cancel": "keep editing"
   },
   "save_review_dialog": {
     "title": "Save the question or send it for review?",
