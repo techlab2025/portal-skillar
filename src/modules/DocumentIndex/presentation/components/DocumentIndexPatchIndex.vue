@@ -114,7 +114,8 @@
     generatedDialogVisible.value = true;
   };
 
-  const viewProgress = () => progressController.openProgress();
+  const viewProgress = (patch: DocumentIndexPatchModel) =>
+    progressController.openProgress(patch.id);
 
   const refreshStatus = async (patch: DocumentIndexPatchModel) => {
     if (refreshingTransactionId.value != null) return;
@@ -150,7 +151,7 @@
         {
           text: t('document_index.view_progress'),
           icon: PlanViewIcon,
-          action: viewProgress,
+          action: () => viewProgress(patch),
           skipDeleteConfirmation: true,
         },
       ];
@@ -246,7 +247,7 @@
               </span>
             </template>
             <template #cell-applied="{ item }">
-              <span class="document-index-patch-page__applied" >
+              <span class="document-index-patch-page__applied">
                 {{ appliedLabel(item) }}
               </span>
             </template>

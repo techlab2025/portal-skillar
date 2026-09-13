@@ -127,6 +127,7 @@
           <span
             v-for="topic in getTopics(item.question, item.level)"
             :key="topic.id"
+            class="curriculum-analysis__topic"
             :class="`curriculum-analysis__topic--${topic.level}`"
           >
             {{ topic.title }}
@@ -225,69 +226,57 @@
       }
 
       > strong {
-        position: relative;
+        align-self: center;
         color: var(--gray-700);
         font-size: var(--xs-size);
         line-height: 1.6;
-
-        &::after {
-          position: absolute;
-          top: 10px;
-          inset-inline-end: -28px;
-          width: 22px;
-          content: '';
-          border-top: 1px dashed var(--border-weak);
-        }
-
-        &::before {
-          position: absolute;
-          top: 7px;
-          inset-inline-end: -28px;
-          width: 6px;
-          height: 6px;
-          content: '';
-          border-top: 1px solid var(--border-strong);
-          border-inline-end: 1px solid var(--border-strong);
-          transform: rotate(45deg);
-        }
       }
     }
 
     &__topics {
+      position: relative;
       display: flex;
+      align-self: center;
       flex-direction: column;
       gap: 12px;
+      font-size: var(--xs-size);
 
-      span {
-        position: relative;
-        padding-inline-start: 20px;
-        font-size: var(--xs-size);
-        font-weight: 600;
-
-        &::before {
-          position: absolute;
-          top: 50%;
-          inset-inline-start: 0;
-          width: 13px;
-          content: '';
-          border-top: 1px dashed var(--border-weak);
-        }
-
-        &::after {
-          position: absolute;
-          top: calc(50% - 3px);
-          inset-inline-start: 10px;
-          width: 6px;
-          height: 6px;
-          content: '';
-          border-top: 1px solid var(--border-strong);
-          border-inline-end: 1px solid var(--border-strong);
-          transform: rotate(45deg);
-        }
+      &::before {
+        position: absolute;
+        inset-block: 0.7em;
+        inset-inline-start: 0;
+        content: '';
+        border-inline-start: 1px dashed var(--border-color);
       }
     }
 
     &__topic {
+      position: relative;
+      padding-inline-start: 56px;
+      font-size: inherit;
+      font-weight: 600;
+      line-height: 1.4;
+
+      &::before {
+        position: absolute;
+        top: 0.7em;
+        inset-inline-start: 0;
+        width: 48px;
+        content: '';
+        border-top: 1px dashed var(--border-color);
+      }
+
+      &::after {
+        position: absolute;
+        top: calc(0.7em - 3px);
+        inset-inline-start: 46px;
+        width: 0;
+        height: 0;
+        content: '';
+        border-block: 3px solid transparent;
+        border-inline-start: 5px solid var(--border-color);
+      }
+
       &--strong {
         color: var(--success);
       }

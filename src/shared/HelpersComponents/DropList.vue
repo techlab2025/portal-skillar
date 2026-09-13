@@ -15,7 +15,7 @@
 
   interface ActionItem {
     text: string;
-    icon: Component;
+    icon?: Component;
     link?: string;
     action?: () => void;
     skipDeleteConfirmation?: boolean;
@@ -58,7 +58,6 @@
     deleteDialogMessage?: string;
     variant?: 'default' | 'student' | 'notification-plan';
     deleteDialogClass?: string;
-
   }>();
 </script>
 
@@ -104,7 +103,10 @@
               action.action &&
               (action.text != $t('delete') || action.skipDeleteConfirmation === true)
             "
+            type="button"
             class="flex items-center gap-sm"
+            :role="action.toggleValue !== undefined ? 'switch' : undefined"
+            :aria-checked="action.toggleValue !== undefined ? action.toggleValue : undefined"
             @click="runAction(action)"
           >
             <template v-if="props.variant === 'student'">
@@ -127,7 +129,15 @@
             </template>
             <template v-else>
               <span>{{ action.text }}</span>
-              <component :is="action.icon" />
+              <span
+                v-if="action.toggleValue !== undefined"
+                class="action-toggle"
+                :class="{ checked: action.toggleValue }"
+                aria-hidden="true"
+              >
+                <span></span>
+              </span>
+              <component :is="action.icon" v-else-if="action.icon" />
             </template>
           </button>
 
@@ -216,5 +226,37 @@
 
   .list-item-danger .student-action-icon {
     background: var(--danger-light);
+  }
+
+  .action-toggle {
+    width: 34px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    margin-inline-start: auto;
+    padding: 2px;
+    background: var(--gray-300);
+    border-radius: var(--radius-full);
+
+    > span {
+      width: 14px;
+      height: 14px;
+      background: var(--BgWhite);
+      border-radius: var(--radius-full);
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition-fast);
+    }
+
+    &.checked {
+      background: var(--PrimaryColor);
+
+      > span {
+        transform: translateX(16px);
+      }
+    }
+  }
+
+  [dir='rtl'] .action-toggle.checked > span {
+    transform: translateX(-16px);
   }
 </style>

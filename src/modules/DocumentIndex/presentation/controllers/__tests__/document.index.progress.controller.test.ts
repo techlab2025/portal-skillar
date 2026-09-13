@@ -2,10 +2,11 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 
 const startIndex = vi.fn();
+const cancelGeneration = vi.fn();
 
 vi.mock('../document.index.patch.controller', () => ({
   default: {
-    getInstance: () => ({ startIndex }),
+    getInstance: () => ({ startIndex, cancelGeneration }),
   },
 }));
 
@@ -17,9 +18,10 @@ describe('DocumentIndexProgressController', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     controller.reset();
+    cancelGeneration.mockResolvedValue(new DataSuccess<void>({}));
   });
 
-  it('keeps progress active only while start_document_index is pending', async () => {
+  it('keeps progress active with the question batch id returned by start_document_index', async () => {
     let resolveStart: ((result: DataSuccess<number>) => void) | undefined;
     startIndex.mockReturnValueOnce(
       new Promise<DataSuccess<number>>((resolve) => {
@@ -46,33 +48,28 @@ describe('DocumentIndexProgressController', () => {
     resolveStart?.(new DataSuccess({ data: 12 }));
 
     await expect(request).resolves.toBe(true);
-    expect(controller.generationDialogVisible.value).toBe(false);
-    expect(controller.hasActiveIndexing.value).toBe(false);
+    expect(controller.generationDialogVisible.value).toBe(true);
+    expect(controller.hasActiveIndexing.value).toBe(true);
     expect(controller.startingDocumentId.value).toBeUndefined();
+    expect(controller.activeQuestionBatchId.value).toBe(12);
   });
 
-  it('closes local progress and ignores a start response after cancellation', async () => {
-    let resolveStart: ((result: DataSuccess<number>) => void) | undefined;
-    startIndex.mockReturnValueOnce(
-      new Promise<DataSuccess<number>>((resolve) => {
-        resolveStart = resolve;
-      }),
-    );
+  it('calls cancel_generate_questions with the id returned by the start request', async () => {
+    startIndex.mockResolvedValueOnce(new DataSuccess({ data: 42 }));
 
-    const request = controller.startIndex(17);
+    await controller.startIndex(17);
     controller.requestCancel();
-    controller.confirmCancel();
+    await controller.confirmCancel();
 
+    expect(cancelGeneration).toHaveBeenCalledOnce();
+    expect(cancelGeneration.mock.calls[0]?.[0].toMap()).toEqual({ question_batch_id: 42 });
     expect(controller.generationDialogVisible.value).toBe(false);
     expect(controller.cancelConfirmationVisible.value).toBe(false);
     expect(controller.hasActiveIndexing.value).toBe(false);
-
-    resolveStart?.(new DataSuccess({ data: 12 }));
-    await expect(request).resolves.toBe(false);
   });
 
-  it('shows progress for a pending transaction without calling a status endpoint', () => {
-    controller.openProgress();
+  it('cancels a pending transaction using its question batch id', async () => {
+    controller.openProgress(42);
 
     expect(controller.generationDialogVisible.value).toBe(true);
     expect(controller.hasActiveIndexing.value).toBe(true);
@@ -85,7 +82,20 @@ describe('DocumentIndexProgressController', () => {
     controller.openActiveProgress();
     expect(controller.generationDialogVisible.value).toBe(true);
 
-    controller.confirmCancel();
+    await controller.confirmCancel();
+    expect(cancelGeneration.mock.calls[0]?.[0].toMap()).toEqual({ question_batch_id: 42 });
     expect(controller.hasActiveIndexing.value).toBe(false);
+  });
+
+  it('keeps the progress dialog open when backend cancellation fails', async () => {
+    cancelGeneration.mockResolvedValueOnce({ hasError: true });
+    controller.openProgress(42);
+    controller.requestCancel();
+
+    await expect(controller.confirmCancel()).resolves.toBe(false);
+
+    expect(controller.hasActiveIndexing.value).toBe(true);
+    expect(controller.generationDialogVisible.value).toBe(true);
+    expect(controller.cancelConfirmationVisible.value).toBe(true);
   });
 });

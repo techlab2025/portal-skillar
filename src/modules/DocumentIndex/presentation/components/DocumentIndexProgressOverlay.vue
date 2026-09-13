@@ -8,7 +8,13 @@
 
   const { t } = useI18n();
   const controller = DocumentIndexProgressController.getInstance();
-  const { cancelConfirmationVisible, generationDialogVisible, hasActiveIndexing } = controller;
+  const {
+    activeQuestionBatchId,
+    cancelConfirmationVisible,
+    generationDialogVisible,
+    hasActiveIndexing,
+    isCancelling,
+  } = controller;
 
   onBeforeUnmount(() => controller.reset());
 </script>
@@ -103,11 +109,18 @@
         <button
           class="document-index-cancel__confirm"
           type="button"
+          :disabled="isCancelling || activeQuestionBatchId == null"
+          :aria-busy="isCancelling"
           @click="controller.confirmCancel"
         >
-          {{ t('document_index.cancel') }}
+          {{ t(isCancelling ? 'document_index.cancelling' : 'document_index.cancel') }}
         </button>
-        <button class="document-index-cancel__keep" type="button" @click="controller.keepIndexing">
+        <button
+          class="document-index-cancel__keep"
+          type="button"
+          :disabled="isCancelling"
+          @click="controller.keepIndexing"
+        >
           {{ t('document_index.keep_indexing') }}
         </button>
       </footer>

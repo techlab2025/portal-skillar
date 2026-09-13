@@ -22,6 +22,9 @@ export default class DocumentIndexPatchController extends BaseController<
   public readonly startState: Ref<DataState<number>> = ref(new DataInitial<number>()) as Ref<
     DataState<number>
   >;
+  public readonly cancelState: Ref<DataState<void>> = ref(new DataInitial<void>()) as Ref<
+    DataState<void>
+  >;
   public readonly refreshState: Ref<DataState<DocumentIndexStatusModel>> = ref(
     new DataInitial<DocumentIndexStatusModel>(),
   ) as Ref<DataState<DocumentIndexStatusModel>>;
@@ -65,6 +68,14 @@ export default class DocumentIndexPatchController extends BaseController<
     this.startState.value = new DataLoading<number>();
     const result = await this.repository.startIndex(params, this.mergeOptions(options));
     this.startState.value = result;
+    if (result.hasError) this.handleErrorResponse(result);
+    return result;
+  }
+
+  async cancelGeneration(params: Params, options?: ApiCallOptions): Promise<DataState<void>> {
+    this.cancelState.value = new DataLoading<void>();
+    const result = await this.repository.cancelGeneration(params, this.mergeOptions(options));
+    this.cancelState.value = result;
     if (result.hasError) this.handleErrorResponse(result);
     return result;
   }

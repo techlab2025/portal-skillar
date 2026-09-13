@@ -26,6 +26,7 @@ const startIdentifier = (value: unknown, depth = 0): number => {
   if (depth >= 2) return 0;
   const data = SaftyConditions.objectValue(value);
   const directKeys = [
+    'question_batch_id',
     'id',
     'patch_id',
     'index_patch_id',
@@ -64,13 +65,17 @@ const isSuccessfulStartResponse = (statusCode: number, body: Record<string, unkn
   body.status !== '0' &&
   body.status !== 'false';
 
+const isSuccessfulActionResponse = (statusCode: number, body: Record<string, unknown>): boolean =>
+  statusCode >= 200 &&
+  statusCode < 300 &&
+  body.status !== false &&
+  body.status !== 0 &&
+  body.status !== '0' &&
+  body.status !== 'false';
+
 const refreshStatusPayload = (value: unknown, transactionId: string): unknown => {
   const data = SaftyConditions.objectValue(value);
-  const rows = Array.isArray(value)
-    ? value
-    : Array.isArray(data.data)
-      ? data.data
-      : undefined;
+  const rows = Array.isArray(value) ? value : Array.isArray(data.data) ? data.data : undefined;
 
   if (!rows) return value;
 
@@ -158,6 +163,29 @@ export default class DocumentIndexPatchRepository extends BaseRepository<
       });
     } catch (error) {
       return this.handleError<number>(error);
+    }
+  }
+
+  async cancelGeneration(params: Params, options?: ApiCallOptions): Promise<DataState<void>> {
+    if (options?.useStaticData ?? env.useStaticData) return new DataSuccess<void>({});
+
+    try {
+      const response = await this.apiService.cancelGeneration(params, options);
+      const body = SaftyConditions.objectValue(response.data);
+      if (!isSuccessfulActionResponse(response.statusCode, body)) {
+        return new DataFailed({
+          error: new ErrorModel(
+            String(body.message ?? 'Document indexing could not be cancelled.'),
+            ErrorType.serviceSide,
+          ),
+        });
+      }
+
+      return new DataSuccess<void>({
+        message: typeof body.message === 'string' ? body.message : null,
+      });
+    } catch (error) {
+      return this.handleError<void>(error);
     }
   }
 

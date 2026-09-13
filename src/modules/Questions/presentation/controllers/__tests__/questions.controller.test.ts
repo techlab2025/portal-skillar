@@ -50,6 +50,23 @@ describe('questionsController.updateReviewStatus', () => {
   });
 });
 
+describe('questionsController.toggleArchive', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('delegates the archive toggle to the questions repository', async () => {
+    const params = createParams();
+    const result = new DataSuccess({ data: true });
+    const toggleArchiveSpy = vi
+      .spyOn(questionsRepository.getInstance(), 'toggleArchive')
+      .mockResolvedValue(result);
+
+    expect(await questionsController.getInstance().toggleArchive(params)).toBe(result);
+    expect(toggleArchiveSpy).toHaveBeenCalledWith(params);
+  });
+});
+
 describe('questionsController.update', () => {
   beforeEach(() => {
     setActivePinia(createPinia());

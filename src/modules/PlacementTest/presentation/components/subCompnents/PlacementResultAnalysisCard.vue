@@ -122,7 +122,7 @@
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      flex-wrap: wrap;
+      // flex-wrap: wrap;
       gap: 12px;
     }
 
@@ -137,7 +137,7 @@
       margin: 0;
       color: var(--title-card-color);
       font-family: 'Demi';
-      font-size: var(--sm-size);
+      font-size: 16px;
       font-weight: 600;
       line-height: 1.5;
     }

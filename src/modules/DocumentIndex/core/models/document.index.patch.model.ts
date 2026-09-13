@@ -86,7 +86,7 @@ export default class DocumentIndexPatchModel {
       data.subject ?? data.education_subject ?? document.subject ?? document.education_subject,
     );
     const id = SaftyConditions.numberValue(
-      data.id ?? data.patch_id ?? data.document_index_patch_id,
+      data.question_batch_id ?? data.id ?? data.patch_id ?? data.document_index_patch_id,
     );
     return new DocumentIndexPatchModel({
       id,

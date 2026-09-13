@@ -32,11 +32,11 @@ export default class EmployeeRepository extends BaseRepository<EmployeeModel, Em
     return EmployeeRepository.instance;
   }
 
-  protected parseItem(data: any): EmployeeModel {
+  protected parseItem(data: unknown): EmployeeModel {
     return EmployeeModel.fromJson(data);
   }
 
-  protected parseList(data: any): EmployeeModel[] {
+  protected parseList(data: unknown): EmployeeModel[] {
     if (!Array.isArray(data)) return [];
     return data.reduce((acc: EmployeeModel[], item) => {
       try {

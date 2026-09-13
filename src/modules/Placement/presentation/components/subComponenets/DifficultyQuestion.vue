@@ -1,9 +1,7 @@
 <script setup lang="ts">
-  import { computed } from 'vue';
-
   type DifficultyKey = 'easy' | 'medium' | 'hard';
 
-  const props = defineProps<{
+  defineProps<{
     difficultyFields: {
       key: DifficultyKey;
       label: string;
@@ -14,6 +12,8 @@
     questionCount: number;
     calculatedQuestions: Record<string, number>;
     totalPercentage: number;
+    prerequisitesReady: boolean;
+    showPrerequisiteError: boolean;
   }>();
 
   const model = defineModel<{
@@ -42,10 +42,6 @@
     model.value[key] = numericValue;
     target.value = numericValue ? `${numericValue}%` : '';
   };
-
-  const showQuestionCountError = computed(() => {
-    return props.questionCount === 0;
-  });
 </script>
 
 <template>
@@ -62,14 +58,11 @@
           type="text"
           :placeholder="field.placeholder"
           :value="model[field.key] + '%'"
-          :disabled="
-            (totalPercentage >= 100 && !model[field.key]) ||
-            showQuestionCountError
-          "
+          :disabled="(totalPercentage >= 100 && !model[field.key]) || !prerequisitesReady"
           @input="handlePercentageInput($event, field.key)"
         />
 
-        <small v-if="showQuestionCountError" class="error-text">
+        <small v-if="showPrerequisiteError" class="error-text">
           Please enter number of questions and time first
         </small>
       </div>

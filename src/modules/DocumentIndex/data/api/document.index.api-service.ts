@@ -26,6 +26,10 @@ export default class DocumentIndexApiService extends BaseApiService {
     return this.customPost(this.documentIndexEndpoints.createIndex, params, options);
   }
 
+  cancelGeneration(params: Params, options?: ApiCallOptions): Promise<ApiResponse> {
+    return this.customPost(this.documentIndexEndpoints.cancelGeneration, params, options);
+  }
+
   refreshIndexStatus(params: Params, options?: ApiCallOptions): Promise<ApiResponse> {
     return this.customPost(this.documentIndexEndpoints.refreshIndexStatus, params, options);
   }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue';
+  import { ref } from 'vue';
   import AppButton from '@/shared/HelpersComponents/AppButton.vue';
   import IconAccept from '@/shared/icons/IconAccept.vue';
   import { useRoute } from 'vue-router';
@@ -8,17 +8,13 @@
   import PlacementForm from './PlacementsForm.vue';
   import AddPlacementParams from '../../core/params/add.placement.params';
   import type EditPlacementParams from '../../core/params/edit.placement.params';
-  import ShowPlacementParams from '../../core/params/show.placement.params';
   const { t } = useI18n();
   const controller = placementController.getInstance();
   const route = useRoute();
   const formKey = route.fullPath;
   const params = ref<AddPlacementParams | null>(null);
 
-  onMounted(() => {
-    const params = new ShowPlacementParams(Number(route.params.id));
-    controller.fetchOne(params);
-  });
+  controller.resetItem();
 
   const savePlacement = async () => {
     try {
@@ -66,6 +62,9 @@
 </template>
 
 <style scoped lang="scss">
+.save-placement{
+  width: 100%;
+}
   .btn-cancel {
     background-color: var(--background-btn-outline-color);
     color: var(--danger-color);

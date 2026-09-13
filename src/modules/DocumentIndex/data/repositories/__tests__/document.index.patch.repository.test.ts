@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
+import CancelGenerateQuestionsParams from '../../../core/params/cancel.generate.questions.params';
 import GenerateDocumentIndexParams from '../../../core/params/generate.document.index.params';
 import IndexDocumentIndexPatchParams from '../../../core/params/index.document.index.patch.params';
 import RefreshDocumentIndexStatusParams from '../../../core/params/refresh.document.index.status.params';
@@ -81,6 +82,23 @@ describe('DocumentIndexPatchRepository', () => {
     expect(refreshResult.data).toMatchObject({ status: 2, isApply: true, documentId: 17 });
   });
 
+  it('cancels generation using question_batch_id', async () => {
+    const service = DocumentIndexApiService.getInstance();
+    const cancelGeneration = vi.spyOn(service, 'cancelGeneration').mockResolvedValue({
+      data: { status: true, message: 'Generation cancelled.' },
+      statusCode: 200,
+    });
+    const params = new CancelGenerateQuestionsParams(42);
+
+    const result = await DocumentIndexPatchRepository.getInstance().cancelGeneration(params, {
+      useStaticData: false,
+    });
+
+    expect(result).toBeInstanceOf(DataSuccess);
+    expect(cancelGeneration).toHaveBeenCalledWith(params, { useStaticData: false });
+    expect(cancelGeneration.mock.calls[0]?.[0].toMap()).toEqual({ question_batch_id: 42 });
+  });
+
   it('uses the document id when a successful start response has no transaction payload', async () => {
     vi.spyOn(DocumentIndexApiService.getInstance(), 'createIndex').mockResolvedValue({
       data: { status: true, message: 'Document indexing started.' },
@@ -94,5 +112,20 @@ describe('DocumentIndexPatchRepository', () => {
 
     expect(result).toBeInstanceOf(DataSuccess);
     expect(result.data).toBe(17);
+  });
+
+  it('reads question_batch_id from the start response', async () => {
+    vi.spyOn(DocumentIndexApiService.getInstance(), 'createIndex').mockResolvedValue({
+      data: { status: true, data: { id: 12, question_batch_id: 42 } },
+      statusCode: 201,
+    });
+
+    const result = await DocumentIndexPatchRepository.getInstance().startIndex(
+      new GenerateDocumentIndexParams(17),
+      { useStaticData: false },
+    );
+
+    expect(result).toBeInstanceOf(DataSuccess);
+    expect(result.data).toBe(42);
   });
 });

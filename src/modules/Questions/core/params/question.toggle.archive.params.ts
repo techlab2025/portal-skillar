@@ -1,14 +1,11 @@
 import type Params from '@/base/Core/Params/params';
 import { ClassValidation } from '@/base/Presentation/Utils/classValidation';
 
-/**
- * Parameters for showing an employee
- */
-export default class ShowEmployeeParams implements Params {
-  public id: number;
+export default class ToggleQuestionArchiveParams implements Params {
+  public readonly id: number;
 
   public static readonly validation = new ClassValidation().setRules({
-    id: { required: true },
+    id: { required: true, min: 1 },
   });
 
   constructor(id: number) {
@@ -16,16 +13,14 @@ export default class ShowEmployeeParams implements Params {
   }
 
   toMap(): Record<string, number> {
-    return {
-      employee_id: this.id,
-    };
+    return { question_id: this.id };
   }
 
   validate() {
-    return ShowEmployeeParams.validation.validate(this);
+    return ToggleQuestionArchiveParams.validation.validate(this);
   }
 
   validateOrThrow() {
-    return ShowEmployeeParams.validation.validateOrThrow(this);
+    return ToggleQuestionArchiveParams.validation.validateOrThrow(this);
   }
 }

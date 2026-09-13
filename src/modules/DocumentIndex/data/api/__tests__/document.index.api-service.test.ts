@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
+import CancelGenerateQuestionsParams from '../../../core/params/cancel.generate.questions.params';
 import GenerateDocumentIndexParams from '../../../core/params/generate.document.index.params';
 import RefreshDocumentIndexStatusParams from '../../../core/params/refresh.document.index.status.params';
 import DocumentIndexApiService from '../document.index.api-service';
@@ -11,10 +12,12 @@ describe('DocumentIndexApiService', () => {
       statusCode: 200,
     });
     const params = new GenerateDocumentIndexParams(17);
+    const cancelParams = new CancelGenerateQuestionsParams(42);
     const refreshParams = new RefreshDocumentIndexStatusParams('TXN-012');
     const signal = new AbortController().signal;
 
     await service.createIndex(params, { signal, timeout: 0 });
+    await service.cancelGeneration(cancelParams);
     await service.refreshIndexStatus(refreshParams);
     await service.updateIndex(params);
     await service.fetchIndex(params);
@@ -24,6 +27,11 @@ describe('DocumentIndexApiService', () => {
       expect.stringContaining('start_document_index'),
       params,
       { signal, timeout: 0 },
+    );
+    expect(customPost).toHaveBeenCalledWith(
+      expect.stringContaining('cancel_generate_questions'),
+      cancelParams,
+      undefined,
     );
     expect(customPost).toHaveBeenCalledWith(
       expect.stringContaining('refresh_document_index_status'),
@@ -45,6 +53,6 @@ describe('DocumentIndexApiService', () => {
       params,
       undefined,
     );
-    expect(customPost).toHaveBeenCalledTimes(5);
+    expect(customPost).toHaveBeenCalledTimes(6);
   });
 });

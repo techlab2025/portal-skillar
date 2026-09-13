@@ -5,10 +5,11 @@ import { defineComponent, h } from 'vue';
 import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 
 const startIndex = vi.fn();
+const cancelGeneration = vi.fn();
 
 vi.mock('../../controllers/document.index.patch.controller', () => ({
   default: {
-    getInstance: () => ({ startIndex }),
+    getInstance: () => ({ startIndex, cancelGeneration }),
   },
 }));
 
@@ -43,9 +44,10 @@ describe('DocumentIndexProgressOverlay', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     controller.reset();
+    cancelGeneration.mockResolvedValue(new DataSuccess<void>({}));
   });
 
-  it('pins minimized start progress and closes it when start_document_index resolves', async () => {
+  it('pins minimized progress and keeps it available after start_document_index resolves', async () => {
     let resolveStart: ((result: DataSuccess<number>) => void) | undefined;
     startIndex.mockReturnValueOnce(
       new Promise<DataSuccess<number>>((resolve) => {
@@ -84,20 +86,24 @@ describe('DocumentIndexProgressOverlay', () => {
     await request;
     await flushPromises();
 
-    expect(wrapper.find('.document-index-generation').exists()).toBe(false);
+    expect(wrapper.find('.document-index-generation').exists()).toBe(true);
     expect(wrapper.find('.document-index-floating-progress').exists()).toBe(false);
+    expect(controller.activeQuestionBatchId.value).toBe(12);
   });
 
   it('cancels the active start progress through the confirmation dialog', async () => {
-    startIndex.mockReturnValueOnce(new Promise(() => undefined));
-    void controller.startIndex(17);
+    startIndex.mockResolvedValueOnce(new DataSuccess({ data: 42 }));
+    await controller.startIndex(17);
     const wrapper = mountOverlay();
 
     await wrapper.find('.document-index-generation__cancel').trigger('click');
     expect(wrapper.find('.document-index-cancel').exists()).toBe(true);
 
     await wrapper.find('.document-index-cancel__confirm').trigger('click');
+    await flushPromises();
 
+    expect(cancelGeneration).toHaveBeenCalledOnce();
+    expect(cancelGeneration.mock.calls[0]?.[0].toMap()).toEqual({ question_batch_id: 42 });
     expect(controller.hasActiveIndexing.value).toBe(false);
     expect(wrapper.find('.document-index-generation').exists()).toBe(false);
     expect(wrapper.find('.document-index-floating-progress').exists()).toBe(false);

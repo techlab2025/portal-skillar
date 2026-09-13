@@ -49,6 +49,50 @@ describe('PermissionSelector', () => {
     expect(wrapper.emitted('update:permissions')?.at(-1)?.[0]).toEqual([]);
   });
 
+  it('selects and clears every permission from the configurator header', async () => {
+    const wrapper = mount(PermissionSelector, { global: { plugins: [i18n] } });
+    const actions = wrapper.get('.permission-configurator__bulk-actions').findAll('button');
+    const allPermissionCodes = createAdminPermissions()
+      .flatMap((module) => module.permissions)
+      .flatMap((group) => group.permissions)
+      .map(({ code }) => code)
+      .sort();
+
+    await actions[0]?.trigger('click');
+
+    const selectedCodes = wrapper.emitted('update:permissions')?.at(-1)?.[0] as string[];
+    expect([...selectedCodes].sort()).toEqual(allPermissionCodes);
+    expect(wrapper.findAll('.permission-pill--selected')).toHaveLength(allPermissionCodes.length);
+
+    await actions[1]?.trigger('click');
+
+    expect(wrapper.emitted('update:permissions')?.at(-1)?.[0]).toEqual([]);
+    expect(wrapper.findAll('.permission-pill--selected')).toHaveLength(0);
+  });
+
+  it('selects and clears a section without toggling its accordion', async () => {
+    const wrapper = mount(PermissionSelector, { global: { plugins: [i18n] } });
+    const questionsSection = wrapper.get('.permission-module');
+    const actions = questionsSection.findAll('.permission-module__bulk-actions button');
+    const sectionBody = questionsSection.get('.permission-groups');
+    const sectionPermissionCount = questionsSection.findAll('.permission-pill').length;
+
+    await actions[0]?.trigger('click');
+
+    expect(questionsSection.findAll('.permission-pill--selected')).toHaveLength(
+      sectionPermissionCount,
+    );
+    expect(sectionBody.attributes('style') ?? '').not.toContain('display: none');
+    expect(questionsSection.get('.permission-module__chevron').attributes('aria-expanded')).toBe(
+      'true',
+    );
+
+    await actions[1]?.trigger('click');
+
+    expect(questionsSection.findAll('.permission-pill--selected')).toHaveLength(0);
+    expect(sectionBody.attributes('style') ?? '').not.toContain('display: none');
+  });
+
   it('selects every permission inside one design section', async () => {
     const wrapper = mount(PermissionSelector, { global: { plugins: [i18n] } });
     const questionsSection = wrapper.get('.permission-module');
@@ -159,6 +203,8 @@ describe('PermissionSelector', () => {
         .find('.permission-group__bulk-actions button:not(.permission-group__chevron)')
         .exists(),
     ).toBe(false);
+    expect(wrapper.find('.permission-configurator__bulk-actions').exists()).toBe(false);
+    expect(wrapper.find('.permission-module__bulk-actions').exists()).toBe(false);
     expect(wrapper.find('.permission-pill').attributes('disabled')).toBeDefined();
     expect(wrapper.findAll('.permission-pill--selected')).toHaveLength(1);
   });

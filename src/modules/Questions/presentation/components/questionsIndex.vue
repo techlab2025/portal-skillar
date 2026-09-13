@@ -31,6 +31,8 @@
   import NoItemContainer from '@/shared/HelpersComponents/NoItemContainer.vue';
   import wordSlice from '@/base/Presentation/Utils/word_slice';
   import ReloadIcon from '@/shared/icons/CustomSelect/ReloadIcon.vue';
+  import ToggleQuestionArchiveParams from '../../core/params/question.toggle.archive.params';
+  import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 
   // Controller instance
   const controller = questionsController.getInstance();
@@ -130,6 +132,21 @@
     await fetchQuestions();
   };
 
+  const pendingArchiveToggles = new Set<number>();
+  const toggleQuestionArchive = async (id: number) => {
+    if (pendingArchiveToggles.has(id)) return;
+
+    pendingArchiveToggles.add(id);
+    try {
+      const result = await controller.toggleArchive(new ToggleQuestionArchiveParams(id));
+      if (result instanceof DataSuccess) {
+        await fetchQuestions(route.query.page ? Number(route.query.page) : 1, word.value);
+      }
+    } finally {
+      pendingArchiveToggles.delete(id);
+    }
+  };
+
   const actionList = (item: questionsModel) => {
     const questionId = item.id ?? 0;
     const viewAction = {
@@ -138,8 +155,15 @@
       link: `/questions/show/${questionId}`,
     };
 
-    if (item.status === QuestionStatusEnum.APPROVED) {
-      return [viewAction];
+    if (item.status === QuestionStatusEnum.ARCHIVED) {
+      return [
+        viewAction,
+        {
+          text: t('un_archive'),
+          action: () => toggleQuestionArchive(questionId),
+          toggleValue: false,
+        },
+      ];
     }
 
     return [
@@ -500,12 +524,10 @@
               <div class="row-actions">
                 <DropList
                   :action-list="actionList(item)"
-                  :delete-dialog-title="
-                    $t('are_you_sure_you_want_to_remove_this_education_classification')
-                  "
+                  :delete-dialog-title="$t('are_you_sure_you_want_to_remove_this_Questions')"
                   :delete-dialog-message="
                     $t(
-                      'Deleting_this_classification_will_remove_all_related_data_including_any_configurations_and_tree_structures_This_action_is_irreversible_and_the_classification_must_be_created_again_if_needed',
+                      'Deleting_this_Questions_will_remove_all_related_data_including_any_configurations_and_tree_structures_This_action_is_irreversible_and_the_Questions_must_be_created_again_if_needed',
                     )
                   "
                 />

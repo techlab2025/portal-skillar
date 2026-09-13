@@ -141,10 +141,15 @@
     module.permissions.every(
       (group) => group.checked && group.permissions.every(({ checked }) => checked),
     );
-  const isModulePartiallyChecked = (module: PermissionSection) =>
+  const hasModuleSelection = (module: PermissionSection) =>
     module.permissions.some(
       (group) => group.checked || group.permissions.some(({ checked }) => checked),
-    ) && !isModuleFullyChecked(module);
+    );
+  const isModulePartiallyChecked = (module: PermissionSection) =>
+    hasModuleSelection(module) && !isModuleFullyChecked(module);
+  const isEveryPermissionSelected = computed(
+    () => selectedCount.value > 0 && permissionModules.value.every(isModuleFullyChecked),
+  );
   const groupSelectedCount = (group: PermissionGroupItem) =>
     group.permissions.filter(({ checked }) => checked).length;
 
@@ -158,6 +163,15 @@
       group.checked = checked;
       group.permissions.forEach((permission) => (permission.checked = checked));
     });
+    emitSelection();
+  };
+  const toggleAllPermissions = (checked: boolean) => {
+    permissionModules.value.forEach((module) =>
+      module.permissions.forEach((group) => {
+        group.checked = checked;
+        group.permissions.forEach((permission) => (permission.checked = checked));
+      }),
+    );
     emitSelection();
   };
   const togglePermission = (group: PermissionGroupItem, permission: PermissionActionItem) => {
@@ -190,11 +204,29 @@
     :aria-readonly="readOnly"
   >
     <header class="permission-configurator__heading">
-      <div class="permission-configurator__title-row">
-        <h2>{{ $t('permission.configure') }}</h2>
-        <span>{{ $t('permission.selected_count', { count: selectedCount }) }}</span>
+      <div class="permission-configurator__heading-copy">
+        <div class="permission-configurator__title-row">
+          <h2>{{ $t('permission.configure') }}</h2>
+          <span>{{ $t('permission.selected_count', { count: selectedCount }) }}</span>
+        </div>
+        <p>{{ $t('permission.configure_description') }}</p>
       </div>
-      <p>{{ $t('permission.configure_description') }}</p>
+      <div v-if="!readOnly" class="permission-configurator__bulk-actions permission-bulk-actions">
+        <button
+          type="button"
+          :disabled="disabled || isEveryPermissionSelected"
+          @click="toggleAllPermissions(true)"
+        >
+          {{ $t('permission.select_all') }}
+        </button>
+        <button
+          type="button"
+          :disabled="disabled || selectedCount === 0"
+          @click="toggleAllPermissions(false)"
+        >
+          {{ $t('permission.clear_all') }}
+        </button>
+      </div>
     </header>
 
     <div class="permission-cards">
@@ -218,16 +250,34 @@
             </label>
             <span v-else class="permission-module__label">{{ $t(module.labelKey) }}</span>
           </div>
-          <button
-            type="button"
-            class="permission-module__chevron"
-            :aria-label="$t('permission.toggle_group')"
-            :aria-expanded="isModuleExpanded(module.code)"
-            :aria-controls="`permission-section-${module.code}`"
-            @click="toggleModuleCollapsed(module.code)"
-          >
-            <IconArrowDown />
-          </button>
+          <div class="permission-module__controls">
+            <div v-if="!readOnly" class="permission-module__bulk-actions permission-bulk-actions">
+              <button
+                type="button"
+                :disabled="disabled || isModuleFullyChecked(module)"
+                @click="toggleModule(module, true)"
+              >
+                {{ $t('permission.select_all') }}
+              </button>
+              <button
+                type="button"
+                :disabled="disabled || !hasModuleSelection(module)"
+                @click="toggleModule(module, false)"
+              >
+                {{ $t('permission.clear_all') }}
+              </button>
+            </div>
+            <button
+              type="button"
+              class="permission-module__chevron"
+              :aria-label="$t('permission.toggle_group')"
+              :aria-expanded="isModuleExpanded(module.code)"
+              :aria-controls="`permission-section-${module.code}`"
+              @click="toggleModuleCollapsed(module.code)"
+            >
+              <IconArrowDown />
+            </button>
+          </div>
         </header>
 
         <div
@@ -264,7 +314,7 @@
                   }}
                 </small>
               </button>
-              <div class="permission-group__bulk-actions">
+              <div class="permission-group__bulk-actions permission-bulk-actions">
                 <button
                   v-if="!readOnly"
                   type="button"
@@ -344,9 +394,9 @@
 
   .permission-configurator__heading {
     display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
 
     p {
       margin: 0;
@@ -354,6 +404,13 @@
       font-size: 16px;
       line-height: 1;
     }
+  }
+
+  .permission-configurator__heading-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
   }
 
   .permission-configurator__title-row {
@@ -402,8 +459,8 @@
   .permission-module__header,
   .permission-module__title,
   .permission-module__check,
+  .permission-module__controls,
   .permission-group__header,
-  .permission-group__bulk-actions,
   .permission-group__body,
   .permission-pill {
     display: flex;
@@ -419,6 +476,10 @@
   .permission-module__title {
     gap: 10px;
     min-width: 0;
+  }
+
+  .permission-module__controls {
+    flex: none;
   }
 
   .permission-module__number {
@@ -478,6 +539,10 @@
     transform: rotate(180deg);
   }
 
+  .permission-module__chevron {
+    margin-inline-start: 16px;
+  }
+
   .permission-groups {
     display: flex;
     flex-direction: column;
@@ -523,10 +588,12 @@
     }
   }
 
-  .permission-group__bulk-actions {
+  .permission-bulk-actions {
+    display: flex;
+    align-items: center;
     gap: 0;
 
-    button:not(.permission-group__chevron) {
+    > button:not(.permission-group__chevron) {
       min-height: 31px;
       padding-inline: 24px;
       color: var(--PrimaryColor);
@@ -540,7 +607,7 @@
       }
     }
 
-    button:disabled {
+    > button:disabled {
       cursor: not-allowed;
       opacity: 0.55;
     }
@@ -607,17 +674,21 @@
   .permission-pill:focus-visible,
   .permission-module__chevron:focus-visible,
   .permission-group__toggle:focus-visible,
-  .permission-group__bulk-actions button:focus-visible {
+  .permission-bulk-actions button:focus-visible {
     outline: 2px solid var(--PrimaryColor);
     outline-offset: 2px;
   }
 
   @media (max-width: 700px) {
+    .permission-configurator__heading,
+    .permission-module__header,
     .permission-group__header {
       align-items: stretch;
       flex-direction: column;
     }
 
+    .permission-configurator__bulk-actions,
+    .permission-module__controls,
     .permission-group__bulk-actions {
       justify-content: flex-end;
     }
@@ -638,6 +709,11 @@
 
     .permission-group__header {
       padding-inline: 16px;
+    }
+
+    .permission-bulk-actions > button:not(.permission-group__chevron) {
+      padding-inline: 12px;
+      font-size: 14px;
     }
 
     .permission-group__body {

@@ -130,4 +130,27 @@ describe('DropList', () => {
     expect(wrapper.find('.notification-plan-action-toggle').classes()).toContain('checked');
     expect(wrapper.find('.notification-plan-action-icon').exists()).toBe(true);
   });
+
+  it('renders an accessible status switch in the default menu', () => {
+    const wrapper = mount(DropList, {
+      props: {
+        actionList: [
+          {
+            text: 'Archive',
+            action: vi.fn(),
+            toggleValue: false,
+          },
+        ],
+      },
+      global: {
+        mocks: { $t: (key: string) => key },
+        stubs: { Popover: PopoverStub },
+      },
+    });
+
+    const button = wrapper.get('.list-item > button');
+    expect(button.attributes('role')).toBe('switch');
+    expect(button.attributes('aria-checked')).toBe('false');
+    expect(wrapper.find('.action-toggle').exists()).toBe(true);
+  });
 });
