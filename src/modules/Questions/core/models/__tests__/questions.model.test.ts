@@ -13,6 +13,7 @@ describe('questionsModel', () => {
     question_type: QuestionTypeEnum.mcq,
     difficulty_level: QuestionDifficultyEnum.easy,
     review_status: QuestionStatusEnum.not_Reviewd,
+    is_archived: true,
     e_c_subject: { id: 1, title: 'Science' },
     number_of_questions: 10,
     e_c_branch: { id: 1, title: 'Science' },
@@ -42,6 +43,13 @@ describe('questionsModel', () => {
     expect(model.id).toBe(1);
     expect(model.title).toBe('Jane Doe');
     expect(model.status).toBe(QuestionStatusEnum.not_Reviewd);
+    expect(model.isArchived).toBe(true);
+  });
+
+  it('maps a false is_archived value as not archived', () => {
+    const model = questionsModel.fromJson({ ...mockJson, is_archived: false });
+
+    expect(model.isArchived).toBe(false);
   });
 
   it('should throw error if json is null in fromJson', () => {

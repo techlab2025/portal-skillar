@@ -1,4 +1,5 @@
 import type TitleInterface from '@/base/Data/Models/titleInterface';
+import { SaftyConditions } from '@/base/Presentation/Utils/SaftyConditions';
 import { QuestionGeneratedByEnum } from '../constant/generatedby.enum';
 import { QuestionDifficultyEnum } from '../constant/question.difficulty.enum';
 import { QuestionStatusEnum } from '../constant/question.status.enum';
@@ -11,6 +12,7 @@ export default class questionsModel {
   public readonly questionType: QuestionTypeEnum;
   public readonly difficulty: QuestionDifficultyEnum;
   public readonly status: QuestionStatusEnum;
+  public readonly isArchived: boolean;
   public readonly subjects?: TitleInterface<number>;
   public readonly noOfQs?: number;
   public readonly e_c_branch?: TitleInterface<number>;
@@ -22,6 +24,7 @@ export default class questionsModel {
     questionType?: QuestionTypeEnum;
     difficulty?: QuestionDifficultyEnum;
     status?: QuestionStatusEnum;
+    isArchived?: boolean;
     subjects?: TitleInterface<number>;
     noOfQs?: number;
     e_c_branch?: TitleInterface<number>;
@@ -32,6 +35,7 @@ export default class questionsModel {
     this.questionType = data.questionType as QuestionTypeEnum;
     this.difficulty = data.difficulty as QuestionDifficultyEnum;
     this.status = data.status as QuestionStatusEnum;
+    this.isArchived = data.isArchived ?? false;
     this.subjects = data.subjects;
     this.noOfQs = data.noOfQs;
     this.e_c_branch = data.e_c_branch;
@@ -50,6 +54,7 @@ export default class questionsModel {
       questionType: json.question_type,
       difficulty: json.difficulty_level,
       status: json.review_status,
+      isArchived: SaftyConditions.booleanValue(json.is_archived),
       subjects: json.e_c_subject,
       noOfQs: json.number_of_questions,
       e_c_branch: json.e_c_branch,
@@ -63,6 +68,7 @@ export default class questionsModel {
     questionType: QuestionTypeEnum.mcq,
     difficulty: QuestionDifficultyEnum.easy,
     status: QuestionStatusEnum.NOT_REVIEW,
+    isArchived: false,
     subjects: {
       id: 1,
       title: 'Mathematics',

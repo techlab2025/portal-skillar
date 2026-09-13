@@ -17,9 +17,10 @@ const listState = ref(
   new DataSuccess({
     data: [
       DocumentIndexPatchModel.fromJson({
-        question_batch_id: 41,
         document_id: 11,
-        transaction_id: 'TXN-001',
+        transaction_id: 41,
+        third_party_id: 99,
+        question_batch_id: 42,
         education_type: { title: 'Governmental' },
         subject: { title: 'English' },
         subject_configuration: { title: 'Unit' },
@@ -184,7 +185,7 @@ describe('DocumentIndexPatchIndex', () => {
       page: 1,
       per_page: 10,
     });
-    expect(wrapper.text()).toContain('TXN-001');
+    expect(wrapper.text()).toContain('41');
     expect(wrapper.text()).toContain('Governmental');
     expect(wrapper.text()).toContain('English Book');
     expect(wrapper.text()).toContain('document_index.status_pending');
@@ -193,9 +194,7 @@ describe('DocumentIndexPatchIndex', () => {
     expect(
       wrapper.findAll('.document-index-patch-page__applied').map((cell) => cell.text()),
     ).toEqual(['-', '-', 'document_index.yes', '-']);
-    expect(wrapper.find('[data-transaction-id="TXN-001"]').text()).toBe(
-      'document_index.view_progress',
-    );
+    expect(wrapper.find('[data-transaction-id="41"]').text()).toBe('document_index.view_progress');
     expect(wrapper.find('[data-transaction-id="TXN-003"]').text()).toBe('view');
     expect(wrapper.find('[data-transaction-id="TXN-004"]').text()).toBe('document_index.refresh');
     expect(wrapper.find('[data-transaction-id="TXN-002"]').exists()).toBe(false);
@@ -210,14 +209,19 @@ describe('DocumentIndexPatchIndex', () => {
     expect(wrapper.get('.document-index-patch-page__table .table-responsive').exists()).toBe(true);
   });
 
-  it('opens the AI progress dialog from a pending transaction', async () => {
+  it('uses the third-party id as the question batch id when opening progress', async () => {
     const wrapper = mountPage();
     await flushPromises();
 
-    await wrapper.find('[data-transaction-id="TXN-001"] .drop-list-stub').trigger('click');
+    await wrapper.find('[data-transaction-id="41"] .drop-list-stub').trigger('click');
 
     expect(openProgress).toHaveBeenCalledOnce();
-    expect(openProgress).toHaveBeenCalledWith(41);
+    expect(openProgress).toHaveBeenCalledWith(42);
+    expect((listState.value.data ?? [])[0]).toMatchObject({
+      id: 0,
+      questionBatchId: 42,
+      transactionId: '41',
+    });
   });
 
   it('fetches the document index details before opening the completed transaction', async () => {

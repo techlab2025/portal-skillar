@@ -35,7 +35,8 @@ describe('DocumentIndexPatchModel', () => {
     });
 
     expect(model).toEqual({
-      id: 42,
+      id: 12,
+      questionBatchId: 42,
       transactionId: 'TXN-012',
       documentId: 17,
       educationType: 'Governmental',
@@ -47,6 +48,19 @@ describe('DocumentIndexPatchModel', () => {
       status: DocumentIndexPatchStatusEnum.FAILED,
       isApply: false,
       generatedIndex: expect.objectContaining({ bookId: 17, bookStatus: 'completed' }),
+    });
+  });
+
+  it('does not infer the question batch id from third_party_id', () => {
+    const model = DocumentIndexPatchModel.fromJson({
+      transaction_id: 177,
+      third_party_id: 99,
+      index_status: 'processing',
+    });
+
+    expect(model).toMatchObject({
+      transactionId: '177',
+      questionBatchId: 0,
     });
   });
 });

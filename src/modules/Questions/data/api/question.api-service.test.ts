@@ -31,7 +31,7 @@ describe('QuestionApiService', () => {
     await service.toggleArchive(params);
 
     expect(customPostSpy).toHaveBeenCalledWith(
-      expect.stringContaining('fetch_togle_archive'),
+      expect.stringContaining('toggle_question_archive'),
       params,
       { enableRetry: false },
     );

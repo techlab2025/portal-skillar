@@ -31,7 +31,7 @@
   import NoItemContainer from '@/shared/HelpersComponents/NoItemContainer.vue';
   import wordSlice from '@/base/Presentation/Utils/word_slice';
   import ReloadIcon from '@/shared/icons/CustomSelect/ReloadIcon.vue';
-  import ToggleQuestionArchiveParams from '../../core/params/question.toggle.archive.params';
+  import ToggleQuestionStatusParams from '../../core/params/question.toggle.status.params';
   import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 
   // Controller instance
@@ -132,18 +132,23 @@
     await fetchQuestions();
   };
 
-  const pendingArchiveToggles = new Set<number>();
-  const toggleQuestionArchive = async (id: number) => {
-    if (pendingArchiveToggles.has(id)) return;
+  const pendingReviewStatusUpdates = new Set<number>();
+  const unarchiveQuestion = async (id: number) => {
+    if (pendingReviewStatusUpdates.has(id)) return;
 
-    pendingArchiveToggles.add(id);
+    pendingReviewStatusUpdates.add(id);
     try {
-      const result = await controller.toggleArchive(new ToggleQuestionArchiveParams(id));
+      const result = await controller.updateReviewStatus(
+        new ToggleQuestionStatusParams({
+          id,
+          status: QuestionStatusEnum.NOT_REVIEW,
+        }),
+      );
       if (result instanceof DataSuccess) {
         await fetchQuestions(route.query.page ? Number(route.query.page) : 1, word.value);
       }
     } finally {
-      pendingArchiveToggles.delete(id);
+      pendingReviewStatusUpdates.delete(id);
     }
   };
 
@@ -160,7 +165,7 @@
         viewAction,
         {
           text: t('un_archive'),
-          action: () => toggleQuestionArchive(questionId),
+          action: () => unarchiveQuestion(questionId),
           toggleValue: false,
         },
       ];

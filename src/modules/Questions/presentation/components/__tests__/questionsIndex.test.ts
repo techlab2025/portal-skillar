@@ -9,7 +9,7 @@ import questionsIndex from '../questionsIndex.vue';
 
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en: {} } });
 const fetchListMock = vi.hoisted(() => vi.fn());
-const toggleArchiveMock = vi.hoisted(() => vi.fn());
+const updateReviewStatusMock = vi.hoisted(() => vi.fn());
 
 // Mock dependencies
 vi.mock('vue-router', () => ({
@@ -35,7 +35,7 @@ vi.mock('../../controllers/questions.controller', () => ({
     getInstance: () => ({
       listState: { value: {} },
       fetchList: fetchListMock,
-      toggleArchive: toggleArchiveMock,
+      updateReviewStatus: updateReviewStatusMock,
       pagination: { value: {} },
     }),
   },
@@ -61,6 +61,7 @@ const globalConfig = {
 const mountWithTableItem = (
   status: QuestionStatusEnum,
   questionType: QuestionTypeEnum = QuestionTypeEnum.mcq,
+  isArchived: boolean = status === QuestionStatusEnum.ARCHIVED,
 ) =>
   mount(questionsIndex, {
     global: {
@@ -73,7 +74,7 @@ const mountWithTableItem = (
         AppTable: {
           name: 'AppTable',
           props: ['rowSelectable', 'rowDisabled'],
-          template: `<div><slot name="actions" :item="{ id: 10, status: ${status}, questionType: ${questionType} }" /></div>`,
+          template: `<div><slot name="actions" :item="{ id: 10, status: ${status}, questionType: ${questionType}, isArchived: ${isArchived} }" /></div>`,
         },
       },
     },
@@ -153,8 +154,19 @@ describe('questionsIndex.vue', () => {
     ]);
   });
 
-  it('shows the view and archive-toggle actions for an approved question', () => {
+  it('does not show an archive toggle for an approved question', () => {
     const wrapper = mountWithTableItem(QuestionStatusEnum.APPROVED);
+    const actions = wrapper.findComponent({ name: 'DropList' }).props('actionList');
+
+    expect(actions.map((action: { text: string }) => action.text)).toEqual([
+      'Edit',
+      'show_question',
+      'delete',
+    ]);
+  });
+
+  it('shows an off unarchive toggle when status is archived even if the flag is stale', () => {
+    const wrapper = mountWithTableItem(QuestionStatusEnum.ARCHIVED, QuestionTypeEnum.mcq, false);
     const actions = wrapper.findComponent({ name: 'DropList' }).props('actionList');
 
     expect(actions.map((action: { text: string }) => action.text)).toEqual([
@@ -164,19 +176,24 @@ describe('questionsIndex.vue', () => {
     expect(actions[1].toggleValue).toBe(false);
   });
 
-  it('toggles archive through the controller and refreshes the current page', async () => {
-    toggleArchiveMock.mockResolvedValue(new DataSuccess({ data: true }));
-    const wrapper = mountWithTableItem(QuestionStatusEnum.APPROVED);
+  it('unarchives an archived question with one toggle action and one refresh', async () => {
+    updateReviewStatusMock.mockResolvedValue(new DataSuccess({ data: true }));
+    const wrapper = mountWithTableItem(QuestionStatusEnum.ARCHIVED, QuestionTypeEnum.mcq, true);
     await flushPromises();
     fetchListMock.mockClear();
 
     const actions = wrapper.findComponent({ name: 'DropList' }).props('actionList');
+    expect(actions[1].text).toBe('un_archive');
+    expect(actions[1].toggleValue).toBe(false);
+
     await actions[1].action();
 
-    expect(toggleArchiveMock).toHaveBeenCalledOnce();
-    expect(toggleArchiveMock.mock.calls[0]?.[0].toMap()).toEqual({ question_id: 10 });
+    expect(updateReviewStatusMock).toHaveBeenCalledOnce();
+    expect(updateReviewStatusMock.mock.calls[0]?.[0].toMap()).toEqual({
+      question_id: 10,
+      status: QuestionStatusEnum.NOT_REVIEW,
+    });
     expect(fetchListMock).toHaveBeenCalledOnce();
-    expect(fetchListMock.mock.calls[0]?.[0].pageNumber).toBe(1);
   });
 
   it('hides the selection checkbox for approved questions', () => {
