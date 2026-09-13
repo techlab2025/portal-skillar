@@ -7,14 +7,18 @@
   import type EditEmployeeParams from '../../core/params/edit.employee.params';
   import ShowEmployeeParams from '../../core/params/show.employee.params';
   import EmployeeForm from './EmployeeForm.vue';
+  import EmployeeCancelDialog from './EmployeeCancelDialog.vue';
+  import { useFormsStore } from '@/stores/formsStore';
 
   const controller = EmployeeController.getInstance();
   const route = useRoute();
   const router = useRouter();
   const formKey = route.fullPath;
+  const formsStore = useFormsStore();
 
   const params = ref<EditEmployeeParams | null>(null);
   const loading = ref(false);
+  const cancelDialogVisible = ref(false);
   const employeeFormRef = ref<{ validate: () => boolean | Promise<boolean> } | null>(null);
   /**
    * Update employee
@@ -23,7 +27,6 @@
     const isFormValid = await employeeFormRef.value?.validate?.();
     if (isFormValid === false) return;
 
-    console.log(params.value, 'params');
     if (!params.value) {
       console.error('No employee parameters to save');
       return;
@@ -38,7 +41,16 @@
 
   const updateData = (updatedParams: EditEmployeeParams) => {
     params.value = updatedParams;
-    console.log(params.value, 'updatedParams');
+  };
+
+  const requestCancel = () => {
+    if (!loading.value) cancelDialogVisible.value = true;
+  };
+
+  const confirmCancel = async () => {
+    cancelDialogVisible.value = false;
+    formsStore.clearFormData(formKey);
+    await router.push({ name: 'Employees' });
   };
 
   onMounted(async () => {
@@ -63,12 +75,21 @@
           {{ $t('update_employee') }}
         </span>
       </button>
+      <button class="btn btn-cancel" type="button" :disabled="loading" @click="requestCancel">
+        {{ $t('cancel') }}
+      </button>
     </div>
 
     <!-- Error Display -->
     <div v-if="controller.errorMessage.value" class="error-toast">
       {{ controller.errorMessage.value }}
     </div>
+
+    <EmployeeCancelDialog
+      v-model="cancelDialogVisible"
+      @confirm="confirmCancel"
+      @keep-editing="cancelDialogVisible = false"
+    />
   </div>
 </template>
 
@@ -78,7 +99,7 @@
     height: 35px;
     border-radius: 50%;
     border: 8px solid;
-    border-color: #000 #0000;
+    border-color: var(--standard-black) transparent;
     animation: l1 1s infinite;
   }
 
@@ -102,6 +123,7 @@
   .actions {
     margin-top: 24px;
     display: flex;
+    gap: 10px;
     justify-content: flex-end;
 
     &.disabled {

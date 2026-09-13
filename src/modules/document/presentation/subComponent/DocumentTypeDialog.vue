@@ -155,7 +155,7 @@
       <div class="input-wrapper">
         <MultiLangInput
           :field-key="`title`"
-          :label="`title`"
+          :label="`document type name`"
           :languages="['en', 'ar']"
           :model-value="title"
           :type="'title'"

@@ -2,6 +2,7 @@
   import { onMounted, ref, computed } from 'vue';
   import DataStatusBuilder from '@/shared/DataStatues/DataStatusBuilder.vue';
   import AppTable, { type TableHeader } from '@/shared/HelpersComponents/AppTable.vue';
+  import Pagination from '@/shared/HelpersComponents/Pagination.vue';
   import { useRoute, useRouter } from 'vue-router';
   import SubjectController from '../controllers/subject.controller';
   import IndexSubjectParams from '../../core/params/index.subject.params';
@@ -17,16 +18,40 @@
   import SkillsDialog from '@/modules/EducationClassification/subComponent/EducationTree/SkillsDialog.vue';
   import RenameSubjectDialog from '@/modules/EducationClassification/subComponent/RenameSubjectDialog.vue';
   import EditIcon from '@/shared/icons/DropListIcons/EditIcon.vue';
+  import type PaginationModel from '@/base/Core/Models/paginationModel';
+
+  interface SubjectTableRow extends TitleInterface<number> {
+    educationPath: string[];
+    numberOfQuestions?: number;
+  }
 
   const subjectcontroller = SubjectController.getInstance();
   const state = computed(() => subjectcontroller.listState.value);
   const route = useRoute();
+  const { t } = useI18n();
 
-  const headers: TableHeader[] = [{ key: 'title', label: 'name', width: '90%', sortable: true }];
+  const headers = computed<TableHeader[]>(() => [
+    { key: 'title', label: t('subject_table.subject'), width: '40%', sortable: true },
+    {
+      key: 'educationPath',
+      label: t('subject_table.education_type'),
+      width: '35%',
+      sortable: true,
+    },
+    {
+      key: 'numberOfQuestions',
+      label: t('subject_table.number_of_questions'),
+      width: '15%',
+      align: 'center',
+      sortable: true,
+    },
+  ]);
 
   const perPage = ref(10);
   const word = ref('');
-  const TableTitle = ref<TitleInterface<number>[]>([]);
+  const TableTitle = ref<SubjectTableRow[]>([]);
+  const pagination = ref<PaginationModel | null>(null);
+  const activeParentId = ref<number>();
 
   const AllBranchesOptions = ref<TitleInterface<number>[]>([]);
 
@@ -57,8 +82,8 @@
 
   const formRoute = computed(() => '/subjects/add');
 
-  const SelectedRow = ref<TitleInterface<number>[]>([]);
-  const setSelectef = (items: TitleInterface<number>[]) => {
+  const SelectedRow = ref<SubjectTableRow[]>([]);
+  const setSelectef = (items: SubjectTableRow[]) => {
     SelectedRow.value = items;
   };
   const deleteSubject = async (id: number) => {
@@ -75,9 +100,8 @@
     },
   });
 
-  const { t } = useI18n();
   const router = useRouter();
-  const actionList = (item: TitleInterface<number>, deleteSubject: (item: number) => void) => [
+  const actionList = (item: SubjectTableRow, deleteSubject: (item: number) => void) => [
     {
       text: t('delete'),
       icon: EditIcon,
@@ -108,28 +132,93 @@
       },
     },
   ];
-  const FetchSubjects = async (id?: number) => {
+
+  const splitPath = (value?: string): string[] =>
+    value
+      ? value
+          .split(/\s*(?:→|->)\s*/)
+          .map((part) => part.trim())
+          .filter(Boolean)
+      : [];
+
+  const explicitEducationPath = (node: StageModel): string[] => {
+    const educationType = node.EducationType as unknown;
+    if (typeof educationType === 'string') return splitPath(educationType);
+    if (!educationType || typeof educationType !== 'object') return [];
+
+    const value = educationType as { full_title?: string; title?: string };
+    return splitPath(value.full_title || value.title);
+  };
+
+  const toSubjectRows = (nodes: StageModel[], parentTitles: string[] = []): SubjectTableRow[] =>
+    nodes.flatMap((node) => {
+      const nodeTitle = node.title?.trim() || '';
+      const currentTitles = [...parentTitles, nodeTitle].filter(Boolean);
+      const explicitPath = explicitEducationPath(node);
+
+      if (node.children?.length) {
+        return toSubjectRows(node.children, currentTitles);
+      }
+
+      const fullTitleParts = splitPath(node.full_title);
+      const pathFromTree = currentTitles.slice(0, -1);
+      const pathFromFullTitle = fullTitleParts.slice(0, -1);
+      const resolvedEducationPath = pathFromTree.length
+        ? pathFromTree
+        : pathFromFullTitle.length
+          ? pathFromFullTitle
+          : explicitPath;
+      const id = node.e_c_subject_id ?? node.e_c_branch_id ?? node.id;
+
+      if (id === undefined) return [];
+
+      return [
+        {
+          id,
+          title: nodeTitle || fullTitleParts[fullTitleParts.length - 1] || '',
+          educationPath: resolvedEducationPath,
+          numberOfQuestions: Number.isFinite(node.numberOfQuestions)
+            ? node.numberOfQuestions
+            : undefined,
+        },
+      ];
+    });
+
+  const FetchSubjects = async (
+    id: number | undefined = activeParentId.value,
+    page: number = route.query.page ? Number(route.query.page) : 1,
+  ) => {
+    activeParentId.value = id;
     const result = await subjectcontroller.indexSubjects(
-      new IndexSubjectParams(
-        word.value,
-        route.query.page ? Number(route.query.page) : 1,
-        perPage.value,
-        1,
-        id,
-      ),
+      new IndexSubjectParams(word.value, page, perPage.value, 1, id),
     );
 
-    TableTitle.value = flattenBranchTree(result!.data as StageModel[]).map((item) => {
-      return new TitleInterface<number>({
-        id: item.id,
-        title: item.title,
-      });
-    });
+    pagination.value = result?.pagination ?? null;
+    TableTitle.value = toSubjectRows((result?.data ?? []) as StageModel[]);
   };
   const selectedFilter = ref<TitleInterface<number>>();
   const updateFilter = (filter: TitleInterface<number>) => {
     selectedFilter.value = filter;
-    FetchSubjects(filter.id);
+    FetchSubjects(filter.id, 1);
+  };
+  const onPageChange = (page: number) => {
+    FetchSubjects(activeParentId.value, page);
+    router.push({
+      query: {
+        ...route.query,
+        page: String(page),
+      },
+    });
+  };
+  const onPerPageChange = (count: number) => {
+    perPage.value = count;
+    FetchSubjects(activeParentId.value, 1);
+    router.push({
+      query: {
+        ...route.query,
+        page: '1',
+      },
+    });
   };
   const SelctedSubject = ref<number>();
 </script>
@@ -166,6 +255,17 @@
               <span class="subject-title-cell">{{ item.title }}</span>
             </template>
 
+            <template #cell-educationPath="{ item }">
+              <div v-if="item.educationPath.length" class="education-path-cell">
+                <span v-for="part in item.educationPath" :key="part">{{ part }}</span>
+              </div>
+              <span v-else :aria-label="$t('subject_table.not_available')">—</span>
+            </template>
+
+            <template #cell-numberOfQuestions="{ item }">
+              <span class="question-count-cell">{{ item.numberOfQuestions ?? '—' }}</span>
+            </template>
+
             <template #actions="{ item }">
               <div class="row-actions">
                 <DropList
@@ -181,6 +281,13 @@
             </template>
           </AppTable>
         </div>
+
+        <Pagination
+          v-if="pagination"
+          :pagination="pagination"
+          @change-page="onPageChange"
+          @count-per-page="onPerPageChange"
+        />
       </template>
       <template #empty>
         <div class="empty-state">
@@ -233,5 +340,19 @@
 <style scoped>
   .toolbar {
     width: 50%;
+  }
+
+  .education-path-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--gray-600);
+    line-height: 1.35;
+  }
+
+  .question-count-cell {
+    display: inline-block;
+    min-width: 2ch;
+    text-align: center;
   }
 </style>

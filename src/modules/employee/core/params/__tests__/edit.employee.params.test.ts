@@ -5,7 +5,7 @@ import { GenderENum } from '../../constant/gender.enum';
 import EditEmployeeParams from '../edit.employee.params';
 
 describe('EditEmployeeParams', () => {
-  it('maps employee type and teacher subject ids to the API payload', () => {
+  it('maps employee type, roles, and teacher subject ids to the API payload', () => {
     const params = new EditEmployeeParams({
       id: 7,
       firstname: 'Mona',
@@ -18,7 +18,7 @@ describe('EditEmployeeParams', () => {
       employeeStatus: EmployeeStatusEnm.active,
       password: '',
       employeeType: EmployeeTypeEnum.TEACHER,
-      roleId: 4,
+      roleIds: [4, 5],
       educationClassificationSubjectIds: [10, 12],
     });
 
@@ -26,6 +26,7 @@ describe('EditEmployeeParams', () => {
       employee_id: 7,
       type: EmployeeTypeEnum.TEACHER,
       role_id: 4,
+      role_ids: [4, 5],
       e_c_subject_ids: [10, 12],
     });
   });

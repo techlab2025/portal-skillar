@@ -19,6 +19,7 @@ export default class AddEmployeeParams implements Params {
   public password: string;
   public employeeType: EmployeeTypeEnum;
   public roleId?: number;
+  public roleIds: number[];
   public educationClassificationSubjectIds: number[];
 
   public static readonly validation = new ClassValidation().setRules({
@@ -44,6 +45,7 @@ export default class AddEmployeeParams implements Params {
     password: string;
     employeeType: EmployeeTypeEnum;
     roleId?: number;
+    roleIds?: number[];
     educationClassificationSubjectIds?: number[];
   }) {
     this.firstname = data.firstname;
@@ -56,11 +58,12 @@ export default class AddEmployeeParams implements Params {
     this.employeeStatus = data.employeeStatus;
     this.password = data.password;
     this.employeeType = data.employeeType;
-    this.roleId = data.roleId;
+    this.roleIds = data.roleIds ?? (data.roleId == null ? [] : [data.roleId]);
+    this.roleId = data.roleId ?? this.roleIds[0];
     this.educationClassificationSubjectIds = data.educationClassificationSubjectIds ?? [];
   }
 
-  toMap(): { [p: string]: any } {
+  toMap(): Record<string, unknown> {
     return {
       first_name: this.firstname,
       last_name: this.lastname,
@@ -73,6 +76,7 @@ export default class AddEmployeeParams implements Params {
       password: this.password,
       type: this.employeeType,
       role_id: this.roleId,
+      role_ids: this.roleIds,
       e_c_subject_ids: this.educationClassificationSubjectIds,
     };
   }

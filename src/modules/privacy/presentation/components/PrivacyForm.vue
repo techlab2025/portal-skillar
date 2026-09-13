@@ -114,7 +114,7 @@
         <span v-if="loading" class="loader"></span>
         <span v-else>{{ $t(`Save`) }}</span>
       </button>
-      <button class="btn btn-cancel">{{ $t(`cancel`) }}</button>
+      <button class="btn btn-cancel" @click="router.push('/privacy')">{{ $t(`cancel`) }}</button>
     </div>
   </div>
 </template>

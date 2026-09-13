@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils';
 import { ref } from 'vue';
 
 const mockPush = vi.fn();
+const mockPrepareForSubmit = vi.hoisted(() => vi.fn());
 const mockRoute = {
   params: { country_code: 'eg', id: '2' },
   fullPath: '/eg/support/edit/2',
@@ -24,6 +25,9 @@ vi.mock('../SupportForm.vue', () => ({
     props: ['initialSections'],
     template:
       '<div class="mock-support-form">{{ initialSections.map((section) => section.id).join(",") }}</div>',
+    setup(_: unknown, { expose }: { expose: (value: object) => void }) {
+      expose({ prepareForSubmit: mockPrepareForSubmit });
+    },
   },
 }));
 
@@ -51,6 +55,7 @@ describe('SupportEdit.vue', () => {
       .fn()
       .mockResolvedValue(new DataSuccess({ id: 2, titles: {}, supportContacts: [] }));
     mockUpdate = vi.fn().mockResolvedValue(undefined);
+    mockPrepareForSubmit.mockReturnValue({ contacts: [{ value: 'support@example.com' }] });
     mockErrorMessage = ref('');
     (SupportContactsController.getInstance as ReturnType<typeof vi.fn>).mockReturnValue({
       fetchOne: mockFetchOne,
@@ -103,6 +108,21 @@ describe('SupportEdit.vue', () => {
     const cancelBtn = wrapper.find('.btn-cancel');
     await cancelBtn.trigger('click');
     expect(mockPush).toHaveBeenCalledWith('/eg/support');
+  });
+
+  it('updates with the payload prepared by the form', async () => {
+    const wrapper = mount(SupportEdit, mountOptions);
+    await wrapper.vm.$nextTick();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    await wrapper.get('.btn-primary').trigger('click');
+
+    expect(mockPrepareForSubmit).toHaveBeenCalledOnce();
+    expect(mockUpdate).toHaveBeenCalledWith(
+      { contacts: [{ value: 'support@example.com' }] },
+      undefined,
+      mockRoute.fullPath,
+    );
   });
 
   it('does not show error toast when errorMessage is empty', async () => {

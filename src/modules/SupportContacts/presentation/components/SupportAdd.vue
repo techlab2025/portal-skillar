@@ -11,16 +11,26 @@
   const formKey = route.fullPath;
 
   const sectionParams = ref<AddSupportContactsParams | null>(null);
+  const supportFormRef = ref<{ prepareForSubmit: () => AddSupportContactsParams | null } | null>(
+    null,
+  );
   const loading = ref(false);
   const saveSupport = async () => {
-    if (!sectionParams.value) return;
+    const params = supportFormRef.value?.prepareForSubmit() ?? null;
+    if (!params) return;
+    sectionParams.value = params;
     loading.value = true;
     try {
-      await controller.create(sectionParams.value, undefined);
+      await controller.create(params, undefined);
     } finally {
       loading.value = false;
       router.push({ name: 'Support' });
     }
+  };
+
+  const cancel = () => {
+    const countryCode = route.params.country_code as string | undefined;
+    router.push(countryCode ? `/${countryCode}/support` : '/support');
   };
 
   const updateData = (params: AddSupportContactsParams) => {
@@ -30,11 +40,19 @@
 
 <template>
   <div class="support-add-page">
-    <SupportForm :form-key="formKey" :loading="loading" @update-data="updateData" />
+    <SupportForm
+      ref="supportFormRef"
+      :form-key="formKey"
+      :loading="loading"
+      @update-data="updateData"
+    />
 
     <div class="actions" :class="{ disabled: loading }">
-      <button class="btn btn-primary w-full" type="submit" @click="saveSupport">
+      <button class="btn btn-primary" type="button" @click="saveSupport">
         {{ $t('save') }}
+      </button>
+      <button class="btn btn-cancel" type="button" @click="cancel">
+        {{ $t('cancel') }}
       </button>
     </div>
 
@@ -48,12 +66,36 @@
   .actions {
     margin-top: 24px;
     display: flex;
+    align-items: center;
+    gap: 16px;
     justify-content: flex-end;
 
     &.disabled {
       cursor: not-allowed;
       pointer-events: none;
       opacity: 0.7;
+    }
+
+    .btn-primary {
+      width: 80%;
+    }
+
+    .btn-cancel {
+      width: 20%;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .actions {
+      gap: 10px;
+
+      .btn-primary {
+        width: 70%;
+      }
+
+      .btn-cancel {
+        width: 30%;
+      }
     }
   }
 

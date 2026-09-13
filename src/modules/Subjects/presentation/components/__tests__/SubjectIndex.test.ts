@@ -115,9 +115,16 @@ describe('SubjectIndex.vue', () => {
       stubs: {
         DataStatusBuilder: { template: '<div><slot name="success" /><slot name="empty" /></div>' },
         AppTable: {
+          name: 'AppTable',
           template:
-            '<div class="app-table-stub"><slot v-for="item in items" name="actions" :item="item" /></div>',
+            '<div class="app-table-stub"><div v-for="item in items"><span class="table-title">{{ item.title }}</span><slot name="actions" :item="item" /></div></div>',
           props: ['headers', 'items'],
+        },
+        Pagination: {
+          template:
+            '<div class="pagination-stub"><button class="page-2" @click="$emit(\'changePage\', 2)" /><button class="per-page-20" @click="$emit(\'countPerPage\', 20)" /></div>',
+          props: ['pagination'],
+          emits: ['changePage', 'countPerPage'],
         },
         UpdatedCustomInputSelect: {
           template: `<button
@@ -162,6 +169,76 @@ describe('SubjectIndex.vue', () => {
     expect(wrapper.find('.subject-page').exists()).toBe(true);
   });
 
+  it('shows the education path and question-count columns', async () => {
+    mockIndexSubjects.mockResolvedValue({
+      data: [
+        {
+          id: 1,
+          title: 'Governmental',
+          children: [
+            {
+              id: 2,
+              title: 'Primary',
+              children: [
+                {
+                  id: 3,
+                  title: 'First',
+                  children: [
+                    {
+                      id: 4,
+                      e_c_subject_id: 44,
+                      title: 'Arabic',
+                      numberOfQuestions: 10,
+                      children: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    const wrapper = mount(SubjectIndex, mountOptions);
+    await flushPromises();
+
+    const table = wrapper.getComponent({ name: 'AppTable' });
+    expect(table.props('headers')).toMatchObject([
+      { key: 'title', label: 'subject_table.subject' },
+      { key: 'educationPath', label: 'subject_table.education_type' },
+      { key: 'numberOfQuestions', label: 'subject_table.number_of_questions' },
+    ]);
+    expect(table.props('items')).toMatchObject([
+      {
+        id: 44,
+        title: 'Arabic',
+        educationPath: ['Governmental', 'Primary', 'First'],
+        numberOfQuestions: 10,
+      },
+    ]);
+  });
+
+  it('leaves the question count unavailable when the API omits it', async () => {
+    mockIndexSubjects.mockResolvedValue({
+      data: [
+        { id: 9, title: 'Math', full_title: 'Governmental -> Secondary -> Math', children: [] },
+      ],
+    });
+
+    const wrapper = mount(SubjectIndex, mountOptions);
+    await flushPromises();
+
+    expect(wrapper.getComponent({ name: 'AppTable' }).props('items')).toMatchObject([
+      {
+        id: 9,
+        title: 'Math',
+        educationPath: ['Governmental', 'Secondary'],
+        numberOfQuestions: undefined,
+      },
+    ]);
+  });
+
   it('renders the classification filter from the fetched tree', async () => {
     const wrapper = mount(SubjectIndex, mountOptions);
     await flushPromises();
@@ -197,7 +274,7 @@ describe('SubjectIndex.vue', () => {
     });
   });
 
-  it('loads table data and filter data using their pagination contracts', async () => {
+  it('loads paginated table data and complete filter data', async () => {
     mount(SubjectIndex, mountOptions);
     await flushPromises();
 
@@ -205,6 +282,55 @@ describe('SubjectIndex.vue', () => {
     expect(mockFetchList.mock.calls[0][0].toMap()).toMatchObject({ with_pagination: 0 });
     expect(mockIndexSubjects).toHaveBeenCalledTimes(1);
     expect(mockIndexSubjects.mock.calls[0][0].toMap()).toMatchObject({ with_pagination: 1 });
+  });
+
+  it('shows subjects from later pages through the table pagination', async () => {
+    const subjects = Array.from({ length: 13 }, (_, index) => ({
+      id: index + 1,
+      title: index === 12 ? 'New subject' : `Subject ${index + 1}`,
+      children: [],
+    }));
+    mockIndexSubjects.mockImplementation(async (params) => {
+      const page = params.toMap().page as number;
+      const perPage = params.toMap().per_page as number;
+      return {
+        data: subjects.slice((page - 1) * perPage, page * perPage),
+        pagination: {
+          current: page,
+          last: Math.ceil(subjects.length / perPage),
+          total: subjects.length,
+          count: perPage,
+          next: Math.min(page + 1, Math.ceil(subjects.length / perPage)),
+        },
+      };
+    });
+
+    const wrapper = mount(SubjectIndex, mountOptions);
+    await flushPromises();
+
+    expect(wrapper.findAll('.delete-action')).toHaveLength(10);
+    expect(wrapper.find('.pagination-stub').exists()).toBe(true);
+
+    await wrapper.get('.page-2').trigger('click');
+    await flushPromises();
+
+    expect(mockIndexSubjects.mock.calls[1][0].toMap()).toMatchObject({ page: 2, per_page: 10 });
+    expect(wrapper.findAll('.delete-action')).toHaveLength(3);
+    expect(wrapper.text()).toContain('New subject');
+  });
+
+  it('reloads the first page when the per-page count changes', async () => {
+    mockIndexSubjects.mockResolvedValue({
+      data: educationTree,
+      pagination: { current: 1, last: 3, total: 22, count: 10, next: 2 },
+    });
+    const wrapper = mount(SubjectIndex, mountOptions);
+    await flushPromises();
+
+    await wrapper.get('.per-page-20').trigger('click');
+    await flushPromises();
+
+    expect(mockIndexSubjects.mock.calls[1][0].toMap()).toMatchObject({ page: 1, per_page: 20 });
   });
 
   it('shows add button link', () => {

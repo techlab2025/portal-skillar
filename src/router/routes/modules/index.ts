@@ -27,6 +27,7 @@ import { questionBatchRoutes } from './question-batch';
 import { adviceRoutes } from './advices';
 import { notificationPlanRoutes } from './notification-plans';
 import { roleRoutes } from './role';
+import { onboardingRoutes } from './onboarding';
 
 export const dashboardRoutes: RouteRecordRaw[] = [
   // ...countryRoutes,
@@ -57,4 +58,5 @@ export const dashboardRoutes: RouteRecordRaw[] = [
   ...questionBatchRoutes,
   ...adviceRoutes,
   ...notificationPlanRoutes,
+  ...onboardingRoutes,
 ];

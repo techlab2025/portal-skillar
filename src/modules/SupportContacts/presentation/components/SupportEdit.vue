@@ -16,14 +16,19 @@
 
   const initialSections = ref<SupportContactsModel[]>([]);
   const formParams = ref<AddSupportContactsParams | null>(null);
+  const supportFormRef = ref<{ prepareForSubmit: () => AddSupportContactsParams | null } | null>(
+    null,
+  );
   const isLoaded = ref(false);
   const loading = ref(false);
 
   const saveSupport = async () => {
-    if (!formParams.value) return;
+    const params = supportFormRef.value?.prepareForSubmit() ?? null;
+    if (!params) return;
+    formParams.value = params;
     loading.value = true;
     try {
-      await controller.update(formParams.value, undefined, formKey);
+      await controller.update(params, undefined, formKey);
     } finally {
       loading.value = false;
     }
@@ -55,6 +60,7 @@
   <div class="support-edit-page">
     <SupportForm
       v-if="isLoaded"
+      ref="supportFormRef"
       :form-key="formKey"
       :initial-sections="initialSections"
       :loading="loading"

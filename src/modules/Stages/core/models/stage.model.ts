@@ -13,6 +13,7 @@ export default class StageModel {
   public readonly e_c_branch_id?: number;
   public readonly branches: BranchesModel[];
   public readonly EducationType: TitleInterface<EducationType>;
+  public readonly numberOfQuestions?: number;
   public readonly children: StageModel[];
   public readonly subjects: StageModel[];
 
@@ -24,6 +25,7 @@ export default class StageModel {
     e_c_branch_id?: number;
     branches: BranchesModel[];
     EducationType: TitleInterface<EducationType>;
+    numberOfQuestions?: number;
     children: StageModel[];
     subjects?: StageModel[];
   }) {
@@ -34,6 +36,7 @@ export default class StageModel {
     this.e_c_branch_id = data.e_c_branch_id;
     this.branches = data.branches;
     this.EducationType = data.EducationType;
+    this.numberOfQuestions = data.numberOfQuestions;
     this.children = data.children;
     this.subjects = data.subjects ?? [];
 
@@ -58,6 +61,10 @@ export default class StageModel {
       e_c_branch_id: json.e_c_branch_id,
       branches: json.branches?.map((branch: any) => BranchesModel.fromJson(branch)) ?? [],
       EducationType: json.education_type,
+      numberOfQuestions:
+        json.number_of_questions === null || json.number_of_questions === undefined
+          ? undefined
+          : Number(json.number_of_questions),
       children: json.children?.map((child: any) => StageModel.fromJson(child)) ?? [],
       subjects: json.subjects?.map((subject: any) => StageModel.fromJson(subject)) ?? [],
     });

@@ -69,8 +69,8 @@
   const getContactId = (section: SectionState, key: string, value: string) =>
     section.supportContacts.find((contact) => contact.key === key && contact.value === value)?.id;
 
-  const emitData = () => {
-    const params = new AddSupportContactsParams({
+  const buildParams = () =>
+    new AddSupportContactsParams({
       supportId: props.initialSections?.[0]?.id,
       translations: new TranslationParams({
         title: sections.value.map((el) => el.title)[0],
@@ -110,6 +110,9 @@
         ),
       ]),
     });
+
+  const emitData = () => {
+    const params = buildParams();
     emit('updateData', params);
   };
 
@@ -183,6 +186,53 @@
     section.inputs[inputKey] = '';
     emitData();
   };
+
+  type ContactArrayKey = 'phonenumbers' | 'whatsAppNumebrs' | 'emails' | 'telegramNumbers';
+
+  const contactArrays: Record<keyof SectionInputs, ContactArrayKey> = {
+    phone: 'phonenumbers',
+    whatsApp: 'whatsAppNumebrs',
+    email: 'emails',
+    telegram: 'telegramNumbers',
+  };
+
+  const prepareForSubmit = (): AddSupportContactsParams | null => {
+    for (const section of sections.value) {
+      for (const inputKey of Object.keys(section.inputs) as (keyof SectionInputs)[]) {
+        const value = section.inputs[inputKey].trim();
+        if (value && !VALIDATION_PATTERNS[inputKey].test(value)) {
+          dialogManager.toastWarning(t(VALIDATION_WARNING_KEYS[inputKey]), {
+            title: t('invalid_input_warning_title'),
+          });
+          return null;
+        }
+      }
+    }
+
+    for (const section of sections.value) {
+      for (const inputKey of Object.keys(section.inputs) as (keyof SectionInputs)[]) {
+        const value = section.inputs[inputKey].trim();
+        if (!value) continue;
+
+        const values = section[contactArrays[inputKey]];
+        values.push(value);
+        section.inputs[inputKey] = '';
+      }
+    }
+
+    const params = buildParams();
+    if (params.contacts.length === 0) {
+      dialogManager.toastWarning(t('support_contact_method_required'), {
+        title: t('invalid_input_warning_title'),
+      });
+      return null;
+    }
+
+    emit('updateData', params);
+    return params;
+  };
+
+  defineExpose({ prepareForSubmit });
 
   const removeChip = (arr: string[], index: number) => {
     arr.splice(index, 1);

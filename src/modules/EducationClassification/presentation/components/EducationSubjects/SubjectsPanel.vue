@@ -3,7 +3,6 @@
   import { useI18n } from 'vue-i18n';
   import SubjectTreeNode from './SubjectTreeNode.vue';
   import type { SubjectNode } from './SubjectTreeNode.vue';
-  import AddBranchDialog from '@/modules/EducationClassification/subComponent/EducationTree/AddBranchDialog.vue';
   import EducationSubjectController from '../../controllers/educationSubject/education.subject.controller';
   import EducationSubjectItemController from '../../controllers/educationSubject/education.subject.item.controller';
   import FetchSubjectParams from '@/modules/EducationClassification/core/params/EducationSubjects/fetch.subject.params';
@@ -11,10 +10,17 @@
   import type EducationSubjectModel from '@/modules/EducationClassification/core/models/EducationSubject/education.subject.model';
   import type EducationSubjectConfigurationModel from '@/modules/EducationClassification/core/models/EducationConfiguration/education.subject.configuration.model';
   import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
-  import AddEducationSubjectDialog from '@/modules/EducationClassification/subComponent/EducationTree/AddEducationSubjectDialog.vue';
+  import AddEducationSubjectDialog, {
+    type EducationSubjectFormData,
+  } from '@/modules/EducationClassification/subComponent/EducationTree/AddEducationSubjectDialog.vue';
   import IndexEducationConfigurationParams from '@/modules/EducationClassification/core/params/EducationConfiguration/index.educationConfiguration.params co';
   import { useRoute } from 'vue-router';
   import TranslationParams from '@/modules/about/core/params/translation.params';
+  import EducationSkillsController from '../../controllers/EducationSkills/education.skills.controller';
+  import EducationTopicsController from '../../controllers/EducationTopics/education.topics.controller';
+  import AddEducationSubjectSkillsParams from '@/modules/EducationClassification/core/params/EducationSkills/add.education.subject.skills.params';
+  import SkillParams from '@/modules/EducationClassification/core/params/EducationSkills/skill.params';
+  import AddEducationSubjectTopicParams from '@/modules/EducationClassification/core/params/EducationTopic/add.education.subject.topic.params';
 
   const props = defineProps<{
     stageId: number;
@@ -24,15 +30,16 @@
   const { locale } = useI18n();
   const configController = EducationSubjectController.getInstance();
   const itemController = EducationSubjectItemController.getInstance();
+  const skillsController = EducationSkillsController.getInstance();
+  const topicsController = EducationTopicsController.getInstance();
 
   const subjectConfig = ref<EducationSubjectConfigurationModel[] | null>(null);
   const rootNodes = ref<SubjectNode[]>([]);
   const selectedNode = ref<SubjectNode | null>(null);
-  const showAddRootDialog = ref(false);
-  const showAddBranchDialog = ref(false);
-  const branchDialogLevel = ref(1);
-  const branchDialogParentId = ref<number | undefined>(undefined);
-  const branchDialogName = ref('');
+  const showAddSubjectDialog = ref(false);
+  const subjectDialogParentId = ref<number | undefined>(undefined);
+  const subjectDialogName = ref('');
+  const isSubmittingSubject = ref(false);
   const stageExpanded = ref(true);
 
   const subjectMaxDepth = computed(() => {
@@ -115,46 +122,72 @@
   }
 
   function openAddChildDialog(subjectId: number, level: number) {
-    branchDialogParentId.value = subjectId;
-    branchDialogLevel.value = level;
-    branchDialogName.value = subjectBranchLevelLabels.value[level] ?? `Level ${level}`;
-    showAddBranchDialog.value = true;
+    subjectDialogParentId.value = subjectId;
+    subjectDialogName.value = subjectBranchLevelLabels.value[level] ?? `Level ${level}`;
+    showAddSubjectDialog.value = true;
   }
 
-  async function handleAddRoot(translations: Record<string, string>) {
-    const params = new AddSubjectItemParams({
-      translations: new TranslationParams({
-        title: translations,
-      }),
-      stage_id: props.stageId,
-      // parent_id: props.stageId,
-    });
-    await itemController.create(params);
-    showAddRootDialog.value = false;
-    await fetchRoot();
+  async function addSubjectRelations(subjectId: number, data: EducationSubjectFormData) {
+    if (data.skill) {
+      await skillsController.create(
+        new AddEducationSubjectSkillsParams({
+          id: subjectId,
+          skills: [
+            new SkillParams({
+              skillId: Number(data.skill.id),
+              percentage: '100',
+            }),
+          ],
+        }),
+      );
+    }
+
+    for (const tag of data.tags) {
+      await topicsController.create(
+        new AddEducationSubjectTopicParams({
+          id: subjectId,
+          translations: new TranslationParams({
+            title: { en: tag, ar: tag },
+          }),
+        }),
+      );
+    }
   }
 
-  async function handleAddBranch({
-    name,
-    branchId,
-  }: {
-    name: Record<string, string>;
-    level: number;
-    branchId?: number;
-  }) {
-    if (!branchId) return;
-    const params = new AddSubjectItemParams({
-      translations: new TranslationParams({
-        title: name,
-      }),
-      stage_id: props.stageId,
-      parent_id: branchId,
-    });
-    await itemController.create(params);
-    showAddBranchDialog.value = false;
-    refreshSubjectId.value = branchId;
-    await nextTick();
-    refreshSubjectId.value = null;
+  async function handleAddSubject(data: EducationSubjectFormData) {
+    if (isSubmittingSubject.value) return;
+
+    isSubmittingSubject.value = true;
+    try {
+      const parentId = subjectDialogParentId.value;
+      const result = await itemController.create(
+        new AddSubjectItemParams({
+          translations: new TranslationParams({
+            title: data.name,
+            description: data.description,
+          }),
+          stage_id: props.stageId,
+          parent_id: parentId,
+          image: data.coverImage,
+          isDraft: data.isDraft,
+        }),
+      );
+
+      if (!(result instanceof DataSuccess) || !result.data) return;
+
+      await addSubjectRelations(result.data.subject_id, data);
+      showAddSubjectDialog.value = false;
+
+      if (parentId) {
+        refreshSubjectId.value = parentId;
+        await nextTick();
+        refreshSubjectId.value = null;
+      } else {
+        await fetchRoot();
+      }
+    } finally {
+      isSubmittingSubject.value = false;
+    }
   }
 
   provide('subjectOnSelect', selectNode);
@@ -198,7 +231,9 @@
   });
 
   const AddSubject = () => {
-    showAddRootDialog.value = true;
+    subjectDialogParentId.value = undefined;
+    subjectDialogName.value = getSubjectRootName();
+    showAddSubjectDialog.value = true;
   };
 </script>
 
@@ -239,7 +274,6 @@
         </svg>
         <span class="stage-root-name">{{ stageName }}</span>
         <span class="spacer" />
-        <!-- showAddRootDialog = true -->
         <button
           v-if="subjectConfig && (subjectConfig as any)?.[0]?.numberOfBranches > 0"
           class="icon-btn"
@@ -274,30 +308,16 @@
               @delete-branch="handleDeleteBranch"
             />
           </div>
-          <!-- <div v-if="rootNodes.length > 0" class="subjects-bottom-bar">
-            <button class="btn btn-primary btn-full" @click="showAddRootDialog = true">
-              {{ $t('Add New') }} {{ getSubjectRootName() }}
-            </button>
-          </div> -->
         </div>
       </transition>
     </div>
   </div>
 
-  <!-- {{ showAddRootDialog }} -->
   <AddEducationSubjectDialog
-    v-if="showAddRootDialog"
-    v-model:visible="showAddRootDialog"
-    :subject-name="getSubjectRootName()"
-    @confirm="handleAddRoot"
-  />
-
-  <AddBranchDialog
-    v-if="showAddBranchDialog"
-    v-model:visible="showAddBranchDialog"
-    :level="branchDialogLevel"
-    :branch-id="branchDialogParentId"
-    :branch-name="branchDialogName"
-    @confirm="handleAddBranch"
+    v-if="showAddSubjectDialog"
+    v-model:visible="showAddSubjectDialog"
+    :subject-name="subjectDialogName || getSubjectRootName()"
+    :loading="isSubmittingSubject"
+    @confirm="handleAddSubject"
   />
 </template>

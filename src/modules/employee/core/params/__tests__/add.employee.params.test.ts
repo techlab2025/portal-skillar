@@ -5,7 +5,7 @@ import { GenderENum } from '../../constant/gender.enum';
 import AddEmployeeParams from '../add.employee.params';
 
 describe('AddEmployeeParams', () => {
-  it('maps employee type and teacher subject ids to the API payload', () => {
+  it('maps employee type, roles, and teacher subject ids to the API payload', () => {
     const params = new AddEmployeeParams({
       firstname: 'Mona',
       lastname: 'Ali',
@@ -17,13 +17,14 @@ describe('AddEmployeeParams', () => {
       employeeStatus: EmployeeStatusEnm.active,
       password: 'secret',
       employeeType: EmployeeTypeEnum.TEACHER,
-      roleId: 4,
+      roleIds: [4, 5],
       educationClassificationSubjectIds: [10, 12],
     });
 
     expect(params.toMap()).toMatchObject({
       type: EmployeeTypeEnum.TEACHER,
       role_id: 4,
+      role_ids: [4, 5],
       e_c_subject_ids: [10, 12],
     });
   });

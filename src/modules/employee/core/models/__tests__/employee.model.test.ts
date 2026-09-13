@@ -41,6 +41,7 @@ describe('EmployeeModel', () => {
     expect(model.isSuperadmin).toBe(true);
     expect(model.status).toBe(1);
     expect(model.roleId).toBe(2);
+    expect(model.hasEmployeeType).toBe(false);
   });
 
   it('should throw error if json is null in fromJson', () => {
@@ -60,7 +61,25 @@ describe('EmployeeModel', () => {
     });
 
     expect(model.employeeType).toBe(EmployeeTypeEnum.TEACHER);
+    expect(model.hasEmployeeType).toBe(true);
     expect(model.educationClassificationSubjectIds).toEqual([4, 8]);
+  });
+
+  it('maps all roles when the employee details response contains more than one', () => {
+    const model = EmployeeModel.fromJson({
+      ...mockJson,
+      role: undefined,
+      role_id: undefined,
+      roles: [
+        { id: 4, role_name: 'Teacher' },
+        { role_id: 8, display_name: 'Reviewer' },
+      ],
+    });
+
+    expect(model.roles).toMatchObject([
+      { id: 4, title: 'Teacher' },
+      { id: 8, title: 'Reviewer' },
+    ]);
   });
 
   it('maps the complete show_employee response for edit mode', () => {
@@ -81,6 +100,18 @@ describe('EmployeeModel', () => {
       ],
       email: 'Employeeid@gmail.com',
       phone: '0101546452312',
+      created_by: { name: 'System Admin' },
+      created_at: '2026-09-01T10:00:00Z',
+      updated_by: { name: 'Sara Ahmed' },
+      updated_at: '2026-09-09T12:30:00Z',
+      history_logs: [
+        {
+          id: 9,
+          action: 'Employee activated',
+          created_at: '2026-09-09T12:30:00Z',
+          actor: { full_name: 'Mona Ali' },
+        },
+      ],
     });
 
     expect(model).toMatchObject({
@@ -97,10 +128,22 @@ describe('EmployeeModel', () => {
       email: 'Employeeid@gmail.com',
       phone: '0101546452312',
       educationClassificationSubjectIds: [308, 285],
+      createdBy: 'System Admin',
+      createdAt: '2026-09-01T10:00:00Z',
+      updatedBy: 'Sara Ahmed',
+      updatedAt: '2026-09-09T12:30:00Z',
     });
     expect(model.subjects).toMatchObject([
       { id: 308, title: 'mostafaf 2.1' },
       { id: 285, title: 'mostafa 3' },
+    ]);
+    expect(model.history).toEqual([
+      {
+        id: '9',
+        action: 'Employee activated',
+        actor: 'Mona Ali',
+        createdAt: '2026-09-09T12:30:00Z',
+      },
     ]);
   });
 });

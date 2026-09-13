@@ -22,6 +22,14 @@ const mockItemController = {
   create: vi.fn(),
 };
 
+const mockSkillsController = {
+  create: vi.fn(),
+};
+
+const mockTopicsController = {
+  create: vi.fn(),
+};
+
 vi.mock(
   '@/modules/EducationClassification/presentation/controllers/educationSubject/education.subject.controller',
   () => ({ default: { getInstance: () => mockConfigController } }),
@@ -32,19 +40,21 @@ vi.mock(
   () => ({ default: { getInstance: () => mockItemController } }),
 );
 
+vi.mock(
+  '@/modules/EducationClassification/presentation/controllers/EducationSkills/education.skills.controller',
+  () => ({ default: { getInstance: () => mockSkillsController } }),
+);
+
+vi.mock(
+  '@/modules/EducationClassification/presentation/controllers/EducationTopics/education.topics.controller',
+  () => ({ default: { getInstance: () => mockTopicsController } }),
+);
+
 vi.mock('../SubjectTreeNode.vue', () => ({
   default: {
     name: 'SubjectTreeNode',
     template: '<div class="subject-tree-node"></div>',
     props: ['node', 'selectedSubjectId', 'maxDepth', 'levelLabels'],
-  },
-}));
-
-vi.mock('@/modules/EducationClassification/subComponent/EducationTree/AddBranchDialog.vue', () => ({
-  default: {
-    name: 'AddBranchDialog',
-    template: '<div class="add-branch-dialog"></div>',
-    props: ['branchName', 'level'],
   },
 }));
 
@@ -54,7 +64,7 @@ vi.mock(
     default: {
       name: 'AddEducationSubjectDialog',
       template: '<div class="add-subject-dialog"></div>',
-      props: ['subjectName'],
+      props: ['subjectName', 'loading'],
     },
   }),
 );
@@ -79,6 +89,8 @@ describe('SubjectsPanel', () => {
       new DataSuccess<EducationSubjectModel[]>({ data: [] }),
     );
     mockItemController.create.mockResolvedValue(new DataSuccess({ data: null }));
+    mockSkillsController.create.mockResolvedValue(new DataSuccess({ data: null }));
+    mockTopicsController.create.mockResolvedValue(new DataSuccess({ data: null }));
   });
 
   const mountComponent = (props = defaultProps) =>
@@ -208,7 +220,7 @@ describe('SubjectsPanel', () => {
     });
   });
 
-  it('uses the same configured level name when a subject node opens the branch dialog', async () => {
+  it('opens the full subject form with the configured level name from a tree node', async () => {
     mockConfigController.fetchList.mockResolvedValue(
       new DataSuccess<EducationSubjectConfigurationModel[]>({
         data: [
@@ -237,8 +249,51 @@ describe('SubjectsPanel', () => {
     wrapper.getComponent({ name: 'SubjectTreeNode' }).vm.$emit('add-child', 1, 1);
     await wrapper.vm.$nextTick();
 
-    const dialog = wrapper.getComponent({ name: 'AddBranchDialog' });
-    expect(dialog.props('level')).toBe(1);
-    expect(dialog.props('branchName')).toBe('Unit');
+    const dialog = wrapper.getComponent({ name: 'AddEducationSubjectDialog' });
+    expect(dialog.props('subjectName')).toBe('Unit');
+  });
+
+  it('creates subject details and its skill and search terms', async () => {
+    mockItemController.create.mockResolvedValue(
+      new DataSuccess({
+        data: {
+          subject_id: 42,
+          subject_title: 'Mathematics',
+          has_children: false,
+        } as EducationSubjectModel,
+      }),
+    );
+    const wrapper = mountComponent();
+    await flushPromises();
+    await wrapper.get('.stage-root-row .icon-btn').trigger('click');
+
+    wrapper.getComponent({ name: 'AddEducationSubjectDialog' }).vm.$emit('confirm', {
+      name: { en: 'Mathematics', ar: 'الرياضيات' },
+      description: { en: 'Numbers' },
+      skill: { id: 7, title: 'Problem solving' },
+      tags: ['algebra', 'geometry'],
+      coverImage: 'data:image/png;base64,cover',
+      isDraft: false,
+    });
+    await flushPromises();
+
+    expect(mockItemController.create).toHaveBeenCalledOnce();
+    expect(mockItemController.create.mock.calls[0]?.[0].toMap()).toEqual({
+      translations: {
+        title: { en: 'Mathematics', ar: 'الرياضيات' },
+        description: { en: 'Numbers' },
+        question: undefined,
+        answer: undefined,
+      },
+      education_classification_branch_id: 5,
+      image: 'data:image/png;base64,cover',
+      is_draft: 0,
+    });
+    expect(mockSkillsController.create.mock.calls[0]?.[0].toMap()).toEqual({
+      education_classification_subject_id: 42,
+      skills: [{ skill_id: 7, percentage: '100' }],
+    });
+    expect(mockTopicsController.create).toHaveBeenCalledTimes(2);
+    expect(wrapper.find('.add-subject-dialog').exists()).toBe(false);
   });
 });

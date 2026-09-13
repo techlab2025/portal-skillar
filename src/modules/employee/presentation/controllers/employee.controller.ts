@@ -44,7 +44,6 @@ export default class EmployeeController extends BaseController<EmployeeModel, Em
 
     const result = await super.create(params, { ...options, useJson: true });
     if (result instanceof DataSuccess) {
-      router.push({ name: 'Employees' });
       if (formKey) {
         FormStore.clearFormData(formKey);
       }

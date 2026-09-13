@@ -3,6 +3,8 @@ import SubjectApiService from '../api/subject.api-service';
 import StageModel from '@/modules/Stages/core/models/stage.model';
 import type { DataState } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 import type Params from '@/base/Core/Params/params';
+import PaginationModel from '@/base/Core/Models/paginationModel';
+import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 
 /**
  * Country Repository for API data operations
@@ -48,29 +50,18 @@ export default class SubjectRepository extends BaseRepository<StageModel, StageM
     return StageModel.fromJson(data);
   }
 
-  protected parseList(data: any, isPaginate: boolean = false): StageModel[] {
-    if (isPaginate) {
-      if (!Array.isArray(data?.data)) return [];
-      return data.data.reduce((acc: StageModel[], item: any) => {
-        try {
-          if (item != null) {
-            acc.push(this.parseItem(item));
-          }
-        } catch {}
-        return acc;
-      }, []);
-    } else {
-      if (!Array.isArray(data)) return [];
+  protected parseList(data: any): StageModel[] {
+    const items = Array.isArray(data) ? data : data?.data;
+    if (!Array.isArray(items)) return [];
 
-      return data.reduce((acc: StageModel[], item: any) => {
-        try {
-          if (item != null) {
-            acc.push(this.parseItem(item));
-          }
-        } catch {}
-        return acc;
-      }, []);
-    }
+    return items.reduce((acc: StageModel[], item: any) => {
+      try {
+        if (item != null) {
+          acc.push(this.parseItem(item));
+        }
+      } catch {}
+      return acc;
+    }, []);
   }
 
   async deleteBranch(params: Params): Promise<DataState<void>> {
@@ -81,9 +72,22 @@ export default class SubjectRepository extends BaseRepository<StageModel, StageM
   }
 
   async indexSubjects(params: Params): Promise<DataState<StageModel[]>> {
-    return this.executeCustom(
+    const result = await this.executeCustom(
       () => this.apiService.indexSubjects(params),
-      (data: any) => this.parseList(data, true),
+      (data: any) => ({
+        items: this.parseList(data),
+        pagination: data?.meta ? PaginationModel.fromMap(data.meta) : null,
+      }),
     );
+
+    if (result instanceof DataSuccess && result.data) {
+      return new DataSuccess<StageModel[]>({
+        data: result.data.items,
+        pagination: result.data.pagination,
+        message: result.message,
+      });
+    }
+
+    return result as DataState<StageModel[]>;
   }
 }

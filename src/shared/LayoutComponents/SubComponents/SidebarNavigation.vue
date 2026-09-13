@@ -493,6 +493,9 @@
         PermissionsEnum.DELETE_ACCOUNT_REASON_CREATE,
         PermissionsEnum.DELETE_ACCOUNT_REASON_UPDATE,
         PermissionsEnum.DELETE_ACCOUNT_REASON_DELETE,
+        PermissionsEnum.APP_STATUS_ALL,
+        PermissionsEnum.APP_STATUS_FETCH,
+        PermissionsEnum.APP_STATUS_CREATE_OR_UPDATE,
       ],
       items: [
         {
@@ -572,6 +575,16 @@
             PermissionsEnum.DELETE_ACCOUNT_REASON_DELETE,
           ],
         },
+        // {
+        //   link: '/onboarding',
+        //   name: 'onboarding.navigation',
+        //   icon: SidebarTerms,
+        //   permissions: [
+        //     PermissionsEnum.APP_STATUS_ALL,
+        //     PermissionsEnum.APP_STATUS_FETCH,
+        //     PermissionsEnum.APP_STATUS_CREATE_OR_UPDATE,
+        //   ],
+        // },
       ],
     },
   ];
@@ -729,6 +742,7 @@
   }
 
   :deep(.p-accordion) {
+    flex: 0 0 auto;
     margin-top: auto;
   }
 

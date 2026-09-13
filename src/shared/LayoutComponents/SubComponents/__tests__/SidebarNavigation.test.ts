@@ -66,6 +66,7 @@ describe('SidebarNavigation.vue', () => {
     expect(wrapper.text()).toContain('plans');
     expect(wrapper.text()).toContain('subscriptions');
     expect(wrapper.text()).toContain('document_index.transactions_sidebar');
+    expect(wrapper.text()).toContain('onboarding.navigation');
   });
 
   it('renders six question status links with status queries', () => {

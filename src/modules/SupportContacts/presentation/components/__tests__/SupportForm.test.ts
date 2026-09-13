@@ -3,6 +3,13 @@ import { mount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
 import { createI18n } from 'vue-i18n';
 import SupportForm from '../SupportForm.vue';
+import type AddSupportContactsParams from '../../../core/params/add.support.params';
+
+const toastWarning = vi.hoisted(() => vi.fn());
+
+vi.mock('@/base/Presentation/Dialogs/dialog.manager', () => ({
+  dialogManager: { toastWarning },
+}));
 
 vi.mock('vue-router', () => ({
   useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
@@ -93,9 +100,47 @@ describe('SupportForm', () => {
         },
       ],
     });
-    const emitted = wrapper.emitted('updateData')?.[0]?.[0] as { toMap: () => Record<string, any> };
+    const emitted = wrapper.emitted('updateData')?.[0]?.[0] as {
+      toMap: () => { support_contacts: { id?: number }[] };
+    };
 
     expect(emitted.toMap().support_contacts[0].id).toBe(55);
     expect(emitted.toMap().support_contacts[0].id).not.toBe(10);
+  });
+
+  it('includes every valid typed contact when preparing the form for submission', async () => {
+    const wrapper = mountForm();
+    const inputs = wrapper.findAll('.contact-input');
+
+    await inputs[0].setValue('+20 123 456 7890');
+    await inputs[1].setValue('+20 123 456 7891');
+    await inputs[2].setValue('support@example.com');
+    await inputs[3].setValue('https://t.me/support');
+
+    const params = (
+      wrapper.vm as unknown as { prepareForSubmit: () => AddSupportContactsParams }
+    ).prepareForSubmit();
+
+    expect(params.toMap().support_contacts).toEqual([
+      expect.objectContaining({ key: 'phonenumbers', value: '+20 123 456 7890' }),
+      expect.objectContaining({ key: 'whatsapp_numbers', value: '+20 123 456 7891' }),
+      expect.objectContaining({ key: 'telegram_numbers', value: 'https://t.me/support' }),
+      expect.objectContaining({ key: 'emails', value: 'support@example.com' }),
+    ]);
+    await wrapper.vm.$nextTick();
+    expect(inputs.every((input) => input.element.value === '')).toBe(true);
+  });
+
+  it('blocks submission when no contact method has been added', () => {
+    const wrapper = mountForm();
+
+    const params = (
+      wrapper.vm as unknown as { prepareForSubmit: () => AddSupportContactsParams | null }
+    ).prepareForSubmit();
+
+    expect(params).toBeNull();
+    expect(toastWarning).toHaveBeenCalledWith('support_contact_method_required', {
+      title: 'invalid_input_warning_title',
+    });
   });
 });

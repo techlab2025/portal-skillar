@@ -1,73 +1,74 @@
-import { describe, it, expect } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { flushPromises, mount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
 import { createI18n } from 'vue-i18n';
-import EmployeeForm from '../EmployeeForm.vue';
-import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
-import { EmployeeTypeEnum } from '../../../core/constant/employee.type.enum';
-import StageController from '@/modules/Stages/presentation/controllers/stage.controller';
-import StageModel from '@/modules/Stages/core/models/stage.model';
 import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
-import EmployeeModel from '../../../core/models/employee.model';
-import RoleController from '@/modules/Role/presentation/controllers/role.controller';
+import UpdatedCustomInputSelect from '@/shared/FormInputs/UpdatedCustomInputSelect.vue';
 import RoleModel from '@/modules/Role/core/models/role.model';
+import RoleController from '@/modules/Role/presentation/controllers/role.controller';
+import StageModel from '@/modules/Stages/core/models/stage.model';
+import StageController from '@/modules/Stages/presentation/controllers/stage.controller';
+import { EmployeeTypeEnum } from '../../../core/constant/employee.type.enum';
+import EmployeeModel from '../../../core/models/employee.model';
+import EmployeeForm from '../EmployeeForm.vue';
 
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en: {} } });
 const fetchStagesSpy = vi.spyOn(StageController.getInstance(), 'fetchList');
 const fetchRolesSpy = vi.spyOn(RoleController.getInstance(), 'fetchList');
+const fetchRoleSpy = vi.spyOn(RoleController.getInstance(), 'fetchOne');
+
 const educationClassificationTree = [
   StageModel.fromJson({
     id: 128,
-    title: 'mostafa',
-    full_title: 'mostafa',
+    title: 'Governmental',
+    full_title: 'Governmental',
     branches: [
       {
-        id: 361,
-        title: 'mostafa 1',
-        subjects: [
+        id: 360,
+        title: 'Primary',
+        subjects: [],
+        children: [
           {
-            id: 284,
-            e_c_subject_id: 284,
-            title: 'mostafa 2',
-            full_title: 'mostafa 1 -> mostafa 2',
-            children: [
+            id: 361,
+            title: 'First',
+            subjects: [
               {
-                id: 308,
-                e_c_subject_id: 308,
-                title: 'mostafaf 2.1',
-                full_title: 'mostafa 1 -> mostafa 2 -> mostafaf 2.1',
+                id: 284,
+                e_c_subject_id: 284,
+                title: 'Arabic',
+                full_title: 'Primary -> First -> Arabic',
+                children: [
+                  {
+                    id: 308,
+                    e_c_subject_id: 308,
+                    title: 'Reading',
+                    full_title: 'Primary -> First -> Arabic -> Reading',
+                    children: [],
+                  },
+                ],
+              },
+              {
+                id: 285,
+                e_c_subject_id: 285,
+                title: 'Mathematics',
+                full_title: 'Primary -> First -> Mathematics',
                 children: [],
               },
             ],
-          },
-          {
-            id: 285,
-            e_c_subject_id: 285,
-            title: 'mostafa 3',
-            full_title: 'mostafa 1 -> mostafa 3',
             children: [],
           },
         ],
-        children: [],
       },
     ],
     children: [],
   }),
 ];
 
-// Mock vue-router
 vi.mock('vue-router', () => ({
   onBeforeRouteLeave: vi.fn(),
   onBeforeRouteUpdate: vi.fn(),
-  useRouter: () => ({
-    push: vi.fn(),
-    replace: vi.fn(),
-    resolve: vi.fn(),
-  }),
-  useRoute: () => ({
-    query: {},
-    params: {},
-  }),
+  useRouter: () => ({ push: vi.fn(), replace: vi.fn(), resolve: vi.fn() }),
+  useRoute: () => ({ query: {}, params: {} }),
   createRouter: vi.fn(() => ({
     install: vi.fn(),
     push: vi.fn(),
@@ -78,24 +79,9 @@ vi.mock('vue-router', () => ({
   createWebHistory: vi.fn(),
 }));
 
-// Mock PrimeVue
 vi.mock('primevue/config', () => ({
-  usePrimeVue: () => ({
-    config: { ripple: true },
-  }),
+  usePrimeVue: () => ({ config: { ripple: true } }),
 }));
-
-// Mock Controller if it exists in the same directory (simplified)
-// This is to avoid issues with controllers that might have side effects
-// vi.mock('../controllers/employee.controller', () => ({
-//   default: {
-//     getInstance: () => ({
-//       listState: { value: {} },
-//       fetchList: vi.fn(),
-//       pagination: { value: {} }
-//     })
-//   }
-// }))
 
 describe('EmployeeForm', () => {
   const mountForm = (employee?: EmployeeModel) =>
@@ -109,144 +95,212 @@ describe('EmployeeForm', () => {
           TransitionGroup: true,
           'router-link': true,
           'router-view': true,
-          // PrimeVue
-          DataTable: true,
-          Column: true,
-          Button: true,
-          InputText: true,
           InputSwitch: true,
           RadioButton: true,
-          Dialog: true,
-          Toast: true,
           Select: true,
           MultiSelect: true,
-          Dropdown: true,
-          FileUpload: true,
-          Card: true,
-          Accordion: true,
-          AccordionTab: true,
-          Tree: true,
-          Breadcrumb: true,
+          Dialog: true,
           HandleFilesUpload: true,
           UplaodImageInput: true,
         },
         mocks: {
-          $t: (msg: string) => msg,
-          $d: (d: unknown) => d,
-          $n: (n: unknown) => n,
-          $tc: (msg: string) => msg,
+          $t: (message: string) => message,
+          $d: (date: unknown) => date,
+          $n: (number: unknown) => number,
+          $tc: (message: string) => message,
         },
-        directives: {
-          ripple: {},
-          tooltip: {},
-        },
+        directives: { ripple: {}, tooltip: {} },
       },
     });
+
+  const findSelect = (wrapper: ReturnType<typeof mountForm>, id: string) =>
+    wrapper.findAllComponents(UpdatedCustomInputSelect).find((select) => select.props('id') === id);
+
+  const selectTeacherScope = async (wrapper: ReturnType<typeof mountForm>) => {
+    findSelect(wrapper, 'employee-type')?.vm.$emit('update:modelValue', {
+      id: EmployeeTypeEnum.TEACHER,
+      title: 'Teacher',
+    });
+    await wrapper.vm.$nextTick();
+
+    findSelect(wrapper, 'employee-education-type')?.vm.$emit('update:modelValue', {
+      id: 128,
+      title: 'Governmental',
+    });
+    await wrapper.vm.$nextTick();
+
+    findSelect(wrapper, 'employee-configured-education')?.vm.$emit('update:modelValue', [
+      { id: 361, title: 'Primary → First' },
+    ]);
+    await wrapper.vm.$nextTick();
+  };
 
   beforeEach(() => {
     setActivePinia(createPinia());
     vi.clearAllMocks();
+    localStorage.clear();
     fetchStagesSpy.mockResolvedValue(new DataSuccess({ data: educationClassificationTree }));
     fetchRolesSpy.mockResolvedValue(
       new DataSuccess({
-        data: [new RoleModel({ id: 4, roleName: 'Content Manager', permissions: [] })],
+        data: [
+          new RoleModel({ id: 4, roleName: 'Teacher', permissions: [] }),
+          new RoleModel({ id: 5, roleName: 'Reviewer', permissions: [] }),
+        ],
       }),
     );
+    fetchRoleSpy.mockImplementation(async (params) => {
+      const roleId = Number(params.toMap().role_id);
+      return new DataSuccess({
+        data: new RoleModel({
+          id: roleId,
+          roleName: roleId === 4 ? 'Teacher' : 'Reviewer',
+          permissions: roleId === 4 ? ['employee.fetch'] : ['question.fetch'],
+        }),
+      });
+    });
   });
 
-  it('renders without crashing', () => {
-    const wrapper = mountForm();
-    expect(wrapper.exists()).toBe(true);
-  });
-
-  it('shows the subject multiselect for teachers and emits selected subject ids', async () => {
+  it('renders all designed sections without an Employee ID input', async () => {
     const wrapper = mountForm();
     await flushPromises();
 
-    const employeeTypeSelect = wrapper.getComponent(UpdatedCustomInputSelect);
-    employeeTypeSelect.vm.$emit('update:modelValue', {
-      id: EmployeeTypeEnum.TEACHER,
-      title: 'Teacher',
-    });
-    await wrapper.vm.$nextTick();
+    expect(findSelect(wrapper, 'employee-type')?.exists()).toBe(true);
+    expect(findSelect(wrapper, 'employee-education-type')?.exists()).toBe(true);
+    expect(findSelect(wrapper, 'employee-configured-education')?.exists()).toBe(true);
+    expect(findSelect(wrapper, 'employee-subjects')?.exists()).toBe(true);
+    expect(findSelect(wrapper, 'employee-roles')?.props('type')).toBe(2);
+    expect(wrapper.find('.effective-permissions').exists()).toBe(true);
+    expect(wrapper.find('#employeeId').exists()).toBe(false);
+  });
 
-    const subjectSelect = wrapper
-      .findAllComponents(UpdatedCustomInputSelect)
-      .find((select) => select.props('id') === 'employee-subjects');
-    expect(subjectSelect?.props('type')).toBe(2);
+  it('loads education types, configured paths, and subjects in sequence for teachers', async () => {
+    const wrapper = mountForm();
+    await flushPromises();
+    await selectTeacherScope(wrapper);
 
-    subjectSelect?.vm.$emit('update:modelValue', [
-      { id: 10, title: 'Math' },
-      { id: 12, title: 'Science' },
+    expect(findSelect(wrapper, 'employee-education-type')?.props('staticOptions')).toMatchObject([
+      { id: 128, title: 'Governmental' },
     ]);
-    await wrapper.vm.$nextTick();
+    expect(
+      findSelect(wrapper, 'employee-configured-education')?.props('staticOptions'),
+    ).toMatchObject([{ id: 361, title: 'Primary → First' }]);
+    expect(findSelect(wrapper, 'employee-subjects')?.props('staticOptions')).toMatchObject([
+      { id: 308, title: 'Primary -> First -> Arabic -> Reading' },
+      { id: 285, title: 'Primary -> First -> Mathematics' },
+    ]);
+  });
+
+  it('emits selected subject and multiple role ids for the API payload', async () => {
+    const wrapper = mountForm();
+    await flushPromises();
+    await selectTeacherScope(wrapper);
+
+    findSelect(wrapper, 'employee-subjects')?.vm.$emit('update:modelValue', [
+      { id: 308, title: 'Reading' },
+    ]);
+    findSelect(wrapper, 'employee-roles')?.vm.$emit('update:modelValue', [
+      { id: 4, title: 'Teacher' },
+      { id: 5, title: 'Reviewer' },
+    ]);
+    await flushPromises();
 
     const emittedParams = wrapper.emitted('updateData')?.at(-1)?.[0];
     expect(emittedParams?.toMap()).toMatchObject({
       type: EmployeeTypeEnum.TEACHER,
-      e_c_subject_ids: [10, 12],
+      role_id: 4,
+      role_ids: [4, 5],
+      e_c_subject_ids: [308],
     });
   });
 
-  it('loads full-title subject options through StageController', async () => {
+  it('shows the effective permissions returned by the selected roles', async () => {
     const wrapper = mountForm();
     await flushPromises();
 
-    wrapper.getComponent(UpdatedCustomInputSelect).vm.$emit('update:modelValue', {
-      id: EmployeeTypeEnum.TEACHER,
-      title: 'Teacher',
-    });
-    await wrapper.vm.$nextTick();
-
-    const subjectSelect = wrapper
-      .findAllComponents(UpdatedCustomInputSelect)
-      .find((select) => select.props('id') === 'employee-subjects');
-    expect(fetchStagesSpy).toHaveBeenCalledOnce();
-    expect(subjectSelect?.props('staticOptions')).toMatchObject([
-      { id: 308, title: 'mostafa 1 -> mostafa 2 -> mostafaf 2.1' },
-      { id: 285, title: 'mostafa 1 -> mostafa 3' },
+    findSelect(wrapper, 'employee-roles')?.vm.$emit('update:modelValue', [
+      { id: 4, title: 'Teacher' },
+      { id: 5, title: 'Reviewer' },
     ]);
+    await flushPromises();
+
+    expect(fetchRoleSpy).toHaveBeenCalledTimes(2);
+    expect(wrapper.find('.effective-permissions__list').text()).toContain('employee.fetch');
+    expect(wrapper.find('.effective-permissions__list').text()).toContain('question.fetch');
   });
 
-  it('fills edit inputs and teacher subjects from show_employee', async () => {
+  it('restores edit fields and derives the education path from assigned subjects', async () => {
     const employee = EmployeeModel.fromJson({
       id: 30,
-      employee_ref: '',
-      first_name: 'Employee ID1',
-      last_name: 'Employee ID2',
+      employee_ref: 'EMP-30',
+      first_name: 'Mona',
+      last_name: 'Ali',
       image: null,
       gender: 1,
       status: 2,
-      type: 2,
-      role_id: 4,
-      role_name: 'Content Manager',
-      subjects: [
-        { id: 308, e_c_subject_id: 308, title: 'mostafaf 2.1' },
-        { id: 285, e_c_subject_id: 285, title: 'mostafa 3' },
+      type: EmployeeTypeEnum.TEACHER,
+      roles: [
+        { id: 4, display_name: 'Teacher' },
+        { id: 5, display_name: 'Reviewer' },
       ],
-      email: 'Employeeid@gmail.com',
+      subjects: [
+        { id: 308, e_c_subject_id: 308, full_title: 'Primary -> First -> Arabic -> Reading' },
+      ],
+      email: 'mona@example.com',
       phone: '0101546452312',
     });
     const wrapper = mountForm(employee);
     await flushPromises();
 
-    const inputs = wrapper.findAll('input.field-input');
-    expect(inputs[0]?.element.value).toBe('Employee ID1');
-    expect(inputs[1]?.element.value).toBe('Employee ID2');
-    expect(inputs[3]?.element.value).toBe('Employeeid@gmail.com');
-    expect(inputs[5]?.element.value).toBe('0101546452312');
-
-    const selects = wrapper.findAllComponents(UpdatedCustomInputSelect);
-    const employeeTypeSelect = selects.find((select) => select.props('id') === 'employee-type');
-    const subjectSelect = selects.find((select) => select.props('id') === 'employee-subjects');
-    expect(employeeTypeSelect?.props('modelValue')).toMatchObject({ id: EmployeeTypeEnum.TEACHER });
-    expect(subjectSelect?.props('modelValue')).toMatchObject([
-      { id: 308, title: 'mostafa 1 -> mostafa 2 -> mostafaf 2.1' },
-      { id: 285, title: 'mostafa 1 -> mostafa 3' },
+    expect(wrapper.get<HTMLInputElement>('#employee-first-name').element.value).toBe('Mona');
+    expect(wrapper.get<HTMLInputElement>('#employee-last-name').element.value).toBe('Ali');
+    expect(wrapper.get<HTMLInputElement>('#employee-email').element.value).toBe('mona@example.com');
+    expect(wrapper.get<HTMLInputElement>('#employee-phone').element.value).toBe('0101546452312');
+    expect(findSelect(wrapper, 'employee-education-type')?.props('modelValue')).toMatchObject({
+      id: 128,
+    });
+    expect(findSelect(wrapper, 'employee-configured-education')?.props('modelValue')).toMatchObject(
+      [{ id: 361 }],
+    );
+    expect(findSelect(wrapper, 'employee-subjects')?.props('modelValue')).toMatchObject([
+      { id: 308 },
+    ]);
+    expect(findSelect(wrapper, 'employee-roles')?.props('modelValue')).toMatchObject([
+      { id: 4 },
+      { id: 5 },
     ]);
   });
 
-  it('marks a removed employee image and omits it while unchanged', async () => {
+  it('requires education scope for teachers and roles for every employee', async () => {
+    const wrapper = mountForm();
+    await flushPromises();
+    const form = wrapper.vm as unknown as { validate: () => boolean };
+
+    expect(form.validate()).toBe(false);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.findAll('.employee-field-error')).toHaveLength(1);
+
+    findSelect(wrapper, 'employee-roles')?.vm.$emit('update:modelValue', [
+      { id: 4, title: 'Teacher' },
+    ]);
+    findSelect(wrapper, 'employee-type')?.vm.$emit('update:modelValue', {
+      id: EmployeeTypeEnum.TEACHER,
+      title: 'Teacher',
+    });
+    await wrapper.vm.$nextTick();
+
+    expect(form.validate()).toBe(false);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.findAll('.employee-field-error')).toHaveLength(3);
+
+    await selectTeacherScope(wrapper);
+    findSelect(wrapper, 'employee-subjects')?.vm.$emit('update:modelValue', [
+      { id: 308, title: 'Reading' },
+    ]);
+    await wrapper.vm.$nextTick();
+    expect(form.validate()).toBe(true);
+  });
+
+  it('marks a removed employee image and omits an unchanged image', async () => {
     const employee = EmployeeModel.fromJson({
       id: 30,
       employee_ref: 'EMP-30',
@@ -256,6 +310,7 @@ describe('EmployeeForm', () => {
       gender: 1,
       status: 1,
       type: EmployeeTypeEnum.ADMIN,
+      roles: [{ id: 4, display_name: 'Teacher' }],
       subjects: [],
       email: 'mona@example.com',
       phone: '01000000000',
@@ -271,53 +326,5 @@ describe('EmployeeForm', () => {
 
     const removedParams = wrapper.emitted('updateData')?.at(-1)?.[0] as { image: string };
     expect(removedParams.image).toBe('*');
-  });
-
-  it('hides subjects for Admin and requires them for Teacher', async () => {
-    const wrapper = mountForm();
-    await flushPromises();
-
-    const form = wrapper.vm as unknown as { validate: () => boolean };
-    expect(
-      wrapper
-        .findAllComponents(UpdatedCustomInputSelect)
-        .some((select) => select.props('id') === 'employee-subjects'),
-    ).toBe(false);
-    expect(form.validate()).toBe(true);
-    expect(wrapper.find('.employee-field-error').exists()).toBe(false);
-
-    const employeeTypeSelect = wrapper
-      .findAllComponents(UpdatedCustomInputSelect)
-      .find((select) => select.props('id') === 'employee-type');
-    employeeTypeSelect?.vm.$emit('update:modelValue', {
-      id: EmployeeTypeEnum.TEACHER,
-      title: 'Teacher',
-    });
-    await wrapper.vm.$nextTick();
-
-    const subjectSelect = wrapper
-      .findAllComponents(UpdatedCustomInputSelect)
-      .find((select) => select.props('id') === 'employee-subjects');
-    expect(subjectSelect?.props('required')).toBe(true);
-    expect(form.validate()).toBe(false);
-    await wrapper.vm.$nextTick();
-    expect(wrapper.get('.employee-field-error').text()).toBe('employee_subject_required');
-
-    subjectSelect?.vm.$emit('update:modelValue', [{ id: 10, title: 'Math' }]);
-    await wrapper.vm.$nextTick();
-    expect(form.validate()).toBe(true);
-    expect(wrapper.find('.employee-field-error').exists()).toBe(false);
-  });
-
-  it('emits the selected employee role id', async () => {
-    const wrapper = mountForm();
-    await flushPromises();
-
-    const roleSelect = wrapper.findAllComponents(UpdatedCustomInputSelect)[1];
-    roleSelect?.vm.$emit('update:modelValue', { id: 4, title: 'Content Manager' });
-    await wrapper.vm.$nextTick();
-
-    const emittedParams = wrapper.emitted('updateData')?.at(-1)?.[0];
-    expect(emittedParams?.toMap()).toMatchObject({ role_id: 4 });
   });
 });

@@ -29,11 +29,18 @@ body {
   @include flex(row, flex-start, stretch);
   // gap: var(--xl-size-2);
   width: 100%;
+  min-height: 100dvh;
   font-family: var(--font-family);
   background-color: var(--bg-main);
 
   .sidebar-container {
+    position: sticky;
+    top: 0;
+    flex: 0 0 auto;
+    height: 100dvh;
     padding: 26px;
+    overflow: hidden;
+    box-sizing: border-box;
 
     @media (max-width: 768px) {
       display: none;
