@@ -38,6 +38,7 @@ const generatedIndex = (data: Record<string, unknown>): GeneratedDocumentIndexMo
 
 export default class DocumentIndexPatchModel {
   public readonly id: number;
+  public readonly questionBatchId: number;
   public readonly transactionId: string;
   public readonly documentId: number;
   public readonly educationType: string;
@@ -52,6 +53,7 @@ export default class DocumentIndexPatchModel {
 
   constructor(data: {
     id: number;
+    questionBatchId: number;
     transactionId: string;
     documentId: number;
     educationType: string;
@@ -65,6 +67,7 @@ export default class DocumentIndexPatchModel {
     generatedIndex: GeneratedDocumentIndexModel | null;
   }) {
     this.id = data.id;
+    this.questionBatchId = data.questionBatchId;
     this.transactionId = data.transactionId;
     this.documentId = data.documentId;
     this.educationType = data.educationType;
@@ -85,11 +88,19 @@ export default class DocumentIndexPatchModel {
     const subject = SaftyConditions.objectValue(
       data.subject ?? data.education_subject ?? document.subject ?? document.education_subject,
     );
+    const questionBatch = SaftyConditions.objectValue(data.question_batch ?? data.questionBatch);
     const id = SaftyConditions.numberValue(
-      data.question_batch_id ?? data.id ?? data.patch_id ?? data.document_index_patch_id,
+      data.id ?? data.patch_id ?? data.document_index_patch_id,
+    );
+    const questionBatchId = SaftyConditions.numberValue(
+      data.question_batch_id ??
+        data.questionBatchId ??
+        questionBatch.question_batch_id ??
+        questionBatch.id,
     );
     return new DocumentIndexPatchModel({
       id,
+      questionBatchId,
       transactionId: String(
         data.transaction_id ?? data.transactionId ?? `TXN-${String(id).padStart(3, '0')}`,
       ),
@@ -132,6 +143,7 @@ export default class DocumentIndexPatchModel {
 
   static readonly example = new DocumentIndexPatchModel({
     id: 12,
+    questionBatchId: 12,
     transactionId: 'TXN-012',
     documentId: 17,
     educationType: 'Governmental',

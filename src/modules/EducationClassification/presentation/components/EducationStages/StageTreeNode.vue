@@ -159,31 +159,40 @@
       :style="{ paddingInlineStart: `${node.depth * 16 + 14}px` }"
       @click="handleRowClick"
     >
-      <button
+    <button
+  v-if="(!hasFetched || children.length > 0) && node.depth + 1 != MaxDepth"
+  class="toggle-btn"
+  @click.stop="handleToggle"
+>
+  <ToggleArrowIcon
+    :class="{ 'arrow-open': isOpen }"
+  />
+</button>
+      <!-- <button
         v-if="(!hasFetched || children.length > 0) && node.depth + 1 != MaxDepth"
         class="toggle-btn"
         @click.stop="handleToggle"
       >
-        <!-- <svg
-          viewBox="0 0 20 20"
-          fill="none"
-          width="14"
-          height="14"
-          :style="{
-            transform: isOpen ? 'rotate(0deg)' : 'rotate(-90deg)',
-            transition: 'transform 0.2s',
-          }"
-        >
-          <path
-            d="M5 7l5 5 5-5"
-            stroke="#6b7280"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg> -->
-        <ToggleArrowIcon />
-      </button>
+      <ToggleArrowIcon />
+    </button> -->
+    <!-- <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      width="14"
+      height="14"
+      :style="{
+        transform: isOpen ? 'rotate(0deg)' : 'rotate(-90deg)',
+        transition: 'transform 0.2s',
+      }"
+    >
+      <path
+        d="M5 7l5 5 5-5"
+        stroke="#6b7280"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg> -->
       <span v-else class="toggle-spacer">
         <ToggleArrowIconOpen />
       </span>
@@ -278,6 +287,20 @@
 </template>
 
 <style scoped>
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.arrow-open {
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
   .tree-node-wrapper {
     position: relative;
   }

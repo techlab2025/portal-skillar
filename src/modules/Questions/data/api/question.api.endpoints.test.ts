@@ -15,6 +15,6 @@ describe('QuestionEndpoints', () => {
     expect(endpoints.store).toContain('store_question');
     expect(endpoints.update).toContain('update_question');
     expect(endpoints.delete).toContain('delete_question');
-    expect(endpoints.toggleArchive).toContain('fetch_togle_archive');
+    expect(endpoints.toggleArchive).toContain('toggle_question_archive');
   });
 });

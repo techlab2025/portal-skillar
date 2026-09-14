@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { flushPromises, mount } from '@vue/test-utils';
 import { defineComponent, h } from 'vue';
 import { DataSuccess } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
+import DocumentIndexPatchModel from '../../../core/models/document.index.patch.model';
 
 const startIndex = vi.fn();
 const cancelGeneration = vi.fn();
@@ -98,6 +99,7 @@ describe('DocumentIndexProgressOverlay', () => {
 
     await wrapper.find('.document-index-generation__cancel').trigger('click');
     expect(wrapper.find('.document-index-cancel').exists()).toBe(true);
+    expect(wrapper.get('.document-index-cancel__confirm').attributes('disabled')).toBeUndefined();
 
     await wrapper.find('.document-index-cancel__confirm').trigger('click');
     await flushPromises();
@@ -107,5 +109,39 @@ describe('DocumentIndexProgressOverlay', () => {
     expect(controller.hasActiveIndexing.value).toBe(false);
     expect(wrapper.find('.document-index-generation').exists()).toBe(false);
     expect(wrapper.find('.document-index-floating-progress').exists()).toBe(false);
+  });
+
+  it('cancels a fetched processing transaction using its question_batch_id', async () => {
+    const patch = DocumentIndexPatchModel.fromJson({
+      transaction_id: 177,
+      third_party_id: 99,
+      question_batch_id: 42,
+      index_status: 'processing',
+    });
+    controller.openProgress(patch.questionBatchId);
+    const wrapper = mountOverlay();
+
+    await wrapper.find('.document-index-generation__cancel').trigger('click');
+    await wrapper.find('.document-index-cancel__confirm').trigger('click');
+    await flushPromises();
+
+    expect(cancelGeneration).toHaveBeenCalledOnce();
+    expect(cancelGeneration.mock.calls[0]?.[0].toMap()).toEqual({ question_batch_id: 42 });
+  });
+
+  it('does not use third_party_id when question_batch_id is unavailable', async () => {
+    const patch = DocumentIndexPatchModel.fromJson({
+      transaction_id: 177,
+      third_party_id: 99,
+      index_status: 'processing',
+    });
+    controller.openProgress(patch.questionBatchId);
+    const wrapper = mountOverlay();
+
+    await wrapper.find('.document-index-generation__cancel').trigger('click');
+    await wrapper.find('.document-index-cancel__confirm').trigger('click');
+    await flushPromises();
+
+    expect(cancelGeneration).not.toHaveBeenCalled();
   });
 });

@@ -115,7 +115,7 @@
   };
 
   const viewProgress = (patch: DocumentIndexPatchModel) =>
-    progressController.openProgress(patch.id);
+    progressController.openProgress(patch.questionBatchId);
 
   const refreshStatus = async (patch: DocumentIndexPatchModel) => {
     if (refreshingTransactionId.value != null) return;

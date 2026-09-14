@@ -130,7 +130,7 @@ export default class DocumentIndexPatchRepository extends BaseRepository<
 
   async startIndex(params: Params, options?: ApiCallOptions): Promise<DataState<number>> {
     if (options?.useStaticData ?? env.useStaticData) {
-      return new DataSuccess<number>({ data: DocumentIndexPatchModel.example.id });
+      return new DataSuccess<number>({ data: DocumentIndexPatchModel.example.questionBatchId });
     }
 
     try {

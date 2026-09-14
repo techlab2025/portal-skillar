@@ -58,6 +58,9 @@
           {{ $t('save_document') }}
         </span>
       </button>
+            <router-link to="/documents" class="btn btn-cancel">
+        {{ $t(`cancel`) }}
+      </router-link>
     </div>
 
     <div v-if="controller.errorMessage.value" class="error">
@@ -72,6 +75,10 @@
   }
 
   .actions {
+    margin-top: 24px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
     &.disabled {
       cursor: not-allowed;
       pointer-events: none;
