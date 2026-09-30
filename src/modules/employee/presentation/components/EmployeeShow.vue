@@ -55,7 +55,10 @@
       .toUpperCase(),
   );
   const basicInformation = computed(() => [
-    { label: t('employee_show.user_id'), value: valueOrDash(employee.value?.employeeId) },
+    {
+      label: t('employee_show.user_id'),
+      value: employee.value?.id || valueOrDash(employee.value?.employeeId),
+    },
     { label: t('employee_show.email_address'), value: valueOrDash(employee.value?.email) },
     { label: t('employee_show.phone_number'), value: valueOrDash(employee.value?.phone) },
     { label: t('employee_show.gender'), value: genderLabel.value },
@@ -333,7 +336,7 @@
             </article>
           </div>
 
-          <aside class="employee-show-card employee-show-history">
+          <!-- <aside class="employee-show-card employee-show-history">
             <header class="employee-show-card__header">
               <h2>{{ $t('employee_show.history_log') }}</h2>
             </header>
@@ -352,7 +355,7 @@
             <p v-else class="employee-show-card__empty">
               {{ $t('employee_show.no_history') }}
             </p>
-          </aside>
+          </aside> -->
         </div>
       </main>
     </template>
@@ -390,6 +393,9 @@
 </template>
 
 <style scoped lang="scss">
+  .employee-show-layout__main {
+    grid-column: span 2;
+  }
   .employee-show-page,
   .employee-show-skeleton {
     display: grid;

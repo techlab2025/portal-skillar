@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref, provide, onMounted, computed, nextTick } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import { useI18n } from 'vue-i18n';
   import StageTreeNode from './StageTreeNode.vue';
   import type { StageNode } from './StageTreeNode.vue';
@@ -130,7 +130,7 @@
     showAddTypeDialog.value = false;
     await fetchRoot();
   }
-
+  const router = useRouter();
   async function handleAddBranch({
     name,
     branchId,
@@ -161,6 +161,11 @@
       }),
     );
     MaxNumberOfBranches.value = configResult.data?.[0]?.numberOfBranches;
+
+    console.log(configResult, 'configResult?.data?.length!');
+    if (configResult?.data == null) {
+      router.push('/education-classifications');
+    }
     if (configResult instanceof DataSuccess && configResult.data) {
       educationConfig.value = configResult.data;
     }

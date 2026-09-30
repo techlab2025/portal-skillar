@@ -6,6 +6,7 @@ import RoleRepository from '../../data/repositories/role.repository';
 import type { DataState } from '@/base/Core/NetworkStructure/Resources/dataState/dataState';
 import type Params from '@/base/Core/Params/params';
 import type { ApiCallOptions } from '@/base/Data/ApiService/baseApiService';
+import { dialogManager } from '@/base/Presentation/Dialogs/dialog.manager';
 
 export default class RoleController extends BaseController<RoleModel, RoleModel[]> {
   private static instance: RoleController;
@@ -45,5 +46,15 @@ export default class RoleController extends BaseController<RoleModel, RoleModel[
         'accept-language': '*',
       },
     });
+  }
+
+  async delete(params: Params, options?: ApiCallOptions) {
+    const result = await super.delete(params, options);
+    if (result?.error?.title) {
+      dialogManager.toastError(result?.error?.title);
+    } else {
+      dialogManager.toastError(result?.message);
+    }
+    return result;
   }
 }

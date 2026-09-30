@@ -7,4 +7,5 @@ export class AdviceCategoryEndpoints extends BaseEndpoints {
   readonly show = this.url('show_advice_category');
   readonly update = this.url('update_advice_category');
   readonly delete = this.url('delete_advice_category');
+  readonly status = this.url('toggle_active_advice_category');
 }

@@ -159,8 +159,10 @@
     () => Number(selectedEmployee.value?.status) === EmployeeStatusEnm.disavtive,
   );
 
-  const openEmployeeDialog = (employee: EmployeeModel) => {
+  const openEmployeeDialog =async  (employee: EmployeeModel) => {
     selectedEmployee.value = employee;
+    await controller.delete(new DeleteEmployeeParams(employee.id!));
+    fetchEmployees();
     employeeDialogVisible.value = true;
   };
 
@@ -407,7 +409,7 @@
                 />
               </section>
 
-              <section class="employee-filter__section">
+              <!-- <section class="employee-filter__section">
                 <div class="employee-filter__heading">
                   <h2>{{ $t('employee_filter.subject_scope') }}</h2>
                   <button
@@ -430,7 +432,7 @@
                   :reload="false"
                   :has-header="true"
                 />
-              </section>
+              </section> -->
 
               <section class="employee-filter__section">
                 <div class="employee-filter__heading">

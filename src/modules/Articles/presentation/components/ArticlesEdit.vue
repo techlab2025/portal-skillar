@@ -36,11 +36,19 @@
         ...(params.value.e_c_subject_id && { subject_id: params.value.e_c_subject_id }),
         ...(params.value.questionSequenceId && { sequence_id: params.value.questionSequenceId }),
       };
-      await router.push({
-        name: 'Article questions',
-        params: { artical_id: Number(route.params.id) },
-        ...(Object.keys(query).length && { query }),
-      });
+      if (route.params.id) {
+        await router.push({
+          name: 'Articles',
+          params: { artical_id: Number(route.params.id) },
+          ...(Object.keys(query).length && { query }),
+        });
+      } else {
+        await router.push({
+          name: 'Article questions',
+          params: { artical_id: Number(route.params.id) },
+          ...(Object.keys(query).length && { query }),
+        });
+      }
     } finally {
       loading.value = false;
     }

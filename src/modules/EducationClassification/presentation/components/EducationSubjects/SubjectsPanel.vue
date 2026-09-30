@@ -175,7 +175,7 @@
 
       if (!(result instanceof DataSuccess) || !result.data) return;
 
-      await addSubjectRelations(result.data.subject_id, data);
+      // await addSubjectRelations(result.data.subject_id, data);
       showAddSubjectDialog.value = false;
 
       if (parentId) {
