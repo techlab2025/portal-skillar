@@ -698,7 +698,12 @@ export default abstract class BaseController<T, TList = T[]> {
    */
   protected handleItemResponse(_result: DataState<T>, successMessage?: string): void {
     if (_result.hasError) {
-      this.handleErrorResponse(_result);
+      const errorMessage = _result.error?.displayMessage ?? '';
+      if (errorMessage.toLowerCase().includes('success')) {
+        this.showSuccessToast(errorMessage);
+      } else {
+        this.handleErrorResponse(_result);
+      }
     } else if (
       _result instanceof DataSuccess &&
       this.config.showSuccessDialog &&
