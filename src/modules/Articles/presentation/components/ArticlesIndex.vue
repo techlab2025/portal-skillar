@@ -174,7 +174,7 @@
   //   return subjects?.map((subject) => subject.trim());
   // }
   const getSubjectPath = (item: questionsModel) => {
-    if (!item?.e_c_branch) return ''; 
+    if (!item?.e_c_branch) return '';
     const parts = item.e_c_branch.full_title?.split(/\s*->\s*/);
     return parts?.map((subject) => subject.trim()) ?? '';
   };
@@ -209,14 +209,14 @@
           <IndexPluseIcon />
           <span>{{ isDraft ? 'new article' : 'continue adding' }}</span>
         </router-link>
-        <FilterDialog v-model="FilterDialogShow">
+        <!-- <FilterDialog v-model="FilterDialogShow">
           <template #content>
             <div class="filter-action">
               <button class="btn btn-cancel" @click="CloseFiletrDialog">Reset</button>
               <button class="btn btn-primary" @click="ApplayFilter">apply</button>
             </div>
           </template>
-        </FilterDialog>
+        </FilterDialog> -->
       </div>
     </div>
 
@@ -367,3 +367,9 @@
     </DataStatusBuilder>
   </div>
 </template>
+<style scoped>
+  .subject-cell {
+    margin-right: auto;
+    justify-content: start;
+  }
+</style>

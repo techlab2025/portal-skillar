@@ -87,8 +87,10 @@ export default class DocumentController extends BaseController<DocumentShowModel
 
   async delete(params: Params, options?: ApiCallOptions) {
     const result = await super.delete(params, options);
-    if (result?.error) {
-      dialogManager.toastError(result.error.displayMessage);
+    if (result?.error?.title) {
+      dialogManager.toastError(result?.error?.title);
+    } else {
+      dialogManager.toastError(result?.message!);
     }
     return result;
   }

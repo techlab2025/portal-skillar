@@ -356,7 +356,10 @@
         >
           <template #content>
             <div class="questions-filters">
-              <section class="question-filter-section question-filter-select">
+              <section
+                class="question-filter-section question-filter-select"
+                v-if="!route.query.status"
+              >
                 <UpdatedCustomInputSelect
                   id="question-status"
                   v-model="selectedStatus"

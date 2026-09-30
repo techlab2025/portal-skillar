@@ -775,7 +775,7 @@
     "cancel": "Cancel"
   },
   "cancel_question_dialog": {
-    "title": "are you sure you want to cancel the edit",
+    "title": "are you sure you want to cancel the process",
     "description": "your progress will be lost",
     "confirm": "Yes, Cancel & delete",
     "cancel": "keep editing"
@@ -2031,5 +2031,7 @@
     "create": "Create Subject"
   },
   "Deleting_this_Questions_will_remove_all_related_data_including_any_configurations_and_tree_structures_This_action_is_irreversible_and_the_Questions_must_be_created_again_if_needed": "Deleting this question will permanently remove all related data, including configurations and tree structures. This action cannot be undone, and the question must be created again if needed.",
-  "are_you_sure_you_want_to_remove_this_Questions": "Are you sure you want to delete this question?"
+  "are_you_sure_you_want_to_remove_this_Questions": "Are you sure you want to delete this question?",
+  "Deleting_this_question_will_remove_all_related_data_including_any_configurations": "Deleting This Question Will Remove All Related Data Including Any Configurations",
+  "are_you_sure_you_want_to_remove_this_question": "Are You Sure You Want To Remove This Question"
 }

@@ -27,7 +27,7 @@
     loading.value = true;
     try {
       const data = await controller.update(params.value, undefined);
-      if (data) router.push({ name: 'Skills' });
+      if (!data?.error) router.push({ name: 'Skills' });
     } finally {
       loading.value = false;
     }

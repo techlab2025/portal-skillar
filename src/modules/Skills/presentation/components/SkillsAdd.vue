@@ -24,10 +24,9 @@
       }
 
       const result = await controller.create(params.value, undefined);
-    if(result?.data){
-      router.push({ name: 'Skills' });
-
-    }
+      if (result?.data) {
+        router.push({ name: 'Skills' });
+      }
     } catch (error) {
       console.error('Error saving employee:', error);
     } finally {

@@ -66,11 +66,20 @@
     deep: true,
     immediate: true,
   });
+
+  const resetData = () => {
+    adviceCategory.value = null;
+    titleTranslations.value = null;
+    descriptionTranslations.value = null;
+  };
 </script>
 
 <template>
   <section class="form-card" :class="{ 'is-loading': props.loading }">
-    <h2>{{ $t(id ? 'edit_advice' : 'add_advice') }}</h2>
+    <div class="form-head">
+      <h2>{{ $t(id ? 'edit_advice' : 'add_advice') }}</h2>
+      <p @click="resetData" class="reset-btn">reset</p>
+    </div>
     <UpdatedCustomInputSelect
       id="advice-category"
       v-model="adviceCategory"
@@ -80,7 +89,9 @@
       :params="adviceCategoryParams"
       required
       @update:model-value="updateData"
-    />
+      :enableReload="true"
+    >
+    </UpdatedCustomInputSelect>
     <MultiLangInput
       class="required-field"
       field-key="title"
@@ -100,6 +111,12 @@
 </template>
 
 <style scoped lang="scss">
+  .form-head {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .form-card {
     display: grid;
     gap: var(--xl-size-base);

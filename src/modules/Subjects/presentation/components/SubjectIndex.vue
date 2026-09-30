@@ -221,6 +221,10 @@
     });
   };
   const SelctedSubject = ref<number>();
+  const Resest = () => {
+    selectedFilter.value = null;
+    FetchSubjects(null);
+  };
 </script>
 
 <template>
@@ -228,15 +232,19 @@
     <div class="index-header">
       <div class="toolbar">
         <UpdatedCustomInputSelect
+          :label="'subject'"
           id="education-filter"
           v-model="selectedFilter"
           :static-options="AllBranchesOptions"
           :placeholder="`select subject `"
-          :reload="false"
+          :reload="true"
           @update:model-value="updateFilter"
           @reload="FetchSubjects"
+          :enableReload="true"
+          :hasHeader="true"
         />
       </div>
+      <p class="reset-btn" @click="Resest">reset</p>
     </div>
 
     <DataStatusBuilder :controller="state">
@@ -354,5 +362,10 @@
     display: inline-block;
     min-width: 2ch;
     text-align: center;
+  }
+  .index-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 </style>
