@@ -4,23 +4,33 @@ export interface AdviceCategoryReference {
   id: number;
   title: string;
 }
+export interface CreatedBy {
+  id: number;
+  name: string;
+}
 
 export default class AdviceModel {
   public readonly id: number;
   public readonly title: LocalizedAdviceField;
   public readonly description: LocalizedAdviceField;
   public readonly adviceCategory: AdviceCategoryReference | null;
+  public readonly createdAt: string | null;
+  public readonly createdBy: CreatedBy;
 
   constructor(data: {
     id: number;
     title: LocalizedAdviceField;
     description: LocalizedAdviceField;
     adviceCategory?: AdviceCategoryReference | null;
+    createdAt: string | null;
+    createdBy: CreatedBy;
   }) {
     this.id = data.id;
     this.title = data.title;
     this.description = data.description;
     this.adviceCategory = data.adviceCategory ?? null;
+    this.createdAt = data.createdAt;
+    this.createdBy = data.createdBy;
     Object.freeze(this);
   }
 
@@ -46,6 +56,8 @@ export default class AdviceModel {
                   : '',
             }
           : null,
+      createdAt: json.created_at ? json.created_at! : '',
+      createdBy: json.created_by,
     });
   }
 

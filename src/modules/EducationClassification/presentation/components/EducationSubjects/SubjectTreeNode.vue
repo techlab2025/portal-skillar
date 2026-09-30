@@ -124,6 +124,10 @@
     await controller.delete(new DeleteEducationSubjectItemParams({ subject_id: id }));
     emit('delete-branch', props.parentId);
   }
+  //   async function ToggleEducationClassification(id: number) {
+  //   await controller.delete(new DeleteEducationSubjectItemParams({ subject_id: id }));
+  //   emit('delete-branch', props.parentId);
+  // }
   const showPricingDialog = ref<boolean>(false);
   const showSkillsDialog = ref<boolean>(false);
   const showTopicsDialog = ref<boolean>(false);
@@ -166,6 +170,11 @@
           },
         ]
       : []),
+    // {
+    //   text: t('unactive'),
+    //   icon: EditIcon,
+    //   action: () => deleteEducationClassification(id),
+    // },
   ];
 </script>
 

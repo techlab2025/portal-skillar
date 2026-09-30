@@ -133,14 +133,14 @@ const CloseFiletrDialog = () => {
           <IndexPluseIcon />
           <span>{{ isDraft ? 'Add Skills' : 'Continue Adding' }}</span>
         </router-link>
-        <FilterDialog v-model="FilterDialogShow">
+        <!-- <FilterDialog v-model="FilterDialogShow">
           <template #content>
             <div class="filter-action">
               <button class="btn btn-cancel" @click="CloseFiletrDialog">Reset</button>
               <button class="btn btn-primary" @click="ApplayFilter">apply</button>
             </div>
           </template>
-        </FilterDialog>
+        </FilterDialog> -->
       </div>
     </div>
 

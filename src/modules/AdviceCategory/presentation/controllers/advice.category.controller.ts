@@ -55,4 +55,8 @@ export default class AdviceCategoryController extends BaseController<
       headers: { 'Accept-Language': '*' },
     });
   }
+
+  async toggleStatus(params: Params) {
+    return this.repository.toggleStatus(params);
+  }
 }

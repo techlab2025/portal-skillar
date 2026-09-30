@@ -563,18 +563,18 @@
             PermissionsEnum.TERM_DELETE,
           ],
         },
-        {
-          link: '/deleted-accounts',
-          name: 'add logout reasons',
-          icon: SidebarTerms,
-          permissions: [
-            PermissionsEnum.DELETE_ACCOUNT_REASON_ALL,
-            PermissionsEnum.DELETE_ACCOUNT_REASON_FETCH,
-            PermissionsEnum.DELETE_ACCOUNT_REASON_CREATE,
-            PermissionsEnum.DELETE_ACCOUNT_REASON_UPDATE,
-            PermissionsEnum.DELETE_ACCOUNT_REASON_DELETE,
-          ],
-        },
+        // {
+        //   link: '/deleted-accounts',
+        //   name: 'add logout reasons',
+        //   icon: SidebarTerms,
+        //   permissions: [
+        //     PermissionsEnum.DELETE_ACCOUNT_REASON_ALL,
+        //     PermissionsEnum.DELETE_ACCOUNT_REASON_FETCH,
+        //     PermissionsEnum.DELETE_ACCOUNT_REASON_CREATE,
+        //     PermissionsEnum.DELETE_ACCOUNT_REASON_UPDATE,
+        //     PermissionsEnum.DELETE_ACCOUNT_REASON_DELETE,
+        //   ],
+        // },
         // {
         //   link: '/onboarding',
         //   name: 'onboarding.navigation',

@@ -19,19 +19,19 @@
 
   type SectionInputs = { phone: string; whatsApp: string; email: string; telegram: string };
 
-  const VALIDATION_PATTERNS: Record<keyof SectionInputs, RegExp> = {
-    phone: /^[+]?[0-9\s\-().]{7,20}$/,
-    whatsApp: /^[+]?[0-9\s\-().]{7,20}$/,
-    telegram: /^(?:[+]?[0-9\s\-().]{7,20}|https?:\/\/t\.me\/[\w]+)$/i,
-    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  };
+  // const VALIDATION_PATTERNS: Record<keyof SectionInputs, RegExp> = {
+  //   phone: /^[+]?[0-9\s\-().]{7,20}$/,
+  //   whatsApp: /^[+]?[0-9\s\-().]{7,20}$/,
+  //   telegram: /^(?:[+]?[0-9\s\-().]{7,20}|https?:\/\/t\.me\/[\w]+)$/i,
+  //   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  // };
 
-  const VALIDATION_WARNING_KEYS: Record<keyof SectionInputs, string> = {
-    phone: 'invalid_phone_number_format',
-    whatsApp: 'invalid_whatsapp_number_format',
-    telegram: 'invalid_telegram_format',
-    email: 'invalid_email_address_format',
-  };
+  // const VALIDATION_WARNING_KEYS: Record<keyof SectionInputs, string> = {
+  //   phone: 'invalid_phone_number_format',
+  //   whatsApp: 'invalid_whatsapp_number_format',
+  //   telegram: 'invalid_telegram_format',
+  //   email: 'invalid_email_address_format',
+  // };
 
   type SectionState = {
     id?: number;
@@ -174,13 +174,13 @@
     const val = section.inputs[inputKey].trim();
     if (!val) return;
 
-    const pattern = VALIDATION_PATTERNS[inputKey];
-    if (!pattern.test(val)) {
-      dialogManager.toastWarning(t(VALIDATION_WARNING_KEYS[inputKey]), {
-        title: t('invalid_input_warning_title'),
-      });
-      return;
-    }
+    // const pattern = VALIDATION_PATTERNS[inputKey];
+    // if (!pattern.test(val)) {
+    //   dialogManager.toastWarning(t(VALIDATION_WARNING_KEYS[inputKey]), {
+    //     title: t('invalid_input_warning_title'),
+    //   });
+    //   return;
+    // }
 
     arr.push(val);
     section.inputs[inputKey] = '';
@@ -197,17 +197,17 @@
   };
 
   const prepareForSubmit = (): AddSupportContactsParams | null => {
-    for (const section of sections.value) {
-      for (const inputKey of Object.keys(section.inputs) as (keyof SectionInputs)[]) {
-        const value = section.inputs[inputKey].trim();
-        if (value && !VALIDATION_PATTERNS[inputKey].test(value)) {
-          dialogManager.toastWarning(t(VALIDATION_WARNING_KEYS[inputKey]), {
-            title: t('invalid_input_warning_title'),
-          });
-          return null;
-        }
-      }
-    }
+    // for (const section of sections.value) {
+    //   // for (const inputKey of Object.keys(section.inputs) as (keyof SectionInputs)[]) {
+    //     // const value = section.inputs[inputKey].trim();
+    //     // if (value && !VALIDATION_PATTERNS[inputKey].test(value)) {
+    //     //   dialogManager.toastWarning(t(VALIDATION_WARNING_KEYS[inputKey]), {
+    //     //     title: t('invalid_input_warning_title'),
+    //     //   });
+    //     //   return null;
+    //     // }
+    //   }
+    // }
 
     for (const section of sections.value) {
       for (const inputKey of Object.keys(section.inputs) as (keyof SectionInputs)[]) {

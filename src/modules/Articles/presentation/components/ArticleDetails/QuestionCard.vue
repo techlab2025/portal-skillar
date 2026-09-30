@@ -98,11 +98,11 @@
             <DropList
               :action-list="actionList(value.question_id ?? value.id ?? 0, deleteArticleQuestion)"
               :delete-dialog-title="
-                $t('are_you_sure_you_want_to_remove_this_education_classification')
+                $t('are_you_sure_you_want_to_remove_this_question')
               "
               :delete-dialog-message="
                 $t(
-                  'Deleting_this_classification_will_remove_all_related_data_including_any_configurations_and_tree_structures_This_action_is_irreversible_and_the_classification_must_be_created_again_if_needed',
+                  'Deleting_this_question_will_remove_all_related_data_including_any_configurations',
                 )
               "
             />

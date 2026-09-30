@@ -23,7 +23,7 @@
   import ShowAdviceCategoryParams from '../../core/params/show.advice.category.params';
   import AdviceCategoryController from '../controllers/advice.category.controller';
   import AdviceCategoryFeedbackDialog from './AdviceCategoryFeedbackDialog.vue';
-import IconEditAdvice from '@/shared/icons/IconEditAdvice.vue';
+  import IconEditAdvice from '@/shared/icons/IconEditAdvice.vue';
 
   const { t } = useI18n();
   const route = useRoute();
@@ -201,6 +201,14 @@ import IconEditAdvice from '@/shared/icons/IconEditAdvice.vue';
   };
 
   onMounted(() => fetchCategories());
+  const toggleStatus = async (id: number) => {
+    await controller.toggleStatus(
+      new ShowAdviceCategoryParams({
+        adviceCategoryId: id,
+      }),
+    );
+    fetchCategories();
+  };
 </script>
 
 <template>
@@ -250,6 +258,7 @@ import IconEditAdvice from '@/shared/icons/IconEditAdvice.vue';
                 :class="{ 'advice-category-page__status--active': item.status }"
                 :aria-label="$t(item.status ? 'active' : 'inactive')"
                 role="status"
+                @click="toggleStatus(item.id)"
               >
                 <span aria-hidden="true"></span>
               </span>
@@ -355,6 +364,12 @@ import IconEditAdvice from '@/shared/icons/IconEditAdvice.vue';
 </template>
 
 <style scoped lang="scss">
+  :deep(.app-table-wrapper .app-table tbody tr td.td-data::before) {
+    display: none !important;
+  }
+  .td-data:last-child {
+    z-index: 99999 !important;
+  }
   .advice-category-page {
     display: grid;
     gap: 24px;

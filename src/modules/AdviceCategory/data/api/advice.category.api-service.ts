@@ -1,5 +1,6 @@
-import BaseApiService, { type ApiEndpoints } from '@/base/Data/ApiService/baseApiService';
+import BaseApiService, { type ApiEndpoints, type ApiResponse } from '@/base/Data/ApiService/baseApiService';
 import { AdviceCategoryEndpoints } from './advice.category.api.endpoints';
+import type Params from '@/base/Core/Params/params';
 
 export default class AdviceCategoryApiService extends BaseApiService {
   private static instance: AdviceCategoryApiService;
@@ -18,5 +19,9 @@ export default class AdviceCategoryApiService extends BaseApiService {
       update: this.featureEndpoints.update,
       delete: this.featureEndpoints.delete,
     };
+  }
+
+  toggleStatus(params: Params): Promise<ApiResponse> {
+    return this.customPost(this.featureEndpoints.status || '', params);
   }
 }

@@ -19,6 +19,7 @@
   import RenameSubjectDialog from '@/modules/EducationClassification/subComponent/RenameSubjectDialog.vue';
   import EditIcon from '@/shared/icons/DropListIcons/EditIcon.vue';
   import type PaginationModel from '@/base/Core/Models/paginationModel';
+import DeleteIcon from '@/shared/icons/DocaumentType/DeleteIcon.vue';
 
   interface SubjectTableRow extends TitleInterface<number> {
     educationPath: string[];
@@ -104,7 +105,7 @@
   const actionList = (item: SubjectTableRow, deleteSubject: (item: number) => void) => [
     {
       text: t('delete'),
-      icon: EditIcon,
+      icon: DeleteIcon,
       action: () => {
         deleteSubject(item.id);
       },
@@ -221,6 +222,16 @@
     });
   };
   const SelctedSubject = ref<number>();
+  const Resest = () => {
+    selectedFilter.value = null;
+    FetchSubjects(null);
+  };
+
+  const DeleteItems = async () => {
+    SelectedRow.value.forEach((item) => {
+      deleteSubject(item.id);
+    });
+  };
 </script>
 
 <template>
@@ -228,15 +239,19 @@
     <div class="index-header">
       <div class="toolbar">
         <UpdatedCustomInputSelect
+          :label="'subject'"
           id="education-filter"
           v-model="selectedFilter"
           :static-options="AllBranchesOptions"
           :placeholder="`select subject `"
-          :reload="false"
+          :reload="true"
           @update:model-value="updateFilter"
           @reload="FetchSubjects"
+          :enableReload="true"
+          :hasHeader="true"
         />
       </div>
+      <p class="reset-btn" @click="Resest">reset</p>
     </div>
 
     <DataStatusBuilder :controller="state">
@@ -245,7 +260,7 @@
           <AppTable
             :headers="headers"
             :items="TableTitle"
-            selectable
+            :selectable="false"
             show-index
             hoverable
             striped
@@ -282,6 +297,14 @@
           </AppTable>
         </div>
 
+        <!-- <div v-if="SelectedRow.length > 0" class="items-deleted">
+          <div class="num-type">
+            <h6>{{ SelectedRow.length }} subject</h6>
+          </div>
+          <div class="num-deleted" @click="DeleteItems">
+            <h6>delete {{ SelectedRow.length }} item</h6>
+          </div>
+        </div> -->
         <Pagination
           v-if="pagination"
           :pagination="pagination"
@@ -337,7 +360,41 @@
     @update:name="FetchSubjects"
   />
 </template>
-<style scoped>
+<style scoped lang="scss">
+  .items-deleted {
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid lightgray;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+
+    .num-type {
+      h6 {
+        font-size: 14px;
+        font-weight: 700;
+        font-family: 'bold';
+        color: var(--table-header-color);
+      }
+    }
+
+    .num-deleted {
+      background-color: var(--btn-red);
+      color: var(--bg-main);
+      padding: 6px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+
+      h6 {
+        font-size: 14px;
+        font-weight: 700;
+        font-family: 'bold';
+      }
+    }
+  }
   .toolbar {
     width: 50%;
   }
@@ -354,5 +411,10 @@
     display: inline-block;
     min-width: 2ch;
     text-align: center;
+  }
+  .index-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 </style>

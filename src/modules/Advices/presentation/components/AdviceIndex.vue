@@ -28,6 +28,8 @@
     { key: 'title', label: t('title') },
     { key: 'description', label: t('description') },
     { key: 'advice_category', label: t('advice_category') },
+    { key: 'createdAt', label: t('created At') },
+    { key: 'createdBy', label: t('created By') },
   ]);
 
   const fetchItems = (page = 1, searchWord: string = '') =>
@@ -96,6 +98,9 @@
         <AppTable :headers="headers" :items="data as AdviceModel[]" show-index>
           <template #cell-advice_category="{ item }">
             {{ item.adviceCategory?.title }}
+          </template>
+          <template #cell-createdBy="{ item }">
+            {{ item.createdBy?.name }}
           </template>
           <template #actions="{ item }">
             <div class="row-actions">

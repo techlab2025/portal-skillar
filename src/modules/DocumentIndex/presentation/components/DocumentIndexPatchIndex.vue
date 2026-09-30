@@ -252,11 +252,10 @@
               </span>
             </template>
             <template #actions="{ item }">
-              <span v-if="!hasRowAction(item)" class="document-index-patch-page__unavailable">
+              <!-- <span v-if="!hasRowAction(item)" class="document-index-patch-page__unavailable">
                 -
-              </span>
+              </span> -->
               <div
-                v-else
                 class="document-index-patch-page__actions"
                 :data-transaction-id="item.transactionId"
               >

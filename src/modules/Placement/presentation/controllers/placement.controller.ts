@@ -8,8 +8,12 @@ import { useFormsStore } from '@/stores/formsStore';
 import type PlacementModel from '../../core/models/placement.model';
 import placementRepository from '../../data/repositories/placement.repository';
 import PlacementResultModel from '../../core/models/placementResult';
+import { dialogManager } from '@/base/Presentation/Dialogs/dialog.manager';
 
-export default class PlacementController extends BaseController<PlacementModel, PlacementResultModel[]> {
+export default class PlacementController extends BaseController<
+  PlacementModel,
+  PlacementResultModel[]
+> {
   private static instance: PlacementController;
 
   protected get repository() {
@@ -44,11 +48,14 @@ export default class PlacementController extends BaseController<PlacementModel, 
 
     const result = await super.create(params, { ...options, useJson: true });
     if (result instanceof DataSuccess) {
+      dialogManager.toastSuccess(result.message!);
+
       router.push({ name: 'Placements' });
       if (formKey) {
         FormStore.clearFormData(formKey);
       }
     }
+
     return result;
   }
 
@@ -57,6 +64,8 @@ export default class PlacementController extends BaseController<PlacementModel, 
 
     const result = await super.update(params, options);
     if (result instanceof DataSuccess) {
+      dialogManager.toastSuccess(result.message!);
+
       router.push({ name: 'Placements' });
       if (formKey) {
         FormStore.clearFormData(formKey);
