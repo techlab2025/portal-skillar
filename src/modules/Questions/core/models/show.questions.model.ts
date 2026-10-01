@@ -64,8 +64,8 @@ export default class ShowQuestionsModel {
 
   public readonly can_delete?: boolean;
   public readonly student_exam_answer_id?: number;
-
-
+  public readonly rejectedAt?: string;
+  public readonly rejectedBy?: TitleInterface<string> | null;
 
   constructor(data: {
     id?: number;
@@ -109,6 +109,8 @@ export default class ShowQuestionsModel {
     note?: string;
     can_delete?: boolean;
     student_exam_answer_id?: number;
+    rejectedAt?: string;
+    rejectedBy?: TitleInterface<string> | null;
   }) {
     this.id = data.id;
     this.generatedBy = data.generatedBy;
@@ -151,7 +153,8 @@ export default class ShowQuestionsModel {
     this.note = data.note;
     this.can_delete = data.can_delete;
     this.student_exam_answer_id = data.student_exam_answer_id;
-
+    this.rejectedAt = data.rejectedAt;
+    this.rejectedBy = data.rejectedBy;
 
     Object.freeze(this);
   }
@@ -225,9 +228,13 @@ export default class ShowQuestionsModel {
       attachments: json.attachments,
       similarPrecentage: json.identicality_percentage,
       correctStatus: json.correct_status,
-      note:json.note,
-      can_delete:json.can_delete,
+      note: json.note,
+      can_delete: json.can_delete,
       student_exam_answer_id: json.student_exam_answer_id,
+      rejectedAt: json.rejected_at,
+      rejectedBy: json.rejected_by
+        ? new TitleInterface<string>({ id: json.rejected_by.id, title: json.rejected_by.name })
+        : null,
     });
   }
 

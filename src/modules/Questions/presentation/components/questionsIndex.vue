@@ -418,17 +418,18 @@
                     :aria-label="$t('reset')"
                     @click="fromDate = null"
                   >
-                    <ReloadIcon />
+                    <!-- <ReloadIcon /> -->
                   </button>
                 </div>
+                <!-- :max-date="toDate ?? undefined" -->
                 <DatePicker
                   id="questions-from-date"
                   v-model="fromDate"
                   date-format="yy-mm-dd"
-                  :max-date="toDate ?? undefined"
                   :placeholder="$t('question_filters.select_from_date')"
                   panel-class="light-datepicker-panel"
                   show-icon
+                  :maxDate="new Date()"
                 />
               </section>
 
@@ -441,7 +442,7 @@
                     :aria-label="$t('reset')"
                     @click="toDate = null"
                   >
-                    <ReloadIcon />
+                    <!-- <ReloadIcon /> -->
                   </button>
                 </div>
                 <DatePicker
@@ -452,6 +453,7 @@
                   :placeholder="$t('question_filters.select_to_date')"
                   panel-class="light-datepicker-panel"
                   show-icon
+                  :maxDate="new Date()"
                 />
               </section>
 

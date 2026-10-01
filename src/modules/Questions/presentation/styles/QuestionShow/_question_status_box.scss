@@ -28,28 +28,21 @@
   position: relative;
   overflow: hidden;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: $BaseBorderWidth;
-  }
-
   .status-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    // grid-template-rows: 1fr   1fr 1fr;
     gap: $MdSize2;
   }
 
   .status-item {
     @include flex(column, nowrap, center, center);
-
+    position: relative;
     gap: $XsSize5;
 
     &:nth-child(1),
-    &:nth-child(3) {
+    &:nth-child(3),
+    &:nth-child(5) {
       padding-inline-end: $XsSize;
       border-inline-end: $BaseBorderWidth solid;
     }

@@ -78,7 +78,7 @@
   const educationClassifications = shallowRef<EducationClassificationModel[]>([]);
   const branchOptions = ref<TitleInterface<number>[]>([]);
   const subjectLevels = ref<SubjectSelectLevel[]>([{ options: [], selected: null }]);
-  const indexDocumentTypeParams = new IndexDocumentTypeParams('', 1, 10, 0);
+  const indexDocumentTypeParams = new IndexDocumentTypeParams('', 1, 10, 0, true);
   const documentTypeController = DocumentTypeController.getInstance();
   const branchController = SubjectController.getInstance();
   const subjectController = EducationSubjectItemController.getInstance();

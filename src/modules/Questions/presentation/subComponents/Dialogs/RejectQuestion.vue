@@ -3,6 +3,7 @@
   import { ref } from 'vue';
   import RejectReason from '@/assets/images/question/Reject_Resone.png';
   import RejectIcon from '@/shared/icons/Question/RejectIcon.vue';
+  import { dialogManager } from '@/base/Presentation/Dialogs/dialog.manager';
 
   const visable = ref();
   const emit = defineEmits(['reject']);
@@ -11,6 +12,7 @@
 
   const SaveNote = () => {
     if (!note.value) {
+      dialogManager.toastWarning('you should add notes');
       return;
     }
     emit('reject', note.value);

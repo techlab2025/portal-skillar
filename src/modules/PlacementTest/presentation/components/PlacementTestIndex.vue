@@ -129,7 +129,7 @@
 <template>
   <div class="employee-page">
     <div class="index-header">
-      <div class="search-field">
+      <!-- <div class="search-field">
         <span class="search-icon">
           <IndexSearchIcon />
         </span>
@@ -140,7 +140,7 @@
           type="text"
           @input="Search"
         />
-      </div>
+      </div> -->
       <div class="btns-container">
         <!-- <FilterDialog v-model="FilterDialogShow">
           <template #content>

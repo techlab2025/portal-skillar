@@ -84,6 +84,16 @@
         <label>{{ t('question_status_card.created_at') }}</label>
         <h3>{{ questionData?.createdAt }}</h3>
       </div>
+
+      <div class="status-item" v-if="questionData?.review_status == QuestionStatusEnum.REJECTED">
+        <label>{{ t('question_status_card.rejected_by') }}</label>
+        <h3>{{ questionData?.rejectedBy?.title || `-` }}</h3>
+      </div>
+
+      <div class="status-item" v-if="questionData?.review_status == QuestionStatusEnum.REJECTED">
+        <label>{{ t('question_status_card.rejected_at') }}</label>
+        <h3>{{ questionData?.rejectedAt || `-` }}</h3>
+      </div>
     </div>
   </div>
 </template>
