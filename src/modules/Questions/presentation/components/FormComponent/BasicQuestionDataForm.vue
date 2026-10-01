@@ -36,7 +36,10 @@
       sequenceId?: number;
       editMode?: boolean;
       validationErrors?: Partial<
-        Record<'title' | 'subject' | 'sequence' | 'topics' | 'difficulty' | 'skills', string>
+        Record<
+          'title' | 'subject' | 'sequence' | 'topics' | 'difficulty' | 'skills' | 'questionSource',
+          string
+        >
       >;
     }>();
 
@@ -334,6 +337,7 @@
             :draft-data="draftData"
             :document-source="DocumentSource"
             class="field-group col-span-2"
+            :validation-errors="validationErrors"
             @update-data="GetQuestionSource"
           />
         </div>

@@ -12,6 +12,9 @@
     source?: string | null;
     documentSource?: QuestionDocumentModel | null;
     draftData?: any;
+    validationErrors?: Partial<
+      Record<'subject' | 'sequence' | 'topics' | 'difficulty' | 'skills' | 'questionSource', string>
+    >;
   }>();
 
   const emit = defineEmits(['updateData']);
@@ -70,6 +73,9 @@
           placeholder="Document Source"
           @update:model-value="updateData"
         />
+        <small v-if="validationErrors?.subject" class="question-field-error" data-question-error>
+          {{ validationErrors.questionSource }}
+        </small>
       </div>
       <div class="field-group">
         <label class="field-label" for="name">{{ $t(`Question Source`) }}</label>

@@ -104,6 +104,10 @@ export default class questionsController extends BaseController<
         dialogManager.toastWarning('similar precentage should be between 1 and 100');
         return;
       }
+      if (!params.questionSource?.documentId) {
+        dialogManager.toastWarning('You Must Select Document');
+        return;
+      }
     }
 
     const result = await super.create(params, { ...options, useJson: true }, undefined, false);
@@ -168,6 +172,10 @@ export default class questionsController extends BaseController<
           Number(params.similarPrecentage) > 100)
       ) {
         dialogManager.toastWarning('similar precentage should be between 1 and 100');
+        return;
+      }
+      if (!params.questionSource?.documentId) {
+        dialogManager.toastWarning('You Must Select Document');
         return;
       }
     }

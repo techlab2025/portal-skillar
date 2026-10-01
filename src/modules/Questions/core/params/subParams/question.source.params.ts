@@ -7,7 +7,7 @@ export default class QuestionSourceParams implements Params {
 
   public static readonly validation = new ClassValidation().setRules({
     documentId: { required: true },
-    source: { required: true },
+    // source: { required: true },
   });
 
   constructor(data: { documentId: number; source: string }) {

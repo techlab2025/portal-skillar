@@ -30,7 +30,14 @@
 
   type QuestionValidationErrors = Partial<
     Record<
-      'title' | 'subject' | 'sequence' | 'topics' | 'difficulty' | 'skills' | 'answers',
+      | 'title'
+      | 'subject'
+      | 'sequence'
+      | 'topics'
+      | 'difficulty'
+      | 'skills'
+      | 'answers'
+      | 'questionSource',
       string
     >
   >;
@@ -49,6 +56,7 @@
     if (!basicData?.topics?.length) errors.topics = t('question_topics_required');
     if (!basicData?.difficultyLevel) errors.difficulty = t('question_difficulty_required');
     if (!basicData?.skills?.length) errors.skills = t('question_skills_required');
+    if (!basicData?.questionSource?.documentId) errors.questionSource = t('document Is Required');
     if (!answers?.length || answers.some((answer) => !answer.title?.trim())) {
       errors.answers = t('question_answers_required');
     } else if (
