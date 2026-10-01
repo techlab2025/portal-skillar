@@ -137,6 +137,10 @@
   const AllSubjectTree = ref<StageModel[]>([]);
 
   const subjectOptions = computed<TitleInterface<number>[]>(() => {
+    console.log(
+      flattenSubjectBranchTree(AllSubjectTree.value ?? []),
+      'flattenSubjectBranchTree(AllSubjectTree.value ?? [])',
+    );
     return flattenSubjectBranchTree(AllSubjectTree.value ?? []);
   });
   const handelSubjectUpdate = async (selected: TitleInterface<number> | undefined) => {
@@ -164,7 +168,10 @@
     // The selected option represents the last child in the chain. Its subtitle
     // keeps the first subject id so both values can be carried to the question form.
     const selectedSubjectId = SelectedQuestionSequence.value?.id;
-    const firstSubjectId = Number(SelectedQuestionSequence.value?.subtitle) || selectedSubjectId;
+    const firstSubjectId =
+      Number(SelectedQuestionSequence.value?.id) ||
+      Number(SelectedQuestionSequence.value?.subtitle) ||
+      selectedSubjectId;
     let params: any;
     if (route?.params?.id) {
       params = new EditArticlesParams({
