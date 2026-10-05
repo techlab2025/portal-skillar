@@ -1,9 +1,10 @@
 <script setup lang="ts">
   import { useRoute, useRouter, type RouteLocationRaw } from 'vue-router';
-  import { computed, ref, type Component } from 'vue';
+  import { computed, nextTick, ref, watch, type Component } from 'vue';
+  import { useI18n } from 'vue-i18n';
   import SettingIcon from '@/shared/icons/SidebarIcons/SettingIcon.vue';
   import DocumentIcon from '@/shared/icons/BreadcrumbIcons/DocumentIcon.vue';
-  import TechlabLogo from '@/assets/images/TechlabLogo.png';
+  import TechlabLogo from '@/assets/images/techlab-new-logo.png';
   import EducationClassificationIcon from '@/shared/icons/SidebarIcons/EducationClassificationIcon.vue';
   import SidebarPrivecy from '@/shared/icons/SidebarPrivecy.vue';
   import SidebarTerms from '@/shared/icons/SidebarTerms.vue';
@@ -14,12 +15,17 @@
   import { useUserStore } from '@/stores/user';
   import AuthArrowIcon from '@/shared/icons/SidebarIcons/AuthArrowIcon.vue';
   import IconLogout from '@/shared/icons/IconLogout.vue';
-  import Accordion from 'primevue/accordion';
-  import AccordionPanel from 'primevue/accordionpanel';
-  import AccordionHeader from 'primevue/accordionheader';
-  import AccordionContent from 'primevue/accordioncontent';
+  // Legacy rollback imports:
+  // import Accordion from 'primevue/accordion';
+  // import AccordionPanel from 'primevue/accordionpanel';
+  // import AccordionHeader from 'primevue/accordionheader';
+  // import AccordionContent from 'primevue/accordioncontent';
   import Question from '@/shared/icons/question.vue';
   import ArticleIcon from '@/shared/icons/ArticleIcon.vue';
+  import SearchIcon from '@/shared/icons/SearchIcon.vue';
+  import SidebarCollapseIcon from '@/shared/icons/SidebarCollapseIcon.vue';
+  import SidebarMobileIcon from '@/shared/icons/SidebarMobileIcon.vue';
+  import SidebarPinIcon from '@/shared/icons/SidebarPinIcon.vue';
   import { QuestionStatusEnum } from '@/modules/Questions/core/constant/question.status.enum';
   import { PermissionsEnum, type PermissionCode } from '@/modules/Permission';
   import PermissionBuilder from '@/shared/HelpersComponents/PermissionBuilder.vue';
@@ -34,13 +40,54 @@
     hasArrow?: boolean;
     status?: QuestionStatusEnum;
     children?: MenuItem[];
-    permissions: PermissionCode[];
+    pinned?: boolean;
+    permissions?: PermissionCode[];
   }
   interface MenuSection {
     group: string;
     items: MenuItem[];
     permissions: PermissionCode[];
   }
+
+  type SidebarWorkspace = 'dashboard' | 'mobile';
+
+  interface SidebarPreferences {
+    collapsed: boolean;
+    workspace: SidebarWorkspace;
+    pinnedItems: string[];
+  }
+
+  const SIDEBAR_PREFERENCES_KEY = 'dashboard-sidebar-preferences';
+  const DEFAULT_PINNED_ITEMS = ['Documents:/documents'];
+
+  const readSidebarPreferences = (): SidebarPreferences => {
+    const fallback: SidebarPreferences = {
+      collapsed: false,
+      workspace: 'dashboard',
+      pinnedItems: DEFAULT_PINNED_ITEMS,
+    };
+
+    if (typeof window === 'undefined') return fallback;
+
+    try {
+      const storedValue = window.localStorage.getItem(SIDEBAR_PREFERENCES_KEY);
+      if (!storedValue) return fallback;
+
+      const candidate = JSON.parse(storedValue) as Partial<SidebarPreferences>;
+      const workspace = candidate.workspace === 'mobile' ? 'mobile' : 'dashboard';
+      const pinnedItems = Array.isArray(candidate.pinnedItems)
+        ? candidate.pinnedItems.filter((item): item is string => typeof item === 'string')
+        : DEFAULT_PINNED_ITEMS;
+
+      return {
+        collapsed: candidate.collapsed === true,
+        workspace,
+        pinnedItems,
+      };
+    } catch {
+      return fallback;
+    }
+  };
 
   const baseMenu: MenuSection[] = [
     {
@@ -589,10 +636,151 @@
     },
   ];
 
+  const { t, te } = useI18n();
+  const sidebarPreferences = readSidebarPreferences();
   const menu = computed<MenuSection[]>(() => baseMenu);
+  const activeWorkspace = ref<SidebarWorkspace>(sidebarPreferences.workspace);
+  const searchQuery = ref('');
+  const isCollapsed = ref(sidebarPreferences.collapsed);
+  const expandedItems = ref<Set<string>>(new Set());
+  const pinnedItems = ref<Set<string>>(new Set(sidebarPreferences.pinnedItems));
+  const sidebarNav = ref<HTMLElement | null>(null);
+  const sidebarSearchInput = ref<HTMLInputElement | null>(null);
+  const workspaceSwitch = ref<HTMLElement | null>(null);
+
+  const translateLabel = (label: string) => (te(label) ? t(label) : label);
+
+  const getItemPermissions = (items: MenuItem[]) => [
+    ...new Set(items.flatMap((item) => item.permissions ?? [])),
+  ];
+
+  const createSection = (
+    group: string,
+    itemNames: string[],
+    itemsByName: Map<string, MenuItem>,
+  ): MenuSection | null => {
+    const items = itemNames.flatMap((name) => {
+      const item = itemsByName.get(name);
+      return item ? [item] : [];
+    });
+
+    if (!items.length) return null;
+    return { group, items, permissions: getItemPermissions(items) };
+  };
+
+  const enhanceQuestionHierarchy = (item: MenuItem): MenuItem => {
+    if (item.name !== 'Questions') return item;
+
+    return {
+      ...item,
+      children: [
+        {
+          link: '/questions/add',
+          name: 'sidebar.add_questions',
+          permissions: [PermissionsEnum.QUESTION_ALL, PermissionsEnum.QUESTION_CREATE],
+        },
+        {
+          link: '/questions',
+          name: 'sidebar.all_questions',
+          permissions: [PermissionsEnum.QUESTION_ALL, PermissionsEnum.QUESTION_FETCH],
+          children: item.children,
+        },
+      ],
+    };
+  };
+
+  const dashboardMenu = computed<MenuSection[]>(() => {
+    const dashboardItems = menu.value
+      .filter((section) => section.group !== 'statics')
+      .flatMap((section) => section.items)
+      .map(enhanceQuestionHierarchy);
+    const itemsByName = new Map(dashboardItems.map((item) => [item.name, item]));
+
+    return [
+      createSection(
+        'sidebar.content_management',
+        [
+          'Questions',
+          'Articles',
+          'Documents',
+          'advices',
+          'document_index.title',
+          'question_batch.title',
+        ],
+        itemsByName,
+      ),
+      createSection(
+        'sidebar.education_configuration',
+        [
+          'Education configuration',
+          'Subjects',
+          'Skills',
+          'Placement configuration',
+          'Placement Test',
+        ],
+        itemsByName,
+      ),
+      createSection('sidebar.student_configuration', ['students', 'subscriptions'], itemsByName),
+      createSection('sidebar.plans_subscriptions', ['plans'], itemsByName),
+      createSection(
+        'sidebar.administration',
+        ['Employees', 'role.title_plural', 'notification_plan.title'],
+        itemsByName,
+      ),
+      createSection(
+        'sidebar.system_configuration',
+        ['highlight_badges', 'block_reasons'],
+        itemsByName,
+      ),
+    ].filter((section): section is MenuSection => section !== null);
+  });
+
+  const mobileMenu = computed<MenuSection[]>(() => {
+    const mobileItems = menu.value
+      .filter((section) => section.group === 'statics')
+      .flatMap((section) => section.items);
+    const itemsByName = new Map(mobileItems.map((item) => [item.name, item]));
+
+    return [
+      createSection(
+        'sidebar.content_information',
+        ['About', 'Privacy and policy', 'terms & conditions'],
+        itemsByName,
+      ),
+      createSection('sidebar.account_support', ['Support', 'Faqs'], itemsByName),
+    ].filter((section): section is MenuSection => section !== null);
+  });
+
+  const activeMenu = computed(() =>
+    activeWorkspace.value === 'dashboard' ? dashboardMenu.value : mobileMenu.value,
+  );
+
+  const filterItems = (items: MenuItem[], query: string): MenuItem[] =>
+    items.reduce<MenuItem[]>((matches, item) => {
+      const children = item.children ? filterItems(item.children, query) : undefined;
+      const isMatch = translateLabel(item.name).toLocaleLowerCase().includes(query);
+
+      if (isMatch || children?.length) {
+        matches.push({ ...item, children: isMatch ? item.children : children });
+      }
+
+      return matches;
+    }, []);
+
+  const visibleMenu = computed<MenuSection[]>(() => {
+    const query = searchQuery.value.trim().toLocaleLowerCase();
+    if (!query) return activeMenu.value;
+
+    return activeMenu.value.reduce<MenuSection[]>((matches, section) => {
+      const isSectionMatch = translateLabel(section.group).toLocaleLowerCase().includes(query);
+      const items = isSectionMatch ? section.items : filterItems(section.items, query);
+
+      if (items.length) matches.push({ ...section, items });
+      return matches;
+    }, []);
+  });
 
   const { user } = useUserStore();
-  //logout
   const userStore = useUserStore();
   const router = useRouter();
 
@@ -604,13 +792,77 @@
   const isDropMenuOpen = ref(false);
 
   const toggleDropMenu = () => {
+    if (isCollapsed.value) isCollapsed.value = false;
     isDropMenuOpen.value = !isDropMenuOpen.value;
+  };
+
+  const toggleSidebar = () => {
+    isCollapsed.value = !isCollapsed.value;
+    if (isCollapsed.value) isDropMenuOpen.value = false;
+  };
+
+  const activateSearch = () => {
+    if (isCollapsed.value) isCollapsed.value = false;
+    void nextTick(() => sidebarSearchInput.value?.focus());
+  };
+
+  const clearSearch = () => {
+    searchQuery.value = '';
   };
 
   const getMenuPath = (item: MenuItem) => {
     if (typeof item.link === 'string') return item.link;
     if ('path' in item.link) return item.link.path;
     return router.resolve(item.link).path;
+  };
+
+  const getMenuKey = (item: MenuItem) => {
+    if (typeof item.link === 'string') return `${item.name}:${item.link}`;
+    if ('path' in item.link) {
+      return `${item.name}:${String(item.link.path)}:${JSON.stringify(item.link.query ?? {})}`;
+    }
+    return item.name;
+  };
+
+  const isItemPinned = (item: MenuItem) =>
+    Boolean(item.pinned) || pinnedItems.value.has(getMenuKey(item));
+
+  const pinnedShortcuts = computed(() =>
+    activeMenu.value.flatMap((section) => section.items).filter((item) => isItemPinned(item)),
+  );
+
+  const togglePinned = (item: MenuItem) => {
+    const key = getMenuKey(item);
+    const next = new Set(pinnedItems.value);
+    if (next.has(key)) next.delete(key);
+    else next.add(key);
+    pinnedItems.value = next;
+  };
+
+  const selectWorkspace = (workspace: SidebarWorkspace) => {
+    activeWorkspace.value = workspace;
+    searchQuery.value = '';
+    sidebarNav.value?.scrollTo?.({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleWorkspaceKeydown = (event: KeyboardEvent) => {
+    let workspace: SidebarWorkspace | null = null;
+
+    if (event.key === 'Home') workspace = 'dashboard';
+    else if (event.key === 'End') workspace = 'mobile';
+    else if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
+      workspace = activeWorkspace.value === 'dashboard' ? 'mobile' : 'dashboard';
+    }
+
+    if (!workspace) return;
+
+    event.preventDefault();
+    selectWorkspace(workspace);
+    void nextTick(() => {
+      workspaceSwitch.value
+        ?.querySelector<HTMLButtonElement>('[role="tab"][aria-selected="true"]')
+        ?.focus();
+    });
   };
 
   const isMenuItemActive = (item: MenuItem) => {
@@ -622,171 +874,562 @@
 
     return !item.children || route.query.status === undefined;
   };
+
+  const isMenuBranchActive = (item: MenuItem): boolean =>
+    isMenuItemActive(item) || Boolean(item.children?.some(isMenuBranchActive));
+
+  const collectActiveBranches = (items: MenuItem[], next: Set<string>) => {
+    items.forEach((item) => {
+      if (!item.children?.length) return;
+      if (isMenuBranchActive(item)) next.add(getMenuKey(item));
+      collectActiveBranches(item.children, next);
+    });
+  };
+
+  const openActiveBranches = (items: MenuItem[]) => {
+    const next = new Set(expandedItems.value);
+    collectActiveBranches(items, next);
+    expandedItems.value = next;
+  };
+
+  const isMenuOpen = (item: MenuItem) =>
+    Boolean(searchQuery.value.trim()) || expandedItems.value.has(getMenuKey(item));
+
+  const toggleMenu = (item: MenuItem) => {
+    if (isCollapsed.value) isCollapsed.value = false;
+
+    const key = getMenuKey(item);
+    const next = new Set(expandedItems.value);
+    if (next.has(key)) next.delete(key);
+    else next.add(key);
+    expandedItems.value = next;
+  };
+
+  const handleNavigation = () => {
+    emit('clickItem');
+  };
+
+  const closeTransientUi = () => {
+    isDropMenuOpen.value = false;
+  };
+
+  const revealActiveItem = () => {
+    void nextTick(() => {
+      const activeItem = sidebarNav.value?.querySelector<HTMLElement>(
+        '.menu-item.active, .submenu-item.active',
+      );
+      const reducedMotion =
+        typeof window.matchMedia === 'function' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      activeItem?.scrollIntoView?.({
+        behavior: reducedMotion ? 'auto' : 'smooth',
+        block: 'nearest',
+      });
+    });
+  };
+
+  watch(
+    () => [route.path, route.query.status],
+    () => {
+      const isMobileRoute = mobileMenu.value
+        .flatMap((section) => section.items)
+        .some((item) => isMenuBranchActive(item));
+      activeWorkspace.value = isMobileRoute ? 'mobile' : 'dashboard';
+      openActiveBranches(activeMenu.value.flatMap((section) => section.items));
+      revealActiveItem();
+    },
+    { immediate: true },
+  );
+
+  watch([isCollapsed, activeWorkspace, pinnedItems], () => {
+    if (typeof window === 'undefined') return;
+
+    try {
+      window.localStorage.setItem(
+        SIDEBAR_PREFERENCES_KEY,
+        JSON.stringify({
+          collapsed: isCollapsed.value,
+          workspace: activeWorkspace.value,
+          pinnedItems: [...pinnedItems.value],
+        } satisfies SidebarPreferences),
+      );
+    } catch {
+      // The sidebar remains fully functional when browser storage is unavailable.
+    }
+  });
 </script>
 <template>
-  <aside class="sidebar">
-    <div class="sidebar-wrapper">
-      <div class="logo-container">
-        <img class="logo" :src="TechlabLogo" alt="Techlab Logo" />
-        <!-- <h2 class="logo">Logo</h2> -->
+  <aside
+    class="sidebar sidebar--redesigned"
+    :class="{ 'is-collapsed': isCollapsed }"
+    @keydown.esc="closeTransientUi"
+  >
+    <div class="sidebar-shell">
+      <header class="sidebar-header">
+        <div class="sidebar-brand">
+          <img class="sidebar-logo" :src="TechlabLogo" :alt="t('sidebar.logo_alt')" />
+        </div>
+        <button
+          class="sidebar-toggle"
+          type="button"
+          :title="t(isCollapsed ? 'sidebar.expand' : 'sidebar.collapse')"
+          :aria-label="t(isCollapsed ? 'sidebar.expand' : 'sidebar.collapse')"
+          :aria-expanded="!isCollapsed"
+          @click="toggleSidebar"
+        >
+          <SidebarCollapseIcon class="sidebar-collapse-icon" aria-hidden="true" />
+        </button>
+      </header>
+
+      <label
+        class="sidebar-search"
+        :title="t('sidebar.search')"
+        :role="isCollapsed ? 'button' : undefined"
+        :tabindex="isCollapsed ? 0 : -1"
+        @click="activateSearch"
+        @keydown.enter.prevent="activateSearch"
+        @keydown.space.prevent="activateSearch"
+      >
+        <SearchIcon class="sidebar-search__icon" aria-hidden="true" />
+        <input
+          ref="sidebarSearchInput"
+          v-model="searchQuery"
+          class="sidebar-search__input"
+          type="search"
+          :placeholder="t('sidebar.search')"
+          :aria-label="t('sidebar.search')"
+          autocomplete="off"
+          @keydown.esc.stop="clearSearch"
+        />
+      </label>
+
+      <div
+        ref="workspaceSwitch"
+        class="workspace-switch"
+        :class="{ 'is-mobile': activeWorkspace === 'mobile' }"
+        role="tablist"
+        :aria-label="t('sidebar.workspace_switch')"
+        @keydown="handleWorkspaceKeydown"
+      >
+        <button
+          class="workspace-switch__tab"
+          :class="{ 'is-active': activeWorkspace === 'dashboard' }"
+          type="button"
+          role="tab"
+          :tabindex="activeWorkspace === 'dashboard' ? 0 : -1"
+          :aria-selected="activeWorkspace === 'dashboard'"
+          @click="selectWorkspace('dashboard')"
+        >
+          <span class="dashboard-glyph" aria-hidden="true"></span>
+          <span>{{ t('sidebar.dashboard') }}</span>
+        </button>
+        <button
+          class="workspace-switch__tab"
+          :class="{ 'is-active': activeWorkspace === 'mobile' }"
+          type="button"
+          role="tab"
+          :tabindex="activeWorkspace === 'mobile' ? 0 : -1"
+          :aria-selected="activeWorkspace === 'mobile'"
+          @click="selectWorkspace('mobile')"
+        >
+          <SidebarMobileIcon class="workspace-switch__mobile-icon" aria-hidden="true" />
+          <span>{{ t('sidebar.mobile_app') }}</span>
+        </button>
       </div>
 
-      <!-- Menu -->
-      <div class="menu">
-        <div v-for="(group, gIndex) in menu" :key="gIndex" class="menu-group">
-          <PermissionBuilder :code="group.permissions">
-            <p v-if="group.group" class="group-title">
-              {{ group.group }}
-            </p>
-
-            <div v-for="(item, i) in group.items" :key="i" class="menu-entry">
-              <PermissionBuilder :code="item.permissions">
-                <router-link
-                  :to="item.link"
-                  class="menu-item"
-                  :class="{ active: isMenuItemActive(item) }"
-                  @click="emit('clickItem')"
+      <nav ref="sidebarNav" class="sidebar-nav" :aria-label="t('sidebar.navigation')">
+        <Transition name="workspace-fade" mode="out-in">
+          <div :key="activeWorkspace" class="sidebar-nav__content">
+            <section
+              v-if="!searchQuery.trim() && pinnedShortcuts.length"
+              class="sidebar-section sidebar-section--pinned"
+            >
+              <p class="sidebar-section__title">{{ t('sidebar.pinned') }}</p>
+              <div class="sidebar-section__items">
+                <PermissionBuilder
+                  v-for="item in pinnedShortcuts"
+                  :key="`pinned-${getMenuKey(item)}`"
+                  :code="item.permissions ?? []"
                 >
-                  <component :is="item.icon" class="icon" />
-
-                  <span class="label">{{ $t(item.name) }}</span>
-
-                  <span v-if="item?.badge" class="badge">
-                    {{ item?.badge }}
-                  </span>
-
-                  <span v-if="item?.hasArrow" class="arrow">›</span>
-                </router-link>
-              </PermissionBuilder>
-
-              <div v-if="item.children" class="submenu">
-                <PermissionBuilder :code="item.permissions">
-                  <router-link
-                    v-for="child in item.children"
-                    :key="child.name"
-                    :to="child.link"
-                    class="submenu-item"
-                    :class="{ active: isMenuItemActive(child) }"
-                    @click="emit('clickItem')"
-                  >
-                    <span class="submenu-dot"></span>
-                    <span>{{ $t(child.name) }}</span>
-                  </router-link>
+                  <div class="pinned-item-row" :class="{ 'is-active': isMenuItemActive(item) }">
+                    <router-link
+                      :to="item.link"
+                      class="pinned-item"
+                      :aria-current="isMenuItemActive(item) ? 'page' : undefined"
+                      :title="isCollapsed ? translateLabel(item.name) : undefined"
+                      @click="handleNavigation"
+                    >
+                      <component :is="item.icon" class="menu-icon" aria-hidden="true" />
+                      <span class="menu-label">{{ translateLabel(item.name) }}</span>
+                    </router-link>
+                    <button
+                      class="pin-action is-pinned"
+                      type="button"
+                      :aria-label="t('sidebar.unpin_item', { item: translateLabel(item.name) })"
+                      :title="t('sidebar.unpin_item', { item: translateLabel(item.name) })"
+                      :aria-pressed="true"
+                      @click="togglePinned(item)"
+                    >
+                      <SidebarPinIcon unpin class="sidebar-pin-icon" aria-hidden="true" />
+                    </button>
+                  </div>
                 </PermissionBuilder>
               </div>
-            </div>
-          </PermissionBuilder>
-        </div>
-      </div>
+            </section>
 
-      <Accordion :value="0">
-        <template #collapseicon> </template>
-        <template #expandicon> </template>
-        <AccordionPanel value="0">
-          <AccordionHeader>
-            <div class="auth-container" @click="toggleDropMenu">
-              <div class="auth-data">
-                <img
-                  :src="user?.image || `https://cyber.comolho.com/static/img/avatar.png`"
-                  alt="image"
-                />
-                <div class="user-data">
-                  <span class="name">{{ user?.name }}</span>
-                  <span class="status">Admin</span>
-                </div>
-              </div>
-              <auth-arrow-icon />
+            <template v-for="(group, gIndex) in visibleMenu" :key="`${group.group}-${gIndex}`">
+              <PermissionBuilder :code="group.permissions">
+                <section class="sidebar-section">
+                  <p v-if="group.group" class="sidebar-section__title">
+                    {{ translateLabel(group.group) }}
+                  </p>
+
+                  <div class="sidebar-section__items">
+                    <template v-for="(item, i) in group.items" :key="`${getMenuKey(item)}-${i}`">
+                      <PermissionBuilder :code="item.permissions ?? group.permissions">
+                        <div
+                          class="sidebar-entry"
+                          :class="{
+                            'is-active': isMenuBranchActive(item),
+                            'is-expanded': item.children?.length && isMenuOpen(item),
+                            'is-pinned': isItemPinned(item),
+                          }"
+                        >
+                          <div
+                            class="menu-item-row"
+                            :class="{ 'has-children': item.children?.length }"
+                          >
+                            <router-link
+                              :to="item.link"
+                              class="menu-item"
+                              :class="{ active: isMenuItemActive(item) }"
+                              :title="isCollapsed ? translateLabel(item.name) : undefined"
+                              :aria-current="isMenuItemActive(item) ? 'page' : undefined"
+                              @click="handleNavigation"
+                            >
+                              <component :is="item.icon" class="menu-icon" aria-hidden="true" />
+                              <span class="menu-label">{{ translateLabel(item.name) }}</span>
+                              <span v-if="item.badge" class="menu-badge">{{ item.badge }}</span>
+                            </router-link>
+
+                            <button
+                              class="pin-action"
+                              :class="{ 'is-pinned': isItemPinned(item) }"
+                              type="button"
+                              :aria-pressed="isItemPinned(item)"
+                              :aria-label="
+                                t(isItemPinned(item) ? 'sidebar.unpin_item' : 'sidebar.pin_item', {
+                                  item: translateLabel(item.name),
+                                })
+                              "
+                              :title="
+                                t(isItemPinned(item) ? 'sidebar.unpin_item' : 'sidebar.pin_item', {
+                                  item: translateLabel(item.name),
+                                })
+                              "
+                              @click="togglePinned(item)"
+                            >
+                              <SidebarPinIcon
+                                :unpin="isItemPinned(item)"
+                                class="sidebar-pin-icon"
+                                aria-hidden="true"
+                              />
+                            </button>
+
+                            <button
+                              v-if="item.children?.length"
+                              class="submenu-toggle"
+                              type="button"
+                              :class="{ 'is-open': isMenuOpen(item) }"
+                              :aria-label="
+                                t(
+                                  isMenuOpen(item)
+                                    ? 'sidebar.collapse_item'
+                                    : 'sidebar.expand_item',
+                                  {
+                                    item: translateLabel(item.name),
+                                  },
+                                )
+                              "
+                              :aria-expanded="isMenuOpen(item)"
+                              @click="toggleMenu(item)"
+                            >
+                              <span class="sidebar-chevron" aria-hidden="true"></span>
+                            </button>
+                          </div>
+
+                          <div
+                            v-if="item.children?.length"
+                            class="submenu-collapse"
+                            :class="{ 'is-open': isMenuOpen(item) }"
+                            :aria-hidden="!isMenuOpen(item)"
+                          >
+                            <div class="submenu-collapse__inner">
+                              <div class="submenu-list submenu-list--level-one">
+                                <template v-for="child in item.children" :key="getMenuKey(child)">
+                                  <PermissionBuilder
+                                    :code="
+                                      child.permissions ?? item.permissions ?? group.permissions
+                                    "
+                                  >
+                                    <div
+                                      class="submenu-entry"
+                                      :class="{
+                                        'is-active': isMenuBranchActive(child),
+                                        'is-pinned': child.pinned,
+                                      }"
+                                    >
+                                      <div class="submenu-row">
+                                        <router-link
+                                          :to="child.link"
+                                          class="submenu-item"
+                                          :class="{ active: isMenuItemActive(child) }"
+                                          :aria-current="
+                                            isMenuItemActive(child) ? 'page' : undefined
+                                          "
+                                          @click="handleNavigation"
+                                        >
+                                          <span class="submenu-marker" aria-hidden="true"></span>
+                                          <span class="submenu-label">{{
+                                            translateLabel(child.name)
+                                          }}</span>
+                                          <span v-if="child.badge" class="menu-badge">{{
+                                            child.badge
+                                          }}</span>
+                                          <span
+                                            v-if="child.pinned"
+                                            class="pin-indicator"
+                                            aria-hidden="true"
+                                          ></span>
+                                        </router-link>
+
+                                        <button
+                                          v-if="child.children?.length"
+                                          class="submenu-toggle submenu-toggle--nested"
+                                          type="button"
+                                          :class="{ 'is-open': isMenuOpen(child) }"
+                                          :aria-label="
+                                            t(
+                                              isMenuOpen(child)
+                                                ? 'sidebar.collapse_item'
+                                                : 'sidebar.expand_item',
+                                              { item: translateLabel(child.name) },
+                                            )
+                                          "
+                                          :aria-expanded="isMenuOpen(child)"
+                                          @click="toggleMenu(child)"
+                                        >
+                                          <span class="sidebar-chevron" aria-hidden="true"></span>
+                                        </button>
+                                      </div>
+
+                                      <div
+                                        v-if="child.children?.length"
+                                        class="submenu-collapse submenu-collapse--nested"
+                                        :class="{ 'is-open': isMenuOpen(child) }"
+                                        :aria-hidden="!isMenuOpen(child)"
+                                      >
+                                        <div class="submenu-collapse__inner">
+                                          <div class="submenu-list submenu-list--level-two">
+                                            <template
+                                              v-for="grandchild in child.children"
+                                              :key="getMenuKey(grandchild)"
+                                            >
+                                              <PermissionBuilder
+                                                :code="
+                                                  grandchild.permissions ??
+                                                  child.permissions ??
+                                                  item.permissions ??
+                                                  group.permissions
+                                                "
+                                              >
+                                                <router-link
+                                                  :to="grandchild.link"
+                                                  class="submenu-item submenu-item--nested"
+                                                  :class="{
+                                                    active: isMenuItemActive(grandchild),
+                                                    'is-pinned': grandchild.pinned,
+                                                  }"
+                                                  :aria-current="
+                                                    isMenuItemActive(grandchild)
+                                                      ? 'page'
+                                                      : undefined
+                                                  "
+                                                  @click="handleNavigation"
+                                                >
+                                                  <span
+                                                    class="submenu-marker submenu-marker--nested"
+                                                    aria-hidden="true"
+                                                  ></span>
+                                                  <span class="submenu-label">{{
+                                                    translateLabel(grandchild.name)
+                                                  }}</span>
+                                                  <span
+                                                    v-if="grandchild.badge"
+                                                    class="menu-badge"
+                                                    >{{ grandchild.badge }}</span
+                                                  >
+                                                  <span
+                                                    v-if="grandchild.pinned"
+                                                    class="pin-indicator"
+                                                    aria-hidden="true"
+                                                  ></span>
+                                                </router-link>
+                                              </PermissionBuilder>
+                                            </template>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </PermissionBuilder>
+                                </template>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </PermissionBuilder>
+                    </template>
+                  </div>
+                </section>
+              </PermissionBuilder>
+            </template>
+
+            <p v-if="!visibleMenu.length" class="sidebar-empty">
+              {{ t('sidebar.no_results') }}
+            </p>
+          </div>
+        </Transition>
+      </nav>
+
+      <footer class="sidebar-account">
+        <div
+          class="profile-menu-collapse"
+          :class="{ 'is-open': isDropMenuOpen }"
+          :aria-hidden="!isDropMenuOpen"
+        >
+          <div class="profile-menu-collapse__inner">
+            <div class="profile-menu">
+              <button class="profile-menu__item" type="button" @click="isDropMenuOpen = false">
+                <Sidebaremploye aria-hidden="true" />
+                <span>{{ t('sidebar.profile') }}</span>
+              </button>
+              <button
+                class="profile-menu__item profile-menu__item--danger"
+                type="button"
+                @click="logout"
+              >
+                <IconLogout aria-hidden="true" />
+                <span>{{ t('sidebar.log_out') }}</span>
+              </button>
             </div>
-          </AccordionHeader>
-          <AccordionContent>
-            <div class="mega-body">
-              <button class="menu-item">
-                <icon-user-circle />
-                <span>{{ $t('my_profile') }}</span>
-                <icon-chevron-right class="arrow" />
-              </button>
-              <button class="menu-item">
-                <icon-settings />
-                <span>{{ $t('settings') }}</span>
-                <icon-chevron-right class="arrow" />
-              </button>
-              <button class="menu-item">
-                <icon-bell />
-                <span>{{ $t('notifications') }}</span>
-                <icon-chevron-right class="arrow" />
-              </button>
-              <div class="divider"></div>
-              <button class="menu-item danger" @click="logout">
-                <icon-logout />
-                <span>{{ $t('logout') }}</span>
-              </button>
-            </div>
-          </AccordionContent>
-        </AccordionPanel>
-      </Accordion>
+          </div>
+        </div>
+
+        <button
+          class="account-summary"
+          type="button"
+          :title="isCollapsed ? user?.name || t('sidebar.profile') : undefined"
+          :aria-label="t('sidebar.user_menu')"
+          :aria-expanded="isDropMenuOpen"
+          @click="toggleDropMenu"
+        >
+          <img
+            class="account-avatar"
+            :src="user?.image || `https://cyber.comolho.com/static/img/avatar.png`"
+            :alt="t('sidebar.avatar_alt', { name: user?.name || t('sidebar.user') })"
+          />
+          <span class="account-copy">
+            <strong class="account-name">{{ user?.name || t('sidebar.user') }}</strong>
+            <span class="account-role">{{ t('sidebar.admin') }}</span>
+          </span>
+          <AuthArrowIcon
+            class="account-arrow"
+            :class="{ 'is-open': isDropMenuOpen }"
+            aria-hidden="true"
+          />
+        </button>
+      </footer>
     </div>
   </aside>
+
+  <!--
+    Legacy sidebar implementation preserved for rollback.
+    <aside class="sidebar">
+      <div class="sidebar-wrapper">
+        <div class="logo-container">
+          <img class="logo" :src="TechlabLogo" alt="Techlab Logo" />
+        </div>
+        <div class="menu">
+          <div v-for="(group, gIndex) in menu" :key="gIndex" class="menu-group">
+            <PermissionBuilder :code="group.permissions">
+              <p v-if="group.group" class="group-title">{{ group.group }}</p>
+              <div v-for="(item, i) in group.items" :key="i" class="menu-entry">
+                <PermissionBuilder :code="item.permissions">
+                  <router-link
+                    :to="item.link"
+                    class="menu-item"
+                    :class="{ active: isMenuItemActive(item) }"
+                    @click="emit('clickItem')"
+                  >
+                    <component :is="item.icon" class="icon" />
+                    <span class="label">{{ $t(item.name) }}</span>
+                    <span v-if="item?.badge" class="badge">{{ item?.badge }}</span>
+                    <span v-if="item?.hasArrow" class="arrow">›</span>
+                  </router-link>
+                </PermissionBuilder>
+                <div v-if="item.children" class="submenu">
+                  <PermissionBuilder :code="item.permissions">
+                    <router-link
+                      v-for="child in item.children"
+                      :key="child.name"
+                      :to="child.link"
+                      class="submenu-item"
+                      :class="{ active: isMenuItemActive(child) }"
+                      @click="emit('clickItem')"
+                    >
+                      <span class="submenu-dot"></span>
+                      <span>{{ $t(child.name) }}</span>
+                    </router-link>
+                  </PermissionBuilder>
+                </div>
+              </div>
+            </PermissionBuilder>
+          </div>
+        </div>
+        <Accordion :value="0">
+          <AccordionPanel value="0">
+            <AccordionHeader>
+              <div class="auth-container" @click="toggleDropMenu">
+                <div class="auth-data">
+                  <img
+                    :src="user?.image || `https://cyber.comolho.com/static/img/avatar.png`"
+                    alt="image"
+                  />
+                  <div class="user-data">
+                    <span class="name">{{ user?.name }}</span>
+                    <span class="status">Admin</span>
+                  </div>
+                </div>
+                <auth-arrow-icon />
+              </div>
+            </AccordionHeader>
+            <AccordionContent>
+              <div class="mega-body">
+                <button class="menu-item"><span>{{ $t('my_profile') }}</span></button>
+                <button class="menu-item"><span>{{ $t('settings') }}</span></button>
+                <button class="menu-item"><span>{{ $t('notifications') }}</span></button>
+                <div class="divider"></div>
+                <button class="menu-item danger" @click="logout">
+                  <icon-logout />
+                  <span>{{ $t('logout') }}</span>
+                </button>
+              </div>
+            </AccordionContent>
+          </AccordionPanel>
+        </Accordion>
+      </div>
+    </aside>
+  -->
 </template>
 
-<style scoped>
-  :deep(.p-accordionheader) {
-    padding: 0 !important;
-    box-shadow: none !important;
-    margin: 0 !important;
-  }
-
-  :deep(.p-accordionheader-link) {
-    padding: 0 !important;
-    box-shadow: none !important;
-    margin: 0 !important;
-  }
-
-  :deep(.p-accordion) {
-    flex: 0 0 auto;
-    margin-top: auto;
-  }
-
-  :deep(.p-accordioncontent-content) {
-    padding: 0 !important;
-  }
-
-  .menu-entry {
-    width: 100%;
-  }
-
-  .submenu {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-block: 4px 8px;
-    padding-inline-start: 34px;
-  }
-
-  .submenu-item {
-    align-items: center;
-    border-radius: 8px;
-    color: var(--sidebar-menu-text-color);
-    display: flex;
-    font-size: 13px;
-    gap: 9px;
-    min-height: 34px;
-    padding: 7px 10px;
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease;
-
-    &:hover,
-    &.active {
-      background-color: var(--PrimaryColor-alpha-15);
-      color: var(--standard-white);
-    }
-  }
-
-  .submenu-dot {
-    background-color: currentColor;
-    border-radius: 50%;
-    flex: 0 0 auto;
-    height: 5px;
-    width: 5px;
-  }
-</style>
+<style scoped lang="scss" src="./SidebarNavigation.scss"></style>
