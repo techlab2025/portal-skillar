@@ -171,6 +171,25 @@
       ];
     }
 
+    if (item.status === QuestionStatusEnum.DRAFT) {
+      return [
+        {
+          text: t('Complate'),
+          icon: EditIcon,
+          link:
+            item.questionType === QuestionTypeEnum.paragraph
+              ? `/articles/edit/${questionId}`
+              : `/questions/edit/${questionId}`,
+        },
+        viewAction,
+        {
+          text: t('un_archive'),
+          action: () => unarchiveQuestion(questionId),
+          toggleValue: false,
+        },
+      ];
+    }
+
     return [
       {
         text: t('Edit'),
@@ -234,7 +253,7 @@
       case QuestionTypeEnum.matching:
         return 'Matching';
       case QuestionTypeEnum.paragraph:
-        return 'Artical';
+        return 'Article';
     }
   };
 

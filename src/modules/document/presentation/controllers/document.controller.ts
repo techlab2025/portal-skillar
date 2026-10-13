@@ -89,8 +89,8 @@ export default class DocumentController extends BaseController<DocumentShowModel
     const result = await super.delete(params, options);
     if (result?.error?.title) {
       dialogManager.toastError(result?.error?.title);
-    } else {
-      dialogManager.toastError(result?.message!);
+    } else if (result instanceof DataSuccess && result.message) {
+      dialogManager.toastSuccess(result.message);
     }
     return result;
   }

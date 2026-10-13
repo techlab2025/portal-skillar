@@ -29,6 +29,7 @@
   import { QuestionStatusEnum } from '@/modules/Questions/core/constant/question.status.enum';
   import { PermissionsEnum, type PermissionCode } from '@/modules/Permission';
   import PermissionBuilder from '@/shared/HelpersComponents/PermissionBuilder.vue';
+  import BackIcon from '@/shared/icons/BackIcon.vue';
 
   const route = useRoute();
   const emit = defineEmits(['clickItem']);
@@ -957,6 +958,9 @@
       // The sidebar remains fully functional when browser storage is unavailable.
     }
   });
+  const GoBack = () => {
+    router.back();
+  };
 </script>
 <template>
   <aside
@@ -969,16 +973,21 @@
         <div class="sidebar-brand">
           <img class="sidebar-logo" :src="TechlabLogo" :alt="t('sidebar.logo_alt')" />
         </div>
-        <button
-          class="sidebar-toggle"
-          type="button"
-          :title="t(isCollapsed ? 'sidebar.expand' : 'sidebar.collapse')"
-          :aria-label="t(isCollapsed ? 'sidebar.expand' : 'sidebar.collapse')"
-          :aria-expanded="!isCollapsed"
-          @click="toggleSidebar"
-        >
-          <SidebarCollapseIcon class="sidebar-collapse-icon" aria-hidden="true" />
-        </button>
+        <div class="actions-container">
+          <button
+            class="sidebar-toggle"
+            type="button"
+            :title="t(isCollapsed ? 'sidebar.expand' : 'sidebar.collapse')"
+            :aria-label="t(isCollapsed ? 'sidebar.expand' : 'sidebar.collapse')"
+            :aria-expanded="!isCollapsed"
+            @click="toggleSidebar"
+          >
+            <SidebarCollapseIcon class="sidebar-collapse-icon" aria-hidden="true" />
+          </button>
+          <button class="sidebar-toggle" @click="GoBack">
+            <BackIcon />
+          </button>
+        </div>
       </header>
 
       <label
@@ -1432,4 +1441,6 @@
   -->
 </template>
 
-<style scoped lang="scss" src="./SidebarNavigation.scss"></style>
+<style scoped lang="scss" src="./SidebarNavigation.scss">
+ 
+</style>

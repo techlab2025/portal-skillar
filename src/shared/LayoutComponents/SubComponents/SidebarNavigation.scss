@@ -1238,3 +1238,9 @@
     animation-iteration-count: 1 !important;
   }
 }
+
+ .actions-container {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+  }

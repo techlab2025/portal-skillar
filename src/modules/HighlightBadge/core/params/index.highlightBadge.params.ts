@@ -24,7 +24,7 @@ export default class IndexHighLightsBadgesParams implements IndexParams {
   toMap(): Record<string, unknown> {
     return {
       word: this.word,
-      with_page: this.withPage,
+      with_pagination: this.withPage,
       per_page: this.perPage,
       page_number: this.pageNumber,
     };

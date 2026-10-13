@@ -24,13 +24,15 @@ const { mockClearFormData } = vi.hoisted(() => ({
   mockClearFormData: vi.fn(),
 }));
 
-const { mockToastError } = vi.hoisted(() => ({
+const { mockToastError, mockToastSuccess } = vi.hoisted(() => ({
   mockToastError: vi.fn(),
+  mockToastSuccess: vi.fn(),
 }));
 
 vi.mock('@/base/Presentation/Dialogs/dialog.manager', () => ({
   dialogManager: {
     toastError: mockToastError,
+    toastSuccess: mockToastSuccess,
   },
 }));
 
@@ -127,6 +129,29 @@ describe('DocumentController', () => {
   });
 
   describe('delete', () => {
+    it('shows only a success toast when deletion succeeds', async () => {
+      const controller = DocumentController.getInstance();
+      const message = 'Document deleted successfully';
+      const mockResult = new DataSuccess<void>({ message });
+      const params = new DeleteDocumentParams({ document_id: 4 });
+      mockSuperDelete.mockResolvedValue(mockResult);
+
+      const result = await controller.delete(params);
+
+      expect(result).toBe(mockResult);
+      expect(mockToastSuccess).toHaveBeenCalledExactlyOnceWith(message);
+      expect(mockToastError).not.toHaveBeenCalled();
+    });
+
+    it('does not show an empty toast when deletion returns no result', async () => {
+      mockSuperDelete.mockResolvedValue(undefined);
+
+      await DocumentController.getInstance().delete(new DeleteDocumentParams({ document_id: 4 }));
+
+      expect(mockToastSuccess).not.toHaveBeenCalled();
+      expect(mockToastError).not.toHaveBeenCalled();
+    });
+
     it('shows the backend error message when deletion fails', async () => {
       const controller = DocumentController.getInstance();
       const backendMessage = 'Cannot delete document because it is currently in use.';
@@ -141,6 +166,7 @@ describe('DocumentController', () => {
       expect(result).toBe(mockResult);
       expect(mockSuperDelete).toHaveBeenCalledWith(params, undefined);
       expect(mockToastError).toHaveBeenCalledWith(backendMessage);
+      expect(mockToastSuccess).not.toHaveBeenCalled();
     });
   });
 });
